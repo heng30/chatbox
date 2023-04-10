@@ -1,17 +1,70 @@
-import { Button, VerticalBox } from "std-widgets.slint";
+import { Button, ListView } from "std-widgets.slint";
+import { Theme } from "./theme.slint";
 
 export component AppWindow inherits Window {
-    in-out property<int> counter: 42;
-    callback request-increase-value();
-    VerticalBox { 
-        Text {
-            text: "Counter: \{root.counter}";
-        }
-        Button {
-            text: "Increase value";
-            clicked => { 
-                root.request-increase-value();
+    default-font-size: 20px;
+    preferred-width: 840px;
+    preferred-height: 600px;
+
+    in-out property<[{text: string, color: color, bg: color}]> datas: [
+                        { text: "Blue\n ejif\n wejfi The .slint files are compiled ahead of time. The expressions in the .slint are pure functions that the compiler can optimize. For example, the compiler could choose to inline properties and remove those that are constant or unchanged.\n In the future we hope to improve rendering time on low end devices by pre-processing images and text. The compiler could determine that a Text or an Image element is always on top of another Image in the same location.\n Consequently both elements could be rendered ahead of time into a single element, thus cutting down on rendering time. The compiler uses the typical\n compiler phases of lexing, parsing, optimization, and finally code generation. It provides different back-ends for code generation in the target language. The C++ code generator produces a C++ header file, the Rust generator produces Rust code, and so on. An interpreter for dynamic languages is also included",
+                         color: #0000ff, bg: #eeeeee},
+                        { text: "Red", color: #ff0000, bg: #eeeeee},
+                        { text: "Green", color: #00ff00, bg: #eeeeee},
+                        { text: "Yellow", color: #ffff00, bg: #222222 },
+                        { text: "Black", color: #000000, bg: #eeeeee },
+                        { text: "White", color: #ffffff, bg: #222222 },
+                    ];
+
+    HorizontalLayout {
+        padding: Theme.padding;
+        spacing: Theme.spacing;
+
+        VerticalLayout {
+            width: 300px;
+            Rectangle {
+                background: Colors.red;
             }
+
         }
-     }
+
+        VerticalLayout {
+            spacing: Theme.spacing;
+
+            ListView {
+                padding: 4px;
+                for data in datas : VerticalLayout {
+                    padding: Theme.padding * 2;
+                    spacing: Theme.spacing * 2;
+
+                    Rectangle {
+                        background: Colors.red;
+                        height: 40px;
+                        width: self.height;
+                        border-radius: self.height / 2;
+                    }
+
+                    text := Text {
+                        width: parent.width;
+                        text: data.text;
+                        color: data.color;
+                        wrap: word-wrap;
+                    }
+
+                    Rectangle {
+                        background: Colors.steelblue;
+                        width: 100%;
+                        height: 1px;
+                    }
+
+                }
+            }
+
+            Rectangle {
+                height: 200px;
+                background: Colors.blue;
+            }
+         }
+
+    }
 }

@@ -1,4 +1,4 @@
-// slint::include_modules!();
+slint::include_modules!();
 
 use log::debug;
 use chrono::Local;
@@ -14,11 +14,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     debug!("{}", "start...");
 
-    let prompt = "Serve me as a writing and programming assistant.\nshow me code how to send a http request in go".to_string();
-    let api_key = env::var("OPENAI_API_KEY").unwrap();
-    openai::generate_text(prompt, api_key).await?;
+    // let prompt = "Serve me as a writing and programming assistant.\nshow me code how to send a http request in go".to_string();
+    // let api_key = env::var("OPENAI_API_KEY").unwrap();
+    // openai::generate_text(prompt, api_key).await?;
 
-    // let ui = AppWindow::new();
+    let ui = AppWindow::new();
 
     // let ui_handle = ui.as_weak();
     // ui.on_request_increase_value(move || {
@@ -26,7 +26,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     ui.set_counter(ui.get_counter() + 1);
     // });
 
-    // ui.run();
+    ui.run();
 
     debug!("{}", "exit...");
 

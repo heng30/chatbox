@@ -18,3 +18,6 @@ clippy:
 clean:
 	cargo clean
 
+
+slint-view:
+	slint-viewer --auto-reload -I chatbox/ui ./chatbox/ui/appwindow.slint
