@@ -1,14 +1,8 @@
 // slint::include_modules!();
 
-#[allow(unused_imports)]
-#[macro_use]
-extern crate lazy_static;
-
-#[allow(unused_imports)]
-use log::{debug, error, info, trace, warn};
+use log::debug;
 use chrono::Local;
 use env_logger::fmt::Color as LColor;
-
 use std::env;
 use std::io::Write;
 
@@ -20,9 +14,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     debug!("{}", "start...");
 
-    let prompt = "Serve me as a writing and programming assistant.\nshow me code how to send a http request in rust".to_string();
+    let prompt = "Serve me as a writing and programming assistant.\nshow me code how to send a http request in go".to_string();
     let api_key = env::var("OPENAI_API_KEY").unwrap();
-    let response = openai::generate_text(prompt, api_key).await?;
+    openai::generate_text(prompt, api_key).await?;
 
     // let ui = AppWindow::new();
 

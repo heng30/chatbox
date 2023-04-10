@@ -1,11 +1,11 @@
-use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE, USER_AGENT};
-use reqwest::Client;
 use reqwest::header::HeaderMap;
+use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE};
+use reqwest::Client;
 use tokio_stream::StreamExt;
 
-use std::time::Duration;
 use super::data;
-// use log::debug;
+use log::{debug, warn};
+use std::time::Duration;
 
 fn headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -17,7 +17,6 @@ fn headers(api_key: &str) -> HeaderMap {
     headers.insert(ACCEPT, "text/event-stream".parse().unwrap());
 
     headers.insert(CACHE_CONTROL, "no-cache".parse().unwrap());
-    headers.insert(USER_AGENT, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36".parse().unwrap());
     headers
 }
 
@@ -35,17 +34,14 @@ pub async fn generate_text(
         }],
 
         model: "gpt-3.5-turbo".to_string(),
-        max_tokens: 100,
+        max_tokens: 1024,
         temperature: 0.8,
         frequency_penalty: 0.5,
         presence_penalty: 0.0,
-        stop: vec![".".to_string()],
-        n: 1,
         stream: true,
     };
 
-
-    let mut stream  = client
+    let mut stream = client
         .post(url)
         .headers(headers(&api_key))
         .json(&request_body)
@@ -56,18 +52,46 @@ pub async fn generate_text(
     loop {
         match tokio::time::timeout(Duration::from_secs(30), stream.next()).await {
             Ok(Some(Ok(chunk))) => {
-                let line = String::from_utf8_lossy(&chunk);
-                println!("Received event: {}", line);
-                if line.starts_with("data: [DONE]") {
+                let body = String::from_utf8_lossy(&chunk);
+
+                if body.starts_with("data: [DONE]") {
                     break;
+                }
+
+                let lines: Vec<_> = body.split("\n\n").collect();
+
+                for line in lines.into_iter() {
+                    if !line.starts_with("data:") {
+                        continue;
+                    }
+
+                    match serde_json::from_str::<data::response::ChatCompletionChunk>(&line[5..]) {
+                        Ok(chunk) => {
+                            let choice = &chunk.choices[0];
+                            if choice.finish_reason.is_some() {
+                                debug!("finish_reason: {}", choice.finish_reason.as_ref().unwrap());
+                                break;
+                            }
+
+                            if choice.delta.contains_key("content") {
+                                print!("{}", choice.delta["content"]);
+                            } else if choice.delta.contains_key("role") {
+                                debug!("role: {}", choice.delta["role"]);
+                                continue;
+                            }
+                        }
+                        Err(e) => {
+                            debug!("{}", e);
+                            break;
+                        }
+                    }
                 }
             }
             Ok(None) => {
-                println!("Stream ended");
                 break;
             }
             Err(e) => {
-                eprintln!("Error reading stream: {}", e);
+                warn!("{}", e);
                 break;
             }
             _ => unreachable!(),
