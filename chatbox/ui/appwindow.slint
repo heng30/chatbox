@@ -1,8 +1,16 @@
 import { Button, ListView, ComboBox , VerticalBox, TextEdit, HorizontalBox} from "std-widgets.slint";
 
+global Theme  {
+    out property<length> padding: 4px;
+    out property<length> spacing: 4px;
+    out property <length> leftPanelWidth: 200px;
+    out property <length> buttonPanelHeight: 200px ;
+    out property <length> headerHeight: 40px ;
+}
+
 export component AppWindow inherits Window {
     default-font-size: 20px;
-    width: 600px;
+    width: 840px;
     height: 600px;
 
     in-out property<[{text: string, color: color, bg: color, user: bool}]> datas: [
@@ -10,7 +18,6 @@ export component AppWindow inherits Window {
                         { text: "Red", color: #ff0000, bg: #eeeeee, user: false},
                         { text: "Green", color: #00ff00, bg: #eeeeee, user: true},
                         { text: "Yellow", color: #ffff00, bg: #222222, user:false },
-
                     ];
 
     HorizontalLayout {
@@ -18,43 +25,70 @@ export component AppWindow inherits Window {
         spacing: Theme.spacing;
 
         VerticalLayout {
-            width: 200px;
-            Rectangle {
-                background: Colors.red;
+            spacing: Theme.spacing;
+            width: Theme.leftPanelWidth;
+
+            VerticalLayout {
+                height: Theme.headerHeight;
+                Button {
+                    text: "New Session +";
+                }
             }
 
+            ListView {
+                padding: 4px;
+                for data in ["1", "2"] : VerticalLayout {
+                    padding: Theme.padding * 2;
+                    spacing: Theme.spacing * 2;
+                    Text {
+                        text: data;
+                    }
+                }
+            }
+
+            VerticalLayout {
+                height: Theme.buttonPanelHeight;
+                padding-top: Theme.padding * 4;
+
+                VerticalLayout {
+                    spacing: Theme.spacing;
+                    Rectangle {
+                        background: Colors.red;
+                    }
+
+                    Rectangle {
+                        background: Colors.blue;
+                    }
+
+                    Rectangle {
+                        background: Colors.yellow;
+                    }
+                }
+                
+            }
+            
         }
 
         VerticalLayout {
             spacing: Theme.spacing;
 
             HorizontalLayout {
-                alignment: center;
-                spacing: Theme.spacing * 2;
-
-                VerticalLayout {
-                    alignment: center;
-                    Text {
-                        text: "Select Prompt";
-                    }
-                }
+                height: Theme.headerHeight;
                 
                 ComboBox {
-                    width: 50%;
-                    height: self.preferred-height;
                     model: ["first", "second", "third"];
                     current-value: "first";
                 }
             }
 
             ListView {
-                padding: 4px;
+                padding: Theme.padding;
                 for data in datas : VerticalLayout {
                     padding: Theme.padding * 2;
                     spacing: Theme.spacing * 2;
      
                     HorizontalLayout {
-                        padding-bottom: 4px;
+                        padding-bottom: Theme.padding;
                         alignment: space-between;
                         Rectangle {
                             height: 30px;
@@ -87,27 +121,38 @@ export component AppWindow inherits Window {
                     }
                 }
             }
+                
 
             VerticalLayout {
-                height: 200px;
+                padding-top: Theme.padding * 4;
                 spacing: Theme.spacing;
+                height: Theme.buttonPanelHeight;
+
                 TextEdit {
                     edited(text) => {}
                 }
                 
                 HorizontalLayout {
-                    alignment: center;
-                    spacing: Theme.spacing * 10;
-                    Button {
-                        height: 30px;
-                        text: "Reset";
-                        clicked => {}
-                    }
+                    alignment: space-between;
 
-                    Button {
-                        height: 30px;
-                        text: "Send";
-                        clicked => {}
+                    HorizontalLayout {
+                        padding-right: Theme.padding;
+                        width: 50%;
+                        Button {
+                            height: 30px;
+                            text: "Reset";
+                            clicked => {}
+                        }
+                    }
+                    
+                    HorizontalLayout {
+                        padding-left: Theme.padding;
+                        width: 50%;
+                        Button {
+                            height: 30px;
+                            text: "Send";
+                            clicked => {}
+                        }
                     }
                 } 
             }
