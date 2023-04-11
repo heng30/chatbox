@@ -9,20 +9,20 @@ export struct ChatSession {
 }
 
 export global Store  {
-    in-out property<[ChatItem]> chatDatas: [
+    in-out property<[ChatItem]> chat-datas: [
         { text: "Blue", role: "user"},
         { text: "Red",  role: "bot"},
         { text: "Green", role: "user"},
         { text: "Yellow", role: "bot"},
     ];
 
-    in-out property<[string]> chatPrompts: [
+    in-out property<[string]> chat-prompts: [
         "Serve me as a chat bot.",
         "Serve me as a writing and programming assistant.",
         "Serve me as a English writing and grammar assistant.",
     ];
 
-    in-out property<[ChatSession]> chatSessions: [
+    in-out property<[ChatSession]> chat-sessions: [
         { name: "会话1", uuid: "1" },
         { name: "会话2", uuid: "2" },
     ];

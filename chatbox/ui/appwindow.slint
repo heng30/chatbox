@@ -1,8 +1,11 @@
 import { Button, ListView, ComboBox , VerticalBox, TextEdit, HorizontalBox} from "std-widgets.slint";
 
 import { Theme } from "./theme.slint";
+import { Logic } from "./logic.slint";
+import { ChatItem, ChatSession, Store } from "./store.slint";
 import { LPanel } from "./leftPanel/panel.slint";
 import { RPanel } from "./rightPanel/panel.slint";
+
 
 export component AppWindow inherits Window {
     default-font-size: Theme.defaultFontSize;
@@ -17,3 +20,5 @@ export component AppWindow inherits Window {
         RPanel {}
     }
 }
+
+export { Logic, ChatItem, ChatSession, Store }

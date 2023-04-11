@@ -1,6 +1,7 @@
 import { Button, ListView,  TextEdit } from "std-widgets.slint";
 import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
+import { Logic } from "../logic.slint";
 
 export component LPanel inherits VerticalLayout {
     spacing: Theme.spacing;
@@ -10,12 +11,15 @@ export component LPanel inherits VerticalLayout {
         height: Theme.headerHeight;
         Button {
             text: "新建会话 +";
+            clicked => {
+                Logic.handle-new-session("会话3");
+            }
         }
     }
 
     ListView {
         padding: Theme.padding;
-        for data in Store.chatSessions : VerticalLayout {
+        for data in Store.chat-sessions : VerticalLayout {
             padding: Theme.padding * 2;
             spacing: Theme.spacing * 2;
             Text {
