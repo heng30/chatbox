@@ -1,0 +1,58 @@
+import { ListView } from "std-widgets.slint";
+import { Theme} from "../theme.slint";
+import { Store } from "../store.slint";
+
+export component Body inherits  ListView {
+    padding: Theme.padding;
+    for data in Store.chatDatas : VerticalLayout {
+        padding: Theme.padding * 2;
+        spacing: Theme.spacing * 2;
+
+        HorizontalLayout {
+            padding-bottom: Theme.padding;
+            alignment: space-between;
+            Rectangle {
+                height: 40px;
+                width: 40px;
+                border-radius: self.height / 2;
+                background: Colors.gray;
+                visible: data.role == "user";
+                Image {
+                    width: 30px;
+                    height: 30px;
+                    image-fit: ImageFit.contain;
+                    source: @image-url("../images/user.svg");
+                    colorize: Colors.black;
+                }
+            }
+
+            Rectangle {
+                height: 40px;
+                width: 40px;
+                background: Colors.gray;
+                visible: data.role == "bot";
+                border-radius: self.height / 2;
+                Image {
+                    width: 30px;
+                    height: 30px;
+                    image-fit: ImageFit.contain;
+                    source: @image-url("../images/bot.svg");
+                    colorize: Colors.blue;
+                }
+            }
+        }
+
+        Text {
+            width: parent.width;
+            text: data.text;
+            wrap: word-wrap;
+        }
+
+        Rectangle {
+            background: Colors.steelblue;
+            width: 100%;
+            height: 1px;
+        }
+    }
+}
+

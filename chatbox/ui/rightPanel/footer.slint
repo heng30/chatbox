@@ -1,0 +1,37 @@
+import { Button, TextEdit } from "std-widgets.slint";
+import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
+
+export component Footer inherits VerticalLayout {
+    padding-top: Theme.padding;
+    spacing: Theme.spacing;
+    height: Theme.buttonPanelHeight;
+
+    TextEdit {
+        edited(text) => {}
+    }
+
+    HorizontalLayout {
+        alignment: space-between;
+
+        HorizontalLayout {
+            padding-right: Theme.padding;
+            width: 50%;
+            Button {
+                height: 50px;
+                text: "重置";
+                clicked => {}
+            }
+        }
+
+        HorizontalLayout {
+            padding-left: Theme.padding;
+            width: 50%;
+            Button {
+                height: 50px;
+                text: "发送";
+                clicked => {}
+            }
+        }
+    }
+}

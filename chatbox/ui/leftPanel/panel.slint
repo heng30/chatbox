@@ -1,0 +1,48 @@
+import { Button, ListView,  TextEdit } from "std-widgets.slint";
+import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
+
+export component LPanel inherits VerticalLayout {
+    spacing: Theme.spacing;
+    width: Theme.leftPanelWidth;
+
+    VerticalLayout {
+        height: Theme.headerHeight;
+        Button {
+            text: "新建会话 +";
+        }
+    }
+
+    ListView {
+        padding: Theme.padding;
+        for data in Store.chatSessions : VerticalLayout {
+            padding: Theme.padding * 2;
+            spacing: Theme.spacing * 2;
+            Text {
+                text: data.name;
+            }
+        }
+    }
+
+    VerticalLayout {
+        height: Theme.buttonPanelHeight;
+        padding-top: Theme.padding;
+
+        VerticalLayout {
+            spacing: Theme.spacing;
+            Rectangle {
+                background: Colors.red;
+            }
+
+            Rectangle {
+                background: Colors.blue;
+            }
+
+            Rectangle {
+                background: Colors.yellow;
+            }
+        }
+    }
+}
+
+

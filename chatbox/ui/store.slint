@@ -1,0 +1,30 @@
+export struct ChatItem {
+    role: string,
+    text: string,
+}
+
+export struct ChatSession {
+    name: string,
+    uuid: string,
+}
+
+export global Store  {
+    in-out property<[ChatItem]> chatDatas: [
+        { text: "Blue", role: "user"},
+        { text: "Red",  role: "bot"},
+        { text: "Green", role: "user"},
+        { text: "Yellow", role: "bot"},
+    ];
+
+    in-out property<[string]> chatPrompts: [
+        "Serve me as a chat bot.",
+        "Serve me as a writing and programming assistant.",
+        "Serve me as a English writing and grammar assistant.",
+    ];
+
+    in-out property<[ChatSession]> chatSessions: [
+        { name: "会话1", uuid: "1" },
+        { name: "会话2", uuid: "2" },
+    ];
+}
+

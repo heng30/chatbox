@@ -1,0 +1,12 @@
+import { ComboBox } from "std-widgets.slint";
+import {Theme} from "../theme.slint";
+import { Store } from "../store.slint";
+
+export component Header inherits   HorizontalLayout {
+    height: Theme.headerHeight;
+
+    ComboBox {
+        model: Store.chatPrompts;
+        current-value: Store.chatPrompts[0];
+    }
+}
