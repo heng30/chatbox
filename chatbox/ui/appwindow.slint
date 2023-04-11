@@ -1,19 +1,16 @@
-import { Button, ListView } from "std-widgets.slint";
-import { Theme } from "./theme.slint";
+import { Button, ListView, ComboBox , VerticalBox, TextEdit, HorizontalBox} from "std-widgets.slint";
 
 export component AppWindow inherits Window {
     default-font-size: 20px;
-    preferred-width: 840px;
-    preferred-height: 600px;
+    width: 600px;
+    height: 600px;
 
-    in-out property<[{text: string, color: color, bg: color}]> datas: [
-                        { text: "Blue\n ejif\n wejfi The .slint files are compiled ahead of time. The expressions in the .slint are pure functions that the compiler can optimize. For example, the compiler could choose to inline properties and remove those that are constant or unchanged.\n In the future we hope to improve rendering time on low end devices by pre-processing images and text. The compiler could determine that a Text or an Image element is always on top of another Image in the same location.\n Consequently both elements could be rendered ahead of time into a single element, thus cutting down on rendering time. The compiler uses the typical\n compiler phases of lexing, parsing, optimization, and finally code generation. It provides different back-ends for code generation in the target language. The C++ code generator produces a C++ header file, the Rust generator produces Rust code, and so on. An interpreter for dynamic languages is also included",
-                         color: #0000ff, bg: #eeeeee},
-                        { text: "Red", color: #ff0000, bg: #eeeeee},
-                        { text: "Green", color: #00ff00, bg: #eeeeee},
-                        { text: "Yellow", color: #ffff00, bg: #222222 },
-                        { text: "Black", color: #000000, bg: #eeeeee },
-                        { text: "White", color: #ffffff, bg: #222222 },
+    in-out property<[{text: string, color: color, bg: color, user: bool}]> datas: [
+                        { text: "Blue\nejif", color: #0000ff, bg: #eeeeee, user: true},
+                        { text: "Red", color: #ff0000, bg: #eeeeee, user: false},
+                        { text: "Green", color: #00ff00, bg: #eeeeee, user: true},
+                        { text: "Yellow", color: #ffff00, bg: #222222, user:false },
+
                     ];
 
     HorizontalLayout {
@@ -21,7 +18,7 @@ export component AppWindow inherits Window {
         spacing: Theme.spacing;
 
         VerticalLayout {
-            width: 300px;
+            width: 200px;
             Rectangle {
                 background: Colors.red;
             }
@@ -31,20 +28,52 @@ export component AppWindow inherits Window {
         VerticalLayout {
             spacing: Theme.spacing;
 
+            HorizontalLayout {
+                alignment: center;
+                spacing: Theme.spacing * 2;
+
+                VerticalLayout {
+                    alignment: center;
+                    Text {
+                        text: "Select Prompt";
+                    }
+                }
+                
+                ComboBox {
+                    width: 50%;
+                    height: self.preferred-height;
+                    model: ["first", "second", "third"];
+                    current-value: "first";
+                }
+            }
+
             ListView {
                 padding: 4px;
                 for data in datas : VerticalLayout {
                     padding: Theme.padding * 2;
                     spacing: Theme.spacing * 2;
+     
+                    HorizontalLayout {
+                        padding-bottom: 4px;
+                        alignment: space-between;
+                        Rectangle {
+                            height: 30px;
+                            width: 30px;
+                            background: Colors.red;
+                            border-radius: self.height / 2;
+                            visible: data.user;
+                        }
 
-                    Rectangle {
-                        background: Colors.red;
-                        height: 40px;
-                        width: self.height;
-                        border-radius: self.height / 2;
+                        Rectangle {
+                            height: 30px;
+                            width: 30px;
+                            background: Colors.red;
+                            visible: !data.user;
+                            border-radius: self.height / 2;
+                        }
                     }
 
-                    text := Text {
+                    Text {
                         width: parent.width;
                         text: data.text;
                         color: data.color;
@@ -56,15 +85,32 @@ export component AppWindow inherits Window {
                         width: 100%;
                         height: 1px;
                     }
-
                 }
             }
 
-            Rectangle {
+            VerticalLayout {
                 height: 200px;
-                background: Colors.blue;
+                spacing: Theme.spacing;
+                TextEdit {
+                    edited(text) => {}
+                }
+                
+                HorizontalLayout {
+                    alignment: center;
+                    spacing: Theme.spacing * 10;
+                    Button {
+                        height: 30px;
+                        text: "Reset";
+                        clicked => {}
+                    }
+
+                    Button {
+                        height: 30px;
+                        text: "Send";
+                        clicked => {}
+                    }
+                } 
             }
          }
-
     }
 }
