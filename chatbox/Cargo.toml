@@ -21,11 +21,13 @@ lazy_static = "1.4"
 regex = "1.5"
 rusqlite = "0.27"
 clipboard = "0.5"
-slint = "0.3.5"
+slint = "1.0.0"
+qmetaobject = "0.2"
 
+uuid = { version = "1.3", features = ["v4"] }
 reqwest = { version = "0.11", features = ["json", "stream"] }
 tokio = {version = "1.17", features = ["full"]}
 tokio-stream = "0.1.12"
 
 [build-dependencies]
-slint-build = "0.3.5"
+slint-build = "1.0.0"

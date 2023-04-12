@@ -1,6 +1,4 @@
 pub mod request {
-    use serde::{Deserialize, Serialize};
-
     #[derive(Serialize, Deserialize)]
     pub struct ChatCompletion {
         pub messages: Vec<Message>,
@@ -20,7 +18,6 @@ pub mod request {
 }
 
 pub mod response {
-    use serde::{Deserialize, Serialize};
     use std::collections::HashMap;
 
     #[derive(Serialize, Deserialize)]

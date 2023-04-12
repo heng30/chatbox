@@ -1,13 +1,14 @@
 import { Button, TextEdit } from "std-widgets.slint";
 import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
+import { Logic } from "../logic.slint";
 
 export component Footer inherits VerticalLayout {
     padding-top: Theme.padding;
     spacing: Theme.spacing;
-    height: Theme.buttonPanelHeight;
+    height: Theme.button-panel-height;
 
-    TextEdit {
+    te := TextEdit {
         edited(text) => {}
     }
 
@@ -19,8 +20,10 @@ export component Footer inherits VerticalLayout {
             width: 50%;
             Button {
                 height: 50px;
-                text: "重置";
-                clicked => {}
+                text: "清空";
+                clicked => {
+                    te.text = "";
+                }
             }
         }
 
@@ -30,7 +33,12 @@ export component Footer inherits VerticalLayout {
             Button {
                 height: 50px;
                 text: "发送";
-                clicked => {}
+                clicked => {
+                    if (te.text == "") { return; }
+
+                    Logic.send-input-text(te.text);
+                    te.text = "";
+                }
             }
         }
     }

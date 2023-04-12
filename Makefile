@@ -12,12 +12,15 @@ build-debug:
 run:
 	RUST_LOG=error,warn,info,debug,reqwest=on proxychains cargo run
 
+run-local:
+	RUST_LOG=error,warn,info,debug,reqwest=on proxychains ./target/debug/chatbox
+
+
 clippy:
 	cargo clippy
 
 clean:
 	cargo clean
-
 
 slint-view:
 	slint-viewer --auto-reload -I chatbox/ui ./chatbox/ui/appwindow.slint

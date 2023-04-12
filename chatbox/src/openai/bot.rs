@@ -23,6 +23,7 @@ fn headers(api_key: &str) -> HeaderMap {
 pub async fn generate_text(
     prompt: String,
     api_key: String,
+    cb: impl Fn(String)
 ) -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();
     let url = "https://api.openai.com/v1/chat/completions".to_string();
@@ -74,6 +75,7 @@ pub async fn generate_text(
                             }
 
                             if choice.delta.contains_key("content") {
+                                cb(choice.delta["content"].clone());
                                 print!("{}", choice.delta["content"]);
                             } else if choice.delta.contains_key("role") {
                                 debug!("role: {}", choice.delta["role"]);
@@ -88,6 +90,7 @@ pub async fn generate_text(
                 }
             }
             Ok(None) => {
+                println!("");
                 break;
             }
             Err(e) => {

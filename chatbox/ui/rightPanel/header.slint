@@ -3,10 +3,13 @@ import {Theme} from "../theme.slint";
 import { Store } from "../store.slint";
 
 export component Header inherits   HorizontalLayout {
-    height: Theme.headerHeight;
+    height: Theme.header-height;
 
     ComboBox {
         model: Store.chat-prompts;
         current-value: Store.chat-prompts[0];
+        selected(value) => {
+            Store.chat-current-prompt = value;
+        }
     }
 }

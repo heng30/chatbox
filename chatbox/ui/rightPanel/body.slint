@@ -1,10 +1,10 @@
 import { ListView } from "std-widgets.slint";
-import { Theme} from "../theme.slint";
+import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 
 export component Body inherits  ListView {
     padding: Theme.padding;
-    for data in Store.chat-datas : VerticalLayout {
+    for data in Store.session-datas : VerticalLayout {
         padding: Theme.padding * 2;
         spacing: Theme.spacing * 2;
 
@@ -42,16 +42,16 @@ export component Body inherits  ListView {
             }
         }
 
-        Text {
-            width: parent.width;
-            text: data.text;
-            wrap: word-wrap;
-        }
-
         Rectangle {
-            background: Colors.steelblue;
-            width: 100%;
-            height: 1px;
+            background: data.role == "user" ? Colors.white : Colors.lightgray.brighter(5%);
+            border-radius: Theme.border-radius;
+            VerticalLayout{
+                padding: Theme.padding * 4;
+                Text {
+                    text: data.text;
+                    wrap: word-wrap;
+                }
+            }
         }
     }
 }

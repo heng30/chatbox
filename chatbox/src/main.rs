@@ -1,12 +1,20 @@
 slint::include_modules!();
 
-use log::debug;
+#[macro_use]
+extern crate serde_derive;
+
 use chrono::Local;
 use env_logger::fmt::Color as LColor;
+use log::debug;
 use std::env;
 use std::io::Write;
 
 mod openai;
+mod logic;
+mod qbox;
+
+use logic::session;
+use logic::chat;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -14,22 +22,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     debug!("{}", "start...");
 
-    // let prompt = "Serve me as a writing and programming assistant.\nshow me code how to send a http request in go".to_string();
-    // let api_key = env::var("OPENAI_API_KEY").unwrap();
-    // openai::generate_text(prompt, api_key).await?;
+    let ui = AppWindow::new().unwrap();
+    session::new(&ui);
+    chat::chat_with_bot(&ui);
 
-    let ui = AppWindow::new();
-
-    // let ui_handle = ui.as_weak();
-    // ui.on_request_increase_value(move || {
-    //     let ui = ui_handle.unwrap();
-    //     ui.set_counter(ui.get_counter() + 1);
-    // });
-
-    ui.run();
+    ui.run().unwrap();
 
     debug!("{}", "exit...");
-
     Ok(())
 }
 

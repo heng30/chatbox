@@ -5,14 +5,14 @@ import { Logic } from "../logic.slint";
 
 export component LPanel inherits VerticalLayout {
     spacing: Theme.spacing;
-    width: Theme.leftPanelWidth;
+    width: Theme.left-panel-width;
 
     VerticalLayout {
-        height: Theme.headerHeight;
+        height: Theme.header-height;
         Button {
             text: "新建会话 +";
             clicked => {
-                Logic.handle-new-session("会话3");
+                Logic.handle-new-session("会话");
             }
         }
     }
@@ -29,22 +29,15 @@ export component LPanel inherits VerticalLayout {
     }
 
     VerticalLayout {
-        height: Theme.buttonPanelHeight;
+        height: Theme.button-panel-height;
         padding-top: Theme.padding;
 
         VerticalLayout {
             spacing: Theme.spacing;
             Rectangle {
-                background: Colors.red;
+                background: Colors.gray;
             }
 
-            Rectangle {
-                background: Colors.blue;
-            }
-
-            Rectangle {
-                background: Colors.yellow;
-            }
         }
     }
 }
