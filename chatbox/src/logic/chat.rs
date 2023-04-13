@@ -44,7 +44,7 @@ pub fn chat_with_bot(ui: &AppWindow) {
         let mut datas: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().collect();
 
         let prompt = format!(
-            "{}{}",
+            "{} My question: {}",
             ui.global::<Store>().get_chat_current_prompt(),
             value,
         );

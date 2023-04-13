@@ -4,8 +4,10 @@ import { Store } from "../../store.slint";
 export component BItem inherits VerticalLayout{
     in-out property text <=> txt.text;
 
-    padding: Theme.padding * 2;
+    padding-top: Theme.padding;
+    padding-bottom: Theme.padding;
     padding-left: 300px;
+    padding-right: Theme.padding * 2;
     spacing: Theme.spacing * 2;
 
     HorizontalLayout {

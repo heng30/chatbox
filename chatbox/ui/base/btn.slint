@@ -7,7 +7,7 @@ export component Btn inherits Rectangle {
 
     border-width: 1px;
     border-color: root.background.darker(25%);
-    background: touch.pressed ? bg-color.darker(120%) : touch.has-hover ? bg-color.darker(100%) : bg-color;
+    background: touch.pressed ? bg-color.darker(60%) : touch.has-hover ? bg-color.darker(30%) : bg-color;
     height: txt.preferred-height * 1.33;
     min-width: txt.preferred-width + 20px;
     txt := Text {

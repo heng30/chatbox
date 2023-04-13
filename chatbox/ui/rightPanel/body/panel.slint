@@ -8,7 +8,6 @@ export component Body inherits  ListView {
     padding: Theme.padding;
     for data in Store.session-datas : VerticalLayout {
         padding: Theme.padding * 2;
-        spacing: Theme.spacing * 2;
         UItem { text: data.utext; }
         BItem { text: data.btext; }
     }
