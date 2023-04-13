@@ -1,0 +1,16 @@
+import { ListView } from "std-widgets.slint";
+import { Theme } from "../../theme.slint";
+import { Store } from "../../store.slint";
+import { UItem } from "./uitem.slint";
+import { BItem } from "./bitem.slint";
+
+export component Body inherits  ListView {
+    padding: Theme.padding;
+    for data in Store.session-datas : VerticalLayout {
+        padding: Theme.padding * 2;
+        spacing: Theme.spacing * 2;
+        UItem { text: data.utext; }
+        BItem { text: data.btext; }
+    }
+}
+

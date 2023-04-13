@@ -1,0 +1,28 @@
+import { Button, ListView,  TextEdit } from "std-widgets.slint";
+import { Theme } from "../theme.slint";
+import { Btn } from "../base/btn.slint";
+
+export component Bottom inherits VerticalLayout {
+    height: Theme.bottom-panel-height;
+    padding-top: Theme.padding;
+
+    Rectangle {
+        background: Colors.lightgray;
+        height: 100%;
+
+        VerticalLayout {
+            spacing: Theme.spacing;
+            Btn {
+                text: "设置";
+            }
+
+            Btn {
+                text: "关于";
+            }
+
+            Btn {
+                text: "帮助";
+            }
+        }
+    }
+}

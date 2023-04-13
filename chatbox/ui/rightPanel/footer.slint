@@ -2,11 +2,12 @@ import { Button, TextEdit } from "std-widgets.slint";
 import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
+import { Btn } from "../base/btn.slint";
 
 export component Footer inherits VerticalLayout {
     padding-top: Theme.padding;
     spacing: Theme.spacing;
-    height: Theme.button-panel-height;
+    height: Theme.bottom-panel-height;
 
     te := TextEdit {
         edited(text) => {}
@@ -18,7 +19,8 @@ export component Footer inherits VerticalLayout {
         HorizontalLayout {
             padding-right: Theme.padding;
             width: 50%;
-            Button {
+            Btn {
+                bg-color: Colors.red;
                 height: 50px;
                 text: "清空";
                 clicked => {
@@ -30,7 +32,8 @@ export component Footer inherits VerticalLayout {
         HorizontalLayout {
             padding-left: Theme.padding;
             width: 50%;
-            Button {
+            Btn {
+                bg-color: Colors.steelblue;
                 height: 50px;
                 text: "发送";
                 clicked => {

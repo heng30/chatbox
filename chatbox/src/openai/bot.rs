@@ -90,7 +90,7 @@ pub async fn generate_text(
                 }
             }
             Ok(None) => {
-                println!("");
+                println!();
                 break;
             }
             Err(e) => {

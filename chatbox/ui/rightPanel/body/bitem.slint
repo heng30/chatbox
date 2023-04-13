@@ -1,0 +1,43 @@
+import { Theme } from "../../theme.slint";
+import { Store } from "../../store.slint";
+
+export component BItem inherits VerticalLayout{
+    in-out property text <=> txt.text;
+
+    padding: Theme.padding * 2;
+    padding-left: 300px;
+    spacing: Theme.spacing * 2;
+
+    HorizontalLayout {
+        padding-bottom: Theme.padding;
+        alignment: end;
+        Rectangle {
+            height: 40px;
+            width: 40px;
+            border-radius: self.height / 2;
+            background: Colors.lightgray;
+            Image {
+                width: 30px;
+                height: 30px;
+                image-fit: ImageFit.contain;
+                source: @image-url("../../images/bot.svg");
+                colorize: Colors.black;
+            }
+        }
+    }
+
+    HorizontalLayout {
+        Rectangle {
+            background: Colors.lightgray.brighter(5%);
+            border-radius: Theme.border-radius;
+            VerticalLayout{
+                padding: Theme.padding * 4;
+                txt := Text {
+                    font-size: Theme.default-font-size + 2px;
+                    wrap: word-wrap;
+                }
+            }
+        }
+    }
+}
+

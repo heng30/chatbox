@@ -1,0 +1,19 @@
+import { Theme } from "../theme.slint";
+
+export component Btn inherits Rectangle {
+    in-out property<string> text <=> txt.text;
+    in-out property<color> bg-color: Colors.gray.brighter(100%);
+    callback clicked <=> touch.clicked;
+
+    border-width: 1px;
+    border-color: root.background.darker(25%);
+    background: touch.pressed ? bg-color.darker(120%) : touch.has-hover ? bg-color.darker(100%) : bg-color;
+    height: txt.preferred-height * 1.33;
+    min-width: txt.preferred-width + 20px;
+    txt := Text {
+        x: (parent.width - self.width)/2 + (touch.pressed ? 2px : 0);
+        y: (parent.height - self.height)/2 + (touch.pressed ? 1px : 0);
+        color: touch.pressed ? root.bg-color : root.bg-color.darker(200%);
+    }
+    touch := TouchArea { }
+}

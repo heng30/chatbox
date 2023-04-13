@@ -21,10 +21,10 @@ fn stream_text(ui_box: QBox<AppWindow>, text: String) {
         ui.global::<Store>().get_session_datas().set_row_data(
             current_row,
             ChatItem {
-                text: if item.text == LOADING_STRING {
+                btext: if item.btext == LOADING_STRING {
                     text.into()
                 } else {
-                    item.text + &text
+                    item.btext + &text
                 },
                 ..item
             },
@@ -36,6 +36,10 @@ pub fn chat_with_bot(ui: &AppWindow) {
     let ui_box = QBox::new(ui);
     let ui_handle = ui.as_weak();
     ui.global::<Logic>().on_send_input_text(move |value| {
+        if value.trim().is_empty() {
+            return;
+        }
+
         let ui = ui_handle.unwrap();
         let mut datas: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().collect();
 
@@ -48,14 +52,11 @@ pub fn chat_with_bot(ui: &AppWindow) {
         debug!("{}", prompt);
 
         datas.push(ChatItem {
-            role: "user".into(),
-            text: value,
+            utext: value,
+            btext: LOADING_STRING.into(),
+            ..Default::default()
         });
 
-        datas.push(ChatItem {
-            role: "bot".into(),
-            text: LOADING_STRING.into(),
-        });
 
         ui.global::<Store>()
             .set_session_datas(Rc::new(VecModel::from(datas)).into());

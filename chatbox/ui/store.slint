@@ -1,6 +1,7 @@
 export struct ChatItem {
-    role: string,
-    text: string,
+    utext: string,
+    btext: string,
+    etext: string,
 }
 
 export struct ChatSession {
@@ -10,10 +11,10 @@ export struct ChatSession {
 
 export global Store  {
     in-out property<[ChatItem]> session-datas: [
-        /* { text: "Blue", role: "user"}, */
-        /* { text: "Red",  role: "bot"}, */
-        /* { text: "Green", role: "user"}, */
-        /* { text: "Yellow", role: "bot"}, */
+        /* { utext: "Blue", btext: "user", etext:""}, */
+        /* { uext: "Red",  btext: "bot", etext:""}, */
+        /* { uext: "Green", btext: "user", etext:""}, */
+        /* { uext: "Yellow", btext: "bot", etext:""}, */
     ];
 
     in-out property<string> chat-current-prompt: chat-prompts[0];
