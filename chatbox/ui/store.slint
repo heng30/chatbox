@@ -12,15 +12,7 @@ export struct ChatSession {
 export global Store  {
     in-out property<[ChatItem]> session-datas: [
         /* { utext: "Blue", btext: "user", etext:""}, */
-        /* { uext: "Red",  btext: "bot", etext:""}, */
-        /* { uext: "Green", btext: "user", etext:""}, */
-        /* { uext: "Yellow", btext: "bot", etext:""}, */
-    ];
-
-    in-out property<string> chat-current-prompt: chat-prompts[0];
-    in-out property<[string]> chat-prompts: [
-        "Serve me as a chat bot.",
-        "Serve me as a writing and programming assistant.",
+        /* { utext: "Red",  btext: "bot", etext:""}, */
     ];
 
     in-out property<[ChatSession]> chat-sessions: [ ];

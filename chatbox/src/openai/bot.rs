@@ -1,11 +1,11 @@
+use super::data;
+use crate::logic::chat;
+use log::{debug, warn};
 use reqwest::header::HeaderMap;
 use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE};
 use reqwest::Client;
-use tokio_stream::StreamExt;
-
-use super::data;
-use log::{debug, warn};
 use std::time::Duration;
+use tokio_stream::StreamExt;
 
 fn headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -23,7 +23,7 @@ fn headers(api_key: &str) -> HeaderMap {
 pub async fn generate_text(
     prompt: String,
     api_key: String,
-    cb: impl Fn(String)
+    cb: impl Fn(chat::StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();
     let url = "https://api.openai.com/v1/chat/completions".to_string();
@@ -46,12 +46,13 @@ pub async fn generate_text(
         .post(url)
         .headers(headers(&api_key))
         .json(&request_body)
+        .timeout(Duration::from_secs(30))
         .send()
         .await?
         .bytes_stream();
 
     loop {
-        match tokio::time::timeout(Duration::from_secs(30), stream.next()).await {
+        match tokio::time::timeout(Duration::from_secs(15), stream.next()).await {
             Ok(Some(Ok(chunk))) => {
                 let body = String::from_utf8_lossy(&chunk);
 
@@ -75,7 +76,10 @@ pub async fn generate_text(
                             }
 
                             if choice.delta.contains_key("content") {
-                                cb(choice.delta["content"].clone());
+                                cb(chat::StreamTextItem {
+                                    text: Some(choice.delta["content"].clone()),
+                                    ..Default::default()
+                                });
                                 print!("{}", choice.delta["content"]);
                             } else if choice.delta.contains_key("role") {
                                 debug!("role: {}", choice.delta["role"]);
@@ -83,6 +87,10 @@ pub async fn generate_text(
                             }
                         }
                         Err(e) => {
+                            cb(chat::StreamTextItem {
+                                etext: Some(e.to_string()),
+                                ..Default::default()
+                            });
                             debug!("{}", e);
                             break;
                         }

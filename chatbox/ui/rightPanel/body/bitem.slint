@@ -4,11 +4,9 @@ import { Store } from "../../store.slint";
 export component BItem inherits VerticalLayout{
     in-out property text <=> txt.text;
 
-    padding-top: Theme.padding;
-    padding-bottom: Theme.padding;
-    padding-left: 300px;
+    padding-left: self.width * 30%;
     padding-right: Theme.padding * 2;
-    spacing: Theme.spacing * 2;
+    spacing: Theme.spacing;
 
     HorizontalLayout {
         padding-bottom: Theme.padding;
@@ -23,7 +21,7 @@ export component BItem inherits VerticalLayout{
                 height: 30px;
                 image-fit: ImageFit.contain;
                 source: @image-url("../../images/bot.svg");
-                colorize: Colors.black;
+                colorize: Colors.steelblue;
             }
         }
     }
