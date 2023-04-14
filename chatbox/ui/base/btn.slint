@@ -2,18 +2,21 @@ import { Theme } from "../theme.slint";
 
 export component Btn inherits Rectangle {
     in-out property<string> text <=> txt.text;
-    in-out property<color> bg-color: Colors.gray.brighter(100%);
+
+    in-out property<color> bg-color: Theme.brand-color;
+    in-out property<color> bg-hover-color: bg-color.darker(30%);
+    in-out property<color> bg-pressed-color: bg-color.darker(50%);
+    in-out property<color> text-color: Colors.white;
+
     callback clicked <=> touch.clicked;
 
     border-width: 1px;
-    border-color: root.background.darker(25%);
-    background: touch.pressed ? bg-color.darker(60%) : touch.has-hover ? bg-color.darker(30%) : bg-color;
+    border-color: Theme.base-border-color;
+    background: touch.pressed ? bg-pressed-color : touch.has-hover ? bg-hover-color : bg-color;
     height: txt.preferred-height * 1.33;
     min-width: txt.preferred-width + 20px;
     txt := Text {
-        x: (parent.width - self.width)/2 + (touch.pressed ? 2px : 0);
-        y: (parent.height - self.height)/2 + (touch.pressed ? 1px : 0);
-        color: touch.pressed ? root.bg-color : root.bg-color.darker(200%);
+        color: root.text-color;
     }
     touch := TouchArea { }
 }

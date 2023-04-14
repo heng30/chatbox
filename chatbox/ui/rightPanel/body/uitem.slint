@@ -13,27 +13,28 @@ export component UItem inherits VerticalLayout{
         padding-bottom: Theme.padding;
         alignment: start;
         Rectangle {
-            height: 40px;
-            width: 40px;
+            height: img.width + 10px;
+            width: img.width + 10px;
             border-radius: self.height / 2;
-            background: Colors.lightgray;
-            Image {
-                width: 30px;
-                height: 30px;
+            background: Theme.basic-black-color;
+            img := Image {
+                width: Theme.icon-size;
+                height: Theme.icon-size;
                 image-fit: ImageFit.contain;
                 source: @image-url("../../images/user.svg");
-                colorize: Colors.black;
+                colorize: Colors.steelblue;
             }
         }
     }
 
     HorizontalLayout {
         Rectangle {
-            background: Colors.white;
+            background: Theme.light-fill-color;
             border-radius: Theme.border-radius;
             VerticalLayout{
-                padding: Theme.padding * 4;
+                padding: Theme.padding * 2;
                 txt := Text {
+                    color: Theme.primary-text-color;
                     font-size: Theme.default-font-size + 2px;
                     wrap: word-wrap;
                 }

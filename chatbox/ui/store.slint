@@ -11,8 +11,8 @@ export struct ChatSession {
 
 export global Store  {
     in-out property<[ChatItem]> session-datas: [
-        /* { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:""}, */
-        /* { utext: "This is not rust code.",  btext: "function main(){}", etext:""}, */
+        { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:""},
+        { utext: "This is not rust code.",  btext: "function main(){}", etext:""},
     ];
 
     in-out property<[ChatSession]> chat-sessions: [ ];
