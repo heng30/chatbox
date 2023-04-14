@@ -1,19 +1,47 @@
+use super::data::{HistoryChat, StreamTextItem};
 use crate::openai;
-use crate::qbox::QBox;
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, Logic, Store};
-use log::debug;
+use crate::util::qbox::QBox;
+
+#[allow(unused_imports)]
+use log::{debug, warn};
 use slint::{ComponentHandle, Model, VecModel};
 use std::env;
 use std::rc::Rc;
 use tokio::task::spawn;
 
-#[derive(Default, Clone, Debug)]
-pub struct StreamTextItem {
-    pub text: Option<String>,
-    pub etext: Option<String>,
-}
-
 const LOADING_STRING: &str = "loading...";
+const HISTORY_CHAT_EXPLAIN: &str = "\nThe above json fromat text is the previous conversations. If 'user' value is 'customer', the 'text' value is my previous question. if 'user' value is 'bot', the 'text' value is your reply. Parser the json format text And answer me the new question according the previous conversations. My new question: ";
+
+async fn send_text(
+    ui_box: QBox<AppWindow>,
+    mut chats: HistoryChat,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let api_key = env::var("OPENAI_API_KEY").unwrap();
+
+    let question = chats.items.pop().unwrap().utext;
+
+    let history;
+    let prompt;
+
+    if !chats.items.is_empty() {
+        history = openai::OpenAIHistoryChat::from(chats).to_json()?;
+        prompt = format!("{}{}{}", history, HISTORY_CHAT_EXPLAIN, question);
+    } else {
+        prompt = question;
+    }
+
+    debug!("{}", prompt);
+
+    openai::generate_text(prompt, api_key, move |sitem| {
+        if let Err(e) = slint::invoke_from_event_loop(move || {
+            stream_text(ui_box, sitem);
+        }) {
+            warn!("{:?}", e);
+        }
+    })
+    .await
+}
 
 fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
     let ui = ui_box.borrow();
@@ -57,33 +85,31 @@ pub fn chat_with_bot(ui: &AppWindow) {
         let ui = ui_handle.unwrap();
         let mut datas: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().collect();
 
-        let prompt = format!("{}", value);
-        debug!("{}", prompt);
-
         datas.push(ChatItem {
             utext: value,
             btext: LOADING_STRING.into(),
             ..Default::default()
         });
 
+        let chat_datas = HistoryChat::from(&datas);
+
         ui.global::<Store>()
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
 
-        let cb = qmetaobject::queued_callback(move |sitem: StreamTextItem| {
-            stream_text(ui_box, sitem);
-        });
-
         spawn(async move {
-            let api_key = env::var("OPENAI_API_KEY").unwrap();
-            if let Err(e) = openai::generate_text(prompt, api_key, move |sitem| {
-                cb(sitem);
-            })
-            .await
-            {
-                stream_text(ui_box, StreamTextItem {
-                    etext: Some(e.to_string()),
-                    ..Default::default()
-                });
+            if let Err(e) = send_text(ui_box, chat_datas).await {
+                let etext = e.to_string();
+                if let Err(err) = slint::invoke_from_event_loop(move || {
+                    stream_text(
+                        ui_box,
+                        StreamTextItem {
+                            etext: Some(etext),
+                            ..Default::default()
+                        },
+                    );
+                }) {
+                    warn!("{:?}", err);
+                }
             }
         });
     });

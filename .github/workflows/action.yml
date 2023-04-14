@@ -13,16 +13,6 @@ jobs:
       - run: echo "The ${{ github.workspace }} is now ready to test your code on the runner."
       - run: ls ${{ github.workspace }}
 
-      - run: echo "start install Qt..."
-      - run: sudo apt update
-      - run: sudo apt install libxcb-shape0-dev
-      - run: sudo apt install libxcb-xfixes0-dev
-      - run: sudo apt install libxdo-dev
-      - run: sudo apt install qt5-qmake
-      - run: sudo apt install qtdeclarative5-dev
-      - run: sudo apt install qtbase5-dev
-      - run: echo "end install Qt..."
-
       - run: echo "start install Rust..."
       - name: Install Rust
         uses: actions-rs/toolchain@v1

@@ -9,12 +9,12 @@ use log::debug;
 use std::env;
 use std::io::Write;
 
-mod openai;
 mod logic;
-mod qbox;
+mod openai;
+mod util;
 
-use logic::session;
 use logic::chat;
+use logic::session;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

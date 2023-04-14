@@ -1,5 +1,5 @@
 use super::data;
-use crate::logic::chat;
+use crate::logic::StreamTextItem;
 use log::{debug, warn};
 use reqwest::header::HeaderMap;
 use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE};
@@ -23,7 +23,7 @@ fn headers(api_key: &str) -> HeaderMap {
 pub async fn generate_text(
     prompt: String,
     api_key: String,
-    cb: impl Fn(chat::StreamTextItem),
+    cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();
     let url = "https://api.openai.com/v1/chat/completions".to_string();
@@ -76,7 +76,7 @@ pub async fn generate_text(
                             }
 
                             if choice.delta.contains_key("content") {
-                                cb(chat::StreamTextItem {
+                                cb(StreamTextItem {
                                     text: Some(choice.delta["content"].clone()),
                                     ..Default::default()
                                 });
@@ -87,7 +87,7 @@ pub async fn generate_text(
                             }
                         }
                         Err(e) => {
-                            cb(chat::StreamTextItem {
+                            cb(StreamTextItem {
                                 etext: Some(e.to_string()),
                                 ..Default::default()
                             });
