@@ -23,7 +23,7 @@ export component LPanel inherits VerticalLayout {
         for data in Store.chat-sessions : VerticalLayout {
             spacing: Theme.spacing * 2;
             Rectangle {
-                background: Theme.brand-color;
+                background: touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
                 HorizontalLayout {
                     padding: Theme.padding;
                     Text {
@@ -61,6 +61,8 @@ export component LPanel inherits VerticalLayout {
                         }
                      }
                 }
+
+                touch := TouchArea {}
             }
         }
     }

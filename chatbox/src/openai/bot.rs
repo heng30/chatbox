@@ -23,6 +23,7 @@ fn headers(api_key: &str) -> HeaderMap {
 pub async fn generate_text(
     prompt: String,
     api_key: String,
+    _uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();

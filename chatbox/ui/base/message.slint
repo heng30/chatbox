@@ -11,7 +11,7 @@ export component Message inherits Rectangle {
     height: txt.preferred-height + Theme.padding * 4;
     border-radius: self.height / 5;
     border-color: Theme.basic-black-color;
-    background: txt.color.brighter(50%);
+    background: Util.text-color(root.type);
 
     HorizontalLayout {
         spacing: Theme.spacing;
@@ -20,12 +20,12 @@ export component Message inherits Rectangle {
             width: txt.preferred-height;
             height: self.width;
             source: Util.icon-source(root.type);
-            colorize: Util.text-color(root.type);
+            colorize: Colors.white;
         }
 
         txt := Text {
             font-size: Theme.default-font-size + 2px;
-            color: Util.text-color(root.type);
+            color: Colors.white;
         }
     }
 

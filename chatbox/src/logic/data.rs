@@ -11,6 +11,7 @@ pub struct StreamTextItem {
 pub struct HistoryChatItem {
     pub utext: String,
     pub btext: String,
+    pub uuid: String,
 }
 
 #[derive(Default, Clone, Debug)]
@@ -26,6 +27,7 @@ impl From<&Vec<ChatItem>> for HistoryChat {
                 .map(|x| HistoryChatItem {
                     utext: x.utext.to_string(),
                     btext: x.btext.to_string(),
+                    uuid: x.uuid.to_string(),
                 })
                 .collect(),
         }

@@ -20,7 +20,8 @@ async fn send_text(
 ) -> Result<(), Box<dyn std::error::Error>> {
     let api_key = env::var("OPENAI_API_KEY").unwrap();
 
-    let question = chats.items.pop().unwrap().utext;
+    let item = chats.items.pop().unwrap();
+    let question = item.utext;
 
     let history;
     let prompt;
@@ -34,7 +35,7 @@ async fn send_text(
 
     debug!("{}", prompt);
 
-    openai::generate_text(prompt, api_key, move |sitem| {
+    openai::generate_text(prompt, api_key, item.uuid, move |sitem| {
         if let Err(e) = slint::invoke_from_event_loop(move || {
             stream_text(ui_box, sitem);
         }) {

@@ -56,14 +56,6 @@ export component UItem inherits VerticalLayout{
             VerticalLayout {
                 alignment: end;
                 IconBtn {
-                    icon: @image-url("../../images/stop.svg");
-                }
-            }
-
-
-            VerticalLayout {
-                alignment: end;
-                IconBtn {
                     icon: @image-url("../../images/delete.svg");
                     clicked => { Logic.delete_chat_item(root.uuid); }
                 }

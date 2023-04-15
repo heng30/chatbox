@@ -14,10 +14,12 @@ export component Footer inherits VerticalLayout {
 
     HorizontalLayout {
         alignment: space-between;
+        spacing: Theme.spacing;
 
         HorizontalLayout {
-            padding-right: Theme.padding;
+            spacing: Theme.spacing;
             width: 50%;
+
             Btn {
                 bg-color: Theme.danger-color;
                 icon: @image-url("../images/format-clear.svg");
@@ -27,11 +29,20 @@ export component Footer inherits VerticalLayout {
                     te.text = "";
                 }
             }
+
+            Btn {
+                bg-color: Theme.warning-color;
+                icon: @image-url("../images/stop.svg");
+                height: 50px;
+                text: "停止";
+                clicked => {
+                }
+            }
         }
 
         HorizontalLayout {
-            padding-left: Theme.padding;
             width: 50%;
+
             Btn {
                 icon: @image-url("../images/send.svg");
                 height: 50px;
