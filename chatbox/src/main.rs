@@ -13,8 +13,7 @@ mod logic;
 mod openai;
 mod util;
 
-use logic::chat;
-use logic::session;
+use logic::{chat, session, message, clipboard};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -23,8 +22,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     debug!("{}", "start...");
 
     let ui = AppWindow::new().unwrap();
-    session::new(&ui);
-    chat::chat_with_bot(&ui);
+
+    clipboard::init(&ui);
+    message::init(&ui);
+    session::init(&ui);
+    chat::init(&ui);
 
     ui.run().unwrap();
 

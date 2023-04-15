@@ -3,7 +3,7 @@ use slint::{ComponentHandle, Model, VecModel};
 use std::rc::Rc;
 use uuid::Uuid;
 
-pub fn new(ui: &AppWindow) {
+pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
     ui.global::<Logic>().on_handle_new_session(move |value| {
         let ui = ui_handle.unwrap();

@@ -9,6 +9,7 @@ use slint::{ComponentHandle, Model, VecModel};
 use std::env;
 use std::rc::Rc;
 use tokio::task::spawn;
+use uuid::Uuid;
 
 const LOADING_STRING: &str = "loading...";
 const HISTORY_CHAT_EXPLAIN: &str = "\nThe above json fromat text is the previous conversations. If 'user' value is 'customer', the 'text' value is my previous question. if 'user' value is 'bot', the 'text' value is your reply. Parser the json format text And answer me the new question according the previous conversations. My new question: ";
@@ -45,7 +46,12 @@ async fn send_text(
 
 fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
     let ui = ui_box.borrow();
-    let current_row = ui.global::<Store>().get_session_datas().row_count() - 1;
+    let rows = ui.global::<Store>().get_session_datas().row_count();
+    if rows == 0 {
+        return ;
+    }
+
+    let current_row = rows - 1;
 
     let text = match sitem.etext {
         Some(etext) => format!("\n\n{}", etext),
@@ -74,9 +80,10 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
     }
 }
 
-pub fn chat_with_bot(ui: &AppWindow) {
+pub fn init(ui: &AppWindow) {
     let ui_box = QBox::new(ui);
     let ui_handle = ui.as_weak();
+    let ui_delete_handle = ui.as_weak();
     ui.global::<Logic>().on_send_input_text(move |value| {
         if value.trim().is_empty() {
             return;
@@ -88,6 +95,7 @@ pub fn chat_with_bot(ui: &AppWindow) {
         datas.push(ChatItem {
             utext: value,
             btext: LOADING_STRING.into(),
+            uuid: Uuid::new_v4().to_string().into(),
             ..Default::default()
         });
 
@@ -113,4 +121,21 @@ pub fn chat_with_bot(ui: &AppWindow) {
             }
         });
     });
+
+    ui.global::<Logic>().on_delete_chat_item(move |uuid| {
+        if uuid.trim().is_empty() {
+            return;
+        }
+
+        let ui = ui_delete_handle.unwrap();
+        let datas: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().filter(|x| x.uuid != uuid).collect();
+
+        ui.global::<Store>()
+            .set_session_datas(Rc::new(VecModel::from(datas)).into());
+
+        ui.global::<Logic>()
+            .invoke_show_message("删除成功！".into(), "success".into());
+    });
+
+
 }

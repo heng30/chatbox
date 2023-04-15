@@ -8,20 +8,18 @@ export global Util {
            return Theme.warning-color;
        } else if (type == "danger") {
             return Theme.danger-color;
-       } else {
-            return Theme.info-color;
        }
+       return Theme.info-color;
     }
 
-    public pure function icon-color(type: string) -> image {
+    public pure function icon-source(type: string) -> image {
        if (type == "success") {
            return @image-url("./images/success.svg");
        } else if (type == "warning") {
            return @image-url("./images/warning.svg");
        } else if (type == "danger") {
            return @image-url("./images/danger.svg");
-       } else {
-           return @image-url("./images/info.svg");
        }
+       return @image-url("./images/info.svg");
     }
 }

@@ -1,14 +1,26 @@
 import { ListView } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
+import { Logic } from "../../logic.slint";
 import { UItem } from "./uitem.slint";
 import { BItem } from "./bitem.slint";
 
 export component Body inherits  ListView {
     padding: Theme.padding;
 
+     function new-chat-text(utext: string, btext: string) -> string {
+         return utext + "\n\n" + btext;
+     }
+
     for data in Store.session-datas : VerticalLayout {
-        UItem { text: data.utext; }
+        UItem {
+            text: data.utext;
+            uuid: data.uuid;
+
+            copy-clicked => {
+                Logic.copy_to_clipboard(root.new-chat-text(data.utext, data.btext));
+            }
+        }
         BItem { text: data.btext; }
     }
 }

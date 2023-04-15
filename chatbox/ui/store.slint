@@ -2,6 +2,8 @@ export struct ChatItem {
     utext: string,
     btext: string,
     etext: string,
+
+    uuid: string,
 }
 
 export struct ChatSession {
@@ -9,15 +11,22 @@ export struct ChatSession {
     uuid: string,
 }
 
+export struct MessageItem {
+    text: string,
+    text-type: string,
+}
+
 export global Store  {
     in-out property<[ChatItem]> session-datas: [
-        { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:""},
-        { utext: "This is not rust code.",  btext: "function main(){}", etext:""},
+        { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1"},
+        { utext: "This is not rust code.",  btext: "function main(){}", etext:"", uuid: "2"},
     ];
 
     in-out property<[ChatSession]> chat-sessions: [
         { name: "默认会话", uuid: "223232" }
     ];
     in-out property<string> input-text;
+
+    in-out property<MessageItem> message;
 }
 

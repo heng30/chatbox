@@ -5,6 +5,8 @@ import { Logic } from "../../logic.slint";
 
 export component UItem inherits VerticalLayout{
     in-out property text <=> txt.text;
+    in-out property<string> uuid;
+    callback copy-clicked <=> copy-icon.clicked;
 
     padding-top: Theme.padding;
     padding-left: Theme.padding * 2;
@@ -37,24 +39,33 @@ export component UItem inherits VerticalLayout{
                 alignment: end;
                 IconBtn {
                     icon: @image-url("../../images/star.svg");
-                    colorize: yellow;
+                    colorize: Theme.mark-color;
                     clicked => {
-                        Logic.show-message("success", "收藏成功！");
+                        Logic.show-message("收藏成功！", "success");
                     }
                 }
             }
 
             VerticalLayout {
                 alignment: end;
-                IconBtn {
-                    icon: @image-url("../../images/send.svg");
+                copy-icon := IconBtn {
+                    icon: @image-url("../../images/copy.svg");
                 }
             }
 
             VerticalLayout {
                 alignment: end;
                 IconBtn {
+                    icon: @image-url("../../images/stop.svg");
+                }
+            }
+
+
+            VerticalLayout {
+                alignment: end;
+                IconBtn {
                     icon: @image-url("../../images/delete.svg");
+                    clicked => { Logic.delete_chat_item(root.uuid); }
                 }
             }
         }
@@ -70,6 +81,12 @@ export component UItem inherits VerticalLayout{
                     color: Theme.primary-text-color;
                     font-size: Theme.default-font-size + 2px;
                     wrap: word-wrap;
+                }
+            }
+
+            TouchArea {
+                clicked => {
+                    Logic.copy_to_clipboard(root.text);
                 }
             }
         }
