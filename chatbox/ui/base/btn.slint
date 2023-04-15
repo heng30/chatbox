@@ -2,6 +2,7 @@ import { Theme } from "../theme.slint";
 
 export component Btn inherits Rectangle {
     in-out property<string> text <=> txt.text;
+    in-out property icon <=> img.source;
 
     in-out property<color> bg-color: Theme.brand-color;
     in-out property<color> bg-hover-color: bg-color.darker(30%);
@@ -15,8 +16,18 @@ export component Btn inherits Rectangle {
     background: touch.pressed ? bg-pressed-color : touch.has-hover ? bg-hover-color : bg-color;
     height: txt.preferred-height * 1.33;
     min-width: txt.preferred-width + 20px;
-    txt := Text {
-        color: root.text-color;
+
+    Rectangle {
+        img := Image {
+            width: root.icon.width > 0 ? txt.height - Theme.padding : 0;
+            x: txt.x - Theme.icon-size - Theme.spacing * 2;
+            colorize: root.text-color;
+        }
+
+        txt := Text {
+        x: (parent.width - self.width) / 2 + img.width / 2 + (root.icon.width > 0 ? Theme.spacing * 2 : 0);
+            color: root.text-color;
+        }
     }
     touch := TouchArea { }
 }

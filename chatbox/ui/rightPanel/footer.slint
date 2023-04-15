@@ -5,7 +5,6 @@ import { Logic } from "../logic.slint";
 import { Btn } from "../base/btn.slint";
 
 export component Footer inherits VerticalLayout {
-    padding-top: Theme.padding;
     spacing: Theme.spacing;
     height: Theme.bottom-panel-height;
 
@@ -21,6 +20,7 @@ export component Footer inherits VerticalLayout {
             width: 50%;
             Btn {
                 bg-color: Theme.danger-color;
+                icon: @image-url("../images/format-clear.svg");
                 height: 50px;
                 text: "清空";
                 clicked => {
@@ -33,6 +33,7 @@ export component Footer inherits VerticalLayout {
             padding-left: Theme.padding;
             width: 50%;
             Btn {
+                icon: @image-url("../images/send.svg");
                 height: 50px;
                 text: "发送";
                 clicked => {

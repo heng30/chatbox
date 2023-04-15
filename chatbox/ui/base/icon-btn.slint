@@ -1,0 +1,23 @@
+import { Theme } from "../theme.slint";
+
+export component IconBtn inherits Rectangle {
+    in-out property icon <=> img.source;
+    in-out property colorize <=> img.colorize;
+
+    callback clicked <=> touch.clicked;
+
+    in-out property<color> bg-color: Theme.basic-black-color;
+    in-out property<color> bg-hover-color: Colors.gray;
+    in-out property<color> bg-pressed-color: Colors.lightgray;
+
+    width: Theme.icon-size;
+    height: self.width;
+    border-radius: self.width / 3;
+    background: touch.pressed ? bg-pressed-color : touch.has-hover ? bg-hover-color : bg-color;
+
+    img := Image {
+        width: Theme.icon-size * 0.8;
+    }
+
+    touch := TouchArea { }
+}

@@ -3,10 +3,10 @@ import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
 import { Btn } from "../base/btn.slint";
+import { IconBtn } from "../base/icon-btn.slint";
 import { Bottom } from "./bottom.slint";
 
 export component LPanel inherits VerticalLayout {
-    spacing: Theme.spacing;
     width: Theme.left-panel-width;
 
     VerticalLayout {
@@ -20,17 +20,50 @@ export component LPanel inherits VerticalLayout {
     }
 
     ListView {
-        padding: Theme.padding;
         for data in Store.chat-sessions : VerticalLayout {
-            padding: Theme.padding * 2;
             spacing: Theme.spacing * 2;
-            Text {
-                text: data.name;
+            Rectangle {
+                background: Theme.brand-color;
+                HorizontalLayout {
+                    padding: Theme.padding;
+                    Text {
+                        color: Colors.white;
+                        text: data.name;
+                    }
+
+                    HorizontalLayout {
+                        alignment: end;
+                        padding-right: Theme.padding;
+                        spacing: Theme.spacing * 2;
+
+                        VerticalLayout {
+                            alignment: end;
+                            IconBtn {
+                                icon: @image-url("../images/star.svg");
+                                colorize: yellow;
+                            }
+                        }
+
+                        VerticalLayout {
+                            alignment: end;
+                            IconBtn {
+                                icon: @image-url("../images/edit.svg");
+                            }
+                        }
+
+                        VerticalLayout {
+                            alignment: end;
+                            IconBtn {
+                                icon: @image-url("../images/delete.svg");
+                            }
+                        }
+                     }
+                }
             }
         }
     }
 
-    Bottom {}
+    Bottom { }
 }
 
 

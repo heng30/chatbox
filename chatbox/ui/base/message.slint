@@ -1,0 +1,34 @@
+import { Theme } from "../theme.slint";
+import { Util } from "../util.slint";
+
+export component Message inherits Rectangle {
+    in-out property<string> type: "success";
+    in-out property text <=> txt.text;
+    visible: root.text != "";
+    callback clicked <=> touch.clicked;
+
+    width: txt.preferred-width + img.width + Theme.padding * 2 + Theme.spacing * 2;
+    height: Theme.icon-size + Theme.padding * 2;
+    border-radius: self.height / 5;
+    border-width: 2px;
+    border-color: Theme.basic-black-color;
+    background: Theme.light-fill-color;
+
+    HorizontalLayout {
+        spacing: Theme.spacing;
+        padding: Theme.padding;
+        img := Image {
+            width: Theme.icon-size;
+            height: Theme.icon-size;
+            source: Util.icon-color(type);
+            colorize: Util.text-color(root.type);
+        }
+
+        txt := Text {
+            font-size: Theme.default-font-size + 2px;
+            color: Util.text-color(root.type);
+        }
+    }
+
+    touch := TouchArea { }
+}

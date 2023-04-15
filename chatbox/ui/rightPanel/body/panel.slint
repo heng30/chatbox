@@ -6,6 +6,7 @@ import { BItem } from "./bitem.slint";
 
 export component Body inherits  ListView {
     padding: Theme.padding;
+
     for data in Store.session-datas : VerticalLayout {
         UItem { text: data.utext; }
         BItem { text: data.btext; }

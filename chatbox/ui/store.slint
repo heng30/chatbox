@@ -15,7 +15,9 @@ export global Store  {
         { utext: "This is not rust code.",  btext: "function main(){}", etext:""},
     ];
 
-    in-out property<[ChatSession]> chat-sessions: [ ];
+    in-out property<[ChatSession]> chat-sessions: [
+        { name: "默认会话", uuid: "223232" }
+    ];
     in-out property<string> input-text;
 }
 

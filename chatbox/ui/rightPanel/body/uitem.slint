@@ -1,5 +1,7 @@
 import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
+import { IconBtn } from "../../base/icon-btn.slint";
+import { Logic } from "../../logic.slint";
 
 export component UItem inherits VerticalLayout{
     in-out property text <=> txt.text;
@@ -11,7 +13,7 @@ export component UItem inherits VerticalLayout{
 
     HorizontalLayout {
         padding-bottom: Theme.padding;
-        alignment: start;
+        alignment: space-between;
         Rectangle {
             height: img.width + 10px;
             width: img.width + 10px;
@@ -23,6 +25,37 @@ export component UItem inherits VerticalLayout{
                 image-fit: ImageFit.contain;
                 source: @image-url("../../images/user.svg");
                 colorize: Colors.steelblue;
+            }
+        }
+
+        HorizontalLayout {
+            alignment: end;
+            padding-right: Theme.padding;
+            spacing: Theme.spacing * 2;
+
+            VerticalLayout {
+                alignment: end;
+                IconBtn {
+                    icon: @image-url("../../images/star.svg");
+                    colorize: yellow;
+                    clicked => {
+                        Logic.show-message("success", "收藏成功！");
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: end;
+                IconBtn {
+                    icon: @image-url("../../images/send.svg");
+                }
+            }
+
+            VerticalLayout {
+                alignment: end;
+                IconBtn {
+                    icon: @image-url("../../images/delete.svg");
+                }
             }
         }
     }
