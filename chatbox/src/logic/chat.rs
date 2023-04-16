@@ -11,8 +11,8 @@ use std::rc::Rc;
 use tokio::task::spawn;
 use uuid::Uuid;
 
-const LOADING_STRING: &str = "loading...";
-const HISTORY_CHAT_EXPLAIN: &str = "\nThe above json fromat text is the previous conversations. If 'user' value is 'customer', the 'text' value is my previous question. if 'user' value is 'bot', the 'text' value is your reply. Parser the json format text And answer me the new question according the previous conversations. My new question: ";
+const LOADING_STRING: &str = "Thinking...";
+const HISTORY_CHAT_EXPLAIN: &str = "\nThe above json fromat text is the previous conversations. If 'user' value is 'customer', the 'text' value is my previous question. if 'user' value is 'bot', the 'text' value is your reply. Parser the json format text. If the new question is not related to the previous conversations. Igonre the previous conversations. Else answer my new question reference the previous conversation's informations. My new question: ";
 
 async fn send_text(
     ui_box: QBox<AppWindow>,

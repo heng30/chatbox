@@ -23,10 +23,11 @@ export global Store  {
     ];
 
     in-out property<[ChatSession]> chat-sessions: [
-        { name: "默认会话", uuid: "223232" }
+        { name: "默认会话", uuid: "default-session-uuid" }
     ];
-    in-out property<string> input-text;
+    /* in-out property<string> current-session-uuid: chat-sessions[0].uuid; */
 
+    in-out property<string> input-text;
     in-out property<MessageItem> message;
 }
 

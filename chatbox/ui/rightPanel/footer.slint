@@ -7,6 +7,7 @@ import { Btn } from "../base/btn.slint";
 export component Footer inherits VerticalLayout {
     spacing: Theme.spacing;
     height: Theme.bottom-panel-height;
+    in-out property<length> btn-height: 50px;
 
     te := TextEdit {
         edited(text) => {}
@@ -14,7 +15,7 @@ export component Footer inherits VerticalLayout {
 
     HorizontalLayout {
         alignment: space-between;
-        spacing: Theme.spacing;
+        spacing: Theme.spacing * 2;
 
         HorizontalLayout {
             spacing: Theme.spacing;
@@ -22,18 +23,19 @@ export component Footer inherits VerticalLayout {
 
             Btn {
                 bg-color: Theme.danger-color;
-                icon: @image-url("../images/format-clear.svg");
-                height: 50px;
-                text: "清空";
+                icon: @image-url("../images/reset.svg");
+                width: 30%;
+                height: root.btn-height;
+                text: "重置";
                 clicked => {
-                    te.text = "";
+                    Logic.reset-current-session();
                 }
             }
 
             Btn {
+                height: root.btn-height;
                 bg-color: Theme.warning-color;
                 icon: @image-url("../images/stop.svg");
-                height: 50px;
                 text: "停止";
                 clicked => {
                 }
@@ -42,10 +44,23 @@ export component Footer inherits VerticalLayout {
 
         HorizontalLayout {
             width: 50%;
+            spacing: Theme.spacing;
 
             Btn {
+                height: root.btn-height;
+                bg-color: Theme.danger-color;
+                icon: @image-url("../images/format-clear.svg");
+                width: 30%;
+
+                text: "清空";
+                clicked => {
+                    te.text = "";
+                }
+            }
+
+            Btn {
+                height: root.btn-height;
                 icon: @image-url("../images/send.svg");
-                height: 50px;
                 text: "发送";
                 clicked => {
                     if (te.text == "") { return; }

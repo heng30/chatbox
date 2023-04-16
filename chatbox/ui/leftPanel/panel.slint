@@ -21,11 +21,16 @@ export component LPanel inherits VerticalLayout {
 
     ListView {
         for data in Store.chat-sessions : VerticalLayout {
-            spacing: Theme.spacing * 2;
+            padding-bottom: Theme.padding;
+
             Rectangle {
                 background: touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
+
+                touch := TouchArea {}
+
                 HorizontalLayout {
                     padding: Theme.padding;
+
                     Text {
                         color: Colors.white;
                         text: data.name;
@@ -56,13 +61,14 @@ export component LPanel inherits VerticalLayout {
                             alignment: end;
                             IconBtn {
                                 icon: @image-url("../images/delete.svg");
-                                clicked => {}
+                                clicked => {
+                                    Logic.delete-session(data.uuid);
+                                }
                             }
                         }
                      }
                 }
 
-                touch := TouchArea {}
             }
         }
     }
