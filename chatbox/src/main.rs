@@ -29,7 +29,6 @@ async fn main() -> CResult {
     config::init();
 
     let ui = AppWindow::new().unwrap();
-
     clipboard::init(&ui);
     message::init(&ui);
     session::init(&ui);

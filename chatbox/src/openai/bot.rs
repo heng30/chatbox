@@ -35,16 +35,16 @@ pub async fn generate_text(
             content: prompt,
         }],
 
-        model: config.model,
-        max_tokens: config.max_tokens,
-        temperature: config.temperature,
-        frequency_penalty: config.frequency_penalty,
-        presence_penalty: config.presence_penalty,
+        model: config.chat.model,
+        max_tokens: config.chat.max_tokens,
+        temperature: config.chat.temperature,
+        frequency_penalty: config.chat.frequency_penalty,
+        presence_penalty: config.chat.presence_penalty,
         stream: true,
     };
 
     let mut stream = client
-        .post(config.url)
+        .post(config.chat.url)
         .headers(headers(&config.api_key))
         .json(&request_body)
         .timeout(Duration::from_secs(30))

@@ -1,5 +1,6 @@
 use super::data::{self, Config};
 use crate::CResult;
+use log::debug;
 use platform_dirs::AppDirs;
 use std::cell::RefCell;
 use std::sync::Mutex;
@@ -10,7 +11,9 @@ lazy_static! {
 }
 
 pub fn init() {
-    CONFIG.lock().unwrap().borrow_mut().init();
+    if let Err(e) = CONFIG.lock().unwrap().borrow_mut().init() {
+        panic!("{:?}", e);
+    }
 }
 
 pub fn openai() -> data::OpenAi {
@@ -18,19 +21,13 @@ pub fn openai() -> data::OpenAi {
 }
 
 impl Config {
-    pub fn init(&mut self) {
+    pub fn init(&mut self) -> CResult {
         let app_dirs = AppDirs::new(Some("chatbox"), true).unwrap();
-        if let Err(e) = Self::init_app_dir(&app_dirs) {
-            panic!("{:?}", e);
-        }
-
-        if let Err(e) = self.init_config(&app_dirs) {
-            panic!("{:?}", e);
-        }
-
-        if let Err(e) = self.load() {
-            panic!("{:?}", e);
-        }
+        Self::init_app_dir(&app_dirs)?;
+        self.init_config(&app_dirs)?;
+        self.load()?;
+        debug!("{:?}", self);
+        Ok(())
     }
 
     fn init_app_dir(app_dirs: &AppDirs) -> CResult {

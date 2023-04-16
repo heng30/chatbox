@@ -3,6 +3,7 @@ use crate::openai;
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, Logic, Store};
 use crate::util::qbox::QBox;
 
+use crate::config::openai as openai_config;
 #[allow(unused_imports)]
 use log::{debug, warn};
 use slint::{ComponentHandle, Model, VecModel};
@@ -11,7 +12,6 @@ use tokio::task::spawn;
 use uuid::Uuid;
 
 const LOADING_STRING: &str = "Thinking...";
-const HISTORY_CHAT_EXPLAIN: &str = "\nThe above json fromat text is the previous conversations. If 'user' value is 'customer', the 'text' value is my previous question. if 'user' value is 'bot', the 'text' value is your reply. Parser the json format text. If the new question is not related to the previous conversations. Igonre the previous conversations. Else answer my new question reference the previous conversation's informations. My new question: ";
 
 async fn send_text(
     ui_box: QBox<AppWindow>,
@@ -20,15 +20,17 @@ async fn send_text(
     let item = chats.items.pop().unwrap();
     let question = item.utext;
 
-    let history;
-    let prompt;
-
-    if !chats.items.is_empty() {
-        history = openai::OpenAIHistoryChat::from(chats).to_json()?;
-        prompt = format!("{}{}{}", history, HISTORY_CHAT_EXPLAIN, question);
+    let prompt = if !chats.items.is_empty() {
+        let history = openai::OpenAIHistoryChat::from(chats).to_json()?;
+        format!(
+            "{}{}{}",
+            history,
+            openai_config().chat.history_chat_explain,
+            question
+        )
     } else {
-        prompt = question;
-    }
+        question
+    };
 
     debug!("{}", prompt);
 
