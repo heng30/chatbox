@@ -1,0 +1,48 @@
+import { Theme } from "../theme.slint";
+import { Btn } from "./btn.slint";
+
+export component CDialog inherits Rectangle {
+    in-out property<length> body-width: 450px;
+    in-out property<length> body-height: 300px;
+    in-out property title <=> txt.text;
+
+    callback cancel-clicked();
+    callback ok-clicked();
+
+    visible: false;
+    width: self.visible ? root.body-width : 0;
+    height: self.visible ? root.body-height : 0;
+    border-width: 1px;
+    border-color: Theme.base-border-color;
+
+    VerticalLayout {
+        Rectangle {
+            height: txt.preferred-height * 1.33;
+            background: Theme.brand-color;
+            txt := Text {
+                color: Colors.white;
+                font-size: Theme.default-font-size + 1px;
+            }
+        }
+
+        VerticalLayout {
+            @children
+        }
+
+        HorizontalLayout {
+            spacing: Theme.spacing;
+            Btn {
+                text: "取消";
+                bg-color: Theme.danger-color;
+                border-width: 0;
+                clicked => { root.cancel-clicked(); }
+            }
+
+            Btn {
+                text: "确定";
+                border-width: 0;
+                clicked => { root.ok-clicked(); }
+            }
+        }
+    }
+}

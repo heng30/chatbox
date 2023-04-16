@@ -6,6 +6,8 @@ import { Btn } from "../base/btn.slint";
 import { IconBtn } from "../base/icon-btn.slint";
 import { Bottom } from "./bottom.slint";
 
+import { StandardButton, Button } from "std-widgets.slint";
+
 export component LPanel inherits VerticalLayout {
     width: Theme.left-panel-width;
 
@@ -14,9 +16,11 @@ export component LPanel inherits VerticalLayout {
         Btn {
             text: "新建会话 +";
             clicked => {
+                Store.new-session-dialog-setting.is-dialog-show = true;
                 Logic.handle-new-session("会话");
             }
         }
+
     }
 
     ListView {

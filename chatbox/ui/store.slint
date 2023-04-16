@@ -16,6 +16,10 @@ export struct MessageItem {
     text-type: string,
 }
 
+export struct NewSessionDialogSetting {
+    is-dialog-show: bool,
+}
+
 export global Store  {
     in-out property<[ChatItem]> session-datas: [
         { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1"},
@@ -25,9 +29,13 @@ export global Store  {
     in-out property<[ChatSession]> chat-sessions: [
         { name: "默认会话", uuid: "default-session-uuid" }
     ];
-    /* in-out property<string> current-session-uuid: chat-sessions[0].uuid; */
+    in-out property<string> current-session-uuid: chat-sessions[0].uuid;
 
     in-out property<string> input-text;
     in-out property<MessageItem> message;
+
+    in-out property<NewSessionDialogSetting> new-session-dialog-setting: {
+        is-dialog-show: false,
+    };
 }
 

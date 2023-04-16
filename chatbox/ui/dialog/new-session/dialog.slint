@@ -1,0 +1,20 @@
+import { CDialog } from "../../base/cdialog.slint";
+import { Store } from "../../store.slint";
+
+export component NewSessionDialog inherits CDialog {
+    visible: Store.new-session-dialog-setting.is-dialog-show;
+
+    title: "会话配置";
+
+    Rectangle {
+        background: gray;
+    }
+
+    ok-clicked => {
+        Store.new-session-dialog-setting.is-dialog-show = false;
+    }
+
+    cancel-clicked => {
+        Store.new-session-dialog-setting.is-dialog-show = false;
+    }
+}

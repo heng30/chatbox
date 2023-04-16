@@ -7,6 +7,7 @@ import { LPanel } from "./leftPanel/panel.slint";
 import { RPanel } from "./rightPanel/panel.slint";
 import { Message } from "./base/message.slint";
 import { Store } from "./store.slint";
+import { NewSessionDialog } from "./dialog/new-session/dialog.slint";
 
 export component AppWindow inherits Window {
     default-font-size: Theme.default-font-size;
@@ -22,6 +23,11 @@ export component AppWindow inherits Window {
 
         LPanel {}
         RPanel {}
+    }
+
+    NewSessionDialog {
+        x: root.width / 2 - self.width / 2;
+        y: root.height / 2 - self.height / 2;
     }
 
     Message {
