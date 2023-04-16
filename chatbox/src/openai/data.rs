@@ -1,6 +1,6 @@
 pub mod request {
-    use std::convert::From;
     use crate::logic::HistoryChat;
+    use std::convert::From;
 
     #[derive(Serialize, Deserialize)]
     pub struct ChatCompletion {
@@ -35,21 +35,19 @@ pub mod request {
         fn from(chats: HistoryChat) -> Self {
             let mut items = vec![];
             for (i, item) in chats.items.into_iter().enumerate() {
-                items.push(OpenAIHistoryChatItem{
+                items.push(OpenAIHistoryChatItem {
                     id: format!("{}", i * 2 + 1),
                     text: item.utext,
                     user: "customer".to_string(),
                 });
-                items.push(OpenAIHistoryChatItem{
+                items.push(OpenAIHistoryChatItem {
                     id: format!("{}", i * 2 + 2),
                     text: item.btext,
                     user: "bot".to_string(),
                 })
             }
 
-            OpenAIHistoryChat {
-                utterances: items,
-            }
+            OpenAIHistoryChat { utterances: items }
         }
     }
 
@@ -57,7 +55,11 @@ pub mod request {
         pub fn to_json(&self) -> Result<String, Box<dyn std::error::Error>> {
             match serde_json::to_string::<OpenAIHistoryChat>(self) {
                 Ok(text) => Ok(text),
-                Err(e) => Err(anyhow::anyhow!("OpenAIHistoryChat to json error: {}", e.to_string()).into()),
+                Err(e) => Err(anyhow::anyhow!(
+                    "OpenAIHistoryChat to json error: {}",
+                    e.to_string()
+                )
+                .into()),
             }
         }
     }

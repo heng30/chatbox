@@ -6,6 +6,7 @@ use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE};
 use reqwest::Client;
 use std::time::Duration;
 use tokio_stream::StreamExt;
+use crate::config::openai as openai_config;
 
 fn headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -22,12 +23,11 @@ fn headers(api_key: &str) -> HeaderMap {
 
 pub async fn generate_text(
     prompt: String,
-    api_key: String,
     _uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();
-    let url = "https://api.openai.com/v1/chat/completions".to_string();
+    let config = openai_config();
 
     let request_body = data::request::ChatCompletion {
         messages: vec![data::request::Message {
@@ -35,17 +35,17 @@ pub async fn generate_text(
             content: prompt,
         }],
 
-        model: "gpt-3.5-turbo".to_string(),
-        max_tokens: 1024,
-        temperature: 0.8,
-        frequency_penalty: 0.5,
-        presence_penalty: 0.0,
+        model: config.model,
+        max_tokens: config.max_tokens,
+        temperature: config.temperature,
+        frequency_penalty: config.frequency_penalty,
+        presence_penalty: config.presence_penalty,
         stream: true,
     };
 
     let mut stream = client
-        .post(url)
-        .headers(headers(&api_key))
+        .post(config.url)
+        .headers(headers(&config.api_key))
         .json(&request_body)
         .timeout(Duration::from_secs(30))
         .send()

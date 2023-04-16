@@ -12,6 +12,10 @@ build-debug:
 run:
 	RUST_LOG=error,warn,info,debug,reqwest=on proxychains cargo run
 
+run-noproxy:
+	RUST_LOG=error,warn,info,debug,reqwest=on cargo run
+
+
 run-local:
 	RUST_LOG=error,warn,info,debug,reqwest=on proxychains ./target/debug/chatbox
 

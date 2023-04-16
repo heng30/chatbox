@@ -6,7 +6,6 @@ use crate::util::qbox::QBox;
 #[allow(unused_imports)]
 use log::{debug, warn};
 use slint::{ComponentHandle, Model, VecModel};
-use std::env;
 use std::rc::Rc;
 use tokio::task::spawn;
 use uuid::Uuid;
@@ -18,8 +17,6 @@ async fn send_text(
     ui_box: QBox<AppWindow>,
     mut chats: HistoryChat,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let api_key = env::var("OPENAI_API_KEY").unwrap();
-
     let item = chats.items.pop().unwrap();
     let question = item.utext;
 
@@ -35,7 +32,7 @@ async fn send_text(
 
     debug!("{}", prompt);
 
-    openai::generate_text(prompt, api_key, item.uuid, move |sitem| {
+    openai::generate_text(prompt, item.uuid, move |sitem| {
         if let Err(e) = slint::invoke_from_event_loop(move || {
             stream_text(ui_box, sitem);
         }) {
@@ -49,7 +46,7 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
     let ui = ui_box.borrow();
     let rows = ui.global::<Store>().get_session_datas().row_count();
     if rows == 0 {
-        return ;
+        return;
     }
 
     let current_row = rows - 1;
@@ -129,7 +126,12 @@ pub fn init(ui: &AppWindow) {
         }
 
         let ui = ui_delete_handle.unwrap();
-        let datas: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().filter(|x| x.uuid != uuid).collect();
+        let datas: Vec<ChatItem> = ui
+            .global::<Store>()
+            .get_session_datas()
+            .iter()
+            .filter(|x| x.uuid != uuid)
+            .collect();
 
         ui.global::<Store>()
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
@@ -137,6 +139,4 @@ pub fn init(ui: &AppWindow) {
         ui.global::<Logic>()
             .invoke_show_message("删除成功！".into(), "success".into());
     });
-
-
 }

@@ -3,6 +3,9 @@ slint::include_modules!();
 #[macro_use]
 extern crate serde_derive;
 
+#[macro_use]
+extern crate lazy_static;
+
 use chrono::Local;
 use env_logger::fmt::Color as LColor;
 use log::debug;
@@ -12,14 +15,18 @@ use std::io::Write;
 mod logic;
 mod openai;
 mod util;
+mod config;
 
-use logic::{chat, session, message, clipboard};
+use logic::{chat, clipboard, message, session};
+
+pub type CResult = Result<(), Box<dyn std::error::Error>>;
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> CResult {
     init_logger();
-
     debug!("{}", "start...");
+
+    config::init();
 
     let ui = AppWindow::new().unwrap();
 
