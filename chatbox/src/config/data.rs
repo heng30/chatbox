@@ -1,5 +1,5 @@
 
-const OPENAI_HISTORY_CHAT_EXPLAIN: &str = "\nThe above json fromat text is the previous conversations. If 'user' value is 'customer', the 'text' value is my previous question. if 'user' value is 'bot', the 'text' value is your reply. Parser the json format text. If the new question is not related to the previous conversations. Igonre the previous conversations. Else answer my new question reference the previous conversation's informations. My new question: ";
+const OPENAI_HISTORY_CHAT_EXPLAIN: &str = "\nThe above json fromat text is the previous conversations. If 'user' value is 'customer', the 'text' value is my previous question. if 'user' value is 'bot', the 'text' value is your reply. Retrieve the necessary information from the previous conversation and use it to answer the new question. But if the new question is not related to the previous conversation. Please ignore the previous conversation and answer my new question: ";
 
 #[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct Config {
@@ -38,7 +38,7 @@ impl Default for OpenAiChat {
         Self {
             url: "https://api.openai.com/v1/chat/completions".to_string(),
             model: "gpt-3.5-turbo".to_string(),
-            max_tokens: 1024,
+            max_tokens: 4096,
             temperature: 0.8,
             frequency_penalty: 0.5,
             presence_penalty: 0.0,

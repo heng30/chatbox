@@ -17,6 +17,7 @@ export component Body inherits  ListView {
         UItem {
             text: data.utext;
             uuid: data.uuid;
+            is-mark: data.is-mark;
 
             copy-clicked => {
                 Logic.copy_to_clipboard(root.new-chat-text(data.utext, data.btext));

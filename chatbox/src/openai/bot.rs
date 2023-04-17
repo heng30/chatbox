@@ -106,7 +106,7 @@ pub async fn generate_text(
                 warn!("{}", e);
                 break;
             }
-            _ => unreachable!(),
+            _ => break,
         }
     }
 

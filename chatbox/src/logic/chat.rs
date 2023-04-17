@@ -84,6 +84,8 @@ pub fn init(ui: &AppWindow) {
     let ui_box = QBox::new(ui);
     let ui_handle = ui.as_weak();
     let ui_delete_handle = ui.as_weak();
+    let ui_mark_handle = ui.as_weak();
+
     ui.global::<Logic>().on_send_input_text(move |value| {
         if value.trim().is_empty() {
             return;
@@ -140,5 +142,29 @@ pub fn init(ui: &AppWindow) {
 
         ui.global::<Logic>()
             .invoke_show_message("删除成功！".into(), "success".into());
+    });
+
+
+    ui.global::<Logic>().on_toggle_mark_chat_item(move |uuid| {
+        if uuid.trim().is_empty() {
+            return;
+        }
+
+        let ui = ui_mark_handle.unwrap();
+        let datas: Vec<ChatItem> = ui
+            .global::<Store>()
+            .get_session_datas()
+            .iter()
+            .map(|x| if x.uuid != uuid {
+                x
+            } else {
+               let mut xc = x.clone();
+               xc.is_mark = !x.is_mark;
+               xc
+            })
+            .collect();
+
+        ui.global::<Store>()
+            .set_session_datas(Rc::new(VecModel::from(datas)).into());
     });
 }

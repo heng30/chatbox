@@ -4,6 +4,7 @@ export struct ChatItem {
     etext: string,
 
     uuid: string,
+    is-mark: bool,
 }
 
 export struct ChatSession {
@@ -20,10 +21,19 @@ export struct NewSessionDialogSetting {
     is-dialog-show: bool,
 }
 
+export struct OkCancelDialogSetting {
+    title-type: string,
+    title-text: string,
+    body-text: string,
+
+    handle-type: string,
+    handle-uuid: string,
+}
+
 export global Store  {
     in-out property<[ChatItem]> session-datas: [
-        { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1"},
-        { utext: "This is not rust code.",  btext: "function main(){}", etext:"", uuid: "2"},
+        { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1", is-mark: false},
+        { utext: "This is not rust code.",  btext: "function main(){}", etext:"", uuid: "2", is-mark: true},
     ];
 
     in-out property<[ChatSession]> chat-sessions: [
@@ -37,5 +47,14 @@ export global Store  {
     in-out property<NewSessionDialogSetting> new-session-dialog-setting: {
         is-dialog-show: false,
     };
+
+    in-out property<OkCancelDialogSetting> ok-cancel-dialog-setting: {
+        title-type: "",
+        title-text: "",
+        body-text: "",
+        handle-type: "",
+        handle-uuid: "",
+    };
+
 }
 

@@ -1,0 +1,29 @@
+import { CDialog } from "../base/cdialog.slint";
+import { Store } from "../store.slint";
+import { Util } from "../util.slint";
+import { Logic } from "../logic.slint";
+
+export component OkCancelDialog inherits CDialog {
+    visible: Store.ok-cancel-dialog-setting.body-text != "";
+
+    title: Store.ok-cancel-dialog-setting.title-text;
+    title-bg: Util.text-color(Store.ok-cancel-dialog-setting.title-type);
+    body-height: 200px;
+
+    Rectangle {
+        background: lightgray;
+        Text {
+            text: Store.ok-cancel-dialog-setting.body-text;
+            wrap: word-wrap;
+        }
+    }
+
+    ok-clicked => {
+        Logic.handle-ok-cancel-dialog(Store.ok-cancel-dialog-setting.handle-type, Store.ok-cancel-dialog-setting.handle-uuid);
+        Store.ok-cancel-dialog-setting.body-text = "";
+    }
+
+    cancel-clicked => {
+        Store.ok-cancel-dialog-setting.body-text = "";
+    }
+}

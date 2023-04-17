@@ -6,6 +6,7 @@ import { Logic } from "../../logic.slint";
 export component UItem inherits VerticalLayout{
     in-out property text <=> txt.text;
     in-out property<string> uuid;
+    in-out property<bool> is-mark;
     callback copy-clicked <=> copy-icon.clicked;
 
     padding-top: Theme.padding;
@@ -39,9 +40,14 @@ export component UItem inherits VerticalLayout{
                 alignment: end;
                 IconBtn {
                     icon: @image-url("../../images/star.svg");
-                    colorize: Theme.mark-color;
+                    colorize: root.is-mark ? Theme.mark-color : Theme.unmark-color;
                     clicked => {
-                        Logic.show-message("收藏成功！", "success");
+                        Logic.toggle-mark-chat-item(root.uuid);
+                        if (root.is-mark) {
+                            Logic.show-message("取消收藏成功！", "success");
+                        } else {
+                            Logic.show-message("收藏成功！", "success");
+                        }
                     }
                 }
             }
@@ -57,7 +63,14 @@ export component UItem inherits VerticalLayout{
                 alignment: end;
                 IconBtn {
                     icon: @image-url("../../images/delete.svg");
-                    clicked => { Logic.delete_chat_item(root.uuid); }
+                    clicked => {
+                        Store.ok-cancel-dialog-setting.title-type = "warning";
+                        Store.ok-cancel-dialog-setting.title-text = "警告";
+                        Store.ok-cancel-dialog-setting.body-text = "是否删除！";
+                        Store.ok-cancel-dialog-setting.handle-type = "chat-item";
+                        Store.ok-cancel-dialog-setting.handle-uuid = root.uuid;
+
+                    }
                 }
             }
         }

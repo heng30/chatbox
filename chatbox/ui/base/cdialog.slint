@@ -5,6 +5,7 @@ export component CDialog inherits Rectangle {
     in-out property<length> body-width: 450px;
     in-out property<length> body-height: 300px;
     in-out property title <=> txt.text;
+    in-out property<color> title-bg: Theme.brand-color;
 
     callback cancel-clicked();
     callback ok-clicked();
@@ -18,7 +19,7 @@ export component CDialog inherits Rectangle {
     VerticalLayout {
         Rectangle {
             height: txt.preferred-height * 1.33;
-            background: Theme.brand-color;
+            background: root.title-bg;
             txt := Text {
                 color: Colors.white;
                 font-size: Theme.default-font-size + 1px;

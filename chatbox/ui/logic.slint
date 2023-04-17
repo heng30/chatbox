@@ -1,10 +1,14 @@
 export global Logic {
     callback handle-new-session(string);
-    callback send-input-text(string);
     callback reset-current-session();
+    callback delete-session(string);
+
+    callback send-input-text(string);
+    callback delete-chat-item(string);
+    callback toggle-mark-chat-item(string);
+    callback stop-generate_text(string);
+
     callback show-message(string, string);
     callback copy-to-clipboard(string);
-    callback delete-chat-item(string);
-    callback stop-generate_text(string);
-    callback delete-session(string);
+    callback handle-ok-cancel-dialog(string, string);
 }
