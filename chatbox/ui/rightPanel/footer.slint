@@ -36,6 +36,7 @@ export component Footer inherits VerticalLayout {
                 icon: @image-url("../images/stop.svg");
                 text: "停止";
                 clicked => {
+                    Logic.stop-generate-text();
                 }
             }
         }

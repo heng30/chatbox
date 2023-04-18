@@ -15,10 +15,23 @@ pub struct Config {
     pub openai: OpenAi,
 }
 
-#[derive(Serialize, Deserialize, Default, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OpenAi {
+    pub request_timeout: u64,
+    pub stream_timeout: u64,
     pub api_key: String,
     pub chat: OpenAiChat,
+}
+
+impl Default for OpenAi {
+    fn default() -> Self {
+        Self {
+            request_timeout: 30,
+            stream_timeout: 15,
+            api_key: String::default(),
+            chat: OpenAiChat::default(),
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -38,7 +51,7 @@ impl Default for OpenAiChat {
         Self {
             url: "https://api.openai.com/v1/chat/completions".to_string(),
             model: "gpt-3.5-turbo".to_string(),
-            max_tokens: 4096,
+            max_tokens: 2048,
             temperature: 0.8,
             frequency_penalty: 0.5,
             presence_penalty: 0.0,

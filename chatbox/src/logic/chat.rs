@@ -1,17 +1,39 @@
-use super::data::{HistoryChat, StreamTextItem};
+use super::data::{HistoryChat, StopChat, StreamTextItem};
+use crate::config::openai as openai_config;
 use crate::openai;
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, Logic, Store};
 use crate::util::qbox::QBox;
-
-use crate::config::openai as openai_config;
 #[allow(unused_imports)]
 use log::{debug, warn};
 use slint::{ComponentHandle, Model, VecModel};
+use std::cell::RefCell;
 use std::rc::Rc;
+use std::sync::Mutex;
 use tokio::task::spawn;
 use uuid::Uuid;
 
 const LOADING_STRING: &str = "Thinking...";
+
+lazy_static! {
+    static ref STOP_CHAT: Mutex<RefCell<StopChat>> = Mutex::new(RefCell::new(StopChat::default()));
+}
+
+pub fn set_stop_chat(uuid: Option<String>, is_stop: bool) {
+    let item = STOP_CHAT.lock().unwrap();
+    let mut item = item.borrow_mut();
+    if let Some(uid) = uuid {
+        item.current_chat_item_uuid = uid;
+    }
+    item.is_stop = is_stop;
+}
+
+pub fn is_stop_chat(uuid: &str) -> bool {
+    let item = STOP_CHAT.lock().unwrap();
+    let item = item.borrow();
+
+    // debug!("{} - {} - {}", item.is_stop, item.current_chat_item_uuid, uuid);
+    item.is_stop || item.current_chat_item_uuid != uuid
+}
 
 async fn send_text(
     ui_box: QBox<AppWindow>,
@@ -94,12 +116,16 @@ pub fn init(ui: &AppWindow) {
         let ui = ui_handle.unwrap();
         let mut datas: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().collect();
 
+        let uuid = Uuid::new_v4().to_string();
+
         datas.push(ChatItem {
             utext: value,
             btext: LOADING_STRING.into(),
-            uuid: Uuid::new_v4().to_string().into(),
+            uuid: uuid.as_str().into(),
             ..Default::default()
         });
+
+        set_stop_chat(Some(uuid), false);
 
         let chat_datas = HistoryChat::from(&datas);
 
@@ -144,7 +170,6 @@ pub fn init(ui: &AppWindow) {
             .invoke_show_message("删除成功！".into(), "success".into());
     });
 
-
     ui.global::<Logic>().on_toggle_mark_chat_item(move |uuid| {
         if uuid.trim().is_empty() {
             return;
@@ -155,16 +180,22 @@ pub fn init(ui: &AppWindow) {
             .global::<Store>()
             .get_session_datas()
             .iter()
-            .map(|x| if x.uuid != uuid {
-                x
-            } else {
-               let mut xc = x.clone();
-               xc.is_mark = !x.is_mark;
-               xc
+            .map(|x| {
+                if x.uuid != uuid {
+                    x
+                } else {
+                    let mut xc = x.clone();
+                    xc.is_mark = !x.is_mark;
+                    xc
+                }
             })
             .collect();
 
         ui.global::<Store>()
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
+    });
+
+    ui.global::<Logic>().on_stop_generate_text(move || {
+        set_stop_chat(None, true);
     });
 }

@@ -10,6 +10,7 @@ export struct ChatItem {
 export struct ChatSession {
     name: string,
     uuid: string,
+    is-mark: bool,
 }
 
 export struct MessageItem {
@@ -37,7 +38,7 @@ export global Store  {
     ];
 
     in-out property<[ChatSession]> chat-sessions: [
-        { name: "默认会话", uuid: "default-session-uuid" }
+        { name: "默认会话", uuid: "default-session-uuid", is-mark: true }
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
 

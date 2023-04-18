@@ -9,6 +9,7 @@ pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
     let ui_delete_handle = ui.as_weak();
     let ui_reset_handle = ui.as_weak();
+    let ui_mark_handle = ui.as_weak();
 
     ui.global::<Logic>().on_handle_new_session(move |value| {
         let ui = ui_handle.unwrap();
@@ -18,6 +19,7 @@ pub fn init(ui: &AppWindow) {
         sessions.push(ChatSession {
             name: value,
             uuid: Uuid::new_v4().to_string().into(),
+            ..Default::default()
         });
 
         let sessions_model = Rc::new(VecModel::from(sessions));
@@ -52,5 +54,27 @@ pub fn init(ui: &AppWindow) {
 
         ui.global::<Logic>()
             .invoke_show_message("重置成功!".into(), "success".into());
+    });
+
+    ui.global::<Logic>().on_toggle_mark_session(move |uuid| {
+        let ui = ui_mark_handle.unwrap();
+        let sessions: Vec<ChatSession> = ui
+            .global::<Store>()
+            .get_chat_sessions()
+            .iter()
+            .map(|x| {
+                if x.uuid != uuid {
+                    x
+                } else {
+                    let mut m = x.clone();
+                    m.is_mark = !x.is_mark;
+                    m
+                }
+            })
+            .collect();
+
+        let sessions_model = Rc::new(VecModel::from(sessions));
+        ui.global::<Store>()
+            .set_chat_sessions(sessions_model.into());
     });
 }

@@ -49,6 +49,22 @@ export component LPanel inherits VerticalLayout {
                             alignment: end;
                             IconBtn {
                                 icon: @image-url("../images/star.svg");
+                                colorize: data.is-mark ? Theme.mark-color : Theme.unmark-color;
+                                clicked => {
+                                    Logic.toggle-mark-session(data.uuid);
+                                    if (data.is-mark) {
+                                        Logic.show-message("取消收藏成功！", "success");
+                                    } else {
+                                        Logic.show-message("收藏成功！", "success");
+                                    }
+                                }
+                            }
+                        }
+
+                        VerticalLayout {
+                            alignment: end;
+                            IconBtn {
+                                icon: @image-url("../images/save.svg");
                                 clicked => {}
                             }
                         }

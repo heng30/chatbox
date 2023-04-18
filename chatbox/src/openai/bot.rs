@@ -1,4 +1,6 @@
 use super::data;
+use crate::chat;
+use crate::config::openai as openai_config;
 use crate::logic::StreamTextItem;
 use log::{debug, warn};
 use reqwest::header::HeaderMap;
@@ -6,7 +8,6 @@ use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE};
 use reqwest::Client;
 use std::time::Duration;
 use tokio_stream::StreamExt;
-use crate::config::openai as openai_config;
 
 fn headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -23,7 +24,7 @@ fn headers(api_key: &str) -> HeaderMap {
 
 pub async fn generate_text(
     prompt: String,
-    _uuid: String,
+    uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();
@@ -47,15 +48,38 @@ pub async fn generate_text(
         .post(config.chat.url)
         .headers(headers(&config.api_key))
         .json(&request_body)
-        .timeout(Duration::from_secs(30))
+        .timeout(Duration::from_secs(config.request_timeout))
         .send()
         .await?
         .bytes_stream();
 
+    if chat::is_stop_chat(&uuid) {
+        return Ok(());
+    }
+
     loop {
-        match tokio::time::timeout(Duration::from_secs(15), stream.next()).await {
+        match tokio::time::timeout(Duration::from_secs(config.stream_timeout), stream.next()).await
+        {
             Ok(Some(Ok(chunk))) => {
+                if chat::is_stop_chat(&uuid) {
+                    return Ok(());
+                }
+
                 let body = String::from_utf8_lossy(&chunk);
+
+                match serde_json::from_str::<data::response::Error>(&body) {
+                    Ok(err) => {
+                        if let Some(estr) = err.error.get("message") {
+                            cb(StreamTextItem {
+                                etext: Some(estr.clone()),
+                                ..Default::default()
+                            });
+                            debug!("{}", estr);
+                        }
+                        break;
+                    }
+                    _ => (),
+                }
 
                 if body.starts_with("data: [DONE]") {
                     break;
@@ -106,7 +130,10 @@ pub async fn generate_text(
                 warn!("{}", e);
                 break;
             }
-            _ => break,
+            _ => {
+                warn!("unknown error appear! return from openai chat generate text.");
+                break;
+            }
         }
     }
 

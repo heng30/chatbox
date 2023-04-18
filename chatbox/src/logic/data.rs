@@ -33,3 +33,9 @@ impl From<&Vec<ChatItem>> for HistoryChat {
         }
     }
 }
+
+#[derive(Default, Clone, Debug)]
+pub struct StopChat {
+    pub current_chat_item_uuid: String,
+    pub is_stop: bool,
+}

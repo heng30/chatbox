@@ -83,4 +83,9 @@ pub mod response {
         pub index: usize,
         pub finish_reason: Option<String>,
     }
+
+    #[derive(Serialize, Deserialize)]
+    pub struct Error {
+        pub error: HashMap<String, String>
+    }
 }
