@@ -46,6 +46,11 @@ pub fn init(ui: &AppWindow) {
         let sessions_model = Rc::new(VecModel::from(sessions));
         ui.global::<Store>()
             .set_chat_sessions(sessions_model.into());
+
+        if uuid == ui.global::<Store>().get_current_session_uuid() {
+            ui.global::<Store>()
+                .set_current_session_uuid(DEFAULT_SESSION_UUID.into());
+        }
     });
 
     ui.global::<Logic>().on_reset_current_session(move || {

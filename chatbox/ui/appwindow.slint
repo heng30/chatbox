@@ -26,12 +26,20 @@ export component AppWindow inherits Window {
         RPanel {}
     }
 
-    NewSessionDialog { }
+    if ns-dialog.visible || oc-dialog.visible : Rectangle {
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: Theme.basic-black-color;
 
-    OkCancelDialog { }
+        TouchArea {}
+    }
 
+    ns-dialog := NewSessionDialog { }
 
-    Message {
+    oc-dialog := OkCancelDialog { }
+
+    msg := Message {
         x: root.width / 2 - self.width / 2;
         y: 50px;
         text: Store.message.text;

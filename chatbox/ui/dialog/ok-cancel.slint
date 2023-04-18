@@ -9,9 +9,10 @@ export component OkCancelDialog inherits CDialog {
     title: Store.ok-cancel-dialog-setting.title-text;
     title-bg: Util.text-color(Store.ok-cancel-dialog-setting.title-type);
     body-height: 200px;
+    background: rect.background;
 
-    Rectangle {
-        background: lightgray;
+    rect := Rectangle {
+        background: lightgray.brighter(10%);
         Text {
             text: Store.ok-cancel-dialog-setting.body-text;
             wrap: word-wrap;

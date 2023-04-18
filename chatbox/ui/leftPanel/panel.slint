@@ -28,9 +28,13 @@ export component LPanel inherits VerticalLayout {
             padding-bottom: Theme.padding;
 
             Rectangle {
-                background: touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
+                background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
 
-                touch := TouchArea {}
+                touch := TouchArea {
+                    clicked => {
+                        Store.current-session-uuid = data.uuid;
+                    }
+                }
 
                 HorizontalLayout {
                     padding: Theme.padding;

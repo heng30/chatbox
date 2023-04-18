@@ -13,8 +13,7 @@ export component CDialog inherits Rectangle {
     visible: false;
     width: self.visible ? root.body-width : 0;
     height: self.visible ? root.body-height : 0;
-    border-width: 1px;
-    border-color: Theme.base-border-color;
+    background: Theme.base-background-color;
 
     VerticalLayout {
         Rectangle {

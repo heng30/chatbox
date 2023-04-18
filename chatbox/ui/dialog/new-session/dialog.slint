@@ -3,10 +3,10 @@ import { Store } from "../../store.slint";
 
 export component NewSessionDialog inherits CDialog {
     visible: Store.new-session-dialog-setting.is-dialog-show;
-
+    background: rect.background;
     title: "会话配置";
 
-    Rectangle {
+    rect := Rectangle {
         background: gray;
     }
 
