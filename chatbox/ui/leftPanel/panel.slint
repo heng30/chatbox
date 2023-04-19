@@ -11,13 +11,39 @@ import { StandardButton, Button } from "std-widgets.slint";
 export component LPanel inherits VerticalLayout {
     width: Theme.left-panel-width;
 
-    VerticalLayout {
-        height: Theme.header-height;
+    HorizontalLayout {
+        spacing: Theme.spacing;
+        padding-bottom: Theme.padding;
         Btn {
-            text: "新建会话 +";
+            text: "新建";
+            height: Theme.header-height;
+            icon: @image-url("../images/add.svg");
             clicked => {
                 Store.new-session-dialog-setting.is-dialog-show = true;
                 Logic.handle-new-session("会话");
+            }
+        }
+        Btn {
+            text: "保存";
+            height: Theme.header-height;
+            bg-color: Theme.success-color;
+            icon: @image-url("../images/save.svg");
+            clicked => { }
+        }
+        Btn {
+            text: "编辑";
+            height: Theme.header-height;
+            bg-color: Theme.warning-color;
+            icon: @image-url("../images/edit.svg");
+            clicked => { }
+        }
+        Btn {
+            text: "删除";
+            height: Theme.header-height;
+            bg-color: Theme.danger-color;
+            icon: @image-url("../images/delete.svg");
+            clicked => {
+                Logic.delete-session(Store.current-session-uuid);
             }
         }
 
@@ -25,7 +51,7 @@ export component LPanel inherits VerticalLayout {
 
     ListView {
         for data in Store.chat-sessions : VerticalLayout {
-            padding-bottom: Theme.padding;
+            padding-bottom: Theme.padding / 2;
 
             Rectangle {
                 background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
@@ -64,35 +90,8 @@ export component LPanel inherits VerticalLayout {
                                 }
                             }
                         }
-
-                        VerticalLayout {
-                            alignment: end;
-                            IconBtn {
-                                icon: @image-url("../images/save.svg");
-                                clicked => {}
-                            }
-                        }
-
-                        VerticalLayout {
-                            alignment: end;
-                            IconBtn {
-                                icon: @image-url("../images/edit.svg");
-                                clicked => {}
-                            }
-                        }
-
-                        VerticalLayout {
-                            alignment: end;
-                            IconBtn {
-                                icon: @image-url("../images/delete.svg");
-                                clicked => {
-                                    Logic.delete-session(data.uuid);
-                                }
-                            }
-                        }
-                     }
+                    }
                 }
-
             }
         }
     }

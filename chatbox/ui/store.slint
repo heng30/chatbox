@@ -38,7 +38,8 @@ export global Store  {
     ];
 
     in-out property<[ChatSession]> chat-sessions: [
-        { name: "默认会话", uuid: "default-session-uuid", is-mark: true }
+        { name: "默认会话", uuid: "default-session-uuid", is-mark: true },
+        { name: "会话1", uuid: "session-uuid-1", is-mark: true }
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
 
