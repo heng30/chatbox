@@ -1,8 +1,8 @@
 pub mod request {
     use crate::logic::HistoryChat;
-    use std::convert::From;
+    use std::fmt::Debug;
 
-    #[derive(Serialize, Deserialize)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct ChatCompletion {
         pub messages: Vec<Message>,
         pub model: String,
@@ -13,54 +13,42 @@ pub mod request {
         pub stream: bool,
     }
 
-    #[derive(Serialize, Deserialize)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct Message {
         pub role: String,
         pub content: String,
     }
 
-    #[derive(Serialize, Deserialize)]
-    pub struct OpenAIHistoryChatItem {
-        pub id: String,
-        pub text: String,
-        pub user: String,
+    #[derive(Serialize, Deserialize, Debug, Clone)]
+    pub struct OpenAIChat {
+        pub message: Vec<Message>,
     }
 
-    #[derive(Serialize, Deserialize)]
-    pub struct OpenAIHistoryChat {
-        pub utterances: Vec<OpenAIHistoryChatItem>,
-    }
-
-    impl From<HistoryChat> for OpenAIHistoryChat {
-        fn from(chats: HistoryChat) -> Self {
+    impl OpenAIChat {
+        pub fn make(system_prompt: String, question: String, chats: HistoryChat) -> OpenAIChat {
             let mut items = vec![];
-            for (i, item) in chats.items.into_iter().enumerate() {
-                items.push(OpenAIHistoryChatItem {
-                    id: format!("{}", i * 2 + 1),
-                    text: item.utext,
-                    user: "customer".to_string(),
+            items.push(Message {
+                role: "system".to_string(),
+                content: system_prompt,
+            });
+
+            for item in chats.items.into_iter() {
+                items.push(Message {
+                    role: "user".to_string(),
+                    content: item.utext,
                 });
-                items.push(OpenAIHistoryChatItem {
-                    id: format!("{}", i * 2 + 2),
-                    text: item.btext,
-                    user: "bot".to_string(),
+                items.push(Message {
+                    role: "assistant".to_string(),
+                    content: item.btext,
                 })
             }
 
-            OpenAIHistoryChat { utterances: items }
-        }
-    }
+            items.push(Message {
+                role: "user".to_string(),
+                content: question,
+            });
 
-    impl OpenAIHistoryChat {
-        pub fn to_json(&self) -> Result<String, Box<dyn std::error::Error>> {
-            match serde_json::to_string::<OpenAIHistoryChat>(self) {
-                Ok(text) => Ok(text),
-                Err(e) => Err(anyhow::anyhow!(
-                    "OpenAIHistoryChat to json error: {}",
-                    e.to_string()
-                )
-                .into()),
-            }
+            OpenAIChat { message: items }
         }
     }
 }
@@ -86,6 +74,6 @@ pub mod response {
 
     #[derive(Serialize, Deserialize)]
     pub struct Error {
-        pub error: HashMap<String, String>
+        pub error: HashMap<String, String>,
     }
 }

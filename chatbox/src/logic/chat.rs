@@ -1,5 +1,4 @@
 use super::data::{HistoryChat, StopChat, StreamTextItem};
-use crate::config::openai as openai_config;
 use crate::openai;
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, Logic, Store};
 use crate::util::qbox::QBox;
@@ -40,23 +39,15 @@ async fn send_text(
     mut chats: HistoryChat,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let item = chats.items.pop().unwrap();
+
+    let system_prompt = String::default();
     let question = item.utext;
 
-    let prompt = if !chats.items.is_empty() {
-        let history = openai::OpenAIHistoryChat::from(chats).to_json()?;
-        format!(
-            "{}{}{}",
-            history,
-            openai_config().chat.history_chat_explain,
-            question
-        )
-    } else {
-        question
-    };
+    let openai_chat = openai::OpenAIChat::make(system_prompt, question, chats);
 
-    debug!("{}", prompt);
+    // debug!("{:?}", openai_chat);
 
-    openai::generate_text(prompt, item.uuid, move |sitem| {
+    openai::generate_text(openai_chat, item.uuid, move |sitem| {
         if let Err(e) = slint::invoke_from_event_loop(move || {
             stream_text(ui_box, sitem);
         }) {

@@ -23,7 +23,7 @@ fn headers(api_key: &str) -> HeaderMap {
 }
 
 pub async fn generate_text(
-    prompt: String,
+    chat: data::request::OpenAIChat,
     uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
@@ -31,11 +31,7 @@ pub async fn generate_text(
     let config = openai_config();
 
     let request_body = data::request::ChatCompletion {
-        messages: vec![data::request::Message {
-            role: "user".to_string(),
-            content: prompt,
-        }],
-
+        messages: chat.message,
         model: config.chat.model,
         max_tokens: config.chat.max_tokens,
         temperature: config.chat.temperature,
@@ -67,18 +63,15 @@ pub async fn generate_text(
 
                 let body = String::from_utf8_lossy(&chunk);
 
-                match serde_json::from_str::<data::response::Error>(&body) {
-                    Ok(err) => {
-                        if let Some(estr) = err.error.get("message") {
-                            cb(StreamTextItem {
-                                etext: Some(estr.clone()),
-                                ..Default::default()
-                            });
-                            debug!("{}", estr);
-                        }
-                        break;
+                if let Ok(err) = serde_json::from_str::<data::response::Error>(&body) {
+                    if let Some(estr) = err.error.get("message") {
+                        cb(StreamTextItem {
+                            etext: Some(estr.clone()),
+                            ..Default::default()
+                        });
+                        debug!("{}", estr);
                     }
-                    _ => (),
+                    break;
                 }
 
                 if body.starts_with("data: [DONE]") {
