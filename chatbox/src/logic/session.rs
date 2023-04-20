@@ -1,15 +1,17 @@
 use crate::slint_generatedAppWindow::{AppWindow, ChatSession, Logic, Store};
+#[allow(unused)]
+use log::debug;
 use slint::{ComponentHandle, Model, ModelRc, VecModel, Weak};
 use std::rc::Rc;
 use uuid::Uuid;
-#[allow(unused)]
-use log::debug;
 
 const DEFAULT_SESSION_UUID: &str = "default-session-uuid";
 
 pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
     let ui_delete_handle = ui.as_weak();
+    let ui_set_edit_handle = ui.as_weak();
+    let ui_save_edit_handle = ui.as_weak();
     let ui_reset_handle = ui.as_weak();
     let ui_mark_handle = ui.as_weak();
 
@@ -85,6 +87,49 @@ pub fn init(ui: &AppWindow) {
         ui.global::<Store>()
             .set_chat_sessions(sessions_model.into());
     });
+
+    ui.global::<Logic>().on_set_edit_session(move |uuid| {
+        let ui = ui_set_edit_handle.unwrap();
+        let sessions: Vec<ChatSession> = ui
+            .global::<Store>()
+            .get_chat_sessions()
+            .iter()
+            .filter(|x| x.uuid == uuid)
+            .collect();
+
+        debug!("{:?}", sessions);
+        if sessions.is_empty() {
+            return;
+        }
+
+        ui.set_session_name(sessions[0].name.clone());
+        ui.set_session_system_prompt(sessions[0].system_prompt.clone());
+    });
+
+    ui.global::<Logic>()
+        .on_save_edit_session(move |uuid, config| {
+            let ui = ui_save_edit_handle.unwrap();
+            let sessions: Vec<ChatSession> = ui
+                .global::<Store>()
+                .get_chat_sessions()
+                .iter()
+                .map(|x| {
+                    if x.uuid != uuid {
+                        x
+                    } else {
+                        ChatSession {
+                            name: config.name.clone(),
+                            system_prompt: config.system_prompt.clone(),
+                            ..x
+                        }
+                    }
+                })
+                .collect();
+
+            let sessions_model = Rc::new(VecModel::from(sessions));
+            ui.global::<Store>()
+                .set_chat_sessions(sessions_model.into());
+        });
 }
 
 pub fn current_session_system_prompt(ui: Weak<AppWindow>) -> String {

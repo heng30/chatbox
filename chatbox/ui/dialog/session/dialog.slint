@@ -29,6 +29,7 @@ export component SessionDialog inherits CDialog {
                 line-edit-name := LineEdit {
                     height: txt-name.preferred-height + Theme.padding;
                     placeholder-text: "请输入会话名称";
+                    enabled: !(Store.session-dialog-setting.handle-type == "session-edit" && Store.current-session-uuid == "default-session-uuid");
                 }
             }
 
@@ -66,7 +67,10 @@ export component SessionDialog inherits CDialog {
             });
         } else if (Store.session-dialog-setting.handle-type == "session-edit") {
 
-                Logic.handle-edit-session(Store.current-session-uuid);
+            Logic.save-edit-session(Store.current-session-uuid, {
+                name: root.name,
+                system-prompt: root.system-prompt
+            });
         }
 
         Store.session-dialog-setting.is-show = false;

@@ -36,6 +36,7 @@ export component LPanel inherits VerticalLayout {
             bg-color: Theme.warning-color;
             icon: @image-url("../images/edit.svg");
             clicked => {
+                Logic.set-edit-session(Store.current-session-uuid);
                 Store.session-dialog-setting.handle-type = "session-edit";
                 Store.session-dialog-setting.is-show = true;
             }

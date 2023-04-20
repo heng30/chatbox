@@ -18,8 +18,8 @@ export component AppWindow inherits Window {
     no-frame: true;
     title: "chatbox";
 
-    property session-name <=> session-dialog.name;
-    property session-system-prompt <=> session-dialog.system-prompt;
+    in-out property session-name <=> session-dialog.name;
+    in-out property session-system-prompt <=> session-dialog.system-prompt;
 
     HorizontalLayout {
         padding: Theme.padding;
