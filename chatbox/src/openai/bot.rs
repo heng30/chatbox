@@ -5,9 +5,9 @@ use crate::logic::StreamTextItem;
 use log::{debug, warn};
 use reqwest::header::HeaderMap;
 use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE};
-use reqwest::Client;
 use std::time::Duration;
 use tokio_stream::StreamExt;
+use crate::util::http;
 
 fn headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -27,7 +27,7 @@ pub async fn generate_text(
     uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let client = Client::new();
+    let client = http::client()?;
     let config = openai_config();
 
     let request_body = data::request::ChatCompletion {
@@ -39,6 +39,7 @@ pub async fn generate_text(
         presence_penalty: config.chat.presence_penalty,
         stream: true,
     };
+
 
     let mut stream = client
         .post(config.chat.url)

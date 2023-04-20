@@ -1,8 +1,12 @@
+import { SessionConfig } from "./store.slint";
+
 export global Logic {
-    callback handle-new-session(string);
+    callback handle-new-session(SessionConfig);
+    callback handle-edit-session(string);
     callback reset-current-session();
     callback delete-session(string);
     callback toggle-mark-session(string);
+    callback handle-session-dialog(string, string);
 
     callback send-input-text(string);
     callback delete-chat-item(string);

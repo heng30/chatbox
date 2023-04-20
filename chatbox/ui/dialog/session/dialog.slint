@@ -1,0 +1,78 @@
+import { LineEdit, TextEdit, ComboBox } from "std-widgets.slint";
+import { CDialog } from "../../base/cdialog.slint";
+import { Store, SessionConfig } from "../../store.slint";
+import { Logic} from "../../logic.slint";
+import { Theme} from "../../theme.slint";
+
+export component SessionDialog inherits CDialog {
+    visible: Store.session-dialog-setting.is-show;
+    background: rect.background;
+    title: "会话配置";
+    width: 700px;
+    height: 400px;
+
+    in-out property name <=> line-edit-name.text;
+    in-out property system-prompt <=> text-edit-prompt.text;
+
+    rect := Rectangle {
+        height: root.height;
+        background: lightgray.brighter(10%);
+        VerticalLayout {
+            padding: Theme.padding;
+            HorizontalLayout {
+                spacing: Theme.spacing;
+                padding-bottom: Theme.padding * 4;
+                txt-name := Text {
+                    text: "名称: ";
+                }
+
+                line-edit-name := LineEdit {
+                    height: txt-name.preferred-height + Theme.padding;
+                    placeholder-text: "请输入会话名称";
+                }
+            }
+
+            VerticalLayout {
+                spacing: Theme.spacing;
+
+                HorizontalLayout {
+                    spacing: Theme.spacing;
+                    prompt-name := Text {
+                        text: "系统提示: ";
+                        horizontal-stretch: 0;
+                    }
+
+                    ComboBox {
+                        horizontal-stretch: 1;
+                        model: Store.system-prompts.names;
+                        current-value: Store.system-prompts.names[0];
+
+                        selected => {
+                            text-edit-prompt.text = Store.system-prompts.prompts[self.current-index];
+                        }
+                    }
+                }
+
+                text-edit-prompt := TextEdit { }
+            }
+        }
+    }
+
+    ok-clicked => {
+        if (Store.session-dialog-setting.handle-type == "session-add") {
+            Logic.handle-new-session({
+                name: root.name,
+                system-prompt: root.system-prompt
+            });
+        } else if (Store.session-dialog-setting.handle-type == "session-edit") {
+
+                Logic.handle-edit-session(Store.current-session-uuid);
+        }
+
+        Store.session-dialog-setting.is-show = false;
+    }
+
+    cancel-clicked => {
+        Store.session-dialog-setting.is-show = false;
+    }
+}

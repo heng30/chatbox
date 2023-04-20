@@ -19,8 +19,8 @@ export component LPanel inherits VerticalLayout {
             height: Theme.header-height;
             icon: @image-url("../images/add.svg");
             clicked => {
-                Store.new-session-dialog-setting.is-dialog-show = true;
-                Logic.handle-new-session("会话");
+                Store.session-dialog-setting.handle-type = "session-add";
+                Store.session-dialog-setting.is-show = true;
             }
         }
         Btn {
@@ -35,7 +35,10 @@ export component LPanel inherits VerticalLayout {
             height: Theme.header-height;
             bg-color: Theme.warning-color;
             icon: @image-url("../images/edit.svg");
-            clicked => { }
+            clicked => {
+                Store.session-dialog-setting.handle-type = "session-edit";
+                Store.session-dialog-setting.is-show = true;
+            }
         }
         Btn {
             text: "删除";
@@ -43,7 +46,11 @@ export component LPanel inherits VerticalLayout {
             bg-color: Theme.danger-color;
             icon: @image-url("../images/delete.svg");
             clicked => {
-                Logic.delete-session(Store.current-session-uuid);
+                Store.ok-cancel-dialog-setting.title-type = "warning";
+                Store.ok-cancel-dialog-setting.title-text = "警告";
+                Store.ok-cancel-dialog-setting.body-text = "是否删除！";
+                Store.ok-cancel-dialog-setting.handle-type = "session-item";
+                Store.ok-cancel-dialog-setting.handle-uuid = Store.current-session-uuid;
             }
         }
 

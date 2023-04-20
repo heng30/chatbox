@@ -20,6 +20,10 @@ pub fn openai() -> data::OpenAi {
     CONFIG.lock().unwrap().borrow_mut().openai.clone()
 }
 
+pub fn socks5() -> data::Socks5 {
+    CONFIG.lock().unwrap().borrow_mut().socks5.clone()
+}
+
 impl Config {
     pub fn init(&mut self) -> CResult {
         let app_dirs = AppDirs::new(Some("chatbox"), true).unwrap();
@@ -62,6 +66,7 @@ impl Config {
             Ok(text) => match serde_json::from_str::<Config>(&text) {
                 Ok(c) => {
                     self.openai = c.openai;
+                    self.socks5 = c.socks5;
                     Ok(())
                 }
                 Err(e) => Err(anyhow::anyhow!("{}", e.to_string()).into()),

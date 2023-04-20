@@ -17,7 +17,7 @@ run-noproxy:
 
 
 run-local:
-	RUST_LOG=error,warn,info,debug,reqwest=on proxychains ./target/debug/chatbox
+	RUST_LOG=error,warn,info,debug,reqwest=on ./target/debug/chatbox
 
 
 clippy:

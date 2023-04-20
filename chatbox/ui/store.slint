@@ -8,9 +8,10 @@ export struct ChatItem {
 }
 
 export struct ChatSession {
+    is-mark: bool,
     name: string,
     uuid: string,
-    is-mark: bool,
+    system-prompt: string,
 }
 
 export struct MessageItem {
@@ -18,8 +19,14 @@ export struct MessageItem {
     text-type: string,
 }
 
-export struct NewSessionDialogSetting {
-    is-dialog-show: bool,
+export struct SessionDialogSetting {
+    is-show: bool,
+    handle-type: string,
+}
+
+export struct SessionConfig {
+    name: string,
+    system-prompt: string,
 }
 
 export struct OkCancelDialogSetting {
@@ -31,14 +38,24 @@ export struct OkCancelDialogSetting {
     handle-uuid: string,
 }
 
+export struct SystemPrompts {
+    names: [string],
+    prompts: [string],
+}
+
 export global Store  {
     in-out property<[ChatItem]> session-datas: [
-        { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1", is-mark: false},
-        { utext: "This is not rust code.",  btext: "function main(){}", etext:"", uuid: "2", is-mark: true},
+        /* { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1", is-mark: false}, */
+        /* { utext: "This is not rust code.",  btext: "function main(){}", etext:"", uuid: "2", is-mark: true}, */
     ];
 
+    in-out property<SystemPrompts> system-prompts: {
+        names: ["选择预定义提示", "通用聊天机器人"],
+        prompts: ["", "你是一个通用聊天机器人。"]
+    };
+
     in-out property<[ChatSession]> chat-sessions: [
-        { name: "默认会话", uuid: "default-session-uuid", is-mark: true },
+        { name: "默认会话", uuid: "default-session-uuid", is-mark: true , system-prompt: system-prompts.prompts[1]},
         { name: "会话1", uuid: "session-uuid-1", is-mark: true }
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
@@ -46,8 +63,9 @@ export global Store  {
     in-out property<string> input-text;
     in-out property<MessageItem> message;
 
-    in-out property<NewSessionDialogSetting> new-session-dialog-setting: {
-        is-dialog-show: false,
+    in-out property<SessionDialogSetting> session-dialog-setting: {
+        is-show: false,
+        handle-type: "",
     };
 
     in-out property<OkCancelDialogSetting> ok-cancel-dialog-setting: {
