@@ -8,10 +8,14 @@ export struct ChatItem {
 }
 
 export struct ChatSession {
+    uuid: string,
     is-mark: bool,
     name: string,
-    uuid: string,
     system-prompt: string,
+    api-model: string,
+    use-history: bool,
+
+    chat-items: [ChatItem]
 }
 
 export struct MessageItem {
@@ -22,11 +26,14 @@ export struct MessageItem {
 export struct SessionDialogSetting {
     is-show: bool,
     handle-type: string,
+    api-model: [string],
 }
 
 export struct SessionConfig {
     name: string,
     system-prompt: string,
+    api-model: string,
+    use-history: bool,
 }
 
 export struct OkCancelDialogSetting {
@@ -55,8 +62,8 @@ export global Store  {
     };
 
     in-out property<[ChatSession]> chat-sessions: [
-        { name: "默认会话", uuid: "default-session-uuid", is-mark: true , system-prompt: system-prompts.prompts[1]},
-        /* { name: "会话1", uuid: "session-uuid-1", is-mark: true } */
+        { name: "默认会话", uuid: "default-session-uuid", is-mark: true , system-prompt: system-prompts.prompts[1], use_history: true, api-model: session-dialog-setting.api-model[0]},
+        { name: "会话-1", uuid: "session-uuid-1", is-mark: false , system-prompt: system-prompts.prompts[1], use_history: false, api-model: session-dialog-setting.api-model[0]},
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
 
@@ -66,6 +73,7 @@ export global Store  {
     in-out property<SessionDialogSetting> session-dialog-setting: {
         is-show: false,
         handle-type: "",
+        api-model: ["ChatGPT(chat-3.5-turbo)"],
     };
 
     in-out property<OkCancelDialogSetting> ok-cancel-dialog-setting: {

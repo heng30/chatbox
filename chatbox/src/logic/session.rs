@@ -14,6 +14,7 @@ pub fn init(ui: &AppWindow) {
     let ui_save_edit_handle = ui.as_weak();
     let ui_reset_handle = ui.as_weak();
     let ui_mark_handle = ui.as_weak();
+    let ui_switch_handle = ui.as_weak();
 
     ui.global::<Logic>().on_handle_new_session(move |config| {
         let ui = ui_handle.unwrap();
@@ -23,6 +24,8 @@ pub fn init(ui: &AppWindow) {
         sessions.push(ChatSession {
             name: config.name,
             system_prompt: config.system_prompt,
+            use_history: config.use_history,
+            api_model: config.api_model,
             uuid: Uuid::new_v4().to_string().into(),
             ..Default::default()
         });
@@ -104,6 +107,8 @@ pub fn init(ui: &AppWindow) {
 
         ui.set_session_name(sessions[0].name.clone());
         ui.set_session_system_prompt(sessions[0].system_prompt.clone());
+        ui.set_session_api_model(sessions[0].api_model.clone());
+        ui.set_session_use_history(sessions[0].use_history);
     });
 
     ui.global::<Logic>()
@@ -120,6 +125,8 @@ pub fn init(ui: &AppWindow) {
                         ChatSession {
                             name: config.name.clone(),
                             system_prompt: config.system_prompt.clone(),
+                            api_model: config.api_model.clone(),
+                            use_history: config.use_history,
                             ..x
                         }
                     }
@@ -130,23 +137,53 @@ pub fn init(ui: &AppWindow) {
             ui.global::<Store>()
                 .set_chat_sessions(sessions_model.into());
         });
+
+    ui.global::<Logic>()
+        .on_switch_session(move |old_uuid, new_uuid| {
+            let ui = ui_switch_handle.unwrap();
+            let chat_items = ui.global::<Store>().get_session_datas();
+
+            let sessions: Vec<ChatSession> = ui
+                .global::<Store>()
+                .get_chat_sessions()
+                .iter()
+                .map(|x| {
+                    if x.uuid != old_uuid {
+                        x
+                    } else {
+                        ChatSession {
+                            chat_items: chat_items.clone(),
+                            ..x
+                        }
+                    }
+                })
+                .collect();
+
+            let sessions_model = Rc::new(VecModel::from(sessions));
+            ui.global::<Store>()
+                .set_chat_sessions(sessions_model.into());
+
+            for session in ui.global::<Store>().get_chat_sessions().iter() {
+                if session.uuid == new_uuid {
+                    ui.global::<Store>().set_session_datas(session.chat_items.clone());
+                }
+            }
+        });
 }
 
-pub fn current_session_system_prompt(ui: Weak<AppWindow>) -> String {
+pub fn current_session_config(ui: Weak<AppWindow>) -> (String, String, bool) {
     let ui = ui.unwrap();
     let uuid = ui.global::<Store>().get_current_session_uuid();
 
-    let sessions: Vec<ChatSession> = ui
-        .global::<Store>()
-        .get_chat_sessions()
-        .iter()
-        .filter(|x| x.uuid == uuid)
-        .collect();
-
-    debug!("{:?}", sessions);
-    if sessions.is_empty() {
-        String::default()
-    } else {
-        sessions[0].system_prompt.clone().into()
+    for session in ui.global::<Store>().get_chat_sessions().iter() {
+        if session.uuid == uuid {
+            debug!("{:?}", session);
+            return (
+                session.system_prompt.into(),
+                session.api_model.into(),
+                session.use_history,
+            );
+        }
     }
+    unreachable!("current session is not exist!");
 }

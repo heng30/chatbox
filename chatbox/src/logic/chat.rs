@@ -40,21 +40,34 @@ async fn send_text(
     mut chats: HistoryChat,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let item = chats.items.pop().unwrap();
-    let system_prompt = session::current_session_system_prompt(ui_box.borrow().as_weak());
     let question = item.utext;
 
-    let openai_chat = openai::OpenAIChat::make(system_prompt, question, chats);
+    let (system_prompt, api_model, use_history) = session::current_session_config(ui_box.borrow().as_weak());
 
-    debug!("{:?}", openai_chat);
+    if api_model.contains("chat-3.5-turbo") {
+        let openai_chat = openai::OpenAIChat::make(
+            system_prompt,
+            question,
+            if use_history {
+                chats
+            } else {
+                HistoryChat::default()
+            },
+        );
 
-    openai::generate_text(openai_chat, item.uuid, move |sitem| {
-        if let Err(e) = slint::invoke_from_event_loop(move || {
-            stream_text(ui_box, sitem);
-        }) {
-            warn!("{:?}", e);
-        }
-    })
-    .await
+        debug!("{:?}", openai_chat);
+
+        return openai::generate_text(openai_chat, item.uuid, move |sitem| {
+            if let Err(e) = slint::invoke_from_event_loop(move || {
+                stream_text(ui_box, sitem);
+            }) {
+                warn!("{:?}", e);
+            }
+        })
+        .await;
+    }
+
+    unreachable!("should not run in here");
 }
 
 fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {

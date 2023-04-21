@@ -1,4 +1,4 @@
-import { LineEdit, TextEdit, ComboBox } from "std-widgets.slint";
+import { CheckBox, LineEdit, TextEdit, ComboBox } from "std-widgets.slint";
 import { CDialog } from "../../base/cdialog.slint";
 import { Store, SessionConfig } from "../../store.slint";
 import { Logic} from "../../logic.slint";
@@ -11,19 +11,24 @@ export component SessionDialog inherits CDialog {
     width: 700px;
     height: 400px;
 
+    property<length> text-width: 100px;
+
     in-out property name <=> line-edit-name.text;
     in-out property system-prompt <=> text-edit-prompt.text;
+    in-out property api-model <=> api-model-combobox.current-value;
+    in-out property use-history <=> use-history-checkbox.checked;
 
     rect := Rectangle {
         height: root.height;
         background: lightgray.brighter(10%);
         VerticalLayout {
             padding: Theme.padding;
+            spacing: Theme.spacing * 2;
+
             HorizontalLayout {
-                spacing: Theme.spacing;
-                padding-bottom: Theme.padding * 4;
                 txt-name := Text {
-                    text: "名称: ";
+                    width: root.text-width;
+                    text: "名      称: ";
                 }
 
                 line-edit-name := LineEdit {
@@ -33,12 +38,33 @@ export component SessionDialog inherits CDialog {
                 }
             }
 
+            HorizontalLayout {
+                HorizontalLayout {
+                    Text {
+                        width: root.text-width;
+                        text: "API 模式: ";
+                    }
+                    api-model-combobox := ComboBox {
+                        horizontal-stretch: 1;
+                        model: Store.session-dialog-setting.api-model;
+                        current-value: Store.session-dialog-setting.api-model[0];
+                    }
+                }
+
+                HorizontalLayout {
+                    alignment: end;
+                    use-history-checkbox := CheckBox {
+text: self.checked ? "已启用历史会话模式" : "未启用历史会话模式" ;
+                    }
+                }
+            }
+
             VerticalLayout {
                 spacing: Theme.spacing;
 
                 HorizontalLayout {
-                    spacing: Theme.spacing;
                     prompt-name := Text {
+                        width: root.text-width;
                         text: "系统提示: ";
                         horizontal-stretch: 0;
                     }
@@ -63,13 +89,17 @@ export component SessionDialog inherits CDialog {
         if (Store.session-dialog-setting.handle-type == "session-add") {
             Logic.handle-new-session({
                 name: root.name,
-                system-prompt: root.system-prompt
+                system-prompt: root.system-prompt,
+                api-model: root.api-model,
+                use-history: root.use-history
             });
         } else if (Store.session-dialog-setting.handle-type == "session-edit") {
 
             Logic.save-edit-session(Store.current-session-uuid, {
                 name: root.name,
-                system-prompt: root.system-prompt
+                system-prompt: root.system-prompt,
+                api-model: root.api-model,
+                use-history: root.use-history
             });
         }
 
