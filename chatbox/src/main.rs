@@ -16,8 +16,9 @@ mod logic;
 mod openai;
 mod util;
 mod config;
+mod db;
 
-use logic::{chat, clipboard, message, session, ok_cancel_dialog };
+use logic::{chat, clipboard, message, session, ok_cancel_dialog, window };
 
 pub type CResult = Result<(), Box<dyn std::error::Error>>;
 
@@ -27,12 +28,14 @@ async fn main() -> CResult {
     debug!("{}", "start...");
 
     config::init();
+    db::init();
 
     let ui = AppWindow::new().unwrap();
     clipboard::init(&ui);
     message::init(&ui);
     session::init(&ui);
     chat::init(&ui);
+    window::init(&ui);
 
     ok_cancel_dialog::init(&ui);
     ui.run().unwrap();

@@ -1,11 +1,52 @@
+use crate::db;
 use crate::slint_generatedAppWindow::{AppWindow, ChatSession, Logic, Store};
 #[allow(unused)]
 use log::debug;
 use slint::{ComponentHandle, Model, ModelRc, VecModel, Weak};
 use std::rc::Rc;
 use uuid::Uuid;
+use log::warn;
 
 const DEFAULT_SESSION_UUID: &str = "default-session-uuid";
+
+fn init_db_default_session(ui: &AppWindow) {
+    for session in ui.global::<Store>().get_chat_sessions().iter() {
+        let uuid = session.uuid.to_string();
+
+        match db::session::is_exist(&uuid) {
+            Ok(exist) => {
+                if exist {
+                    continue;
+                }
+            }
+            Err(e) => warn!("{:?}", e),
+        }
+
+        let config_json = match serde_json::to_string(&db::data::SessionConfig::from(&session)) {
+            Ok(config) => config,
+            Err(e) => {
+                ui.global::<Logic>().invoke_show_message(
+                    slint::format!("设置默认会话库失败！原因: {:?}", e),
+                    "warning".into(),
+                );
+                return;
+            }
+        };
+
+        if let Err(e) = db::session::insert(uuid, config_json, "".to_string()) {
+            ui.global::<Logic>().invoke_show_message(
+                slint::format!("保存默认会话到数据库失败！原因: {:?}", e),
+                "warning".into(),
+            );
+            return;
+        }
+    }
+}
+
+// TODO
+fn init_session(ui: &AppWindow) {
+
+}
 
 pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
@@ -15,24 +56,50 @@ pub fn init(ui: &AppWindow) {
     let ui_reset_handle = ui.as_weak();
     let ui_mark_handle = ui.as_weak();
     let ui_switch_handle = ui.as_weak();
+    let ui_copy_handle = ui.as_weak();
+
+    init_db_default_session(ui);
+    init_session(ui);
 
     ui.global::<Logic>().on_handle_new_session(move |config| {
         let ui = ui_handle.unwrap();
         let mut sessions: Vec<ChatSession> =
             ui.global::<Store>().get_chat_sessions().iter().collect();
 
-        sessions.push(ChatSession {
+        let cs = ChatSession {
             name: config.name,
             system_prompt: config.system_prompt,
             use_history: config.use_history,
             api_model: config.api_model,
             uuid: Uuid::new_v4().to_string().into(),
             ..Default::default()
-        });
+        };
 
+        let config_json = match serde_json::to_string(&db::data::SessionConfig::from(&cs)) {
+            Ok(config) => config,
+            Err(e) => {
+                ui.global::<Logic>().invoke_show_message(
+                    slint::format!("保存到数据库失败！原因: {:?}", e),
+                    "warning".into(),
+                );
+                return;
+            }
+        };
+
+        if let Err(e) = db::session::insert(cs.uuid.to_string(), config_json, "".to_string()) {
+            ui.global::<Logic>().invoke_show_message(
+                slint::format!("保存到数据库失败！原因: {:?}", e),
+                "warning".into(),
+            );
+            return;
+        }
+
+        sessions.push(cs);
         let sessions_model = Rc::new(VecModel::from(sessions));
         ui.global::<Store>()
             .set_chat_sessions(sessions_model.into());
+        ui.global::<Logic>()
+            .invoke_show_message("新建成功！".into(), "success".into());
     });
 
     ui.global::<Logic>().on_delete_session(move |uuid| {
@@ -165,10 +232,21 @@ pub fn init(ui: &AppWindow) {
 
             for session in ui.global::<Store>().get_chat_sessions().iter() {
                 if session.uuid == new_uuid {
-                    ui.global::<Store>().set_session_datas(session.chat_items.clone());
+                    ui.global::<Store>()
+                        .set_session_datas(session.chat_items.clone());
                 }
             }
         });
+
+    ui.global::<Logic>().on_copy_session_chats(move |_uuid| {
+        let ui = ui_copy_handle.unwrap();
+        let mut chats = slint::SharedString::default();
+        for item in ui.global::<Store>().get_session_datas().iter() {
+            chats += &slint::format!("user:\n{}\n\nbot\n{}\n\n", item.utext, item.btext);
+        }
+
+        ui.global::<Logic>().invoke_copy_to_clipboard(chats);
+    });
 }
 
 pub fn current_session_config(ui: Weak<AppWindow>) -> (String, String, bool) {

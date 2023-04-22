@@ -51,8 +51,10 @@ export struct SystemPrompts {
 }
 
 export global Store  {
+    in-out property<bool> is-tab-pressed: false;
+
     in-out property<[ChatItem]> session-datas: [
-        /* { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1", is-mark: false}, */
+        { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1", is-mark: false},
         /* { utext: "This is not rust code.",  btext: "function main(){}", etext:"", uuid: "2", is-mark: true}, */
     ];
 
@@ -67,7 +69,6 @@ export global Store  {
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
 
-    in-out property<string> input-text;
     in-out property<MessageItem> message;
 
     in-out property<SessionDialogSetting> session-dialog-setting: {

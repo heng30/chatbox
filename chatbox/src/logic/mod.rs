@@ -1,5 +1,6 @@
 mod data;
 
+pub mod window;
 pub mod chat;
 pub mod clipboard;
 pub mod message;

@@ -9,6 +9,7 @@ import { Message } from "./base/message.slint";
 import { Store } from "./store.slint";
 import { SessionDialog } from "./dialog/session/dialog.slint";
 import { OkCancelDialog } from "./dialog/ok-cancel.slint";
+import { IconBtn } from "./base/icon-btn.slint";
 
 export component AppWindow inherits Window {
     default-font-size: Theme.default-font-size;
@@ -23,12 +24,56 @@ export component AppWindow inherits Window {
     in-out property session-api-model <=> session-dialog.api-model;
     in-out property session-use-history <=> session-dialog.use-history;
 
+    in-out property question <=> rpanel.question;
+
     HorizontalLayout {
         padding: Theme.padding;
         spacing: Theme.spacing;
 
         LPanel {}
-        RPanel {}
+        rpanel := RPanel {}
+    }
+
+    FocusScope {
+        key-pressed(event) => {
+            debug(event.text);
+            if (event.modifiers.control) {
+                debug("control was pressed during this event");
+            }
+
+            if (event.modifiers.shift) {
+                debug("shift was pressed during this event");
+            }
+
+            if (event.text == Key.Tab) {
+                debug("Tab was pressed during this event");
+            }
+
+            if (event.text == Key.Return) {
+                if (root.question != "") {
+                    Logic.send-input-text(root.question);
+                    root.question = "";
+                }
+            }
+
+            if (event.text == Key.Escape) {
+                debug("Esc key was pressed");
+                Logic.hide-window();
+            }
+            accept
+        }
+    }
+
+    IconBtn {
+        icon: @image-url("./images/copy.svg");
+        x: parent.width - self.width - Theme.padding * 8;
+        y: Theme.padding * 2;
+        bg-color: Colors.gray.darker(80%);
+
+        clicked => {
+            Logic.copy-session-chats(Store.current-session-uuid);
+            Logic.show-message("复制会话成功！", "success");
+        }
     }
 
     if session-dialog.visible || oc-dialog.visible : Rectangle {

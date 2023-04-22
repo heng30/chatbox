@@ -5,8 +5,9 @@ import { Footer } from "./footer.slint";
 
 export component RPanel inherits VerticalLayout {
     spacing: Theme.spacing;
+    in-out property question <=> footer.question;
 
     Body {}
-    Footer {}
+    footer := Footer {}
 }
 

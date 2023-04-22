@@ -24,6 +24,17 @@ pub fn socks5() -> data::Socks5 {
     CONFIG.lock().unwrap().borrow_mut().socks5.clone()
 }
 
+pub fn path() -> (String, String, String) {
+    let conf = CONFIG.lock().unwrap();
+    let conf = conf.borrow();
+
+    (
+        conf.working_dir.clone(),
+        conf.config_path.clone(),
+        conf.db_path.clone(),
+    )
+}
+
 impl Config {
     pub fn init(&mut self) -> CResult {
         let app_dirs = AppDirs::new(Some("chatbox"), true).unwrap();

@@ -7,10 +7,11 @@ import { Btn } from "../base/btn.slint";
 export component Footer inherits VerticalLayout {
     spacing: Theme.spacing;
     height: Theme.bottom-panel-height;
-    in-out property<length> btn-height: 50px;
+    in-out property<length> btn-height: 40px;
+    in-out property question <=> te.text;
 
     te := TextEdit {
-        edited(text) => {}
+        edited(text) => { }
     }
 
     HorizontalLayout {
