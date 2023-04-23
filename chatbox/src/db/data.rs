@@ -3,24 +3,24 @@ use std::fmt::Debug;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SessionConfig {
-    name: String,
-    system_prompt: String,
-    api_model: String,
-    use_history: bool,
-    is_mark: bool,
+    pub name: String,
+    pub system_prompt: String,
+    pub api_model: String,
+    pub use_history: bool,
+    pub is_mark: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SessionChat {
-    uuid: String,
-    utext: String,
-    btext: String,
-    is_mark: bool,
+    pub uuid: String,
+    pub utext: String,
+    pub btext: String,
+    pub is_mark: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SessionChats {
-    chats: Vec<SessionChat>,
+    pub chats: Vec<SessionChat>,
 }
 
 impl From<&ChatSession> for SessionConfig {

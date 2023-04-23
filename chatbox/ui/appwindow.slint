@@ -36,19 +36,6 @@ export component AppWindow inherits Window {
 
     FocusScope {
         key-pressed(event) => {
-            debug(event.text);
-            if (event.modifiers.control) {
-                debug("control was pressed during this event");
-            }
-
-            if (event.modifiers.shift) {
-                debug("shift was pressed during this event");
-            }
-
-            if (event.text == Key.Tab) {
-                debug("Tab was pressed during this event");
-            }
-
             if (event.text == Key.Return) {
                 if (root.question != "") {
                     Logic.send-input-text(root.question);
@@ -57,7 +44,6 @@ export component AppWindow inherits Window {
             }
 
             if (event.text == Key.Escape) {
-                debug("Esc key was pressed");
                 Logic.hide-window();
             }
             accept

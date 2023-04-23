@@ -28,7 +28,9 @@ export component LPanel inherits VerticalLayout {
             height: Theme.header-height;
             bg-color: Theme.success-color;
             icon: @image-url("../images/save.svg");
-            clicked => { }
+            clicked => {
+                Logic.save-session-chats(Store.current-session-uuid);
+            }
         }
         Btn {
             text: "编辑";
@@ -91,11 +93,6 @@ export component LPanel inherits VerticalLayout {
                                 colorize: data.is-mark ? Theme.mark-color : Theme.unmark-color;
                                 clicked => {
                                     Logic.toggle-mark-session(data.uuid);
-                                    if (data.is-mark) {
-                                        Logic.show-message("取消收藏成功！", "success");
-                                    } else {
-                                        Logic.show-message("收藏成功！", "success");
-                                    }
                                 }
                             }
                         }

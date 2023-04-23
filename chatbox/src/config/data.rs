@@ -65,7 +65,7 @@ impl Default for OpenAiChat {
         Self {
             url: "https://api.openai.com/v1/chat/completions".to_string(),
             model: "gpt-3.5-turbo".to_string(),
-            max_tokens: 2048,
+            max_tokens: 1024,
             temperature: 0.8,
             frequency_penalty: 0.5,
             presence_penalty: 0.0,

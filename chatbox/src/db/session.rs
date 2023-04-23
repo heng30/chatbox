@@ -1,6 +1,5 @@
 use crate::config;
 use rusqlite::{Connection, Result};
-use log::debug;
 
 fn connection() -> Result<Connection> {
     let (_, _, db_path) = config::path();
@@ -62,6 +61,7 @@ pub fn update(uuid: String, config: Option<String>, chats: Option<String>) -> Re
     Ok(())
 }
 
+#[allow(dead_code)]
 pub fn select(uuid: String) -> Result<Option<(String, String)>> {
     let conn = connection()?;
 
@@ -79,8 +79,27 @@ pub fn select(uuid: String) -> Result<Option<(String, String)>> {
     Ok(None)
 }
 
+pub fn select_all() -> Result<Vec<(String, String, String)>> {
+    let conn = connection()?;
+
+    let mut stmt = conn.prepare("SELECT uuid, config, chats FROM sessions")?;
+    let rows = stmt.query_map([], |row| {
+        Ok((
+            row.get::<_, String>(0)?,
+            row.get::<_, String>(1)?,
+            row.get::<_, String>(2)?,
+        ))
+    })?;
+
+    Ok(rows.flatten().collect())
+}
+
 pub fn is_exist(uuid: &str) -> Result<bool> {
     let conn = connection()?;
-    let cnt =  conn.query_row::<i64, _, _>(&format!("SELECT 1 FROM sessions WHERE uuid='{}'", uuid), [], |r| r.get(0))?;
+    let cnt = conn.query_row::<i64, _, _>(
+        &format!("SELECT 1 FROM sessions WHERE uuid='{}'", uuid),
+        [],
+        |r| r.get(0),
+    )?;
     Ok(cnt == 1)
 }
