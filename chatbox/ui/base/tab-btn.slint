@@ -1,17 +1,16 @@
 import { Theme } from "../theme.slint";
 
-export component Btn inherits Rectangle {
+export component TabBtn inherits Rectangle {
     in-out property<string> text <=> txt.text;
     in-out property icon <=> img.source;
 
-    in-out property<color> bg-color: Theme.brand-color;
-    in-out property<color> bg-hover-color: bg-color.darker(30%);
-    in-out property<color> bg-pressed-color: bg-color.darker(50%);
-    in-out property<color> text-color: Colors.white;
+    in-out property<bool> checked: false;
+    in-out property<color> text-color: Theme.brand-color;
+    in-out property<color> text-hover-color: text-color.darker(30%);
+    in-out property<color> text-checked-color: text-color.darker(100%);
 
     callback clicked <=> touch.clicked;
 
-    background: touch.pressed ? bg-pressed-color : touch.has-hover ? bg-hover-color : bg-color;
     height: txt.preferred-height * 1.33;
     min-width: txt.preferred-width + 20px;
 
@@ -19,14 +18,15 @@ export component Btn inherits Rectangle {
         img := Image {
             width: root.icon.width > 0 ? txt.height - Theme.padding : 0;
             x: txt.x - Theme.icon-size - Theme.spacing * 2;
-            colorize: root.text-color;
+            colorize: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
         }
 
         txt := Text {
             x: (parent.width - self.width) / 2 + img.width / 2 + (root.icon.width > 0 ? Theme.spacing * 2 : 0);
-            color: root.text-color;
-            font-size: Theme.default-font-size;
+            color: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
+           font-size: Theme.default-font-size;
         }
     }
+
     touch := TouchArea { }
 }

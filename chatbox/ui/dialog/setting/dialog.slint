@@ -1,0 +1,108 @@
+import { Theme } from "../../theme.slint";
+import { Btn } from "../../base/btn.slint";
+import { TabBtn } from "../../base/tab-btn.slint";
+import { UI } from "./ui.slint";
+import { Chat } from "./chat.slint";
+import { Proxy } from "./proxy.slint";
+
+export component SettingDialog inherits Rectangle {
+    in-out property<length> body-width: 680px;
+    in-out property<length> body-height: 450px;
+    in-out property<color> title-bg: Theme.brand-color;
+
+    property<string> current-checked-item: "ui";
+
+    callback cancel-clicked();
+    callback ok-clicked();
+
+    visible: true;
+    width: self.visible ? root.body-width : 0;
+    height: self.visible ? root.body-height : 0;
+    background: Theme.base-background-color;
+
+    VerticalLayout {
+        Rectangle {
+            height: txt.preferred-height * 1.33;
+            background: root.title-bg;
+            txt := Text {
+                text: "设置";
+                color: Colors.white;
+                font-size: Theme.default-font-size + 1px;
+            }
+        }
+
+        Rectangle {
+            background: Theme.dialog-background;
+
+            VerticalLayout {
+                spacing: Theme.spacing * 2;
+                padding: Theme.padding;
+
+                HorizontalLayout {
+                    alignment: space-around;
+                    height: Theme.default-font-size + Theme.padding * 2;
+
+                    TabBtn {
+                        text: "界面";
+                        icon: @image-url("../../images/setting-fill.svg");
+                        checked: current-checked-item == "ui";
+                        clicked => {
+                            current-checked-item = "ui";
+                        }
+                    }
+
+                    TabBtn {
+                        text: "会话";
+                        icon: @image-url("../../images/chat.svg");
+                        checked: current-checked-item == "chat";
+                        clicked => {
+                            current-checked-item = "chat";
+                        }
+                    }
+
+                    TabBtn {
+                        text: "代理";
+                        icon: @image-url("../../images/proxy.svg");
+                        checked: current-checked-item == "proxy";
+                        clicked => {
+                            current-checked-item = "proxy";
+                        }
+                    }
+
+                }
+
+                HorizontalLayout {
+                    alignment: center;
+                    Rectangle {
+                        width: 95%;
+                        height: 2px;
+                        background: Theme.brand-color;
+                    }
+                }
+
+                Rectangle {
+                    background: red;
+                    if current-checked-item == "ui": UI { }
+                    if current-checked-item == "chat": Chat {}
+                    if current-checked-item == "proxy": Proxy {}
+                }
+            }
+        }
+
+        HorizontalLayout {
+            spacing: Theme.spacing;
+            Btn {
+                text: "取消";
+                bg-color: Theme.danger-color;
+                border-width: 0;
+                clicked => { root.cancel-clicked(); }
+            }
+
+            Btn {
+                text: "确定";
+                border-width: 0;
+                clicked => { root.ok-clicked(); }
+            }
+        }
+    }
+}

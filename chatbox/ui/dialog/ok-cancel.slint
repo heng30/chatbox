@@ -2,6 +2,7 @@ import { CDialog } from "../base/cdialog.slint";
 import { Store } from "../store.slint";
 import { Util } from "../util.slint";
 import { Logic } from "../logic.slint";
+import { Theme } from "../theme.slint";
 
 export component OkCancelDialog inherits CDialog {
     visible: Store.ok-cancel-dialog-setting.body-text != "";
@@ -12,7 +13,7 @@ export component OkCancelDialog inherits CDialog {
     background: rect.background;
 
     rect := Rectangle {
-        background: lightgray.brighter(10%);
+        background: Theme.dialog-background;
         Text {
             text: Store.ok-cancel-dialog-setting.body-text;
             wrap: word-wrap;
