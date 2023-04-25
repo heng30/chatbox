@@ -1,4 +1,4 @@
-import { SessionConfig } from "./store.slint";
+import { SessionConfig, SettingDialogConfig } from "./store.slint";
 
 export global Logic {
     callback hide-window();
@@ -24,4 +24,5 @@ export global Logic {
     callback handle-ok-cancel-dialog(string, string);
 
     callback setting-cancel();
+    callback setting-ok(SettingDialogConfig);
 }

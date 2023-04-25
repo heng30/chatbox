@@ -32,7 +32,7 @@ impl Default for UI {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Socks5 {
-    pub enable: bool,
+    pub enabled: bool,
     pub url: String,
     pub port: u16,
 }
@@ -40,7 +40,7 @@ pub struct Socks5 {
 impl Default for Socks5 {
     fn default() -> Self {
         Self {
-            enable: false,
+            enabled: false,
             url: "127.0.0.1".to_string(),
             port: 1080,
         }

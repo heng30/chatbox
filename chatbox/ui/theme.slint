@@ -11,7 +11,7 @@ export global Theme  {
     out property<length> border-radius: 8px;
     out property<color> dialog-background: lightgray.brighter(15%);
 
-    in-out property<length> default-font-size: Store.setting-dialog-config.ui.default-font-size;
+    in-out property<length> default-font-size: Store.setting-dialog-config.ui.font-size.to-float() * 1px;
 
     out property<length> icon-size: 24px;
 

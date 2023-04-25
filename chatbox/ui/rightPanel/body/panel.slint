@@ -5,9 +5,7 @@ import { Logic } from "../../logic.slint";
 import { UItem } from "./uitem.slint";
 import { BItem } from "./bitem.slint";
 
-export component Body inherits  ListView {
-    padding: Theme.padding;
-
+export component Body inherits ListView {
     function new-chat-text(utext: string, btext: string) -> string {
         return utext + "\n\n" + btext;
     }

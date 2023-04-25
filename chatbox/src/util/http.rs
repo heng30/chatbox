@@ -3,7 +3,7 @@ use reqwest::{Client, Proxy, Result};
 
 pub fn client() -> Result<Client> {
     let conf = config::socks5();
-    Ok(if conf.enable {
+    Ok(if conf.enabled {
         let proxy = Proxy::all(format!("socks5://{}:{}", conf.url, conf.port))?;
         Client::builder().proxy(proxy).build()?
     } else {

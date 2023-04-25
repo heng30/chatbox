@@ -10,10 +10,10 @@ import { StandardButton, Button } from "std-widgets.slint";
 
 export component LPanel inherits VerticalLayout {
     width: Theme.left-panel-width;
+    padding-bottom: Theme.padding;
 
     HorizontalLayout {
         spacing: Theme.spacing;
-        padding-bottom: Theme.padding;
         Btn {
             text: "新建";
             height: Theme.header-height;

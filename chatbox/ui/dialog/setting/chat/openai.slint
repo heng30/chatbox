@@ -7,6 +7,12 @@ export component OpenAI inherits Rectangle {
     height: 100%;
     property<length> label-width: Theme.default-label-width * 2;
 
+    in-out property api-key <=> api-lineedit.text;
+    in-out property url <=> url-lineedit.text;
+    in-out property max-tokens <=> tokens-slider.value;
+    in-out property temperature <=> temp-slider.value;
+    in-out property frequency-penalty <=> frequency-slider.value;
+    in-out property presence-penalty <=> presence-slider.value;
 
     VerticalLayout {
         width: 100%;
@@ -18,10 +24,9 @@ export component OpenAI inherits Rectangle {
                 text: "API KEY:";
             }
 
-            LineEdit {
+            api-lineedit := LineEdit {
                 height: api-txt.preferred-height + Theme.padding;
                 placeholder-text: "请输入API KEY";
-                text: Store.setting-dialog-config.chat.openai.api-key;
             }
         }
 
@@ -31,10 +36,9 @@ export component OpenAI inherits Rectangle {
                 text: "API URL:";
             }
 
-            LineEdit {
+            url-lineedit := LineEdit {
                 height: url-txt.preferred-height + Theme.padding;
                 placeholder-text: "请输入API URL";
-                text: Store.setting-dialog-config.chat.openai.chat.url;
             }
         }
 
@@ -45,8 +49,6 @@ export component OpenAI inherits Rectangle {
             }
 
             tokens-slider := Slider {
-                value: Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens, self.minimum);
-
                 minimum: 128;
                 maximum: 3968;
             }
@@ -69,8 +71,6 @@ export component OpenAI inherits Rectangle {
             }
 
             temp-slider := Slider {
-                value: Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, self.minimum);
-
                 minimum: 0;
                 maximum: 200;
             }
@@ -93,8 +93,6 @@ export component OpenAI inherits Rectangle {
             }
 
             frequency-slider := Slider {
-                value: Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, self.minimum);
-
                 minimum: -200;
                 maximum: 200;
             }
@@ -117,8 +115,6 @@ export component OpenAI inherits Rectangle {
             }
 
             presence-slider := Slider {
-                value: Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, self.minimum);
-
                 minimum: -200;
                 maximum: 200;
             }

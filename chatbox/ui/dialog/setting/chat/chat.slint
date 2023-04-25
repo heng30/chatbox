@@ -6,7 +6,15 @@ import { OpenAI } from "./openai.slint";
 export component Chat inherits Rectangle {
     width: 100%;
     height: 100%;
-    property current-api-type <=> type-combox.current-index;
+
+    in-out property current-api-type <=> type-combox.current-index;
+    in-out property openai-api-key <=> openai.api-key;
+    in-out property openai-model <=> type-combox.current-value;
+    in-out property openai-url <=> openai.url;
+    in-out property openai-max-tokens <=> openai.max-tokens;
+    in-out property openai-temperature <=> openai.temperature;
+    in-out property openai-frequency-penalty <=> openai.frequency-penalty;
+    in-out property openai-presence-penalty <=> openai.presence-penalty;
 
     VerticalLayout {
         width: 100%;
@@ -27,8 +35,9 @@ export component Chat inherits Rectangle {
         }
 
         Rectangle {
-            if current-api-type == 0 : OpenAI {}
+            openai := OpenAI {
+                visible: current-api-type == 0;
+            }
         }
-
     }
 }

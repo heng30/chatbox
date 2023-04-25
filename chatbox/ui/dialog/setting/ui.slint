@@ -7,10 +7,6 @@ export component UI inherits Rectangle {
 
     in-out property font-size <=> font-size-spin-box.value;
 
-    public function set-font-size(size: float) {
-        font-size-spin-box.value = size;
-    }
-
     VerticalLayout {
         width: 100%;
         spacing: Theme.spacing;
@@ -18,13 +14,14 @@ export component UI inherits Rectangle {
             width: Theme.default-label-width;
             HorizontalLayout {
                 width: 50%;
-                Text {
+                font-size-txt := Text {
                     width: 100px;
                     text: "字体大小:";
                 }
 
                 font-size-spin-box := SpinBox {
                     width: 30%;
+                    height: font-size-txt.preferred-height;
                     minimum: 15;
                     maximum: 50;
                 }

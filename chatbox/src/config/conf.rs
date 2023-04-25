@@ -43,8 +43,11 @@ pub fn config() -> data::Config {
     CONFIG.lock().unwrap().borrow().clone()
 }
 
-pub fn set(config: data::Config) {
-    *CONFIG.lock().unwrap().borrow_mut() = config;
+pub fn save(conf: data::Config) -> CResult {
+    let config = CONFIG.lock().unwrap();
+    let mut config = config.borrow_mut();
+    *config = conf;
+    config.save()
 }
 
 impl Config {
@@ -103,7 +106,6 @@ impl Config {
         }
     }
 
-    #[allow(dead_code)]
     pub fn save(&self) -> CResult {
         match serde_json::to_string_pretty(self) {
             Ok(text) => Ok(fs::write(&self.config_path, text)?),

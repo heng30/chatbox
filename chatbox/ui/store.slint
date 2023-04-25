@@ -51,19 +51,19 @@ export struct SystemPrompts {
 }
 
 export struct SettingUI {
-    default-font-size: length,
+    font-size: string,
 }
 
 export struct SettingProxy {
-    enable: bool,
+    enabled: bool,
     url: string,
-    port: int,
+    port: string,
 }
 
 export struct SettingChatOpenAIChat {
     url: string,
     model: string,
-    max-tokens: int,
+    max-tokens: string,
     temperature: float,
     frequency-penalty: float,
     presence-penalty: float,
@@ -129,9 +129,9 @@ export global Store  {
     };
 
     in-out property<SettingDialogConfig> setting-dialog-config: {
-        show: true,
+        show: false,
         ui: {
-            default-font-size: 18px,
+            font-size: "18",
         },
     };
 
