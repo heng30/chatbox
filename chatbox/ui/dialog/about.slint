@@ -1,0 +1,83 @@
+import { CDialog } from "../base/cdialog.slint";
+import { Theme } from "../theme.slint";
+import { Logic } from "../logic.slint";
+import { Store } from "../store.slint";
+import { IconBtn } from "../base/icon-btn.slint";
+
+export component AboutDialog inherits CDialog {
+    visible: Store.about-dialog.show;
+
+    title: "关于";
+    title-bg: Theme.brand-color;
+    width: 650px;
+    height: 350px;
+    background: rect.background;
+
+    rect := Rectangle {
+        background: Theme.dialog-background;
+        HorizontalLayout {
+            VerticalLayout {
+                width: 20%;
+                Rectangle {
+                    Image {
+                        source: Store.about-dialog.icon;
+                        width: 50%;
+                        colorize: Theme.brand-color;
+                    }
+                }
+            }
+
+            VerticalLayout {
+                padding: Theme.padding * 2;
+                spacing: Theme.spacing * 4;
+
+                HorizontalLayout {
+                    alignment: center;
+                    height: title-txt.preferred-height;
+                    title-txt := Text {
+                        text: Store.about-dialog.title;
+                        font-size: Theme.default-font-size + 2px;
+                    }
+                }
+
+                Text {
+                    text: Store.about-dialog.text;
+                    wrap: word-wrap;
+                }
+
+                VerticalLayout {
+                    spacing: Theme.spacing;
+                    HorizontalLayout {
+                        alignment: center;
+                        spacing: Theme.spacing * 2;
+                        Text {
+                            text: "Buy Heng30 One Cofe(MateMask)";
+                        }
+
+                        IconBtn {
+                            icon: @image-url("../images/copy.svg");
+                            clicked => {
+                                Logic.copy-to-clipboard(Store.about-dialog.sponsor)
+                            }
+                        }
+                    }
+
+                    HorizontalLayout {
+                        Text {
+                            text: Store.about-dialog.sponsor;
+                            wrap: word-wrap;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ok-clicked => {
+        Store.about-dialog.show = false;
+    }
+
+    cancel-clicked => {
+        Store.about-dialog.show = false;
+    }
+}

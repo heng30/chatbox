@@ -1,0 +1,137 @@
+import { LineEdit, Slider } from "std-widgets.slint";
+import { Theme } from "../../../theme.slint";
+import { Store } from "../../../store.slint";
+
+export component OpenAI inherits Rectangle {
+    width: 100%;
+    height: 100%;
+    property<length> label-width: Theme.default-label-width * 2;
+
+
+    VerticalLayout {
+        width: 100%;
+        spacing: Theme.spacing * 3;
+
+        HorizontalLayout {
+            api-txt := Text {
+                width: label-width;
+                text: "API KEY:";
+            }
+
+            LineEdit {
+                height: api-txt.preferred-height + Theme.padding;
+                placeholder-text: "请输入API KEY";
+                text: Store.setting-dialog-config.chat.openai.api-key;
+            }
+        }
+
+        HorizontalLayout {
+            url-txt := Text {
+                width: label-width;
+                text: "API URL:";
+            }
+
+            LineEdit {
+                height: url-txt.preferred-height + Theme.padding;
+                placeholder-text: "请输入API URL";
+                text: Store.setting-dialog-config.chat.openai.chat.url;
+            }
+        }
+
+        HorizontalLayout {
+            Text {
+                width: label-width;
+                text: "Max Tokens:";
+            }
+
+            tokens-slider := Slider {
+                value: Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens, self.minimum);
+
+                minimum: 128;
+                maximum: 3968;
+            }
+
+            VerticalLayout {
+                alignment: center;
+                padding-left: Theme.padding * 4;
+                width: Theme.default-font-size * 4;
+
+                Text {
+                    text: Math.floor(tokens-slider.value);
+                }
+            }
+        }
+
+        HorizontalLayout {
+            Text {
+                width: label-width;
+                text: "Temperature:";
+            }
+
+            temp-slider := Slider {
+                value: Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, self.minimum);
+
+                minimum: 0;
+                maximum: 200;
+            }
+
+            VerticalLayout {
+                alignment: center;
+                padding-left: Theme.padding * 4;
+                width: Theme.default-font-size * 4;
+
+                Text {
+                    text: temp-slider.value / 100;
+                }
+            }
+        }
+
+        HorizontalLayout {
+            Text {
+                width: label-width;
+                text: "Frequency:";
+            }
+
+            frequency-slider := Slider {
+                value: Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, self.minimum);
+
+                minimum: -200;
+                maximum: 200;
+            }
+
+            VerticalLayout {
+                alignment: center;
+                padding-left: Theme.padding * 4;
+                width: Theme.default-font-size * 4;
+
+                Text {
+                    text: frequency-slider.value / 100;
+                }
+            }
+        }
+
+        HorizontalLayout {
+            Text {
+                width: label-width;
+                text: "Presence:";
+            }
+
+            presence-slider := Slider {
+                value: Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, self.minimum);
+
+                minimum: -200;
+                maximum: 200;
+            }
+
+            VerticalLayout {
+                alignment: center;
+                padding-left: Theme.padding * 4;
+                width: Theme.default-font-size * 4;
+
+                Text {
+                    text: presence-slider.value / 100;
+                }
+            }
+        }
+    }
+}

@@ -50,6 +50,49 @@ export struct SystemPrompts {
     prompts: [string],
 }
 
+export struct SettingUI {
+    default-font-size: length,
+}
+
+export struct SettingProxy {
+    enable: bool,
+    url: string,
+    port: int,
+}
+
+export struct SettingChatOpenAIChat {
+    url: string,
+    model: string,
+    max-tokens: int,
+    temperature: float,
+    frequency-penalty: float,
+    presence-penalty: float,
+}
+
+export struct SettingChatOpenAI {
+    api-key: string,
+    chat: SettingChatOpenAIChat,
+}
+
+export struct SettingChat {
+    openai: SettingChatOpenAI,
+}
+
+export struct SettingDialogConfig {
+    show: bool,
+    ui: SettingUI,
+    proxy: SettingProxy,
+    chat: SettingChat,
+}
+
+export struct AboutDialog {
+    show: bool,
+    icon: image,
+    title: string,
+    text: string,
+    sponsor: string,
+}
+
 export global Store  {
     in-out property<bool> is-tab-pressed: false;
 
@@ -85,5 +128,23 @@ export global Store  {
         handle-uuid: "",
     };
 
+    in-out property<SettingDialogConfig> setting-dialog-config: {
+        show: true,
+        ui: {
+            default-font-size: 18px,
+        },
+    };
+
+    in-out property<AboutDialog> about-dialog: {
+        show: false,
+        title: "ChatBox v1.0.0",
+        text: "Based on Slint-UI. Copyright 2022-2030 The Heng30 Company Ltd. All rights reserved. The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.",
+        sponsor: "0xf1199999751b1a3A74590adBf95401D19AB30014",
+        icon: @image-url("./images/bot.svg"),
+    };
+
+    in-out property<{show: bool}> help-dialog: {
+        show: false,
+    };
 }
 

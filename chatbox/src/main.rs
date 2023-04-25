@@ -12,13 +12,14 @@ use log::debug;
 use std::env;
 use std::io::Write;
 
+mod config;
+mod db;
 mod logic;
 mod openai;
 mod util;
-mod config;
-mod db;
+mod version;
 
-use logic::{chat, clipboard, message, session, ok_cancel_dialog, window };
+use logic::{about, chat, clipboard, message, ok_cancel_dialog, session, window, setting};
 
 pub type CResult = Result<(), Box<dyn std::error::Error>>;
 
@@ -36,6 +37,8 @@ async fn main() -> CResult {
     session::init(&ui);
     chat::init(&ui);
     window::init(&ui);
+    about::init(&ui);
+    setting::init(&ui);
 
     ok_cancel_dialog::init(&ui);
     ui.run().unwrap();

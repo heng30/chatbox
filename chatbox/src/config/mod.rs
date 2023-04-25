@@ -1,6 +1,5 @@
-mod data;
 mod conf;
+mod data;
 
+pub use conf::{init, openai, path, socks5, ui, config, set};
 pub use data::Config;
-pub use conf::{CONFIG, init, openai, socks5, path };
-

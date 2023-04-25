@@ -35,12 +35,14 @@ export component CDialog inherits Rectangle {
                 text: "取消";
                 bg-color: Theme.danger-color;
                 border-width: 0;
+                icon: @image-url("../images/cancel.svg");
                 clicked => { root.cancel-clicked(); }
             }
 
             Btn {
                 text: "确定";
                 border-width: 0;
+                icon: @image-url("../images/success.svg");
                 clicked => { root.ok-clicked(); }
             }
         }

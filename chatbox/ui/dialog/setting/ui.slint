@@ -1,7 +1,34 @@
+import { SpinBox } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
 
 export component UI inherits Rectangle {
     width: 100%;
     height: 100%;
-    background: yellow;
+
+    in-out property font-size <=> font-size-spin-box.value;
+
+    public function set-font-size(size: float) {
+        font-size-spin-box.value = size;
+    }
+
+    VerticalLayout {
+        width: 100%;
+        spacing: Theme.spacing;
+        HorizontalLayout {
+            width: Theme.default-label-width;
+            HorizontalLayout {
+                width: 50%;
+                Text {
+                    width: 100px;
+                    text: "字体大小:";
+                }
+
+                font-size-spin-box := SpinBox {
+                    width: 30%;
+                    minimum: 15;
+                    maximum: 50;
+                }
+            }
+        }
+    }
 }

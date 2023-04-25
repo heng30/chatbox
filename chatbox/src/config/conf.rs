@@ -17,11 +17,15 @@ pub fn init() {
 }
 
 pub fn openai() -> data::OpenAi {
-    CONFIG.lock().unwrap().borrow_mut().openai.clone()
+    CONFIG.lock().unwrap().borrow().openai.clone()
 }
 
 pub fn socks5() -> data::Socks5 {
-    CONFIG.lock().unwrap().borrow_mut().socks5.clone()
+    CONFIG.lock().unwrap().borrow().socks5.clone()
+}
+
+pub fn ui() -> data::UI {
+    CONFIG.lock().unwrap().borrow().ui.clone()
 }
 
 pub fn path() -> (String, String, String) {
@@ -33,6 +37,14 @@ pub fn path() -> (String, String, String) {
         conf.config_path.clone(),
         conf.db_path.clone(),
     )
+}
+
+pub fn config() -> data::Config {
+    CONFIG.lock().unwrap().borrow().clone()
+}
+
+pub fn set(config: data::Config) {
+    *CONFIG.lock().unwrap().borrow_mut() = config;
 }
 
 impl Config {
@@ -78,6 +90,7 @@ impl Config {
                 Ok(c) => {
                     self.openai = c.openai;
                     self.socks5 = c.socks5;
+                    self.ui = c.ui;
                     Ok(())
                 }
                 Err(e) => Err(anyhow::anyhow!("{}", e.to_string()).into()),

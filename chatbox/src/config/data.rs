@@ -9,10 +9,26 @@ pub struct Config {
     #[serde(skip)]
     pub db_path: String,
 
+    pub ui: UI,
+
     pub socks5: Socks5,
 
     pub openai: OpenAi,
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UI {
+    pub font_size: u32,
+}
+
+impl Default for UI {
+    fn default() -> Self {
+        Self {
+            font_size: 18,
+        }
+    }
+}
+
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Socks5 {

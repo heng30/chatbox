@@ -1,5 +1,6 @@
 import { Button, ListView,  TextEdit } from "std-widgets.slint";
 import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
 import { Btn } from "../base/btn.slint";
 
 export component Bottom inherits VerticalLayout {
@@ -14,16 +15,25 @@ export component Bottom inherits VerticalLayout {
             Btn {
                 icon: @image-url("../images/setting-fill.svg");
                 text: "设置";
+                clicked => {
+                    Store.setting-dialog-config.show = true;
+                }
             }
 
             Btn {
                 icon: @image-url("../images/about.svg");
                 text: "关于";
+                clicked => {
+                    Store.about-dialog.show = true;
+                }
             }
 
             Btn {
                 icon: @image-url("../images/help.svg");
                 text: "帮助";
+                clicked => {
+                    Store.help-dialog.show = true;
+                }
             }
         }
     }

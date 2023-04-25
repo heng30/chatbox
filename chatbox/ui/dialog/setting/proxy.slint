@@ -1,7 +1,67 @@
+import { ComboBox, LineEdit, CheckBox } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
+import { Store } from "../../store.slint";
 
 export component Proxy inherits Rectangle {
     width: 100%;
     height: 100%;
-    background: pink;
+
+    VerticalLayout {
+        width: 100%;
+        spacing: Theme.spacing * 3;
+
+        HorizontalLayout {
+            HorizontalLayout {
+                width: 50%;
+                CheckBox {
+                    text: self.checked ? "已启用代理" : "未启用代理";
+                    checked: Store.setting-dialog-config.proxy.enable;
+                }
+            }
+
+            HorizontalLayout {
+                type-txt := Text {
+                    width: Theme.default-label-width;
+                    text: "代理类型:";
+                }
+
+                ComboBox {
+                    height: type-txt.preferred-height;
+                    model: ["Socks5代理"];
+                    current-value: self.model[0];
+                }
+            }
+        }
+
+        HorizontalLayout {
+            HorizontalLayout {
+                width: 50%;
+                padding-right: Theme.padding * 4;
+                url-txt := Text {
+                    width: Theme.default-label-width;
+                    text: "URL/IP:";
+                }
+
+                LineEdit {
+                    height: url-txt.preferred-height + Theme.padding;
+                    placeholder-text: "请输入URL/IP";
+                    text: Store.setting-dialog-config.proxy.url;
+                }
+            }
+
+            HorizontalLayout {
+                port-txt := Text {
+                    width: Theme.default-label-width;
+                    text: "端      口:";
+                }
+
+                LineEdit {
+                    height: url-txt.preferred-height + Theme.padding;
+                    placeholder-text: "请输入端口";
+                    text: Store.setting-dialog-config.proxy.port;
+                }
+            }
+        }
+
+    }
 }

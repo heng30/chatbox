@@ -2,12 +2,12 @@ use super::data;
 use crate::chat;
 use crate::config::openai as openai_config;
 use crate::logic::StreamTextItem;
+use crate::util::http;
 use log::{debug, warn};
 use reqwest::header::HeaderMap;
 use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE};
 use std::time::Duration;
 use tokio_stream::StreamExt;
-use crate::util::http;
 
 fn headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
@@ -39,7 +39,6 @@ pub async fn generate_text(
         presence_penalty: config.chat.presence_penalty,
         stream: true,
     };
-
 
     let mut stream = client
         .post(config.chat.url)

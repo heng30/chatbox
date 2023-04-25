@@ -32,3 +32,5 @@ tokio-stream = "0.1.12"
 
 [build-dependencies]
 slint-build = "1.0.0"
+cmd_lib = "1.3"
+

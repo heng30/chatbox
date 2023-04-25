@@ -1,13 +1,13 @@
 mod data;
 
-pub mod window;
 pub mod chat;
 pub mod clipboard;
 pub mod message;
-pub mod session;
 pub mod ok_cancel_dialog;
+pub mod session;
+pub mod window;
+pub mod about;
+pub mod setting;
 
 pub use data::HistoryChat;
 pub use data::StreamTextItem;
-
-

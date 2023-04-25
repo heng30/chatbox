@@ -42,7 +42,8 @@ async fn send_text(
     let item = chats.items.pop().unwrap();
     let question = item.utext;
 
-    let (system_prompt, api_model, use_history) = session::current_session_config(ui_box.borrow().as_weak());
+    let (system_prompt, api_model, use_history) =
+        session::current_session_config(ui_box.borrow().as_weak());
 
     if api_model.contains("chat-3.5-turbo") {
         let openai_chat = openai::OpenAIChat::make(

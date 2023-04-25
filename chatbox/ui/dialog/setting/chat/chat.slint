@@ -1,0 +1,34 @@
+import { ComboBox } from "std-widgets.slint";
+import { Theme } from "../../../theme.slint";
+import { Store } from "../../../store.slint";
+import { OpenAI } from "./openai.slint";
+
+export component Chat inherits Rectangle {
+    width: 100%;
+    height: 100%;
+    property current-api-type <=> type-combox.current-index;
+
+    VerticalLayout {
+        width: 100%;
+        spacing: Theme.spacing * 3;
+
+        HorizontalLayout {
+            type-txt := Text {
+                width: Theme.default-label-width * 2;
+                text: "API类型:";
+            }
+
+            type-combox := ComboBox {
+                height: type-txt.preferred-height;
+                model: [Store.setting-dialog-config.chat.openai.chat.model];
+                current-value: self.model[0];
+                current-index: 0;
+            }
+        }
+
+        Rectangle {
+            if current-api-type == 0 : OpenAI {}
+        }
+
+    }
+}
