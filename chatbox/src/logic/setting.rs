@@ -21,6 +21,19 @@ pub fn init(ui: &AppWindow) {
             .to_string()
             .parse()
             .unwrap_or(18);
+        config.ui.win_width = setting_config
+            .ui
+            .win_width
+            .to_string()
+            .parse()
+            .unwrap_or(1200);
+        config.ui.win_height = setting_config
+            .ui
+            .win_height
+            .to_string()
+            .parse()
+            .unwrap_or(800);
+
         config.socks5.enabled = setting_config.proxy.enabled;
         config.socks5.url = setting_config.proxy.url.to_string();
         config.socks5.port = setting_config
@@ -41,9 +54,12 @@ pub fn init(ui: &AppWindow) {
             .parse::<f32>()
             .unwrap_or(1024.0) as i32;
 
-        config.openai.chat.temperature = setting_config.chat.openai.chat.temperature.round() / 100.0;
-        config.openai.chat.frequency_penalty = setting_config.chat.openai.chat.frequency_penalty.round() / 100.0;
-        config.openai.chat.presence_penalty = setting_config.chat.openai.chat.presence_penalty.round() / 100.0;
+        config.openai.chat.temperature =
+            setting_config.chat.openai.chat.temperature.round() / 100.0;
+        config.openai.chat.frequency_penalty =
+            setting_config.chat.openai.chat.frequency_penalty.round() / 100.0;
+        config.openai.chat.presence_penalty =
+            setting_config.chat.openai.chat.presence_penalty.round() / 100.0;
 
         match config::save(config) {
             Err(e) => {
@@ -67,6 +83,8 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
 
     let mut setting_dialog = ui.global::<Store>().get_setting_dialog_config();
     setting_dialog.ui.font_size = slint::format!("{}", ui_config.font_size);
+    setting_dialog.ui.win_width = slint::format!("{}", ui_config.win_width);
+    setting_dialog.ui.win_height = slint::format!("{}", ui_config.win_height);
 
     setting_dialog.proxy.enabled = socks5_config.enabled;
     setting_dialog.proxy.url = socks5_config.url.into();

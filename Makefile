@@ -10,9 +10,6 @@ build-debug:
 	SLINT_STYLE=native cargo build
 
 run:
-	SLINT_STYLE=native RUST_LOG=error,warn,info,debug,reqwest=on proxychains cargo run
-
-run-noproxy:
 	SLINT_STYLE=native RUST_LOG=error,warn,info,debug,reqwest=on cargo run
 
 run-local:
@@ -23,6 +20,9 @@ clippy:
 
 clean:
 	cargo clean
+
+install:
+	cp -rf ./target/release/chatbox ~/bin/
 
 slint-view:
 	slint-viewer --style native --auto-reload -I chatbox/ui ./chatbox/ui/appwindow.slint

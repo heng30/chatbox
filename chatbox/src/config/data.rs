@@ -19,12 +19,16 @@ pub struct Config {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UI {
     pub font_size: u32,
+    pub win_width: u32,
+    pub win_height: u32,
 }
 
 impl Default for UI {
     fn default() -> Self {
         Self {
             font_size: 18,
+            win_width: 1200,
+            win_height: 800,
         }
     }
 }

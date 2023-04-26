@@ -4,13 +4,13 @@ export global Theme  {
     out property<length> padding: 4px;
     out property<length> spacing: 4px;
     out property<length> left-panel-width: 400px;
-    out property<length> bottom-panel-height: 200px ;
+    out property<length> bottom-panel-height: 150px ;
     out property<length> header-height: 35px;
-    out property<length> default-width: 1500px;
-    out property<length> default-height: 1000px;
     out property<length> border-radius: 8px;
     out property<color> dialog-background: lightgray.brighter(15%);
 
+    in-out property<length> default-width: Store.setting-dialog-config.ui.win-width.to-float() * 1px;
+    in-out property<length> default-height: Store.setting-dialog-config.ui.win-height.to-float() * 1px;
     in-out property<length> default-font-size: Store.setting-dialog-config.ui.font-size.to-float() * 1px;
 
     out property<length> icon-size: 24px;

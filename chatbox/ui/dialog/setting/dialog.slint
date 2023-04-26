@@ -85,6 +85,8 @@ export component SettingDialog inherits Rectangle {
                     ui-tab := UI {
                         visible: current-checked-item == "ui";
                         font-size: Theme.default-font-size / 1px;
+                        win-width: Theme.default-width / 1px;
+                        win-height: Theme.default-height / 1px;
                     }
 
                     chat-tab := Chat {
@@ -118,6 +120,9 @@ export component SettingDialog inherits Rectangle {
                     Logic.setting-cancel();
 
                     ui-tab.font-size = Theme.default-font-size / 1px;
+                    ui-tab.win-width = Theme.default-width / 1px;
+                    ui-tab.win-height = Theme.default-height / 1px;
+
                     proxy-tab.proxy-enabled = Store.setting-dialog-config.proxy.enabled;
                     proxy-tab.proxy-url = Store.setting-dialog-config.proxy.url;
                     proxy-tab.proxy-port = Store.setting-dialog-config.proxy.port;
@@ -140,7 +145,9 @@ export component SettingDialog inherits Rectangle {
                 clicked => {
                     Logic.setting-ok({
                         ui: {
-                            font-size: ui-tab.font-size
+                            font-size: ui-tab.font-size,
+                            win-width: ui-tab.win-width,
+                            win-height: ui-tab.win-height
                         },
                         proxy: {
                             enabled: proxy-tab.proxy-enabled,

@@ -1,4 +1,4 @@
-import { SpinBox } from "std-widgets.slint";
+import { SpinBox, LineEdit } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
 
 export component UI inherits Rectangle {
@@ -6,16 +6,16 @@ export component UI inherits Rectangle {
     height: 100%;
 
     in-out property font-size <=> font-size-spin-box.value;
+    in-out property win-width <=> win-width-lineedit.text;
+    in-out property win-height <=> win-height-lineedit.text;
 
     VerticalLayout {
-        width: 100%;
         spacing: Theme.spacing;
         HorizontalLayout {
-            width: Theme.default-label-width;
             HorizontalLayout {
                 width: 50%;
                 font-size-txt := Text {
-                    width: 100px;
+                    width: Theme.default-label-width;
                     text: "字体大小:";
                 }
 
@@ -26,6 +26,34 @@ export component UI inherits Rectangle {
                     maximum: 50;
                 }
             }
+
+            HorizontalLayout {
+                Text {
+                    width: Math.max(Theme.default-label-width, self.preferred-width + Theme.padding * 2);
+                    text: "窗口大小(宽 x 高):";
+                }
+
+                HorizontalLayout {
+                    spacing: Theme.spacing * 2;
+                    win-width-lineedit := LineEdit {
+                        placeholder-text: "宽";
+                    }
+
+                    VerticalLayout {
+                        alignment: center;
+                        Text {
+                            width: Theme.default-font-size;
+                            text: "x";
+                        }
+                    }
+                    win-height-lineedit := LineEdit {
+                        placeholder-text: "高";
+                    }
+                }
+
+            }
         }
+
+
     }
 }
