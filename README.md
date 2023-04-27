@@ -1,6 +1,13 @@
 #### ChatBox
-基于OpenAI api 的聊天机器人。
+基于OpenAI chatgpt-3.5-turbo API 的聊天机器人。程序使用`Slint-UI`和`Rust`编写。
 
+#### 功能
+- [x] 支持`OpenAI chatgpt-3.5-turbo`
+- [x] 新建、保存、删除会话
+- [x] 为每个会话配置`system prompt`
+- [x] 支持删除一次会话提问，清空当前会话，停止当前会话
+- [x] 支持配置是否启用历史会话模式
+- [x] 支持`Socks5`代理配置
 
 #### 参考
 - [Slint Language Documentation](https://slint-ui.com/releases/1.0.0/docs/slint/)

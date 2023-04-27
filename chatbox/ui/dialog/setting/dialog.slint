@@ -22,8 +22,8 @@ export component SettingDialog inherits Rectangle {
 
     VerticalLayout {
         Rectangle {
-            height: txt.preferred-height * 1.33;
             background: root.title-bg;
+            min-height: txt.preferred-height * 1.33;
             txt := Text {
                 text: "设置";
                 color: Colors.white;

@@ -6,7 +6,7 @@ import { Theme} from "../../theme.slint";
 
 export component SessionDialog inherits CDialog {
     visible: Store.session-dialog-setting.is-show;
-    background: rect.background;
+
     title: "会话配置";
     width: 700px;
     height: 400px;
@@ -19,7 +19,6 @@ export component SessionDialog inherits CDialog {
     in-out property use-history <=> use-history-checkbox.checked;
 
     rect := Rectangle {
-        height: root.height;
         background: Theme.dialog-background;
         VerticalLayout {
             padding: Theme.padding;
