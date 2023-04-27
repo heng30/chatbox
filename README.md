@@ -1,3 +1,5 @@
+![screenshot](./screenshot/chatbox.png)
+
 #### ChatBox
 基于OpenAI chatgpt-3.5-turbo API 的聊天机器人。程序使用`Slint-UI`和`Rust`编写。
 
