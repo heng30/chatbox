@@ -14,7 +14,7 @@ export component Bottom inherits VerticalLayout {
             spacing: Theme.spacing / 2;
             Btn {
                 icon: @image-url("../images/setting-fill.svg");
-                text: "设置";
+                text: Store.translator.setting;
                 clicked => {
                     Store.setting-dialog-config.show = true;
                 }
@@ -22,7 +22,7 @@ export component Bottom inherits VerticalLayout {
 
             Btn {
                 icon: @image-url("../images/about.svg");
-                text: "关于";
+                text: Store.translator.about;
                 clicked => {
                     Store.about-dialog.show = true;
                 }
@@ -30,7 +30,7 @@ export component Bottom inherits VerticalLayout {
 
             Btn {
                 icon: @image-url("../images/help.svg");
-                text: "帮助";
+                text: Store.translator.help;
                 clicked => {
                     Store.help-dialog.show = true;
                 }

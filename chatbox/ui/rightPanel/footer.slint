@@ -28,7 +28,7 @@ export component Footer inherits VerticalLayout {
                     x: 0;
                     y: 0;
                     visible: te.text == "";
-                    text: "Ctrl+Enter 发送";
+                    text: "Ctrl+Enter";
                     color: Theme.placeholder-text-color;
                 }
             }
@@ -70,7 +70,7 @@ export component Footer inherits VerticalLayout {
                 icon: @image-url("../images/reset.svg");
                 width: 30%;
                 height: root.btn-height;
-                text: "重置";
+                text: Store.translator.reset;
                 clicked => {
                     Logic.reset-current-session();
                 }
@@ -80,7 +80,7 @@ export component Footer inherits VerticalLayout {
                 height: root.btn-height;
                 bg-color: Theme.warning-color;
                 icon: @image-url("../images/stop.svg");
-                text: "停止";
+                text: Store.translator.stop;
                 clicked => {
                     Logic.stop-generate-text();
                 }
@@ -96,7 +96,7 @@ export component Footer inherits VerticalLayout {
                 icon: @image-url("../images/format-clear.svg");
                 width: 30%;
 
-                text: "清空";
+                text: Store.translator.clear;
                 clicked => {
                     te.text = "";
                 }
@@ -105,7 +105,7 @@ export component Footer inherits VerticalLayout {
             Btn {
                 height: root.btn-height;
                 icon: @image-url("../images/send.svg");
-                text: "发送";
+                text: Store.translator.send;
                 clicked => {
                     if (te.text == "") { return; }
 

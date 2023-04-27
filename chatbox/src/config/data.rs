@@ -21,6 +21,7 @@ pub struct UI {
     pub font_size: u32,
     pub win_width: u32,
     pub win_height: u32,
+    pub language: String,
 }
 
 impl Default for UI {
@@ -29,6 +30,7 @@ impl Default for UI {
             font_size: 18,
             win_width: 1200,
             win_height: 800,
+            language: "cn".to_string(),
         }
     }
 }

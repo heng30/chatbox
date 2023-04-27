@@ -23,7 +23,7 @@ export component Chat inherits Rectangle {
         HorizontalLayout {
             type-txt := Text {
                 width: Theme.default-label-width * 2;
-                text: "API类型:";
+                text: Store.translator.setting-dialog-chat-api-type;
             }
 
             type-combox := ComboBox {

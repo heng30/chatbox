@@ -2,11 +2,12 @@ import { Button, ListView, ComboBox , VerticalBox, TextEdit, HorizontalBox} from
 
 import { Theme } from "./theme.slint";
 import { Logic } from "./logic.slint";
+import { Store } from "./store.slint";
+import { Translator } from "./translator.slint";
 import { ChatItem, ChatSession, Store } from "./store.slint";
 import { LPanel } from "./leftPanel/panel.slint";
 import { RPanel } from "./rightPanel/panel.slint";
 import { Message } from "./base/message.slint";
-import { Store } from "./store.slint";
 import { SessionDialog } from "./dialog/session/dialog.slint";
 import { SettingDialog } from "./dialog/setting/dialog.slint";
 import { AboutDialog } from "./dialog/about.slint";
@@ -89,4 +90,4 @@ export component AppWindow inherits Window {
     }
 }
 
-export { Logic, ChatItem, ChatSession, Store }
+export { Logic, ChatItem, ChatSession, Store, Translator }

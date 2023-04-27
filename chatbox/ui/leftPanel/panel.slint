@@ -15,7 +15,7 @@ export component LPanel inherits VerticalLayout {
     HorizontalLayout {
         spacing: Theme.spacing;
         Btn {
-            text: "新建";
+            text: Store.translator.new;
             height: Theme.header-height;
             icon: @image-url("../images/add.svg");
             clicked => {
@@ -24,7 +24,7 @@ export component LPanel inherits VerticalLayout {
             }
         }
         Btn {
-            text: "保存";
+            text: Store.translator.save;
             height: Theme.header-height;
             bg-color: Theme.success-color;
             icon: @image-url("../images/save.svg");
@@ -33,7 +33,7 @@ export component LPanel inherits VerticalLayout {
             }
         }
         Btn {
-            text: "编辑";
+            text: Store.translator.edit;
             height: Theme.header-height;
             bg-color: Theme.warning-color;
             icon: @image-url("../images/edit.svg");
@@ -44,14 +44,14 @@ export component LPanel inherits VerticalLayout {
             }
         }
         Btn {
-            text: "删除";
+            text: Store.translator.delete;
             height: Theme.header-height;
             bg-color: Theme.danger-color;
             icon: @image-url("../images/delete.svg");
             clicked => {
                 Store.ok-cancel-dialog-setting.title-type = "warning";
-                Store.ok-cancel-dialog-setting.title-text = "警告";
-                Store.ok-cancel-dialog-setting.body-text = "是否删除！";
+                Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
                 Store.ok-cancel-dialog-setting.handle-type = "session-item";
                 Store.ok-cancel-dialog-setting.handle-uuid = Store.current-session-uuid;
             }

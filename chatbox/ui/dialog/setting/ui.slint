@@ -1,5 +1,6 @@
-import { SpinBox, LineEdit } from "std-widgets.slint";
+import { SpinBox, LineEdit, CheckBox } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
+import { Store } from "../../store.slint";
 
 export component UI inherits Rectangle {
     width: 100%;
@@ -8,35 +9,53 @@ export component UI inherits Rectangle {
     in-out property font-size <=> font-size-spin-box.value;
     in-out property win-width <=> win-width-lineedit.text;
     in-out property win-height <=> win-height-lineedit.text;
+    in-out property<string> language: Store.setting-dialog-config.ui.language;
+
+    public function set-language(lang :string) {
+        if (lang == "en") {
+            cn-checkbox.checked = false;
+            en-checkbox.checked = true;
+        } else {
+            cn-checkbox.checked = true;
+            en-checkbox.checked = false;
+        }
+    }
 
     VerticalLayout {
         spacing: Theme.spacing;
         HorizontalLayout {
             HorizontalLayout {
                 width: 50%;
-                font-size-txt := Text {
-                    width: Theme.default-label-width;
-                    text: "字体大小:";
+
+                VerticalLayout {
+                    alignment: Store.setting-dialog-config.ui.language == "cn" ? start : center;
+                    font-size-txt := Text {
+                        width: Theme.default-label-width;
+                        text: Store.translator.setting-dialog-ui-font-size;
+                    }
                 }
 
                 font-size-spin-box := SpinBox {
                     width: 30%;
-                    height: font-size-txt.preferred-height;
+                    height: Store.setting-dialog-config.ui.language == "cn" ? font-size-txt.preferred-height : font-size-txt.preferred-height * 1.33;
                     minimum: 15;
                     maximum: 50;
                 }
             }
 
             HorizontalLayout {
-                Text {
-                    width: Math.max(Theme.default-label-width, self.preferred-width + Theme.padding * 2);
-                    text: "窗口大小(宽 x 高):";
+                VerticalLayout {
+                    alignment: center;
+                    Text {
+                        width: Math.max(Theme.default-label-width, self.preferred-width + Theme.padding * 2);
+                        text: Store.translator.setting-dialog-ui-win-WH;
+                    }
                 }
 
                 HorizontalLayout {
                     spacing: Theme.spacing * 2;
                     win-width-lineedit := LineEdit {
-                        placeholder-text: "宽";
+                    placeholder-text: Store.translator.setting-dialog-ui-win-W;
                     }
 
                     VerticalLayout {
@@ -47,13 +66,48 @@ export component UI inherits Rectangle {
                         }
                     }
                     win-height-lineedit := LineEdit {
-                        placeholder-text: "高";
+                        placeholder-text: Store.translator.setting-dialog-ui-win-H;
+                    }
+                }
+            }
+        }
+
+
+        HorizontalLayout {
+            HorizontalLayout {
+                width: 50%;
+                VerticalLayout {
+                    alignment: center;
+                    Text {
+                        width: Theme.default-label-width;
+                        text: Store.translator.setting-dialog-ui-language;
+                    }
+                }
+
+                cn-checkbox := CheckBox {
+                    text: "中文";
+                    checked: root.language != "en";
+                    toggled => {
+                        en-checkbox.checked = !self.checked;
+                        if (self.checked) {
+                            root.language = "cn";
+                        }
+                    }
+                }
+
+                en-checkbox := CheckBox {
+                    text: "English";
+                    checked: root.language == "en";
+                    toggled => {
+                        cn-checkbox.checked = !self.checked;
+                        if (self.checked) {
+                            root.language = "en";
+                        }
                     }
                 }
 
             }
         }
-
 
     }
 }

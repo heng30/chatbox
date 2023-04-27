@@ -1,4 +1,5 @@
 import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
 import { Btn } from "./btn.slint";
 
 export component CDialog inherits Rectangle {
@@ -32,7 +33,7 @@ export component CDialog inherits Rectangle {
         HorizontalLayout {
             spacing: Theme.spacing;
             Btn {
-                text: "取消";
+                text: Store.translator.cancel;
                 bg-color: Theme.danger-color;
                 border-width: 0;
                 icon: @image-url("../images/cancel.svg");
@@ -40,7 +41,7 @@ export component CDialog inherits Rectangle {
             }
 
             Btn {
-                text: "确定";
+                text: Store.translator.ok;
                 border-width: 0;
                 icon: @image-url("../images/success.svg");
                 clicked => { root.ok-clicked(); }

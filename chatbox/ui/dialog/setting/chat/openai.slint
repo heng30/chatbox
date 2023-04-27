@@ -21,12 +21,12 @@ export component OpenAI inherits Rectangle {
         HorizontalLayout {
             api-txt := Text {
                 width: label-width;
-                text: "API KEY:";
+                text: "API Key:";
             }
 
             api-lineedit := LineEdit {
                 height: api-txt.preferred-height + Theme.padding;
-                placeholder-text: "请输入API KEY";
+                placeholder-text: "API Key";
             }
         }
 
@@ -38,7 +38,7 @@ export component OpenAI inherits Rectangle {
 
             url-lineedit := LineEdit {
                 height: url-txt.preferred-height + Theme.padding;
-                placeholder-text: "请输入API URL";
+                placeholder-text: "API URL";
             }
         }
 

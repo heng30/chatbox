@@ -5,7 +5,7 @@ import { Store } from "../store.slint";
 export component HelpDialog inherits CDialog {
     visible: Store.help-dialog.show;
 
-    title: "帮助";
+    title: Store.translator.help;
     title-bg: Theme.brand-color;
     width: 600px;
     height: 400px;

@@ -8,8 +8,8 @@ import { Chat } from "./chat/chat.slint";
 import { Proxy } from "./proxy.slint";
 
 export component SettingDialog inherits Rectangle {
-    in-out property<length> body-width: 680px;
-    in-out property<length> body-height: 450px;
+    in-out property<length> body-width: 700px;
+    in-out property<length> body-height: 400px;
     in-out property<color> title-bg: Theme.brand-color;
 
     property<string> current-checked-item: "ui";
@@ -25,7 +25,7 @@ export component SettingDialog inherits Rectangle {
             background: root.title-bg;
             min-height: txt.preferred-height * 1.33;
             txt := Text {
-                text: "设置";
+                text: Store.translator.setting;
                 color: Colors.white;
                 font-size: Theme.default-font-size + 1px;
             }
@@ -44,7 +44,7 @@ export component SettingDialog inherits Rectangle {
                     height: Theme.default-font-size + Theme.padding * 2;
 
                     TabBtn {
-                        text: "界面";
+                        text: Store.translator.setting-dialog-ui;
                         icon: @image-url("../../images/setting-fill.svg");
                         checked: current-checked-item == "ui";
                         clicked => {
@@ -53,7 +53,7 @@ export component SettingDialog inherits Rectangle {
                     }
 
                     TabBtn {
-                        text: "会话";
+                        text: Store.translator.setting-dialog-chat;
                         icon: @image-url("../../images/chat.svg");
                         checked: current-checked-item == "chat";
                         clicked => {
@@ -62,7 +62,7 @@ export component SettingDialog inherits Rectangle {
                     }
 
                     TabBtn {
-                        text: "代理";
+                        text: Store.translator.setting-dialog-proxy;
                         icon: @image-url("../../images/proxy.svg");
                         checked: current-checked-item == "proxy";
                         clicked => {
@@ -113,7 +113,7 @@ export component SettingDialog inherits Rectangle {
         HorizontalLayout {
             spacing: Theme.spacing;
             Btn {
-                text: "取消";
+                text: Store.translator.cancel;
                 bg-color: Theme.danger-color;
                 icon: @image-url("../../images/cancel.svg");
                 clicked => {
@@ -122,6 +122,7 @@ export component SettingDialog inherits Rectangle {
                     ui-tab.font-size = Theme.default-font-size / 1px;
                     ui-tab.win-width = Theme.default-width / 1px;
                     ui-tab.win-height = Theme.default-height / 1px;
+                    ui-tab.set-language(Store.setting-dialog-config.ui.language);
 
                     proxy-tab.proxy-enabled = Store.setting-dialog-config.proxy.enabled;
                     proxy-tab.proxy-url = Store.setting-dialog-config.proxy.url;
@@ -140,14 +141,15 @@ export component SettingDialog inherits Rectangle {
             }
 
             Btn {
-                text: "确定";
+                text: Store.translator.ok;
                 icon: @image-url("../../images/success.svg");
                 clicked => {
                     Logic.setting-ok({
                         ui: {
                             font-size: ui-tab.font-size,
                             win-width: ui-tab.win-width,
-                            win-height: ui-tab.win-height
+                            win-height: ui-tab.win-height,
+                            language: ui-tab.language
                         },
                         proxy: {
                             enabled: proxy-tab.proxy-enabled,

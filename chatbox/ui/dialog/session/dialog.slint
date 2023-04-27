@@ -7,11 +7,12 @@ import { Theme} from "../../theme.slint";
 export component SessionDialog inherits CDialog {
     visible: Store.session-dialog-setting.is-show;
 
-    title: "会话配置";
+    title: Store.translator.session-new-dialog-title;
     width: 700px;
     height: 400px;
 
-    property<length> text-width: 100px;
+    property<length> text-width:
+        Store.setting-dialog-config.ui.language == "cn" ? Theme.default-label-width : Theme.default-label-width * 1.8;
 
     in-out property name <=> line-edit-name.text;
     in-out property system-prompt <=> text-edit-prompt.text;
@@ -19,7 +20,7 @@ export component SessionDialog inherits CDialog {
     in-out property use-history <=> use-history-checkbox.checked;
 
     rect := Rectangle {
-        background: Theme.dialog-background;
+         background: Theme.dialog-background;
         VerticalLayout {
             padding: Theme.padding;
             spacing: Theme.spacing * 2;
@@ -27,12 +28,12 @@ export component SessionDialog inherits CDialog {
             HorizontalLayout {
                 txt-name := Text {
                     width: root.text-width;
-                    text: "名      称: ";
+                    text: Store.translator.session-new-dialog-name;
                 }
 
                 line-edit-name := LineEdit {
                     height: txt-name.preferred-height + Theme.padding;
-                    placeholder-text: "请输入会话名称";
+                    placeholder-text: Store.translator.session-new-dialog-name-placeholder;
                     enabled: !(Store.session-dialog-setting.handle-type == "session-edit" && Store.current-session-uuid == "default-session-uuid");
                 }
             }
@@ -41,7 +42,7 @@ export component SessionDialog inherits CDialog {
                 HorizontalLayout {
                     Text {
                         width: root.text-width;
-                        text: "API 模式: ";
+                        text: Store.translator.session-new-dialog-api-model;
                     }
                     api-model-combobox := ComboBox {
                         horizontal-stretch: 1;
@@ -53,7 +54,7 @@ export component SessionDialog inherits CDialog {
                 HorizontalLayout {
                     alignment: end;
                     use-history-checkbox := CheckBox {
-text: self.checked ? "已启用历史会话模式" : "未启用历史会话模式" ;
+text: self.checked ? Store.translator.session-new-dialog-used-history : Store.translator.session-new-dialog-unused-history;
                     }
                 }
             }
@@ -64,7 +65,7 @@ text: self.checked ? "已启用历史会话模式" : "未启用历史会话模�
                 HorizontalLayout {
                     prompt-name := Text {
                         width: root.text-width;
-                        text: "系统提示: ";
+                        text: Store.translator.session-new-dialog-system-prompt;
                         horizontal-stretch: 0;
                     }
 

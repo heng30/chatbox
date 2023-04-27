@@ -34,6 +34,11 @@ pub fn init(ui: &AppWindow) {
             .parse()
             .unwrap_or(800);
 
+        config.ui.language = setting_config
+            .ui
+            .language
+            .to_string();
+
         config.socks5.enabled = setting_config.proxy.enabled;
         config.socks5.url = setting_config.proxy.url.to_string();
         config.socks5.port = setting_config
@@ -85,6 +90,7 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     setting_dialog.ui.font_size = slint::format!("{}", ui_config.font_size);
     setting_dialog.ui.win_width = slint::format!("{}", ui_config.win_width);
     setting_dialog.ui.win_height = slint::format!("{}", ui_config.win_height);
+    setting_dialog.ui.language = ui_config.language.into();
 
     setting_dialog.proxy.enabled = socks5_config.enabled;
     setting_dialog.proxy.url = socks5_config.url.into();

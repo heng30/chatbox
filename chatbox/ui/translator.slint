@@ -1,0 +1,174 @@
+export struct Translation {
+    new: string,
+    save: string,
+    edit: string,
+    delete: string,
+
+    send: string,
+    stop: string,
+    reset: string,
+    clear: string,
+
+    cancel: string,
+    ok: string,
+
+    setting: string,
+    about: string,
+    help: string,
+
+    warning: string,
+    delete-or-not: string,
+
+    marked-success: string,
+    unmarked-success: string,
+    marked-failed: string,
+
+    setting-dialog-ui: string,
+    setting-dialog-ui-font-size: string,
+    setting-dialog-ui-win-WH: string,
+    setting-dialog-ui-win-W: string,
+    setting-dialog-ui-win-H: string,
+    setting-dialog-ui-language: string,
+
+    setting-dialog-chat: string,
+    setting-dialog-chat-api-type: string,
+
+    setting-dialog-proxy: string,
+    setting-dialog-proxy-disabled: string,
+    setting-dialog-proxy-enabled: string,
+    setting-dialog-proxy-type: string,
+    setting-dialog-proxy-url: string,
+    setting-dialog-proxy-url-placeholder: string,
+    setting-dialog-proxy-port: string,
+    setting-dialog-proxy-port-placeholder: string,
+
+    session-default-name: string,
+
+    session-new-dialog-title: string,
+    session-new-dialog-name: string,
+    session-new-dialog-name-placeholder: string,
+    session-new-dialog-api-model: string,
+    session-new-dialog-unused-history: string,
+    session-new-dialog-used-history: string,
+    session-new-dialog-system-prompt: string,
+    session-new-dialog-preset-system-prompt-name: string,
+    session-new-dialog-preset-system-prompt-chatbot-name: string,
+    session-new-dialog-preset-system-prompt-chatbot: string,
+}
+
+export global Translator {
+    in-out property<Translation> cn: {
+        new: "新建",
+        save: "保存",
+        edit: "编辑",
+        delete: "删除",
+
+        send: "发送",
+        stop: "停止",
+        reset: "重置",
+        clear: "清空",
+
+        cancel: "取消",
+        ok: "确定",
+
+        setting: "设置",
+        about: "关于",
+        help: "帮助",
+
+        warning: "警告",
+        delete-or-not: "是否删除!",
+
+        marked-success: "收藏成功!",
+        unmarked-success: "取消收藏成功!",
+        marked-failed: "收藏失败!",
+
+        setting-dialog-ui: "界面",
+        setting-dialog-ui-font-size: "字体大小:",
+        setting-dialog-ui-win-WH: "窗口大小(宽 x 高):",
+        setting-dialog-ui-win-W: "宽",
+        setting-dialog-ui-win-H: "高",
+        setting-dialog-ui-language: "选择语言:",
+
+        setting-dialog-chat: "会话",
+        setting-dialog-chat-api-type: "API类型:",
+
+        setting-dialog-proxy: "代理",
+        setting-dialog-proxy-disabled: "未启用代理",
+        setting-dialog-proxy-enabled: "已启用代理",
+        setting-dialog-proxy-type: "代理类型:",
+        setting-dialog-proxy-url-placeholder: "请输入URL/IP:",
+        setting-dialog-proxy-port: "端      口:",
+        setting-dialog-proxy-port-placeholder: "请输入端口",
+
+        session-default-name: "默认会话",
+
+        session-new-dialog-title: "会话配置",
+        session-new-dialog-name: "名     称:",
+        session-new-dialog-name-placeholder: "请输入会话名称",
+        session-new-dialog-api-model: "API 模式:",
+        session-new-dialog-unused-history: "未启用历史会话模式",
+        session-new-dialog-used-history: "已启用历史会话模式",
+        session-new-dialog-system-prompt: "系统提示:",
+        session-new-dialog-preset-system-prompt-name: "选择预定义提示",
+        session-new-dialog-preset-system-prompt-chatbot-name: "通用聊天机器人",
+    session-new-dialog-preset-system-prompt-chatbot: "你是一个通用聊天机器人。",
+    };
+
+    in-out property<Translation> en: {
+        new: "New",
+        save: "Save",
+        edit: "Edit",
+        delete: "Delete",
+
+        send: "Send",
+        stop: "Stop",
+        reset: "Reset",
+        clear: "Clear",
+
+        cancel: "Cencel",
+        ok: "Comfire",
+
+        setting: "Setting",
+        about: "  About",
+        help: "    Help",
+
+        warning: "Warning",
+        delete-or-not: "Are You Sure to Delete!",
+
+        marked-success: "Marked Success!",
+        unmarked-success: "Unmarked Success!",
+        marked-failed: "Marked Failed!",
+
+        setting-dialog-ui: "UI",
+        setting-dialog-ui-font-size: "Font Size:",
+        setting-dialog-ui-win-WH: "Window Size(W x H):",
+        setting-dialog-ui-win-W: "Width",
+        setting-dialog-ui-win-H: "Height",
+        setting-dialog-ui-language: "Language:",
+
+        setting-dialog-chat: "Chat",
+        setting-dialog-chat-api-type: "API Type:",
+
+        setting-dialog-proxy: "Proxy",
+        setting-dialog-proxy-disabled: "Disabled",
+        setting-dialog-proxy-enabled: "Enabled",
+        setting-dialog-proxy-type: "Type:",
+        setting-dialog-proxy-url-placeholder: "URL/IP",
+        setting-dialog-proxy-port: "Port:",
+        setting-dialog-proxy-port-placeholder: "Port",
+
+        session-default-name: "Default Session",
+
+        session-new-dialog-title: "Session Configure",
+        session-new-dialog-name: "Name:",
+        session-new-dialog-name-placeholder: "Please Input Session Name",
+        session-new-dialog-api-model: "API Model:",
+        session-new-dialog-unused-history: "Disabled Hisotry Model",
+        session-new-dialog-used-history: "Enabled History Model",
+        session-new-dialog-system-prompt: "System Prompt:",
+
+        session-new-dialog-preset-system-prompt-name: "Select Preset Prompt",
+        session-new-dialog-preset-system-prompt-chatbot-name: "Service me as a chatbot.",
+        session-new-dialog-preset-system-prompt-chatbot: "You are chatbot. Service me as best as you can.",
+    };
+}

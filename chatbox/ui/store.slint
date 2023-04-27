@@ -1,3 +1,4 @@
+import { Translator, Translation} from "./translator.slint";
 export struct ChatItem {
     utext: string,
     btext: string,
@@ -54,6 +55,7 @@ export struct SettingUI {
     font-size: string,
     win-width: string,
     win-height: string,
+    language: string,
 }
 
 export struct SettingProxy {
@@ -98,19 +100,15 @@ export struct AboutDialog {
 export global Store  {
     in-out property<bool> is-tab-pressed: false;
 
-    in-out property<[ChatItem]> session-datas: [
-        /* { utext: "show me some rust code.", btext: "int main() {return 0;}", etext:"", uuid: "1", is-mark: false}, */
-        /* { utext: "This is not rust code.",  btext: "function main(){}", etext:"", uuid: "2", is-mark: true}, */
-    ];
+    in-out property<[ChatItem]> session-datas: [ ];
 
     in-out property<SystemPrompts> system-prompts: {
-        names: ["选择预定义提示", "通用聊天机器人"],
-        prompts: ["", "你是一个通用聊天机器人。"]
+        names: [Store.translator.session-new-dialog-preset-system-prompt-name, Store.translator.session-new-dialog-preset-system-prompt-chatbot-name],
+        prompts: ["", Store.translator.session-new-dialog-preset-system-prompt-chatbot]
     };
 
     in-out property<[ChatSession]> chat-sessions: [
-        { name: "默认会话", uuid: "default-session-uuid", is-mark: true , system-prompt: system-prompts.prompts[1], use_history: true, api-model: session-dialog-setting.api-model[0]},
-        /* { name: "会话-1", uuid: "session-uuid-1", is-mark: false , system-prompt: system-prompts.prompts[1], use_history: false, api-model: session-dialog-setting.api-model[0]}, */
+        { name: translator.session-default-name, uuid: "default-session-uuid", is-mark: true , system-prompt: system-prompts.prompts[1], use_history: true, api-model: session-dialog-setting.api-model[0]},
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
 
@@ -136,6 +134,7 @@ export global Store  {
             font-size: "18",
             win-width: "1200",
             win-height: "800",
+            language: "cn",
         },
     };
 
@@ -150,5 +149,7 @@ export global Store  {
     in-out property<{show: bool}> help-dialog: {
         show: false,
     };
+
+    in-out property<Translation> translator: setting-dialog-config.ui.language != "en" ? Translator.cn : Translator.en;
 }
 
