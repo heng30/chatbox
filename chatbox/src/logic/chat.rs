@@ -3,6 +3,7 @@ use crate::openai;
 use crate::session;
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, Logic, Store};
 use crate::util::qbox::QBox;
+use crate::util::translator::tr;
 #[allow(unused_imports)]
 use log::{debug, warn};
 use slint::{ComponentHandle, Model, VecModel};
@@ -172,7 +173,7 @@ pub fn init(ui: &AppWindow) {
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
 
         ui.global::<Logic>()
-            .invoke_show_message("删除成功！".into(), "success".into());
+            .invoke_show_message((tr("删除成功") + "!").into(), "success".into());
     });
 
     ui.global::<Logic>().on_toggle_mark_chat_item(move |uuid| {

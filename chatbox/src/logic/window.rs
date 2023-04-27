@@ -1,4 +1,5 @@
 use crate::slint_generatedAppWindow::{AppWindow, Logic};
+use crate::util::translator::tr;
 use slint::ComponentHandle;
 
 pub fn init(ui: &AppWindow) {
@@ -8,7 +9,7 @@ pub fn init(ui: &AppWindow) {
         let ui = ui_handle.unwrap();
         if let Err(e) = ui.window().hide() {
             ui.global::<Logic>().invoke_show_message(
-                slint::format!("隐藏程序失败！原因：{:?}", e),
+                slint::format!("{}:{:?}", tr("隐藏程序失败") + "！" + &tr("原因"), e),
                 "warning".into(),
             );
         }

@@ -1,5 +1,6 @@
 use crate::config;
 use crate::slint_generatedAppWindow::{AppWindow, Logic, Store};
+use crate::util::translator::tr;
 use slint::{ComponentHandle, Weak};
 
 pub fn init(ui: &AppWindow) {
@@ -34,10 +35,7 @@ pub fn init(ui: &AppWindow) {
             .parse()
             .unwrap_or(800);
 
-        config.ui.language = setting_config
-            .ui
-            .language
-            .to_string();
+        config.ui.language = setting_config.ui.language.to_string();
 
         config.socks5.enabled = setting_config.proxy.enabled;
         config.socks5.url = setting_config.proxy.url.to_string();
@@ -68,13 +66,15 @@ pub fn init(ui: &AppWindow) {
 
         match config::save(config) {
             Err(e) => {
-                ui.global::<Logic>()
-                    .invoke_show_message(slint::format!("保存失败！{:?}", e), "warning".into());
+                ui.global::<Logic>().invoke_show_message(
+                    slint::format!("{}{:?}", tr("保存失败") + "！", e),
+                    "warning".into(),
+                );
             }
             _ => {
                 init_setting_dialog(ui.as_weak());
                 ui.global::<Logic>()
-                    .invoke_show_message("保存成功".into(), "success".into());
+                    .invoke_show_message((tr("保存成功") + "!").into(), "success".into());
             }
         }
     });

@@ -1,6 +1,7 @@
 use crate::db;
 use crate::db::data::{SessionChats, SessionConfig};
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, ChatSession, Logic, Store};
+use crate::util::translator::tr;
 #[allow(unused)]
 use log::debug;
 use log::warn;
@@ -27,7 +28,7 @@ fn init_db_default_session(ui: &AppWindow) {
             Ok(config) => config,
             Err(e) => {
                 ui.global::<Logic>().invoke_show_message(
-                    slint::format!("设置默认会话库失败！原因: {:?}", e),
+                    slint::format!("{}: {:?}", tr("设置默认会话库失败") + "!" + &tr("原因"), e),
                     "warning".into(),
                 );
                 return;
@@ -36,7 +37,11 @@ fn init_db_default_session(ui: &AppWindow) {
 
         if let Err(e) = db::session::insert(uuid, config_json, "".to_string()) {
             ui.global::<Logic>().invoke_show_message(
-                slint::format!("保存默认会话到数据库失败！原因: {:?}", e),
+                slint::format!(
+                    "{}: {:?}",
+                    tr("保存默认会话到数据库失败") + "!" + &tr("原因"),
+                    e
+                ),
                 "warning".into(),
             );
             return;
@@ -144,7 +149,7 @@ pub fn init(ui: &AppWindow) {
             Ok(config) => config,
             Err(e) => {
                 ui.global::<Logic>().invoke_show_message(
-                    slint::format!("保存到数据库失败！原因: {:?}", e),
+                    slint::format!("{}: {:?}", tr("保存到数据库失败") + "！" + &tr("原因"), e),
                     "warning".into(),
                 );
                 return;
@@ -153,7 +158,7 @@ pub fn init(ui: &AppWindow) {
 
         if let Err(e) = db::session::insert(cs.uuid.to_string(), config_json, "".to_string()) {
             ui.global::<Logic>().invoke_show_message(
-                slint::format!("保存到数据库失败！原因: {:?}", e),
+                slint::format!("{}: {:?}", tr("保存到数据库失败") + "！" + &tr("原因"), e),
                 "warning".into(),
             );
             return;
@@ -164,7 +169,7 @@ pub fn init(ui: &AppWindow) {
         ui.global::<Store>()
             .set_chat_sessions(sessions_model.into());
         ui.global::<Logic>()
-            .invoke_show_message("新建成功！".into(), "success".into());
+            .invoke_show_message((tr("新建成功") + "！").into(), "success".into());
     });
 
     ui.global::<Logic>().on_delete_session(move |uuid| {
@@ -172,7 +177,7 @@ pub fn init(ui: &AppWindow) {
 
         if uuid == DEFAULT_SESSION_UUID {
             ui.global::<Logic>()
-                .invoke_show_message("不允许删除默认会话!".into(), "warning".into());
+                .invoke_show_message((tr("不允许删除默认会话") + "!").into(), "warning".into());
             return;
         }
 
@@ -185,7 +190,7 @@ pub fn init(ui: &AppWindow) {
 
         if let Err(e) = db::session::delete(uuid.to_string()) {
             ui.global::<Logic>().invoke_show_message(
-                slint::format!("删除会话失败! 原因: {:?}", e),
+                slint::format!("{}: {:?}", tr("删除会话失败") + "!" + &tr("原因"), e),
                 "warning".into(),
             );
             return;
@@ -203,7 +208,7 @@ pub fn init(ui: &AppWindow) {
         ui.global::<Store>()
             .set_chat_sessions(sessions_model.into());
         ui.global::<Logic>()
-            .invoke_show_message("删除会话成功!".into(), "success".into());
+            .invoke_show_message((tr("删除会话成功") + "!").into(), "success".into());
     });
 
     ui.global::<Logic>().on_reset_current_session(move || {
@@ -211,7 +216,7 @@ pub fn init(ui: &AppWindow) {
         ui.global::<Store>().set_session_datas(ModelRc::default());
 
         ui.global::<Logic>()
-            .invoke_show_message("重置成功!".into(), "success".into());
+            .invoke_show_message((tr("重置成功") + "!").into(), "success".into());
     });
 
     ui.global::<Logic>().on_toggle_mark_session(move |uuid| {
@@ -243,7 +248,11 @@ pub fn init(ui: &AppWindow) {
                 Ok(config) => {
                     if let Err(e) = db::session::update(uuid.to_string(), Some(config), None) {
                         ui.global::<Logic>().invoke_show_message(
-                            slint::format!("保存到数据库失败！原因: {:?}", e),
+                            slint::format!(
+                                "{}: {:?}",
+                                tr("保存到数据库失败") + "！" + &tr("原因"),
+                                e
+                            ),
                             "warning".into(),
                         );
                         return;
@@ -252,7 +261,7 @@ pub fn init(ui: &AppWindow) {
                 }
                 Err(e) => {
                     ui.global::<Logic>().invoke_show_message(
-                        slint::format!("保存到数据库失败！原因: {:?}", e),
+                        slint::format!("{}: {:?}", tr("保存到数据库失败") + "！" + &tr("原因"), e),
                         "warning".into(),
                     );
                     return;
@@ -266,10 +275,10 @@ pub fn init(ui: &AppWindow) {
 
         if is_mark {
             ui.global::<Logic>()
-                .invoke_show_message("收藏成功！".into(), "success".into());
+                .invoke_show_message((tr("收藏成功") + "！").into(), "success".into());
         } else {
             ui.global::<Logic>()
-                .invoke_show_message("取消收藏成功！".into(), "success".into());
+                .invoke_show_message((tr("取消收藏成功") + "！").into(), "success".into());
         }
     });
 
@@ -323,7 +332,11 @@ pub fn init(ui: &AppWindow) {
                                 db::session::update(uuid.to_string(), Some(config), None)
                             {
                                 ui.global::<Logic>().invoke_show_message(
-                                    slint::format!("保存会话配合失败！原因: {:?}", e),
+                                    slint::format!(
+                                        "{}: {:?}",
+                                        tr("保存会话失败") + "！" + &tr("原因"),
+                                        e
+                                    ),
                                     "warning".into(),
                                 );
                                 return;
@@ -332,7 +345,11 @@ pub fn init(ui: &AppWindow) {
                         }
                         Err(e) => {
                             ui.global::<Logic>().invoke_show_message(
-                                slint::format!("保存会话配置失败！原因: {:?}", e),
+                                slint::format!(
+                                    "{}: {:?}",
+                                    tr("保存会话配置失败") + "！" + &tr("原因"),
+                                    e
+                                ),
                                 "warning".into(),
                             );
                             return;
@@ -345,7 +362,7 @@ pub fn init(ui: &AppWindow) {
             ui.global::<Store>()
                 .set_chat_sessions(sessions_model.into());
             ui.global::<Logic>()
-                .invoke_show_message("保存会话配置成功!".into(), "success".into());
+                .invoke_show_message((tr("保存会话配置成功") + "!").into(), "success".into());
         });
 
     ui.global::<Logic>()
@@ -398,17 +415,17 @@ pub fn init(ui: &AppWindow) {
             Ok(text) => {
                 if let Err(e) = db::session::update(uuid.to_string(), None, Some(text)) {
                     ui.global::<Logic>().invoke_show_message(
-                        slint::format!("保存会话失败！原因: {:?}", e),
+                        slint::format!("{}: {:?}", tr("保存会话失败") + "！" + &tr("原因"), e),
                         "warning".into(),
                     );
                 } else {
                     ui.global::<Logic>()
-                        .invoke_show_message("保存会话成功".into(), "success".into());
+                        .invoke_show_message((tr("保存会话成功") + "!").into(), "success".into());
                 }
             }
             Err(e) => {
                 ui.global::<Logic>().invoke_show_message(
-                    slint::format!("保存会话失败！原因: {:?}", e),
+                    slint::format!("{}: {:?}", tr("保存会话失败") + "！" + &tr("原因"), e),
                     "warning".into(),
                 );
             }
