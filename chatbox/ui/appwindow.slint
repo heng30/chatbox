@@ -55,7 +55,7 @@ export component AppWindow inherits Window {
 
         clicked => {
             Logic.copy-session-chats(Store.current-session-uuid);
-            Logic.show-message("复制会话成功！", "success");
+            Logic.show-message(Store.translator.session-chat-copy-success, "success");
         }
     }
 
