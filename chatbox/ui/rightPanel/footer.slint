@@ -10,8 +10,53 @@ export component Footer inherits VerticalLayout {
     in-out property<length> btn-height: 40px;
     in-out property question <=> te.text;
 
-    te := TextEdit {
-        edited(text) => { }
+    property <bool> is-ctrl-pressed;
+    property <bool> is-return-pressed;
+
+    FocusScope {
+        VerticalLayout {
+            width: 100%;
+            alignment: start;
+
+            Rectangle {
+                height: root.height - btn-height - Theme.spacing;
+                te := TextEdit {
+                    edited(text) => { }
+                }
+
+                Text {
+                    x: 0;
+                    y: 0;
+                    visible: te.text == "";
+                    text: "Ctrl+Enter 发送";
+                    color: Theme.placeholder-text-color;
+                }
+            }
+        }
+
+        key-pressed(event) => {
+            if (event.text == Key.Control) {
+                is-ctrl-pressed = true;
+            }
+            if (event.text == Key.Return) {
+                is-return-pressed = true;
+                if (is-ctrl-pressed && is-return-pressed) {
+                    Logic.send-input-text(root.question);
+                    root.question = "";
+                }
+            }
+            reject
+        }
+        key-released(event) => {
+            if (event.text == Key.Control) {
+                is-ctrl-pressed = false;
+            }
+            if (event.text == Key.Return) {
+                is-return-pressed = false;
+            }
+
+            reject
+        }
     }
 
     HorizontalLayout {

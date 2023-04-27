@@ -39,13 +39,6 @@ export component AppWindow inherits Window {
 
     FocusScope {
         key-pressed(event) => {
-            if (event.text == Key.Return) {
-                if (root.question != "") {
-                    Logic.send-input-text(root.question);
-                    root.question = "";
-                }
-            }
-
             if (event.text == Key.Escape) {
                 Logic.hide-window();
             }
