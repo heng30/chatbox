@@ -1,3 +1,4 @@
+use super::chat;
 use crate::db;
 use crate::db::data::{SessionChats, SessionConfig};
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, ChatSession, Logic, Store};
@@ -85,9 +86,11 @@ fn init_session(ui: &AppWindow) {
                                 chat_items.push(ChatItem {
                                     uuid: citem.uuid.into(),
                                     utext: citem.utext.into(),
-                                    btext: citem.btext.into(),
+                                    btext: citem.btext.as_str().into(),
                                     etext: "".into(),
                                     is_mark: citem.is_mark,
+                                    btext_items: chat::parse_chat_text(citem.btext.as_str()).into(),
+                                    ..Default::default() // TODO
                                 })
                             }
 
@@ -402,7 +405,7 @@ pub fn init(ui: &AppWindow) {
         let ui = ui_copy_handle.unwrap();
         let mut chats = slint::SharedString::default();
         for item in ui.global::<Store>().get_session_datas().iter() {
-            chats += &slint::format!("user:\n{}\n\nbot\n{}\n\n", item.utext, item.btext);
+            chats += &slint::format!("user:\n{}\n\nbot:\n{}\n\n", item.utext, item.btext);
         }
 
         ui.global::<Logic>().invoke_copy_to_clipboard(chats);

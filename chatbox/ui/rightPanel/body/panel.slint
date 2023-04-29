@@ -11,7 +11,7 @@ export component Body inherits ListView {
     }
 
     for data in Store.session-datas : VerticalLayout {
-        padding-bottom: Theme.padding * 3;
+        padding-bottom: Theme.padding * 2;
         UItem {
             text: data.utext;
             uuid: data.uuid;
@@ -21,7 +21,11 @@ export component Body inherits ListView {
                 Logic.copy_to_clipboard(root.new-chat-text(data.utext, data.btext));
             }
         }
-        BItem { text: data.btext; }
+
+        BItem {
+            text: data.btext;
+            items: data.btext-items;
+        }
     }
 }
 

@@ -49,9 +49,8 @@ export component AppWindow inherits Window {
 
     IconBtn {
         icon: @image-url("./images/copy.svg");
-        x: parent.width - self.width - Theme.padding * 8;
+        x: parent.width - self.width - Theme.padding * 7;
         y: Theme.padding * 2;
-        bg-color: Colors.gray.darker(80%);
 
         clicked => {
             Logic.copy-session-chats(Store.current-session-uuid);

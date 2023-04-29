@@ -3,6 +3,7 @@ import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
 import { Btn } from "../base/btn.slint";
+import { IconBtn } from "../base/icon-btn.slint";
 
 export component Footer inherits VerticalLayout {
     spacing: Theme.spacing;
@@ -30,6 +31,19 @@ export component Footer inherits VerticalLayout {
                     visible: te.text == "";
                     text: "Ctrl+Enter";
                     color: Theme.placeholder-text-color;
+                }
+
+                IconBtn {
+                    x: parent.width - self.width - Theme.padding * 6;
+                    y: Theme.padding * 2;
+                    icon: root.height == Theme.bottom-panel-height ? @image-url("../images/arrow-up.svg") : @image-url("../images/arrow-down.svg");
+                    clicked => {
+                        if (root.height == Theme.bottom-panel-height) {
+                            root.height = Theme.bottom-panel-height * 4;
+                        } else {
+                            root.height = Theme.bottom-panel-height;
+                        }
+                    }
                 }
             }
         }

@@ -39,3 +39,4 @@ pub struct StopChat {
     pub current_chat_item_uuid: String,
     pub is_stop: bool,
 }
+

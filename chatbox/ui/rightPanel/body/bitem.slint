@@ -2,9 +2,11 @@ import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 import { Logic } from "../../logic.slint";
+import { CodeText } from "./code-text.slint";
 
 export component BItem inherits VerticalLayout{
-    in-out property text <=> txt.text;
+    in-out property text <=> txt.org-text;
+    in-out property items <=> txt.items;
 
     padding-left: self.width * 30%;
     padding-right: Theme.padding * 2;
@@ -33,20 +35,18 @@ export component BItem inherits VerticalLayout{
         Rectangle {
             background: Theme.dark-fill-color;
             border-radius: Theme.border-radius;
-            VerticalLayout{
-                padding: Theme.padding * 2;
-                txt := Text {
-                    color: Theme.primary-text-color;
-                    font-size: Theme.default-font-size + 2px;
-                    wrap: word-wrap;
-                }
-            }
 
             TouchArea {
                 clicked => {
                     Logic.copy_to_clipboard(root.text);
                 }
             }
+
+            VerticalLayout{
+                padding: Theme.padding * 2;
+                txt := CodeText { }
+            }
+
         }
     }
 }

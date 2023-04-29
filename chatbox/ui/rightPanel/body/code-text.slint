@@ -1,0 +1,58 @@
+import { CDialog } from "../../base/cdialog.slint";
+import { Theme } from "../../theme.slint";
+import { Logic } from "../../logic.slint";
+import { Store, CodeTextItem } from "../../store.slint";
+import { IconBtn } from "../../base/icon-btn.slint";
+
+export component CodeText inherits Rectangle {
+    height: vbox.preferred-height;
+    in-out property<string> org-text;
+
+    in-out property<[CodeTextItem]> items: [];
+
+    vbox := VerticalLayout {
+        x: 0; y: 0;
+        for item in items : HorizontalLayout {
+            if item.text-type == "plain" : Rectangle {
+                height: txt-plain.height;
+                txt-plain := Text {
+                    x: 0; y: 0;
+                    width: parent.width;
+                    wrap: word-wrap;
+                    text: item.text;
+                    color: Theme.primary-text-color;
+                    font-size: Theme.default-font-size + 2px;
+                }
+            }
+
+            if item.text-type == "code" : VerticalLayout {
+                padding: Theme.padding * 2;
+
+                Rectangle {
+                    background: Theme.dark-fill-color.darker(10%);
+                    height: txt-code.height + Theme.padding * 4;
+                    border-radius: Theme.border-radius;
+
+                    txt-code := Text {
+                        x: Theme.padding * 2;
+                        y: Theme.padding * 2;
+                        width: parent.width - self.x;
+                        wrap: word-wrap;
+                        text: item.text;
+                        color: Theme.primary-text-color;
+                        font-size: Theme.default-font-size + 2px;
+                    }
+
+                    img := IconBtn {
+                        x: parent.width - self.width - Theme.padding;
+                        y: Theme.padding;
+                        icon: @image-url("../../images/copy.svg");
+                        clicked => {
+                            Logic.copy_to_clipboard(item.text);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

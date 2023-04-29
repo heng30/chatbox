@@ -1,7 +1,7 @@
 use super::data::{HistoryChat, StopChat, StreamTextItem};
 use crate::openai;
 use crate::session;
-use crate::slint_generatedAppWindow::{AppWindow, ChatItem, Logic, Store};
+use crate::slint_generatedAppWindow::{AppWindow, ChatItem, CodeTextItem, Logic, Store};
 use crate::util::qbox::QBox;
 use crate::util::translator::tr;
 #[allow(unused_imports)]
@@ -94,14 +94,17 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
         .get_session_datas()
         .row_data(current_row)
     {
+        let btext = if item.btext == LOADING_STRING {
+            text.trim_start().into()
+        } else {
+            item.btext.clone() + &text
+        };
+
         ui.global::<Store>().get_session_datas().set_row_data(
             current_row,
             ChatItem {
-                btext: if item.btext == LOADING_STRING {
-                    text.trim_start().into()
-                } else {
-                    item.btext + &text
-                },
+                btext: btext.clone(),
+                btext_items: parse_chat_text(btext.as_str()).into(),
                 ..item
             },
         );
@@ -128,6 +131,7 @@ pub fn init(ui: &AppWindow) {
             utext: value,
             btext: LOADING_STRING.into(),
             uuid: uuid.as_str().into(),
+            btext_items: parse_chat_text(LOADING_STRING).into(),
             ..Default::default()
         });
 
@@ -204,4 +208,49 @@ pub fn init(ui: &AppWindow) {
     ui.global::<Logic>().on_stop_generate_text(move || {
         set_stop_chat(None, true);
     });
+}
+
+pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
+    let items = VecModel::default();
+    let mut cur_item = CodeTextItem::default();
+    let mut in_code_block = false;
+
+    for line in data.lines() {
+        if line.trim().starts_with("```") {
+            if in_code_block {
+                in_code_block = false;
+                if !cur_item.text.is_empty() {
+                    cur_item.text = cur_item.text.trim_end().into();
+                    items.push(cur_item.clone());
+                }
+                cur_item = CodeTextItem::default();
+            } else {
+                in_code_block = true;
+                if !cur_item.text.is_empty() {
+                    cur_item.text = cur_item.text.trim_end().into();
+                    items.push(cur_item.clone());
+                }
+                cur_item = CodeTextItem::default();
+            }
+            continue;
+        } else {
+            if in_code_block && cur_item.text_type.is_empty() {
+                cur_item.text_type = "code".into();
+            }
+
+            if !in_code_block && cur_item.text_type.is_empty() {
+                cur_item.text_type = "plain".into();
+            }
+
+            cur_item.text.push_str(line);
+            cur_item.text.push_str("\n");
+        }
+    }
+
+    if !cur_item.text.is_empty() {
+        cur_item.text = cur_item.text.trim_end().into();
+        items.push(cur_item.clone());
+    }
+
+    Rc::new(items)
 }
