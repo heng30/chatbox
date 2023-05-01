@@ -90,7 +90,6 @@ fn init_session(ui: &AppWindow) {
                                     etext: "".into(),
                                     is_mark: citem.is_mark,
                                     btext_items: chat::parse_chat_text(citem.btext.as_str()).into(),
-                                    ..Default::default() // TODO
                                 })
                             }
 

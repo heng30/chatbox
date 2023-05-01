@@ -110,21 +110,37 @@ export global Store  {
     in-out property<bool> is-tab-pressed: false;
 
     in-out property<[ChatItem]> session-datas: [
-    /* { */
-    /*     utext: "hello world", */
-    /*     btext: "int main()\n{\n    printf('hello world');", */
+        // {
+        //     utext: "hello world",
+        //     btext: "int main()\n{\n    printf('hello world');",
 
-    /*     btext-items: [ */
-    /*         { */
-    /*             text-type: "plain", */
-    /*             text: "hello world" */
-    /*         }, */
-    /*         { */
-    /*             text-type: "code", */
-    /*             text: "int main()\n{\n    printf('hello world');\n}" */
-    /*         } */
-    /*     ] */
-    /* }, */
+        //     btext-items: [
+        //         {
+        //             text-type: "plain",
+        //             text: "hello world"
+        //         },
+        //         {
+        //             text-type: "code",
+        //             text: "int main()\n{\n    printf('hello world');\n}"
+        //         }
+        //     ]
+        // },
+
+        // {
+        //     utext: "hello world",
+        //     btext: "int main()\n{\n    printf('hello world');",
+
+        //     btext-items: [
+        //         {
+        //             text-type: "plain",
+        //             text: "hello world"
+        //         },
+        //         {
+        //             text-type: "code",
+        //             text: "int main()\n{\n    printf('hello world');\n}"
+        //         }
+        //     ]
+        // },
     ];
 
     in-out property<SystemPrompts> system-prompts: {
@@ -171,8 +187,16 @@ export global Store  {
         icon: @image-url("./images/bot.svg"),
     };
 
-    in-out property<{show: bool}> help-dialog: {
+    in-out property<{show: bool, text: string}> help-dialog: {
         show: false,
+        text: "快捷键:\n"
+            + "  1. Ctrl+U: 当前会话滚动到顶部。\n"
+            + "  2. Ctrl+D: 当前会话滚动到底部。\n"
+            + "  3. Ctrl+U: 问题输入框高放大4倍。\n"
+            + "  4. Ctrl+D: 问题输入框高恢复原来大小。\n"
+            + "\nOpenAI:\n"
+            + "  1. chatgpt-turbo-3.5 目前最多支持4096个tokens（输入+输出）。\n"
+            + "  2. temperature：控制ChatGPT自由发挥度，数值越高自由发挥度越高。\n"
     };
 
     in-out property<Translation> translator: setting-dialog-config.ui.language != "en" ? Translator.cn : Translator.en;

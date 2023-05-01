@@ -10,6 +10,18 @@ export component Body inherits ListView {
         return utext + "\n\n" + btext;
     }
 
+    public function scroll-to-top() {
+        self.viewport-y = 0;
+    }
+
+    public function scroll-to-bottom() {
+        if (self.viewport-height <= self.visible-height) {
+            return;
+        }
+
+        self.viewport-y = -self.viewport-height + self.visible-height;
+    }
+
     for data in Store.session-datas : VerticalLayout {
         padding-bottom: Theme.padding * 2;
         UItem {

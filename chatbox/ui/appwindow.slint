@@ -39,22 +39,67 @@ export component AppWindow inherits Window {
     }
 
     FocusScope {
+        property<bool> is-ctrl-pressed: false;
+        property<bool> is-shift-pressed: false;
         key-pressed(event) => {
             if (event.text == Key.Escape) {
                 Logic.hide-window();
+            } else if (event.text == Key.Tab) {
+                rpanel.force-question-input-focus();
+            } else if (event.text == Key.Control) {
+                is-ctrl-pressed = true;
+            } else if (event.text == "u") {
+                if (is-ctrl-pressed) {
+                    rpanel.scroll-to-top();
+                }
+            } else if (event.text == "d") {
+                if (is-ctrl-pressed) {
+                    rpanel.scroll-to-bottom();
+                }
             }
-            accept
+            reject
+        }
+
+        key-released(event) => {
+            if (event.text == Key.Control) {
+                is-ctrl-pressed = false;
+            }
+            reject
         }
     }
 
-    IconBtn {
-        icon: @image-url("./images/copy.svg");
-        x: parent.width - self.width - Theme.padding * 7;
+    Rectangle {
+        x: parent.width - self.width;
         y: Theme.padding * 2;
+        height: Theme.icon-size;
+        width: hbox.preferred-width;
 
-        clicked => {
-            Logic.copy-session-chats(Store.current-session-uuid);
-            Logic.show-message(Store.translator.session-chat-copy-success, "success");
+        hbox := HorizontalLayout {
+            alignment: end;
+            padding-right: Theme.padding * 7;
+            spacing: Theme.spacing * 2;
+
+            IconBtn {
+                icon: @image-url("./images/copy.svg");
+                clicked => {
+                    Logic.copy-session-chats(Store.current-session-uuid);
+                    Logic.show-message(Store.translator.session-chat-copy-success, "success");
+                }
+            }
+
+            IconBtn {
+                icon: @image-url("./images/arrow-down.svg");
+                clicked => {
+                    rpanel.scroll-to-bottom();
+                }
+            }
+
+            IconBtn {
+                icon: @image-url("./images/arrow-up.svg");
+                clicked => {
+                    rpanel.scroll-to-top();
+                }
+            }
         }
     }
 

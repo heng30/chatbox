@@ -14,6 +14,10 @@ export component Footer inherits VerticalLayout {
     property <bool> is-ctrl-pressed;
     property <bool> is-return-pressed;
 
+    public function force-focus() {
+        te.has-focus = true;
+    }
+
     FocusScope {
         VerticalLayout {
             width: 100%;
@@ -51,12 +55,19 @@ export component Footer inherits VerticalLayout {
         key-pressed(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = true;
-            }
-            if (event.text == Key.Return) {
+            } else if (event.text == Key.Return) {
                 is-return-pressed = true;
                 if (is-ctrl-pressed && is-return-pressed) {
                     Logic.send-input-text(root.question);
                     root.question = "";
+                }
+            } else if (event.text == "u") {
+                if (is-ctrl-pressed && root.height == Theme.bottom-panel-height) {
+                    root.height = Theme.bottom-panel-height * 4;
+                }
+            } else if (event.text == "d") {
+                if (is-ctrl-pressed && root.height == Theme.bottom-panel-height * 4) {
+                    root.height = Theme.bottom-panel-height;
                 }
             }
             reject

@@ -7,7 +7,19 @@ export component RPanel inherits VerticalLayout {
     spacing: Theme.spacing;
     in-out property question <=> footer.question;
 
-    Body {}
+    public function scroll-to-top() {
+        body.scroll-to-top();
+    }
+
+    public function scroll-to-bottom() {
+        body.scroll-to-bottom();
+    }
+
+    public function force-question-input-focus() {
+        footer.force-focus();
+    }
+
+    body := Body {}
     footer := Footer {}
 }
 
