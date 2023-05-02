@@ -9,21 +9,20 @@ import { Proxy } from "./proxy.slint";
 
 export component SettingDialog inherits Rectangle {
     in-out property<length> body-width: 700px;
-    in-out property<length> body-height: 400px;
     in-out property<color> title-bg: Theme.brand-color;
 
     property<string> current-checked-item: "ui";
 
     visible: Store.setting-dialog-config.show;
     width: self.visible ? root.body-width : 0;
-    height: self.visible ? root.body-height : 0;
-    background: Theme.base-background-color;
+    height: self.visible ? vbox.preferred-height : 0;
+    background: Theme.dialog-background;
 
-
-    VerticalLayout {
-        Rectangle {
+    vbox := VerticalLayout {
+        alignment: start;
+        title-rect := Rectangle {
             background: root.title-bg;
-            min-height: txt.preferred-height * 1.33;
+            height: txt.preferred-height * 1.33;
             txt := Text {
                 text: Store.translator.setting;
                 color: Colors.white;
@@ -31,86 +30,82 @@ export component SettingDialog inherits Rectangle {
             }
         }
 
-        Rectangle {
-            height: 100%;
-            background: Theme.dialog-background;
+        VerticalLayout {
+            spacing: Theme.spacing * 2;
+            padding: Theme.padding * 2;
+            padding-bottom: Theme.padding * 10;
 
-            VerticalLayout {
-                spacing: Theme.spacing * 2;
-                padding: Theme.padding * 2;
+            HorizontalLayout {
+                alignment: space-around;
+                height: Theme.default-font-size + Theme.padding * 2;
 
-                HorizontalLayout {
-                    alignment: space-around;
-                    height: Theme.default-font-size + Theme.padding * 2;
-
-                    TabBtn {
-                        text: Store.translator.setting-dialog-ui;
-                        icon: @image-url("../../images/setting-fill.svg");
-                        checked: current-checked-item == "ui";
-                        clicked => {
-                            current-checked-item = "ui";
-                        }
-                    }
-
-                    TabBtn {
-                        text: Store.translator.setting-dialog-chat;
-                        icon: @image-url("../../images/chat.svg");
-                        checked: current-checked-item == "chat";
-                        clicked => {
-                            current-checked-item = "chat";
-                        }
-                    }
-
-                    TabBtn {
-                        text: Store.translator.setting-dialog-proxy;
-                        icon: @image-url("../../images/proxy.svg");
-                        checked: current-checked-item == "proxy";
-                        clicked => {
-                            current-checked-item = "proxy";
-                        }
-                    }
-
-                }
-
-                HorizontalLayout {
-                    alignment: center;
-                    Rectangle {
-                        width: 100%;
-                        height: 2px;
-                        background: Theme.brand-color;
+                TabBtn {
+                    text: Store.translator.setting-dialog-ui;
+                    icon: @image-url("../../images/setting-fill.svg");
+                    checked: current-checked-item == "ui";
+                    clicked => {
+                        current-checked-item = "ui";
                     }
                 }
 
+                TabBtn {
+                    text: Store.translator.setting-dialog-chat;
+                    icon: @image-url("../../images/chat.svg");
+                    checked: current-checked-item == "chat";
+                    clicked => {
+                        current-checked-item = "chat";
+                    }
+                }
+
+                TabBtn {
+                    text: Store.translator.setting-dialog-proxy;
+                    icon: @image-url("../../images/proxy.svg");
+                    checked: current-checked-item == "proxy";
+                    clicked => {
+                        current-checked-item = "proxy";
+                    }
+                }
+
+            }
+
+            HorizontalLayout {
+                alignment: center;
                 Rectangle {
-                    ui-tab := UI {
-                        visible: current-checked-item == "ui";
-                        font-size: Theme.default-font-size / 1px;
-                        win-width: Theme.default-width / 1px;
-                        win-height: Theme.default-height / 1px;
-                    }
+                    width: 100%;
+                    height: 2px;
+                    background: Theme.brand-color;
+                }
+            }
 
-                    chat-tab := Chat {
-                        visible: current-checked-item == "chat";
+            Rectangle {
+                ui-tab := UI {
+                    visible: current-checked-item == "ui";
+                    font-size: Theme.default-font-size / 1px;
+                    win-width: Theme.default-width / 1px;
+                    win-height: Theme.default-height / 1px;
+                }
 
-                        openai-api-key: Store.setting-dialog-config.chat.openai.api-key;
-                        openai-url: Store.setting-dialog-config.chat.openai.chat.url;
-                        openai-max-tokens: Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 128);
-                        openai-temperature: Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, 0);
-                        openai-frequency-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
-                        openai-presence-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200);
-                    }
+                chat-tab := Chat {
+                    visible: current-checked-item == "chat";
 
-                    proxy-tab := Proxy {
-                        visible: current-checked-item == "proxy";
-                        proxy-enabled: Store.setting-dialog-config.proxy.enabled;
-                        proxy-url: Store.setting-dialog-config.proxy.url;
-                        proxy-port: Store.setting-dialog-config.proxy.port;
-                    }
+                    openai-api-key: Store.setting-dialog-config.chat.openai.api-key;
+                    openai-url: Store.setting-dialog-config.chat.openai.chat.url;
+                    openai-max-tokens: Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 128);
+                    openai-temperature: Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, 0);
+                    openai-frequency-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
+                    openai-presence-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200);
+                }
+
+                proxy-tab := Proxy {
+                    visible: current-checked-item == "proxy";
+                    proxy-enabled: Store.setting-dialog-config.proxy.enabled;
+                    proxy-url: Store.setting-dialog-config.proxy.url;
+                    proxy-port: Store.setting-dialog-config.proxy.port;
                 }
             }
         }
 
-        HorizontalLayout {
+        footer-hbox := HorizontalLayout {
             spacing: Theme.spacing;
             Btn {
                 text: Store.translator.cancel;
