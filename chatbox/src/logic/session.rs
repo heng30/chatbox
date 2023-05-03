@@ -6,7 +6,8 @@ use crate::util::translator::tr;
 #[allow(unused)]
 use log::debug;
 use log::warn;
-use slint::{ComponentHandle, Model, ModelRc, VecModel, Weak};
+use slint::{ComponentHandle, Model, ModelExt, ModelRc, VecModel, Weak};
+use std::cmp::Ordering;
 use std::rc::Rc;
 use uuid::Uuid;
 
@@ -104,7 +105,22 @@ fn init_session(ui: &AppWindow) {
                 sessions.push(chat_session);
             }
 
-            // TODO: sort the vector
+            let sessions = sessions.sort_by(|a, b| -> Ordering {
+                if a.uuid == DEFAULT_SESSION_UUID {
+                    Ordering::Less
+                } else if b.uuid == DEFAULT_SESSION_UUID {
+                    Ordering::Greater
+                } else if a.is_mark && b.is_mark {
+                    a.name.to_lowercase().cmp(&b.name.to_lowercase())
+                } else if a.is_mark && !b.is_mark {
+                    Ordering::Less
+                } else if !a.is_mark && b.is_mark {
+                    Ordering::Greater
+                } else {
+                    a.name.to_lowercase().cmp(&b.name.to_lowercase())
+                }
+            });
+
             if sessions.row_count() > 0 {
                 ui.global::<Store>()
                     .set_session_datas(sessions.row_data(0).unwrap().chat_items);
