@@ -18,6 +18,7 @@ mod logic;
 mod openai;
 mod util;
 mod version;
+mod audio;
 
 use logic::{about, chat, clipboard, message, ok_cancel_dialog, session, window, setting};
 
