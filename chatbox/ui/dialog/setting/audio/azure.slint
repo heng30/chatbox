@@ -1,0 +1,42 @@
+import { LineEdit } from "std-widgets.slint";
+import { Theme } from "../../../theme.slint";
+import { Store } from "../../../store.slint";
+
+export component Azure inherits Rectangle {
+    width: 100%;
+    height: 100%;
+
+    property<length> label-width: Theme.default-label-width * 1.5;
+
+    in-out property api-key <=> api-lineedit.text;
+    in-out property region <=> region-lineedit.text;
+
+    VerticalLayout {
+        width: 100%;
+        spacing: Theme.spacing * 3;
+
+        HorizontalLayout {
+            region-txt := Text {
+                width: label-width;
+                text: Store.translator.setting-dialog-audio-region;
+            }
+
+            region-lineedit := LineEdit {
+                height: region-txt.preferred-height + Theme.padding;
+                placeholder-text: Store.translator.setting-dialog-audio-region-placeholder;
+            }
+        }
+
+        HorizontalLayout {
+            api-txt := Text {
+                width: label-width;
+                text: "API Key:";
+            }
+
+            api-lineedit := LineEdit {
+                height: api-txt.preferred-height + Theme.padding;
+                placeholder-text: "API Key";
+            }
+        }
+    }
+}

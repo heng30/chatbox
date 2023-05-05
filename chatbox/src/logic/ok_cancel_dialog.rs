@@ -11,6 +11,8 @@ pub fn init(ui: &AppWindow) {
                 ui.global::<Logic>().invoke_delete_chat_item(handle_uuid);
             } else if handle_type.as_str() == "session-item" {
                 ui.global::<Logic>().invoke_delete_session(handle_uuid);
+            } else if handle_type.as_str() == "session-reset" {
+                ui.global::<Logic>().invoke_reset_current_session();
             }
         });
 }

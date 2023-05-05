@@ -1,0 +1,39 @@
+import { ComboBox } from "std-widgets.slint";
+import { Theme } from "../../../theme.slint";
+import { Store } from "../../../store.slint";
+import { Azure } from "./azure.slint";
+
+export component Audio inherits Rectangle {
+    width: 100%;
+    height: 100%;
+
+    in-out property current-api-type-index <=> type-combox.current-index;
+
+    in-out property azure-api-key <=> azure.api-key;
+    in-out property azure-region <=> azure.region;
+
+    VerticalLayout {
+        width: 100%;
+        spacing: Theme.spacing * 3;
+
+        HorizontalLayout {
+            type-txt := Text {
+                width: Theme.default-label-width * 1.5;
+                text: Store.translator.setting-dialog-audio-api-type;
+            }
+
+            type-combox := ComboBox {
+                height: type-txt.preferred-height;
+                model: Store.setting-dialog-config.audio.model;
+                current-value: self.model[0];
+                current-index: 0;
+            }
+        }
+
+        Rectangle {
+            azure := Azure {
+                visible: current-api-type-index == 0;
+            }
+        }
+    }
+}

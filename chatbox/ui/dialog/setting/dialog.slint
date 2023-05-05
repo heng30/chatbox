@@ -5,13 +5,14 @@ import { Btn } from "../../base/btn.slint";
 import { TabBtn } from "../../base/tab-btn.slint";
 import { UI } from "./ui.slint";
 import { Chat } from "./chat/chat.slint";
+import { Audio } from "./audio/audio.slint";
 import { Proxy } from "./proxy.slint";
 
 export component SettingDialog inherits Rectangle {
     in-out property<length> body-width: 700px;
     in-out property<color> title-bg: Theme.brand-color;
 
-    property<string> current-checked-item: "ui";
+    property<string> current-checked-item: "audio";
 
     visible: Store.setting-dialog-config.show;
     width: self.visible ? root.body-width : 0;
@@ -58,6 +59,15 @@ export component SettingDialog inherits Rectangle {
                 }
 
                 TabBtn {
+                    text: Store.translator.setting-dialog-audio;
+                    icon: @image-url("../../images/speak.svg");
+                    checked: current-checked-item == "audio";
+                    clicked => {
+                        current-checked-item = "audio";
+                    }
+                }
+
+                TabBtn {
                     text: Store.translator.setting-dialog-proxy;
                     icon: @image-url("../../images/proxy.svg");
                     checked: current-checked-item == "proxy";
@@ -96,6 +106,12 @@ export component SettingDialog inherits Rectangle {
                     openai-presence-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200);
                 }
 
+                audio-tab := Audio {
+                    visible: current-checked-item == "audio";
+                    azure-api-key: Store.setting-dialog-config.audio.api-key;
+                    azure-region: Store.setting-dialog-config.audio.region;
+                }
+
                 proxy-tab := Proxy {
                     visible: current-checked-item == "proxy";
                     proxy-enabled: Store.setting-dialog-config.proxy.enabled;
@@ -131,6 +147,10 @@ export component SettingDialog inherits Rectangle {
                     chat-tab.openai-frequency-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
                     chat-tab.openai-presence-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200 );
 
+
+                    audio-tab.azure-api-key = Store.setting-dialog-config.audio.api-key;
+                    audio-tab.azure-region = Store.setting-dialog-config.audio.region;
+
                     Store.setting-dialog-config.show = false;
                 }
             }
@@ -163,6 +183,10 @@ export component SettingDialog inherits Rectangle {
                                     presence-penalty: chat-tab.openai-presence-penalty
                                 }
                             }
+                        },
+                        audio: {
+                            region: audio-tab.azure-region,
+                            api-key: audio-tab.azure-api-key,
                         }
                     });
 

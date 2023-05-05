@@ -7,6 +7,7 @@ import { CodeText } from "./code-text.slint";
 export component BItem inherits VerticalLayout{
     in-out property text <=> txt.org-text;
     in-out property items <=> txt.items;
+    in-out property<string> uuid;
 
     padding-left: self.width * 30%;
     padding-right: Theme.padding * 2;
@@ -14,7 +15,33 @@ export component BItem inherits VerticalLayout{
 
     HorizontalLayout {
         padding-bottom: Theme.padding;
-        alignment: end;
+        alignment: space-between;
+
+        HorizontalLayout {
+            alignment: end;
+            padding-left: Theme.padding;
+            spacing: Theme.spacing * 2;
+
+            VerticalLayout {
+                alignment: end;
+                IconBtn {
+                    icon: @image-url("../../images/copy.svg");
+                    clicked => {
+                        Logic.copy-to-clipboard(root.text);
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: end;
+                copy-icon := IconBtn {
+                    icon: @image-url("../../images/speaker.svg");
+                    clicked => {
+                        Logic.text-to-speech(root.uuid, root.text);
+                    }
+                }
+            }
+        }
 
         Rectangle {
             height: img.width + 10px;
@@ -38,7 +65,7 @@ export component BItem inherits VerticalLayout{
 
             TouchArea {
                 clicked => {
-                    Logic.copy_to_clipboard(root.text);
+                    Logic.copy-to-clipboard(root.text);
                 }
             }
 

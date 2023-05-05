@@ -97,7 +97,11 @@ export component Footer inherits VerticalLayout {
                 height: root.btn-height;
                 text: Store.translator.reset;
                 clicked => {
-                    Logic.reset-current-session();
+                    Store.ok-cancel-dialog-setting.title-type = "warning";
+                    Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                    Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
+                    Store.ok-cancel-dialog-setting.handle-type = "session-reset";
+                    Store.ok-cancel-dialog-setting.handle-uuid = "";
                 }
             }
 

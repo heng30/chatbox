@@ -90,11 +90,18 @@ export struct SettingChat {
     openai: SettingChatOpenAI,
 }
 
+export struct SettingAudio {
+    model: [string],
+    region: string,
+    api-key: string,
+}
+
 export struct SettingDialogConfig {
     show: bool,
     ui: SettingUI,
     proxy: SettingProxy,
     chat: SettingChat,
+    audio: SettingAudio,
 }
 
 export struct AboutDialog {
@@ -110,21 +117,21 @@ export global Store  {
     in-out property<bool> is-tab-pressed: false;
 
     in-out property<[ChatItem]> session-datas: [
-        // {
-        //     utext: "hello world",
-        //     btext: "int main()\n{\n    printf('hello world');",
+        {
+            utext: "hello world",
+            btext: "int main()\n{\n    printf('hello world');",
 
-        //     btext-items: [
-        //         {
-        //             text-type: "plain",
-        //             text: "hello world"
-        //         },
-        //         {
-        //             text-type: "code",
-        //             text: "int main()\n{\n    printf('hello world');\n}"
-        //         }
-        //     ]
-        // },
+            btext-items: [
+                {
+                    text-type: "plain",
+                    text: "hello world"
+                },
+                {
+                    text-type: "code",
+                    text: "int main()\n{\n    printf('hello world');\n}"
+                }
+            ]
+        },
 
         // {
         //     utext: "hello world",
@@ -170,13 +177,16 @@ export global Store  {
     };
 
     in-out property<SettingDialogConfig> setting-dialog-config: {
-        show: false,
+        show: true,
         ui: {
             font-size: "18",
             win-width: "1200",
             win-height: "800",
             language: "cn",
         },
+        audio: {
+            model: ["Azure Cognitive Services"],
+        }
     };
 
     in-out property<AboutDialog> about-dialog: {
