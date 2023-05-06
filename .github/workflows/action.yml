@@ -13,7 +13,7 @@ jobs:
       - run: echo "The ${{ github.workspace }} is now ready to test your code on the runner."
       - run: ls ${{ github.workspace }}
       - run: sudo apt update
-      - run: sudo apt install libfreetype6-dev libexpat1-dev libxcb-composite0-dev alsa-base alsa-utils
+      - run: sudo apt install libfreetype6-dev libexpat1-dev libxcb-composite0-dev libasound2-dev
 
       - run: echo "start install Rust..."
       - name: Install Rust
