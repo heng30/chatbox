@@ -64,6 +64,9 @@ pub fn init(ui: &AppWindow) {
         config.openai.chat.presence_penalty =
             setting_config.chat.openai.chat.presence_penalty.round() / 100.0;
 
+        config.audio.region = setting_config.audio.region.to_string();
+        config.audio.api_key = setting_config.audio.api_key.to_string();
+
         match config::save(config) {
             Err(e) => {
                 ui.global::<Logic>().invoke_show_message(
@@ -85,6 +88,7 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     let ui_config = config::ui();
     let socks5_config = config::socks5();
     let openai_config = config::openai();
+    let audio_config = config::audio();
 
     let mut setting_dialog = ui.global::<Store>().get_setting_dialog_config();
     setting_dialog.ui.font_size = slint::format!("{}", ui_config.font_size);
@@ -105,6 +109,9 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     setting_dialog.chat.openai.chat.frequency_penalty =
         openai_config.chat.frequency_penalty * 100.0;
     setting_dialog.chat.openai.chat.presence_penalty = openai_config.chat.presence_penalty * 100.0;
+
+    setting_dialog.audio.region = audio_config.region.into();
+    setting_dialog.audio.api_key = audio_config.api_key.into();
 
     ui.global::<Store>()
         .set_setting_dialog_config(setting_dialog);

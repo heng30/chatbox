@@ -12,7 +12,7 @@ export component SettingDialog inherits Rectangle {
     in-out property<length> body-width: 700px;
     in-out property<color> title-bg: Theme.brand-color;
 
-    property<string> current-checked-item: "audio";
+    property<string> current-checked-item: "ui";
 
     visible: Store.setting-dialog-config.show;
     width: self.visible ? root.body-width : 0;

@@ -28,6 +28,14 @@ pub fn ui() -> data::UI {
     CONFIG.lock().unwrap().borrow().ui.clone()
 }
 
+pub fn audio() -> data::Audio {
+    CONFIG.lock().unwrap().borrow().audio.clone()
+}
+
+pub fn audio_path() -> String {
+    CONFIG.lock().unwrap().borrow().cache_audio_dir.clone()
+}
+
 pub fn path() -> (String, String, String) {
     let conf = CONFIG.lock().unwrap();
     let conf = conf.borrow();
@@ -55,6 +63,7 @@ impl Config {
         let app_dirs = AppDirs::new(Some("chatbox"), true).unwrap();
         Self::init_app_dir(&app_dirs)?;
         self.init_config(&app_dirs)?;
+        self.init_path()?;
         self.load()?;
         debug!("{:?}", self);
         Ok(())
@@ -63,6 +72,12 @@ impl Config {
     fn init_app_dir(app_dirs: &AppDirs) -> CResult {
         fs::create_dir_all(&app_dirs.data_dir)?;
         fs::create_dir_all(&app_dirs.config_dir)?;
+        Ok(())
+    }
+
+    fn init_path(&self) -> CResult {
+        fs::create_dir_all(&self.cache_dir)?;
+        fs::create_dir_all(&self.cache_audio_dir)?;
         Ok(())
     }
 
@@ -81,6 +96,15 @@ impl Config {
             .unwrap()
             .to_string();
 
+        self.cache_dir = app_dirs
+            .data_dir
+            .join("cache")
+            .to_str()
+            .unwrap()
+            .to_string();
+
+        self.cache_audio_dir = self.cache_dir.clone() + "/audio";
+
         let mut dir = env::current_exe()?;
         dir.pop();
         self.working_dir = dir.to_str().unwrap().to_string();
@@ -91,6 +115,7 @@ impl Config {
         match fs::read_to_string(&self.config_path) {
             Ok(text) => match serde_json::from_str::<Config>(&text) {
                 Ok(c) => {
+                    self.audio = c.audio;
                     self.openai = c.openai;
                     self.socks5 = c.socks5;
                     self.ui = c.ui;

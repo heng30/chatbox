@@ -9,11 +9,19 @@ pub struct Config {
     #[serde(skip)]
     pub db_path: String,
 
+    #[serde(skip)]
+    pub cache_dir: String,
+
+    #[serde(skip)]
+    pub cache_audio_dir: String,
+
     pub ui: UI,
 
     pub socks5: Socks5,
 
     pub openai: OpenAi,
+
+    pub audio: Audio,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -93,4 +101,11 @@ impl Default for OpenAiChat {
             presence_penalty: 0.0,
         }
     }
+}
+
+
+#[derive(Serialize, Deserialize, Default, Debug, Clone)]
+pub struct Audio {
+    pub region: String,
+    pub api_key: String,
 }

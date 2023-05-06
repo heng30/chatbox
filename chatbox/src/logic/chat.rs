@@ -1,4 +1,5 @@
 use super::data::{HistoryChat, StopChat, StreamTextItem};
+use crate::audio;
 use crate::openai;
 use crate::session;
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, CodeTextItem, Logic, Store};
@@ -207,6 +208,10 @@ pub fn init(ui: &AppWindow) {
 
     ui.global::<Logic>().on_stop_generate_text(move || {
         set_stop_chat(None, true);
+    });
+
+    ui.global::<Logic>().on_text_to_speech(move |uuid, text| {
+        audio::azure::play(uuid.to_string() + ".mp3", text.to_string());
     });
 }
 
