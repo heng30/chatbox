@@ -7,15 +7,16 @@ export component HelpDialog inherits CDialog {
 
     title: Store.translator.help;
     title-bg: Theme.brand-color;
-    width: 650px;
-    height: 400px;
+    width: 800px;
+    height: 600px;
 
     rect := Rectangle {
         background: Theme.dialog-background;
         HorizontalLayout {
             padding: Theme.padding;
             Text {
-                text: Store.help-dialog.text;
+                text: Store.setting-dialog-config.ui.language == "cn" ?
+                          Store.help-dialog.text-cn : Store.help-dialog.text-en;
                 wrap: word-wrap;
             }
         }

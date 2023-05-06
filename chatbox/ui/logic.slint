@@ -20,6 +20,7 @@ export global Logic {
     callback stop-generate_text();
     callback code-text-items(string) -> [CodeTextItem];
     callback text-to-speech(string, string);
+    callback clean-audio-cache();
 
     callback show-message(string, string);
     callback copy-to-clipboard(string);

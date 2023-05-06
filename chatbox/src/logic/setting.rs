@@ -1,15 +1,33 @@
 use crate::config;
 use crate::slint_generatedAppWindow::{AppWindow, Logic, Store};
-use crate::util::translator::tr;
+use crate::util::{self, translator::tr};
+use log::warn;
 use slint::{ComponentHandle, Weak};
 
 pub fn init(ui: &AppWindow) {
     let ui_cancel = ui.as_weak();
     let ui_ok = ui.as_weak();
+    let cache_clean_btn = ui.as_weak();
+
     init_setting_dialog(ui.as_weak());
 
     ui.global::<Logic>().on_setting_cancel(move || {
         init_setting_dialog(ui_cancel.clone());
+    });
+
+    ui.global::<Logic>().on_clean_audio_cache(move || {
+        let ui = cache_clean_btn.unwrap();
+
+        match util::fs::remove_dir_files(&config::audio_path()) {
+            Err(e) => ui.global::<Logic>().invoke_show_message(
+                slint::format!("{}{:?}", tr("清除缓存失败") + "！", e),
+                "warning".into(),
+            ),
+            _ => ui.global::<Logic>().invoke_show_message(
+                slint::format!("{}", tr("清除缓存成功") + "！"),
+                "success".into(),
+            ),
+        }
     });
 
     ui.global::<Logic>().on_setting_ok(move |setting_config| {
@@ -115,4 +133,13 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
 
     ui.global::<Store>()
         .set_setting_dialog_config(setting_dialog);
+
+    let mut cache = ui.global::<Store>().get_cache();
+    match util::fs::dir_size(&config::audio_path()) {
+        Ok(size) => {
+            cache.audio = size.into();
+            ui.global::<Store>().set_cache(cache);
+        },
+        Err(e) => warn!("get audio cache size failed. {:?}", e),
+    }
 }

@@ -29,6 +29,8 @@ pub fn tr(text: &str) -> String {
     items.insert("保存失败", "Save Failed");
     items.insert("保存成功", "Save Success");
     items.insert("隐藏程序失败", "Hide Window Failed");
+    items.insert("清除缓存失败", "Clean Cache Failed");
+    items.insert("清除缓存成功", "Clean Cache Success");
 
     if let Some(txt) = items.get(text) {
         return txt.to_string();

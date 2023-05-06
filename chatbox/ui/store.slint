@@ -113,25 +113,29 @@ export struct AboutDialog {
 }
 
 
+export struct Cache {
+    audio: string,
+}
+
 export global Store  {
     in-out property<bool> is-tab-pressed: false;
 
     in-out property<[ChatItem]> session-datas: [
-        {
-            utext: "hello world",
-            btext: "int main()\n{\n    printf('hello world');",
+        // {
+        //     utext: "hello world",
+        //     btext: "int main()\n{\n    printf('hello world');",
 
-            btext-items: [
-                {
-                    text-type: "plain",
-                    text: "hello world"
-                },
-                {
-                    text-type: "code",
-                    text: "int main()\n{\n    printf('hello world');\n}"
-                }
-            ]
-        },
+        //     btext-items: [
+        //         {
+        //             text-type: "plain",
+        //             text: "hello world"
+        //         },
+        //         {
+        //             text-type: "code",
+        //             text: "int main()\n{\n    printf('hello world');\n}"
+        //         }
+        //     ]
+        // },
 
         // {
         //     utext: "hello world",
@@ -197,9 +201,13 @@ export global Store  {
         icon: @image-url("./images/bot.svg"),
     };
 
-    in-out property<{show: bool, text: string}> help-dialog: {
+    in-out property<Cache> cache: {
+        audio: "0M",
+    };
+
+    in-out property<{show: bool, text-cn: string, text-en: string}> help-dialog: {
         show: false,
-        text: "快捷键:\n"
+        text-cn: "快捷键:\n"
             + "  1. Ctrl+U: 当前会话滚动到顶部。\n"
             + "  2. Ctrl+D: 当前会话滚动到底部。\n"
             + "  3. Ctrl+U: 问题输入框高放大4倍。\n"
@@ -207,6 +215,27 @@ export global Store  {
             + "\nOpenAI:\n"
             + "  1. chatgpt-turbo-3.5 目前最多支持4096个tokens（输入+输出）。\n"
             + "  2. temperature：控制ChatGPT自由发挥度，数值越高自由发挥度越高。\n"
+            + "\n文字转音频:\n"
+            + "  1. 不会使用代理。\n"
+            + "  2. 第一次转换可能需要比较长的时间，请耐心等待。之后就使用缓存进行朗读。\n"
+            + "\n配置和数据:\n"
+            + "  1. 配置保存在~/.config/chatbox目录下。\n"
+            + "  2. 数据保存在~/.local/share/chatbox目录下。\n",
+
+        text-en: "Keyboard shortcuts:\n"
+            + "  1. Ctrl+U: Scroll to the top of the current session.\n"
+            + "  2. Ctrl+D: Scroll to the bottom of the current session.\n"
+            + "  3. Ctrl+U: Enlarge the question input box by four times.\n"
+            + "  4. Ctrl+D: Restore the question input box to its original size.\n"
+            + "\nOpenAI:\n"
+            + "  1. chatgpt-turbo-3.5 currently supports up to 4096 tokens (input + output).\n"
+            + "  2. Temperature: control ChatGPT's degree of freedom, with higher values resulting in more freedom.\n"
+            + "\nText-to-speech:\n"
+            + "  1. No proxies are used.\n"
+            + "  2. The first conversion may take some time, please be patient. Subsequently, caching will be used for reading out text.\n"
+            + "\nConfiguration and data:\n"
+            + "  1. Configuration is stored in the ~/.config/chatbox directory.\n"
+            + "  2. Data is stored in the ~/.local/share/chatbox directory."
     };
 
     in-out property<Translation> translator: setting-dialog-config.ui.language != "en" ? Translator.cn : Translator.en;
