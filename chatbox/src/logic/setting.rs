@@ -23,10 +23,15 @@ pub fn init(ui: &AppWindow) {
                 slint::format!("{}{:?}", tr("清除缓存失败") + "！", e),
                 "warning".into(),
             ),
-            _ => ui.global::<Logic>().invoke_show_message(
-                slint::format!("{}", tr("清除缓存成功") + "！"),
-                "success".into(),
-            ),
+            _ => {
+                let mut cache = ui.global::<Store>().get_cache();
+                cache.audio = "OM".into();
+                ui.global::<Store>().set_cache(cache);
+                ui.global::<Logic>().invoke_show_message(
+                    slint::format!("{}", tr("清除缓存成功") + "！"),
+                    "success".into(),
+                );
+            }
         }
     });
 
@@ -139,7 +144,7 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
         Ok(size) => {
             cache.audio = size.into();
             ui.global::<Store>().set_cache(cache);
-        },
+        }
         Err(e) => warn!("get audio cache size failed. {:?}", e),
     }
 }

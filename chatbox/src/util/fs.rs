@@ -6,11 +6,9 @@ pub fn dir_size(path: &str) -> Result<String, Box<dyn std::error::Error>> {
     let metadata = fs::metadata(path)?;
 
     if metadata.is_dir() {
-        for entry in fs::read_dir(path)? {
-            if let Ok(entry) = entry {
-                let size = entry.metadata()?.len();
-                total_size += size;
-            }
+        for entry in fs::read_dir(path)?.flatten() {
+            let size = entry.metadata()?.len();
+            total_size += size;
         }
     } else {
         total_size += metadata.len();

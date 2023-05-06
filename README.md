@@ -10,7 +10,8 @@
 - [x] 支持删除一次会话提问，清空当前会话，停止当前会话
 - [x] 支持配置是否启用历史会话模式
 - [x] 支持`Socks5`代理配置
-- [x] 支持中英双语
+- [x] 支持中英界面
+- [x] 支持中英双语朗读
 
 #### 参考
 - [Slint Language Documentation](https://slint-ui.com/releases/1.0.0/docs/slint/)
