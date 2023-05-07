@@ -138,11 +138,25 @@ fn split_text(text: &str) -> Vec<AzureTextItem> {
 
     result
         .into_iter()
+        .filter(|item| {
+            !item
+                .text
+                .trim()
+                .trim_matches(|c: char| {
+                    c.is_ascii_punctuation() || c.is_control() || c.is_whitespace()
+                })
+                .trim()
+                .is_empty()
+        })
         .map(|item| AzureTextItem {
             text_type: item.text_type,
-            text: item.text.trim().to_string(),
+            text: item.text.trim().to_string()
+                + if item.text_type == TextType::EnUs {
+                    "."
+                } else {
+                    "。"
+                },
         })
-        .filter(|item| !item.text.is_empty())
         .collect()
 }
 
