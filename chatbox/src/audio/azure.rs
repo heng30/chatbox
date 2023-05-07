@@ -150,7 +150,14 @@ fn split_text(text: &str) -> Vec<AzureTextItem> {
         })
         .map(|item| AzureTextItem {
             text_type: item.text_type,
-            text: item.text.trim().to_string()
+            text: item
+                .text
+                .trim()
+                .trim_matches(|c: char| {
+                    c.is_ascii_punctuation() || c.is_control() || c.is_whitespace()
+                })
+                .trim()
+                .to_string()
                 + if item.text_type == TextType::EnUs {
                     "."
                 } else {
@@ -186,7 +193,21 @@ mod tests {
 
     #[test]
     fn test_split_text() {
-        let text = "Hello, 世界！One World! 你好吗？";
+        // let text = "Hello, 世界！One World! 你好吗？";
+        let text = "
+        - 词性：动词
+        - 英文：archive
+
+        - 例句：
+        1. We need to archive these files for future reference.
+        我们需要将这些文件归档以备将来参考。
+
+        2. The museum archives historical documents and artifacts.
+        这个博物馆归档历史文献和文物。
+
+        3. Please make sure to archive all the emails related to this project.
+        请务必将所有与这个项目相关的电子邮件进行归档。";
+
         let expected_result = vec![
             AzureTextItem {
                 text_type: TextType::EnUs,

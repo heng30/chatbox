@@ -25,7 +25,7 @@ pub fn init(ui: &AppWindow) {
             ),
             _ => {
                 let mut cache = ui.global::<Store>().get_cache();
-                cache.audio = "OM".into();
+                cache.audio = "0M".into();
                 ui.global::<Store>().set_cache(cache);
                 ui.global::<Logic>().invoke_show_message(
                     slint::format!("{}", tr("清除缓存成功") + "！"),
