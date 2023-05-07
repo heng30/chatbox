@@ -14,6 +14,7 @@ import { AboutDialog } from "./dialog/about.slint";
 import { HelpDialog } from "./dialog/help.slint";
 import { OkCancelDialog } from "./dialog/ok-cancel.slint";
 import { IconBtn } from "./base/icon-btn.slint";
+import { NewArchiveDialog } from "./dialog/new-archive.slint";
 
 export component AppWindow inherits Window {
     default-font-size: Theme.default-font-size;
@@ -29,6 +30,18 @@ export component AppWindow inherits Window {
     in-out property session-use-history <=> session-dialog.use-history;
 
     in-out property question <=> rpanel.question;
+
+    function toggle-archive-panel() {
+        if (Theme.body-right-panel-width > 0) {
+            Theme.body-right-panel-width = 0;
+            Theme.uitem-right-padding = 50%;
+            Theme.bitem-left-padding = 30%;
+        } else {
+            Theme.body-right-panel-width = 350px;
+            Theme.uitem-right-padding = 40%;
+            Theme.bitem-left-padding = 10%;
+        }
+    }
 
     HorizontalLayout {
         padding: Theme.padding;
@@ -56,6 +69,10 @@ export component AppWindow inherits Window {
                 if (is-ctrl-pressed) {
                     rpanel.scroll-to-bottom();
                 }
+            } else if (event.text == "b") {
+                if (is-ctrl-pressed) {
+                    root.toggle-archive-panel();
+                }
             }
             reject
         }
@@ -69,7 +86,7 @@ export component AppWindow inherits Window {
     }
 
     Rectangle {
-        x: parent.width - self.width;
+        x: parent.width - self.width - Theme.body-right-panel-width;
         y: Theme.padding * 2;
         height: Theme.icon-size;
         width: hbox.preferred-width;
@@ -88,6 +105,13 @@ export component AppWindow inherits Window {
             }
 
             IconBtn {
+                icon: @image-url("./images/file-archive.svg");
+                clicked => {
+                    Store.show-archive-dialog = true;
+                }
+            }
+
+            IconBtn {
                 icon: @image-url("./images/arrow-down.svg");
                 clicked => {
                     rpanel.scroll-to-bottom();
@@ -100,11 +124,21 @@ export component AppWindow inherits Window {
                     rpanel.scroll-to-top();
                 }
             }
+
+            IconBtn {
+                icon: Theme.body-right-panel-width > 0 ?
+                          @image-url("./images/arrow-right.svg")
+                          : @image-url("./images/arrow-left.svg");
+
+                clicked => {
+                    root.toggle-archive-panel();
+                }
+            }
         }
     }
 
     Rectangle {
-        if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible : Rectangle {
+        if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible : Rectangle {
             width: 100%;
             height: 100%;
             opacity: 0.3;
@@ -119,6 +153,8 @@ export component AppWindow inherits Window {
         about-dialog := AboutDialog { }
 
         help-dialog := HelpDialog { }
+
+        arch-dialog := NewArchiveDialog {  }
 
         oc-dialog := OkCancelDialog { }
     }

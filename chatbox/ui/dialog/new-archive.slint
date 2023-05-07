@@ -1,0 +1,41 @@
+import { LineEdit } from "std-widgets.slint";
+import { CDialog } from "../base/cdialog.slint";
+import { Store } from "../store.slint";
+import { Util } from "../util.slint";
+import { Logic } from "../logic.slint";
+import { Theme } from "../theme.slint";
+
+export component NewArchiveDialog inherits CDialog {
+    visible: Store.show-archive-dialog;
+
+    title: Store.translator.session-new-archive;
+    title-bg: Theme.brand-color;
+    background: rect.background;
+    body-height: rect.preferred-height;
+
+    rect := Rectangle {
+        background: Theme.dialog-background;
+        HorizontalLayout {
+            spacing: Theme.spacing * 2;
+            padding: Theme.padding * 2;
+
+            VerticalLayout {
+                alignment: center;
+                name-text := Text {
+                    text: Store.translator.name + ":";
+                    wrap: word-wrap;
+                }
+            }
+
+            name-lineedit := LineEdit { }
+        }
+    }
+
+    ok-clicked => {
+        Store.show-archive-dialog = false;
+    }
+
+    cancel-clicked => {
+        Store.show-archive-dialog = false;
+    }
+}

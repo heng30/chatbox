@@ -13,6 +13,7 @@ use std::rc::Rc;
 use std::sync::Mutex;
 use tokio::task::spawn;
 use uuid::Uuid;
+use crate::config;
 
 const LOADING_STRING: &str = "Thinking...";
 
@@ -117,6 +118,8 @@ pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
     let ui_delete_handle = ui.as_weak();
     let ui_mark_handle = ui.as_weak();
+    let ui_audio_handle = ui.as_weak();
+    let ui_audio_box = QBox::new(ui);
 
     ui.global::<Logic>().on_send_input_text(move |value| {
         if value.trim().is_empty() {
@@ -211,7 +214,16 @@ pub fn init(ui: &AppWindow) {
     });
 
     ui.global::<Logic>().on_text_to_speech(move |uuid, text| {
-        audio::azure::play(uuid.to_string() + ".mp3", text.to_string());
+        let ui = ui_audio_handle.unwrap();
+        let config = config::audio();
+
+        if config.region.is_empty() || config.api_key.is_empty() {
+            ui.global::<Logic>()
+                .invoke_show_message((tr("请进行音频配置") + "!").into(), "info".into());
+            return;
+        }
+
+        audio::azure::play(ui_audio_box, uuid.to_string() + ".mp3", text.to_string());
     });
 }
 

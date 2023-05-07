@@ -18,7 +18,10 @@ export struct ChatItem {
 
 export struct ArchiveChatItem {
     name: string,
+    utext: string,
+    btext: string,
     uuid: string,
+    is-mark: bool,
 }
 
 export struct ChatSession {
@@ -159,15 +162,21 @@ export global Store  {
         // },
     ];
 
-    in-out property<bool> show-archive-dialog: false;
-    in-out property<[ArchiveChatItem]> session-archive-datas: [
+    in-out property<[ChatItem]> session-archive-datas: [
         {
-            name: "Test",
-            uuid: "test-uuid",
-        },
-        {
-            name: "Test2",
-            uuid: "test-uuid2",
+            utext: "hello world",
+            btext: "int main()\n{\n    printf('hello world');",
+
+            btext-items: [
+                {
+                    text-type: "plain",
+                    text: "hello world"
+                },
+                {
+                    text-type: "code",
+                    text: "int main()\n{\n    printf('hello world');\n}"
+                }
+            ]
         },
     ];
 
@@ -230,7 +239,6 @@ export global Store  {
             + "  2. Ctrl+D: 当前会话滚动到底部。\n"
             + "  3. Ctrl+U: 问题输入框高放大4倍。\n"
             + "  4. Ctrl+D: 问题输入框高恢复原来大小。\n"
-            + "  5. Ctrl+B: 打开/关闭归档侧面板。\n"
             + "\nOpenAI:\n"
             + "  1. chatgpt-turbo-3.5 目前最多支持4096个tokens（输入+输出）。\n"
             + "  2. temperature：控制ChatGPT自由发挥度，数值越高自由发挥度越高。\n"
@@ -247,7 +255,6 @@ export global Store  {
             + "  2. Ctrl+D: Scroll to the bottom of the current session.\n"
             + "  3. Ctrl+U: Enlarge the question input box by four times.\n"
             + "  4. Ctrl+D: Restore the question input box to its original size.\n"
-            + "  5. Ctrl+B: Open/Close archive panel。\n"
             + "\nOpenAI:\n"
             + "  1. chatgpt-turbo-3.5 currently supports up to 4096 tokens (input + output).\n"
             + "  2. Temperature: control ChatGPT's degree of freedom, with higher values resulting in more freedom.\n"

@@ -1,9 +1,13 @@
 use super::data::{AzureTextItem, TextType};
 use crate::config;
+use crate::slint_generatedAppWindow::{AppWindow, Logic};
+use crate::util::qbox::QBox;
+use crate::util::translator::tr;
 use bytes::Bytes;
 use log::warn;
 use reqwest::header::{HeaderMap, HeaderValue};
 use rodio::{Decoder, OutputStream, Sink};
+use slint::ComponentHandle;
 use std::fs::File;
 use std::io::BufReader;
 use std::io::{Cursor, Read, Seek};
@@ -12,7 +16,7 @@ use tokio::fs::OpenOptions;
 use tokio::io::AsyncWriteExt;
 use tokio::task::spawn;
 
-pub fn play(audio_file: String, text: String) {
+pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
     let audio_filepath = config::audio_path() + "/" + &audio_file;
 
     spawn(async move {
@@ -28,7 +32,15 @@ pub fn play(audio_file: String, text: String) {
 
             text_to_speech(&text, &audio_filepath).await
         } {
-            warn!("{:?}", e);
+            let estr = e.to_string();
+            if let Err(err) = slint::invoke_from_event_loop(move || {
+                ui_box.borrow().global::<Logic>().invoke_show_message(
+                    slint::format!("{}: {}", tr("播放音频失败") + "!" + &tr("原因"), estr),
+                    "warning".into(),
+                );
+            }) {
+                warn!("{:?}", err);
+            }
         };
     });
 }

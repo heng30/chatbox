@@ -31,6 +31,8 @@ pub fn tr(text: &str) -> String {
     items.insert("隐藏程序失败", "Hide Window Failed");
     items.insert("清除缓存失败", "Clean Cache Failed");
     items.insert("清除缓存成功", "Clean Cache Success");
+    items.insert("请进行音频配置", "Please Configure The Audio Setting");
+    items.insert("播放音频失败", "Play Audio Failed");
 
     if let Some(txt) = items.get(text) {
         return txt.to_string();

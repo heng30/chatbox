@@ -1,0 +1,49 @@
+import { ListView } from "std-widgets.slint";
+import { Theme } from "../../theme.slint";
+import { Store } from "../../store.slint";
+import { Logic } from "../../logic.slint";
+import { IconBtn } from "../../base/icon-btn.slint";
+
+export component Right inherits Rectangle {
+    width: Theme.body-right-panel-width;
+    property<string> current-archive-uuid;
+
+    lv := ListView {
+        for data in Store.session-archive-datas : VerticalLayout {
+            padding-bottom: Theme.padding / 2;
+
+            Rectangle {
+                background: data.uuid == root.current-archive-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
+
+                touch := TouchArea {
+                    clicked => {
+                        root.current-archive-uuid = data.uuid;
+                    }
+                }
+
+                HorizontalLayout {
+                    padding: Theme.padding;
+
+                    Text {
+                        color: Colors.white;
+                        text: data.name;
+                    }
+
+                    HorizontalLayout {
+                        alignment: end;
+                        padding-right: Theme.padding;
+                        spacing: Theme.spacing * 2;
+
+                        VerticalLayout {
+                            alignment: end;
+                            IconBtn {
+                                icon: @image-url("../../images/delete.svg");
+                                clicked => { }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

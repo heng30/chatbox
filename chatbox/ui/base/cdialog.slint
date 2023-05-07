@@ -14,7 +14,7 @@ export component CDialog inherits Rectangle {
     visible: false;
     width: self.visible ? root.body-width : 0;
     height: self.visible ? root.body-height : 0;
-    background: Theme.base-background-color;
+    background: Theme.dialog-background;
 
     VerticalLayout {
         Rectangle {
@@ -30,21 +30,24 @@ export component CDialog inherits Rectangle {
             @children
         }
 
-        HorizontalLayout {
-            spacing: Theme.spacing;
-            Btn {
-                text: Store.translator.cancel;
-                bg-color: Theme.danger-color;
-                border-width: 0;
-                icon: @image-url("../images/cancel.svg");
-                clicked => { root.cancel-clicked(); }
-            }
+        Rectangle {
+            background: root.background;
+            HorizontalLayout {
+                spacing: Theme.spacing;
+                cancel-btn := Btn {
+                    text: Store.translator.cancel;
+                    bg-color: Theme.danger-color;
+                    border-width: 0;
+                    icon: @image-url("../images/cancel.svg");
+                    clicked => { root.cancel-clicked(); }
+                }
 
-            Btn {
-                text: Store.translator.ok;
-                border-width: 0;
-                icon: @image-url("../images/success.svg");
-                clicked => { root.ok-clicked(); }
+                Btn {
+                    text: Store.translator.ok;
+                    border-width: 0;
+                    icon: @image-url("../images/success.svg");
+                    clicked => { root.ok-clicked(); }
+                }
             }
         }
     }

@@ -4,41 +4,48 @@ import { Store } from "../../store.slint";
 import { Logic } from "../../logic.slint";
 import { UItem } from "./uitem.slint";
 import { BItem } from "./bitem.slint";
+import { Right } from "./right.slint";
 
-export component Body inherits ListView {
+export component Body inherits Rectangle {
     function new-chat-text(utext: string, btext: string) -> string {
         return utext + "\n\n" + btext;
     }
 
     public function scroll-to-top() {
-        self.viewport-y = 0;
+        lv.viewport-y = 0;
     }
 
     public function scroll-to-bottom() {
-        if (self.viewport-height <= self.visible-height) {
+        if (lv.viewport-height <= lv.visible-height) {
             return;
         }
 
-        self.viewport-y = -self.viewport-height + self.visible-height;
+        lv.viewport-y = -lv.viewport-height + lv.visible-height;
     }
 
-    for data in Store.session-datas : VerticalLayout {
-        padding-bottom: Theme.padding * 2;
-        UItem {
-            text: data.utext;
-            uuid: data.uuid;
-            is-mark: data.is-mark;
+    HorizontalLayout {
+        lv := ListView {
+            for data in Store.session-datas : VerticalLayout {
+                padding-bottom: Theme.padding * 2;
+                UItem {
+                    text: data.utext;
+                    uuid: data.uuid;
+                    is-mark: data.is-mark;
 
-            copy-clicked => {
-                Logic.copy_to_clipboard(root.new-chat-text(data.utext, data.btext));
+                    copy-clicked => {
+                        Logic.copy_to_clipboard(root.new-chat-text(data.utext, data.btext));
+                    }
+                }
+
+                BItem {
+                    text: data.btext;
+                    uuid: data.uuid;
+                    items: data.btext-items;
+                }
             }
         }
 
-        BItem {
-            text: data.btext;
-            uuid: data.uuid;
-            items: data.btext-items;
-        }
+        rg := Right {}
+
     }
 }
-
