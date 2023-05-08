@@ -12,6 +12,7 @@
 - [x] 支持`Socks5`代理配置
 - [x] 支持中英界面
 - [x] 支持中英双语朗读
+- [x] 支持对话归档
 
 #### 参考
 - [Slint Language Documentation](https://slint-ui.com/releases/1.0.0/docs/slint/)
