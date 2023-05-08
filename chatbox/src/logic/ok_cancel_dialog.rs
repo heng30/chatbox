@@ -1,4 +1,4 @@
-use crate::slint_generatedAppWindow::{AppWindow, Logic};
+use crate::slint_generatedAppWindow::{AppWindow, Logic, Store};
 use slint::ComponentHandle;
 
 pub fn init(ui: &AppWindow) {
@@ -13,6 +13,11 @@ pub fn init(ui: &AppWindow) {
                 ui.global::<Logic>().invoke_delete_session(handle_uuid);
             } else if handle_type.as_str() == "session-reset" {
                 ui.global::<Logic>().invoke_reset_current_session();
+            } else if handle_type.as_str() == "session-archive-item" {
+                ui.global::<Logic>().invoke_delete_session_archive(
+                    ui.global::<Store>().get_current_session_uuid(),
+                    handle_uuid,
+                );
             }
         });
 }

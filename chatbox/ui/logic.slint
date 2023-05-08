@@ -14,9 +14,11 @@ export global Logic {
     callback copy-session-chats(string);
     callback save-session-chats(string);
 
-    callback delete-session-archive(string);
-    callback show-session-archive(string);
     callback show-session-archive-list(string);
+    callback save-session-archive(string, string);
+    callback delete-session-archive(string, string);
+    callback delete-session-archives(string);
+    callback show-session-archive(string, string);
 
     callback send-input-text(string);
     callback delete-chat-item(string);

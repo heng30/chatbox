@@ -3,7 +3,6 @@ use crate::db;
 use crate::db::data::{SessionChats, SessionConfig};
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, ChatSession, Logic, Store};
 use crate::util::translator::tr;
-#[allow(unused)]
 use log::debug;
 use log::warn;
 use slint::{ComponentHandle, Model, ModelExt, ModelRc, VecModel, Weak};
@@ -124,6 +123,8 @@ fn init_session(ui: &AppWindow) {
             if sessions.row_count() > 0 {
                 ui.global::<Store>()
                     .set_session_datas(sessions.row_data(0).unwrap().chat_items);
+                ui.global::<Logic>()
+                    .invoke_show_session_archive_list(sessions.row_data(0).unwrap().uuid);
             }
 
             ui.global::<Store>()
@@ -214,8 +215,14 @@ pub fn init(ui: &AppWindow) {
             return;
         }
 
+        ui.global::<Logic>()
+            .invoke_delete_session_archives(ui.global::<Store>().get_current_session_uuid());
+
         ui.global::<Store>()
             .set_current_session_uuid(DEFAULT_SESSION_UUID.into());
+
+        ui.global::<Logic>()
+            .invoke_show_session_archive_list(DEFAULT_SESSION_UUID.into());
 
         let sessions_model = Rc::new(VecModel::from(sessions));
         if sessions_model.row_count() > 0 {
@@ -411,6 +418,8 @@ pub fn init(ui: &AppWindow) {
             for session in ui.global::<Store>().get_chat_sessions().iter() {
                 if session.uuid == new_uuid {
                     ui.global::<Store>().set_session_datas(session.chat_items);
+                    ui.global::<Logic>()
+                        .invoke_show_session_archive_list(new_uuid);
                     break;
                 }
             }

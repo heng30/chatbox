@@ -15,6 +15,9 @@ run:
 run-local:
 	RUST_LOG=error,warn,info,debug,reqwest=on ./target/debug/chatbox
 
+run-local-release:
+	RUST_LOG=error,warn,info,debug,reqwest=on ./target/release/chatbox
+
 clippy:
 	cargo clippy
 

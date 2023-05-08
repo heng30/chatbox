@@ -11,12 +11,14 @@ export component Right inherits Rectangle {
     lv := ListView {
         for data in Store.session-archive-datas : VerticalLayout {
             padding-bottom: Theme.padding / 2;
+            padding-left: Theme.padding / 2;
 
             Rectangle {
                 background: data.uuid == root.current-archive-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
 
                 touch := TouchArea {
                     clicked => {
+                        Logic.show-session-archive(Store.current-session-uuid, data.uuid);
                         root.current-archive-uuid = data.uuid;
                     }
                 }
@@ -38,7 +40,13 @@ export component Right inherits Rectangle {
                             alignment: end;
                             IconBtn {
                                 icon: @image-url("../../images/delete.svg");
-                                clicked => { }
+                                clicked => {
+                                    Store.ok-cancel-dialog-setting.title-type = "warning";
+                                    Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                                    Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
+                                    Store.ok-cancel-dialog-setting.handle-type = "session-archive-item";
+                                    Store.ok-cancel-dialog-setting.handle-uuid = data.uuid;
+                                }
                             }
                         }
                     }

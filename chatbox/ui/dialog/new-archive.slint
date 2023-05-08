@@ -32,10 +32,15 @@ export component NewArchiveDialog inherits CDialog {
     }
 
     ok-clicked => {
+        if (name-lineedit.text != "") {
+            Logic.save-session-archive(Store.current-session-uuid, name-lineedit.text);
+        }
+        name-lineedit.text = "";
         Store.show-archive-dialog = false;
     }
 
     cancel-clicked => {
+        name-lineedit.text = "";
         Store.show-archive-dialog = false;
     }
 }

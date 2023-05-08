@@ -10,6 +10,7 @@ pub fn tr(text: &str) -> String {
     items.insert("原因", "Reason");
     items.insert("新建成功", "New Session Success");
     items.insert("删除成功", "Delete Success");
+    items.insert("删除失败", "Delete Failed");
     items.insert("复制失败", "Copy Failed");
     items.insert("复制成功", "Copy Success");
     items.insert("设置默认会话库失败", "Set Default Session Failed");
@@ -33,6 +34,8 @@ pub fn tr(text: &str) -> String {
     items.insert("清除缓存成功", "Clean Cache Success");
     items.insert("请进行音频配置", "Please Configure The Audio Setting");
     items.insert("播放音频失败", "Play Audio Failed");
+    items.insert("获取归档文件失败", "Get Archive Files Failed");
+    items.insert("没有可归档的对话", "No Chats TO Be Archived");
 
     if let Some(txt) = items.get(text) {
         return txt.to_string();

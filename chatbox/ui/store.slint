@@ -161,14 +161,14 @@ export global Store  {
 
     in-out property<bool> show-archive-dialog: false;
     in-out property<[ArchiveChatItem]> session-archive-datas: [
-        {
-            name: "Test",
-            uuid: "test-uuid",
-        },
-        {
-            name: "Test2",
-            uuid: "test-uuid2",
-        },
+        // {
+        //     name: "Test",
+        //     uuid: "test-uuid",
+        // },
+        // {
+        //     name: "Test2",
+        //     uuid: "test-uuid2",
+        // },
     ];
 
 
@@ -240,7 +240,10 @@ export global Store  {
             + "  3. 第一次转换可能需要比较长的时间，请耐心等待。之后就使用缓存进行朗读。\n"
             + "\n配置和数据:\n"
             + "  1. 配置保存在~/.config/chatbox目录下。\n"
-            + "  2. 数据保存在~/.local/share/chatbox目录下。\n",
+            + "  2. 数据保存在~/.local/share/chatbox目录下。\n"
+            + "\n注意:\n"
+            + "  1. 删除会话会将该会话关联的归档文件一并删除。\n",
+
 
         text-en: "Keyboard shortcuts:\n"
             + "  1. Ctrl+U: Scroll to the top of the current session.\n"
@@ -258,6 +261,8 @@ export global Store  {
             + "\nConfiguration and data:\n"
             + "  1. Configuration is stored in the ~/.config/chatbox directory.\n"
             + "  2. Data is stored in the ~/.local/share/chatbox directory."
+            + "\nWarning\n"
+            + "  1. Deleting a session will also delete the associated archive file.\n"
     };
 
     in-out property<Translation> translator: setting-dialog-config.ui.language != "en" ? Translator.cn : Translator.en;

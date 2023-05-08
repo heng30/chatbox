@@ -20,7 +20,7 @@ mod util;
 mod version;
 mod audio;
 
-use logic::{about, chat, clipboard, message, ok_cancel_dialog, session, window, setting};
+use logic::{about, chat, clipboard, message, ok_cancel_dialog, session, window, setting, archive};
 
 pub type CResult = Result<(), Box<dyn std::error::Error>>;
 
@@ -35,6 +35,7 @@ async fn main() -> CResult {
     let ui = AppWindow::new().unwrap();
     clipboard::init(&ui);
     message::init(&ui);
+    archive::init(&ui);
     session::init(&ui);
     chat::init(&ui);
     window::init(&ui);
