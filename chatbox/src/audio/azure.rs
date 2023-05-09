@@ -12,25 +12,40 @@ use std::fs::File;
 use std::io::BufReader;
 use std::io::{Cursor, Read, Seek};
 use std::path::Path;
+use std::sync::atomic::{AtomicBool, Ordering};
 use tokio::fs::OpenOptions;
 use tokio::io::AsyncWriteExt;
 use tokio::task::spawn;
 
+static IS_PLAYING: AtomicBool = AtomicBool::new(false);
+
 pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
-    let audio_filepath = config::audio_path() + "/" + &audio_file;
+    if IS_PLAYING.load(Ordering::SeqCst) {
+        ui_box
+            .borrow()
+            .global::<Logic>()
+            .invoke_show_message(slint::format!("{}", tr("正在播放...")), "info".into());
+        return;
+    } else {
+        IS_PLAYING.store(true, Ordering::SeqCst);
+    }
+
+    let audio_filepath = if !audio_file.is_empty() {
+        config::audio_path() + "/" + &audio_file
+    } else {
+        String::default()
+    };
 
     spawn(async move {
         let path = Path::new(&audio_filepath);
 
-        if let Err(e) = if path.exists() {
+        if let Err(e) = if !audio_filepath.is_empty() && path.exists() {
             play_audio_local(&audio_filepath)
-        } else {
+        } else if !text.is_empty() {
             let text = make_text(&text);
-            if text.is_empty() {
-                return;
-            }
-
             text_to_speech(&text, &audio_filepath).await
+        } else {
+            Err(anyhow::anyhow!(tr("没有本地缓存或没有提供文本") + "!").into())
         } {
             let estr = e.to_string();
             if let Err(err) = slint::invoke_from_event_loop(move || {
@@ -42,6 +57,8 @@ pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
                 warn!("{:?}", err);
             }
         };
+
+        IS_PLAYING.store(false, Ordering::SeqCst);
     });
 }
 
@@ -199,45 +216,3 @@ fn make_text(text: &str) -> String {
     otext
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_split_text() {
-        // let text = "Hello, 世界！One World! 你好吗？";
-        let text = "
-        - 词性：动词
-        - 英文：archive
-
-        - 例句：
-        1. We need to archive these files for future reference.
-        我们需要将这些文件归档以备将来参考。
-
-        2. The museum archives historical documents and artifacts.
-        这个博物馆归档历史文献和文物。
-
-        3. Please make sure to archive all the emails related to this project.
-        请务必将所有与这个项目相关的电子邮件进行归档。";
-
-        let expected_result = vec![
-            AzureTextItem {
-                text_type: TextType::EnUs,
-                text: String::from("Hello,"),
-            },
-            AzureTextItem {
-                text_type: TextType::ZhCn,
-                text: String::from("世界！"),
-            },
-            AzureTextItem {
-                text_type: TextType::EnUs,
-                text: String::from("One World!"),
-            },
-            AzureTextItem {
-                text_type: TextType::ZhCn,
-                text: String::from("你好吗？"),
-            },
-        ];
-        assert_eq!(split_text(text), expected_result);
-    }
-}

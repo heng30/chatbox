@@ -21,6 +21,9 @@ run-local-release:
 clippy:
 	cargo clippy
 
+clean-incremental:
+	rm -rf ./target/debug/incremental/*
+
 clean:
 	cargo clean
 

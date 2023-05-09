@@ -7,7 +7,7 @@ fn connection() -> Result<Connection> {
 }
 
 fn table_name(suuid: &str) -> String {
-    "archive_".to_string() + &suuid.replace("-", "_")
+    "archive_".to_string() + &suuid.replace('-', "_")
 }
 
 pub fn new(suuid: &str) -> Result<()> {

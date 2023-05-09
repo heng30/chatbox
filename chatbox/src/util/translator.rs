@@ -36,6 +36,8 @@ pub fn tr(text: &str) -> String {
     items.insert("播放音频失败", "Play Audio Failed");
     items.insert("获取归档文件失败", "Get Archive Files Failed");
     items.insert("没有可归档的对话", "No Chats TO Be Archived");
+    items.insert("没有本地缓存或没有提供文本", "No Cache or Provided Text Is Empty");
+    items.insert("正在播放...", "Playing...");
 
     if let Some(txt) = items.get(text) {
         return txt.to_string();
