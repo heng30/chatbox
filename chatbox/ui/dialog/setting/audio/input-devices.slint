@@ -1,0 +1,39 @@
+import { ComboBox, CheckBox } from "std-widgets.slint";
+import { Theme } from "../../../theme.slint";
+import { Store } from "../../../store.slint";
+import { Btn } from "../../../base/btn.slint";
+import { Logic } from "../../../logic.slint";
+
+export component InputDevices inherits Rectangle {
+    property<length> label-width: Theme.default-label-width * 1.5;
+
+    in-out property current-device <=> devices-combox.current-value;
+    in-out property is-auto-v2t <=> cbox.checked;
+
+    width: 100%;
+
+    HorizontalLayout {
+        padding-top: Theme.padding * 4;
+        HorizontalLayout {
+            width: 60%;
+            label-txt := Text {
+                width: root.label-width;
+                text: Store.translator.setting-dialog-audio-input-devices-label;
+            }
+
+            devices-combox := ComboBox {
+                height: label-txt.preferred-height;
+                model: Store.input-audio-devices;
+                current-value: Store.setting-dialog-config.audio.current-device;
+            }
+        }
+
+        HorizontalLayout {
+            alignment: end;
+            cbox := CheckBox {
+                checked: Store.setting-dialog-config.audio.is-auto-v2t;
+                text: self.checked ? Store.translator.setting-dialog-auto-to-text-enabled : Store.translator.setting-dialog-auto-to-text-disabled;
+           }
+        }
+    }
+}

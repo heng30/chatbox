@@ -99,6 +99,9 @@ export struct SettingAudio {
     model: [string],
     region: string,
     api-key: string,
+
+    current-device: string,
+    is-auto-v2t: bool,
 }
 
 export struct SettingDialogConfig {
@@ -198,8 +201,10 @@ export global Store  {
         handle-uuid: "",
     };
 
+    in-out property<bool> is-audio-recording: false;
+    in-out property<[string]> input-audio-devices: [];
     in-out property<SettingDialogConfig> setting-dialog-config: {
-        show: false,
+        show: true,
         ui: {
             font-size: "18",
             win-width: "1200",

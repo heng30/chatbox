@@ -27,6 +27,8 @@ export global Logic {
     callback code-text-items(string) -> [CodeTextItem];
     callback text-to-speech(string, string);
     callback clean-audio-cache();
+    callback start-audio-record();
+    callback stop-audio-record();
 
     callback show-message(string, string);
     callback copy-to-clipboard(string);

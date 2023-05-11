@@ -13,6 +13,7 @@ export component Footer inherits VerticalLayout {
 
     property <bool> is-ctrl-pressed;
     property <bool> is-return-pressed;
+    property <bool> is-recording: Store.is-audio-recording;
 
     public function force-focus() {
         te.has-focus = true;
@@ -110,11 +111,12 @@ export component Footer inherits VerticalLayout {
 
         HorizontalLayout {
             spacing: Theme.spacing;
+            width: 40%;
 
             Btn {
                 bg-color: Theme.danger-color;
                 icon: @image-url("../images/reset.svg");
-                width: 30%;
+                width: 40%;
                 height: root.btn-height;
                 text: Store.translator.reset;
                 clicked => {
@@ -144,11 +146,29 @@ export component Footer inherits VerticalLayout {
                 height: root.btn-height;
                 bg-color: Theme.danger-color;
                 icon: @image-url("../images/format-clear.svg");
-                width: 30%;
+                width: 20%;
 
                 text: Store.translator.clear;
                 clicked => {
                     te.text = "";
+                }
+            }
+
+            Btn {
+                height: root.btn-height;
+                bg-color: root.is-recording ? Theme.warning-color : Theme.success-color;
+                icon: !root.is-recording ? @image-url("../images/start.svg") : @image-url("../images/stop.svg");
+                width: 30%;
+
+                text: root.is-recording ? Store.translator.recording : Store.translator.record;
+                clicked => {
+                    if (root.is-recording) {
+
+                    } else {
+
+                    }
+
+                    Store.is-audio-recording = !Store.is-audio-recording;
                 }
             }
 

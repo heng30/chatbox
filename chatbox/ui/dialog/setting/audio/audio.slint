@@ -2,6 +2,8 @@ import { ComboBox } from "std-widgets.slint";
 import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 import { Azure } from "./azure.slint";
+import { InputDevices } from "./input-devices.slint";
+import { Cache } from "./cache.slint";
 import { Btn } from "../../../base/btn.slint";
 import { Logic } from "../../../logic.slint";
 
@@ -15,6 +17,9 @@ export component Audio inherits Rectangle {
 
     in-out property azure-api-key <=> azure.api-key;
     in-out property azure-region <=> azure.region;
+
+    in-out property current-device <=> input-devices.current-device;
+    in-out property is-auto-v2t <=> input-devices.is-auto-v2t;
 
     VerticalLayout {
         width: 100%;
@@ -34,47 +39,19 @@ export component Audio inherits Rectangle {
             }
         }
 
-        Rectangle {
+        VerticalLayout {
+            vertical-stretch: 0;
+            spacing: Theme.spacing;
             azure := Azure {
                 visible: current-api-type-index == 0;
             }
-        }
 
-        HorizontalLayout {
-            padding-top: Theme.padding * 3;
+            input-devices := InputDevices {
 
-            VerticalLayout {
-                alignment: center;
-                width: 50%;
-                HorizontalLayout {
-                    alignment: start;
-                    spacing: Theme.spacing;
-
-                    cache-label-txt := Text {
-                        width: root.label-width;
-                        text: Store.translator.setting-dialog-audio-cache-label;
-                    }
-
-                    VerticalLayout {
-                        alignment: center;
-                        cache-txt := Text {
-                            text: Store.cache.audio;
-                        }
-                    }
-                }
             }
 
-            HorizontalLayout {
-                Btn {
-                    bg-color: Theme.danger-color;
-                    border-radius: Theme.border-radius;
-                    text: Store.translator.setting-dialog-audio-cache-clean-btn;
-                    icon: @image-url("../../../images/warning.svg");
-                    clicked => {
-                        Logic.clean-audio-cache();
-                    }
-                }
-            }
+            Cache {}
         }
+
     }
 }
