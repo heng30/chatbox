@@ -3,6 +3,7 @@ import { Theme } from "../theme.slint";
 export component IconBtn inherits Rectangle {
     in-out property icon <=> img.source;
     in-out property colorize <=> img.colorize;
+    out property has-hover <=> touch.has-hover;
 
     callback clicked <=> touch.clicked;
 
