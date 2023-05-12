@@ -60,7 +60,9 @@ export component Footer inherits VerticalLayout {
                         opacity: self.has-hover ? 1 : 0.5;
                         colorize: black;
                         icon: @image-url("../images/speaker.svg");
-                        clicked => { }
+                        clicked => {
+                            Logic.play-audio-record();
+                        }
                     }
 
                     IconBtn {
@@ -68,7 +70,9 @@ export component Footer inherits VerticalLayout {
                         opacity: self.has-hover ? 1 : 0.5;
                         colorize: black;
                         icon: @image-url("../images/convert2text.svg");
-                        clicked => { }
+                        clicked => {
+                            Logic.voice-2-text();
+                        }
                     }
                 }
             }
@@ -163,12 +167,10 @@ export component Footer inherits VerticalLayout {
                 text: root.is-recording ? Store.translator.recording : Store.translator.record;
                 clicked => {
                     if (root.is-recording) {
-
+                        Logic.stop-audio-record();
                     } else {
-
+                        Logic.start-audio-record();
                     }
-
-                    Store.is-audio-recording = !Store.is-audio-recording;
                 }
             }
 

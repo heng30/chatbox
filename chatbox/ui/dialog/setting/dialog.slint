@@ -12,7 +12,7 @@ export component SettingDialog inherits Rectangle {
     in-out property<length> body-width: 700px;
     in-out property<color> title-bg: Theme.brand-color;
 
-    property<string> current-checked-item: "audio";
+    property<string> current-checked-item: "ui";
 
     visible: Store.setting-dialog-config.show;
     width: self.visible ? root.body-width : 0;
@@ -110,6 +110,8 @@ export component SettingDialog inherits Rectangle {
                     visible: current-checked-item == "audio";
                     azure-api-key: Store.setting-dialog-config.audio.api-key;
                     azure-region: Store.setting-dialog-config.audio.region;
+                    current-input-device: Store.setting-dialog-config.audio.current-input-device;
+                    is-auto-v2t: Store.setting-dialog-config.audio.is-auto-v2t;
                 }
 
                 proxy-tab := Proxy {
@@ -150,6 +152,8 @@ export component SettingDialog inherits Rectangle {
 
                     audio-tab.azure-api-key = Store.setting-dialog-config.audio.api-key;
                     audio-tab.azure-region = Store.setting-dialog-config.audio.region;
+                    audio-tab.current-input-device = Store.setting-dialog-config.audio.current-input-device;
+                    audio-tab.is-auto-v2t = Store.setting-dialog-config.audio.is-auto-v2t;
 
                     Store.setting-dialog-config.show = false;
                 }
@@ -187,6 +191,8 @@ export component SettingDialog inherits Rectangle {
                         audio: {
                             region: audio-tab.azure-region,
                             api-key: audio-tab.azure-api-key,
+                            current-input-device: audio-tab.current-input-device,
+                            is-auto-v2t: audio-tab.is-auto-v2t,
                         }
                     });
 

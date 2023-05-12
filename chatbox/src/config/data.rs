@@ -43,7 +43,6 @@ impl Default for UI {
     }
 }
 
-
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Socks5 {
     pub enabled: bool,
@@ -103,9 +102,21 @@ impl Default for OpenAiChat {
     }
 }
 
-
-#[derive(Serialize, Deserialize, Default, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Audio {
     pub region: String,
     pub api_key: String,
+    pub current_input_device: String,
+    pub is_auto_v2t: bool,
+}
+
+impl Default for Audio {
+    fn default() -> Self {
+        Self {
+            region: String::default(),
+            api_key: String::default(),
+            current_input_device: "default".to_string(),
+            is_auto_v2t: false,
+        }
+    }
 }

@@ -1,8 +1,10 @@
+use crate::audio;
 use crate::config;
 use crate::slint_generatedAppWindow::{AppWindow, Logic, Store};
 use crate::util::{self, translator::tr};
 use log::warn;
-use slint::{ComponentHandle, Weak};
+use slint::{ComponentHandle, VecModel, Weak};
+use std::rc::Rc;
 
 pub fn init(ui: &AppWindow) {
     let ui_cancel = ui.as_weak();
@@ -89,6 +91,8 @@ pub fn init(ui: &AppWindow) {
 
         config.audio.region = setting_config.audio.region.to_string();
         config.audio.api_key = setting_config.audio.api_key.to_string();
+        config.audio.current_input_device = setting_config.audio.current_input_device.to_string();
+        config.audio.is_auto_v2t = setting_config.audio.is_auto_v2t;
 
         match config::save(config) {
             Err(e) => {
@@ -113,6 +117,17 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     let openai_config = config::openai();
     let audio_config = config::audio();
 
+    let input_devices: VecModel<slint::SharedString> = VecModel::default();
+    input_devices.push("default".into());
+    input_devices.extend(
+        audio::record::input_devices_name()
+            .into_iter()
+            .map(|s| s.into())
+            .collect::<Vec<_>>(),
+    );
+    ui.global::<Store>()
+        .set_input_audio_devices(Rc::new(input_devices).into());
+
     let mut setting_dialog = ui.global::<Store>().get_setting_dialog_config();
     setting_dialog.ui.font_size = slint::format!("{}", ui_config.font_size);
     setting_dialog.ui.win_width = slint::format!("{}", ui_config.win_width);
@@ -135,6 +150,8 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
 
     setting_dialog.audio.region = audio_config.region.into();
     setting_dialog.audio.api_key = audio_config.api_key.into();
+    setting_dialog.audio.current_input_device = audio_config.current_input_device.into();
+    setting_dialog.audio.is_auto_v2t = audio_config.is_auto_v2t;
 
     ui.global::<Store>()
         .set_setting_dialog_config(setting_dialog);

@@ -18,7 +18,7 @@ export component Audio inherits Rectangle {
     in-out property azure-api-key <=> azure.api-key;
     in-out property azure-region <=> azure.region;
 
-    in-out property current-device <=> input-devices.current-device;
+    in-out property current-input-device <=> input-devices.current-device;
     in-out property is-auto-v2t <=> input-devices.is-auto-v2t;
 
     VerticalLayout {
@@ -46,9 +46,7 @@ export component Audio inherits Rectangle {
                 visible: current-api-type-index == 0;
             }
 
-            input-devices := InputDevices {
-
-            }
+            input-devices := InputDevices {}
 
             Cache {}
         }

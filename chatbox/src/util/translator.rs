@@ -38,6 +38,10 @@ pub fn tr(text: &str) -> String {
     items.insert("没有可归档的对话", "No Chats TO Be Archived");
     items.insert("没有本地缓存或没有提供文本", "No Cache or Provided Text Is Empty");
     items.insert("正在播放...", "Playing...");
+    items.insert("停止录音...", "Stop Recording...");
+    items.insert("开始录音...", "Start Recording...");
+    items.insert("录音失败", "Recording Failed");
+    items.insert("录音文件不存在", "Recording File Not Exist");
 
     if let Some(txt) = items.get(text) {
         return txt.to_string();

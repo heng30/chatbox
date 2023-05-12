@@ -15,6 +15,10 @@ pub fn set_recording(is_recording: bool) {
     IS_RECORDING.store(is_recording, Ordering::SeqCst);
 }
 
+pub fn get_recording() -> bool {
+    IS_RECORDING.load(Ordering::SeqCst)
+}
+
 pub fn input_devices_name() -> Vec<String> {
     let mut names = vec![];
     let host = cpal::default_host();
@@ -97,7 +101,7 @@ pub fn record(device_name: &str, path: &str, max_record_time: i64) -> Result<(),
     stream.play()?;
     let start_time = Utc::now().timestamp();
     loop {
-        if !IS_RECORDING.load(Ordering::SeqCst) {
+        if !get_recording() {
             break;
         }
 

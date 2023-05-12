@@ -9,6 +9,7 @@ pub mod window;
 pub mod about;
 pub mod setting;
 pub mod archive;
+pub mod record;
 
 pub use data::HistoryChat;
 pub use data::StreamTextItem;

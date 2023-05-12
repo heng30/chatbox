@@ -20,7 +20,7 @@ mod util;
 mod version;
 mod audio;
 
-use logic::{about, chat, clipboard, message, ok_cancel_dialog, session, window, setting, archive};
+use logic::{about, chat, clipboard, message, ok_cancel_dialog, session, window, setting, archive, record};
 
 pub type CResult = Result<(), Box<dyn std::error::Error>>;
 
@@ -37,6 +37,7 @@ async fn main() -> CResult {
     message::init(&ui);
     archive::init(&ui);
     session::init(&ui);
+    record::init(&ui);
     chat::init(&ui);
     window::init(&ui);
     about::init(&ui);

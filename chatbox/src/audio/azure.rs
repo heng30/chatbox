@@ -13,6 +13,7 @@ use std::io::BufReader;
 use std::io::{Cursor, Read, Seek};
 use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
+use std::time::Duration;
 use tokio::fs::OpenOptions;
 use tokio::io::AsyncWriteExt;
 use tokio::task::spawn;
@@ -122,6 +123,7 @@ async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std
     let response = reqwest::ClientBuilder::new()
         .build()?
         .post(&url)
+        .timeout(Duration::from_secs(15))
         .headers(headers)
         .body(body.to_owned())
         .send()
@@ -215,4 +217,3 @@ fn make_text(text: &str) -> String {
 
     otext
 }
-
