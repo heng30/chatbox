@@ -23,7 +23,11 @@ pub fn init(ui: &AppWindow) {
                 .global::<Store>()
                 .set_is_audio_recording(true);
 
-            if let Err(e) = audio::record::record(&device_name, &record_filepath, 300) {
+            if let Err(e) = audio::record::record(
+                &device_name,
+                &record_filepath,
+                audio_config.max_recording_duration,
+            ) {
                 ui_start_box.borrow().global::<Logic>().invoke_show_message(
                     slint::format!("{}: {:?}", tr("录音失败") + "!", e),
                     "warning".into(),

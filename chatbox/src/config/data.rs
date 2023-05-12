@@ -108,6 +108,9 @@ pub struct Audio {
     pub api_key: String,
     pub current_input_device: String,
     pub is_auto_v2t: bool,
+    pub max_recording_duration: i64,
+    pub t2s_max_request_duration: u64,
+    pub s2t_max_request_duration: u64,
 }
 
 impl Default for Audio {
@@ -117,6 +120,9 @@ impl Default for Audio {
             api_key: String::default(),
             current_input_device: "default".to_string(),
             is_auto_v2t: false,
+            max_recording_duration: 60,
+            t2s_max_request_duration: 60,
+            s2t_max_request_duration: 30,
         }
     }
 }

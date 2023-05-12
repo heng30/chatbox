@@ -1,16 +1,12 @@
 use super::data::{AzureTextItem, TextType};
+use super::play;
 use crate::config;
 use crate::slint_generatedAppWindow::{AppWindow, Logic};
 use crate::util::qbox::QBox;
 use crate::util::translator::tr;
-use bytes::Bytes;
 use log::warn;
 use reqwest::header::{HeaderMap, HeaderValue};
-use rodio::{Decoder, OutputStream, Sink};
 use slint::ComponentHandle;
-use std::fs::File;
-use std::io::BufReader;
-use std::io::{Cursor, Read, Seek};
 use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
@@ -41,7 +37,7 @@ pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
         let path = Path::new(&audio_filepath);
 
         if let Err(e) = if !audio_filepath.is_empty() && path.exists() {
-            play_audio_local(&audio_filepath)
+            play::audio_local(&audio_filepath)
         } else if !text.is_empty() {
             let text = make_text(&text);
             text_to_speech(&text, &audio_filepath).await
@@ -61,31 +57,6 @@ pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
 
         IS_PLAYING.store(false, Ordering::SeqCst);
     });
-}
-
-fn play_audio_local(path: &str) -> Result<(), Box<dyn std::error::Error>> {
-    let file = File::open(path)?;
-    play_audio(BufReader::new(file))
-}
-
-fn play_audio_memory(source: &Bytes) -> Result<(), Box<dyn std::error::Error>> {
-    let cursor = Cursor::new(source.to_vec());
-    play_audio(cursor)
-}
-
-fn play_audio<R>(source: R) -> Result<(), Box<dyn std::error::Error>>
-where
-    R: Read + Seek + Send + Sync + 'static,
-{
-    let source = Decoder::new(source)?;
-
-    let (_stream, handle) = OutputStream::try_default()?;
-    let sink = Sink::try_new(&handle)?;
-
-    sink.append(source);
-    sink.play();
-    sink.sleep_until_end();
-    Ok(())
 }
 
 async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std::error::Error>> {
@@ -123,7 +94,7 @@ async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std
     let response = reqwest::ClientBuilder::new()
         .build()?
         .post(&url)
-        .timeout(Duration::from_secs(15))
+        .timeout(Duration::from_secs(audio_config.t2s_max_request_duration))
         .headers(headers)
         .body(body.to_owned())
         .send()
@@ -131,7 +102,7 @@ async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std
 
     let response_body = response.bytes().await?;
 
-    play_audio_memory(&response_body)?;
+    play::audio_memory(&response_body)?;
 
     let mut output_file = OpenOptions::new()
         .write(true)
@@ -142,6 +113,14 @@ async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std
     output_file.write_all(&response_body).await?;
 
     Ok(())
+}
+
+// TODO
+pub async fn speech_to_text(
+    input_path: &str,
+    language: &str,
+) -> Result<String, Box<dyn std::error::Error>> {
+    Ok(String::default())
 }
 
 fn split_text(text: &str) -> Vec<AzureTextItem> {

@@ -22,3 +22,4 @@
 - [LSP (Language Server Protocol) Server for Slint](https://github.com/slint-ui/slint/tree/master/tools/lsp)
 - [azure text2speech](https://learn.microsoft.com/zh-cn/azure/cognitive-services/speech-service/text-to-speech)
 - [speech-synthesis-markup-voice](https://learn.microsoft.com/zh-cn/azure/cognitive-services/speech-service/speech-synthesis-markup-voice)
+- [rest-speech-to-text-short](https://learn.microsoft.com/zh-cn/azure/cognitive-services/speech-service/rest-speech-to-text-short)
