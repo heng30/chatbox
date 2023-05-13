@@ -42,6 +42,8 @@ pub fn tr(text: &str) -> String {
     items.insert("开始录音...", "Start Recording...");
     items.insert("录音失败", "Recording Failed");
     items.insert("录音文件不存在", "Recording File Not Exist");
+    items.insert("录音转文字失败", "Speech2Text Failed");
+    items.insert("正在将录音转换为文本...", "Converting Record to Text...");
 
     if let Some(txt) = items.get(text) {
         return txt.to_string();

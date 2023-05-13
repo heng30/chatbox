@@ -7,6 +7,8 @@ use crate::util::translator::tr;
 use log::warn;
 use reqwest::header::{HeaderMap, HeaderValue};
 use slint::ComponentHandle;
+use std::fs::File;
+use std::io::Read;
 use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
@@ -115,12 +117,38 @@ async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std
     Ok(())
 }
 
-// TODO
 pub async fn speech_to_text(
     input_path: &str,
     language: &str,
 ) -> Result<String, Box<dyn std::error::Error>> {
-    Ok(String::default())
+    let mut audio_file = File::open(input_path)?;
+    let mut audio_content = Vec::new();
+    audio_file.read_to_end(&mut audio_content)?;
+
+    let audio_config = config::audio();
+    let url = format!("https://{}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language={}&format=simple", audio_config.region, if language == "en" {
+        "en-US"
+    } else {
+        "zh-CN"
+    });
+
+    let mut headers = HeaderMap::new();
+    headers.insert("Content-Type", HeaderValue::from_str("audio/wav")?);
+    headers.insert(
+        "Ocp-Apim-Subscription-Key",
+        HeaderValue::from_str(&audio_config.api_key)?,
+    );
+
+    let response = reqwest::ClientBuilder::new()
+        .build()?
+        .post(&url)
+        .timeout(Duration::from_secs(audio_config.s2t_max_request_duration))
+        .headers(headers)
+        .body(audio_content)
+        .send()
+        .await?;
+
+    Ok(response.text().await?)
 }
 
 fn split_text(text: &str) -> Vec<AzureTextItem> {

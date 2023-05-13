@@ -112,6 +112,7 @@ export component SettingDialog inherits Rectangle {
                     azure-region: Store.setting-dialog-config.audio.region;
                     current-input-device: Store.setting-dialog-config.audio.current-input-device;
                     is-auto-v2t: Store.setting-dialog-config.audio.is-auto-v2t;
+                    speech-language: Store.setting-dialog-config.audio.speech-language;
                 }
 
                 proxy-tab := Proxy {
@@ -154,6 +155,8 @@ export component SettingDialog inherits Rectangle {
                     audio-tab.azure-region = Store.setting-dialog-config.audio.region;
                     audio-tab.current-input-device = Store.setting-dialog-config.audio.current-input-device;
                     audio-tab.is-auto-v2t = Store.setting-dialog-config.audio.is-auto-v2t;
+                    audio-tab.speech-language = Store.setting-dialog-config.audio.speech-language;
+
 
                     Store.setting-dialog-config.show = false;
                 }
@@ -193,6 +196,7 @@ export component SettingDialog inherits Rectangle {
                             api-key: audio-tab.azure-api-key,
                             current-input-device: audio-tab.current-input-device,
                             is-auto-v2t: audio-tab.is-auto-v2t,
+                            speech-language: audio-tab.speech-language,
                         }
                     });
 

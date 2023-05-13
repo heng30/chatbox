@@ -4,11 +4,10 @@ version = "1.4.0"
 authors = ["heng30.xyz"]
 edition = "2021"
 build = "build.rs"
-description = "ChatGPT client in Rust"
+description = "ChatGPT Client In Rust"
 license = "MIT"
 categories= ["ChatGPT", "Slint"]
 keywords= ["ChatGPT", "Slint", "Rust"]
-
 
 [dependencies]
 log = "0.4"

@@ -92,6 +92,7 @@ pub fn init(ui: &AppWindow) {
         config.audio.region = setting_config.audio.region.to_string();
         config.audio.api_key = setting_config.audio.api_key.to_string();
         config.audio.current_input_device = setting_config.audio.current_input_device.to_string();
+        config.audio.speech_language = setting_config.audio.speech_language.to_string();
         config.audio.is_auto_v2t = setting_config.audio.is_auto_v2t;
 
         match config::save(config) {
@@ -151,6 +152,7 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     setting_dialog.audio.region = audio_config.region.into();
     setting_dialog.audio.api_key = audio_config.api_key.into();
     setting_dialog.audio.current_input_device = audio_config.current_input_device.into();
+    setting_dialog.audio.speech_language = audio_config.speech_language.into();
     setting_dialog.audio.is_auto_v2t = audio_config.is_auto_v2t;
 
     ui.global::<Store>()

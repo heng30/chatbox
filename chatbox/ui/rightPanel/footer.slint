@@ -71,7 +71,7 @@ export component Footer inherits VerticalLayout {
                         colorize: black;
                         icon: @image-url("../images/convert2text.svg");
                         clicked => {
-                            Logic.voice-2-text();
+                            Logic.voice-to-text();
                         }
                     }
                 }
@@ -94,6 +94,22 @@ export component Footer inherits VerticalLayout {
             } else if (event.text == "d") {
                 if (is-ctrl-pressed && root.height == Theme.bottom-panel-height * 4) {
                     root.height = Theme.bottom-panel-height;
+                }
+            } else if (event.text == "r") {
+                if (is-ctrl-pressed) {
+                    if (Store.is-audio-recording) {
+                        Logic.stop-audio-record();
+                    } else {
+                        Logic.start-audio-record();
+                    }
+                }
+            } else if (event.text == "p") {
+                if (is-ctrl-pressed) {
+                    Logic.play-audio-record();
+                }
+            } else if (event.text == "t") {
+                if (is-ctrl-pressed) {
+                    Logic.voice-to-text();
                 }
             }
             reject
