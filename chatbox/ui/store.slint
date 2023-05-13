@@ -101,6 +101,7 @@ export struct SettingAudio {
     api-key: string,
 
     current-input-device: string,
+    current-output-device: string,
     is-auto-v2t: bool,
     speech-language: string,
 }
@@ -204,6 +205,7 @@ export global Store  {
 
     in-out property<bool> is-audio-recording: false;
     in-out property<[string]> input-audio-devices: [];
+    in-out property<[string]> output-audio-devices: [];
     in-out property<SettingDialogConfig> setting-dialog-config: {
         show: false,
         ui: {

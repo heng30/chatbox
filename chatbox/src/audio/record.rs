@@ -26,7 +26,9 @@ pub fn input_devices_name() -> Vec<String> {
         Ok(devices) => {
             for device in devices {
                 if let Ok(name) = device.name() {
-                    names.push(name);
+                    if name.starts_with("default") {
+                        names.push(name);
+                    }
                 }
             }
         }

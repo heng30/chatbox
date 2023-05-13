@@ -19,7 +19,6 @@ export component InputDevices inherits Rectangle {
 
         HorizontalLayout {
             HorizontalLayout {
-                width: 50%;
                 label-txt := Text {
                     width: root.label-width;
                     text: Store.translator.setting-dialog-audio-input-devices-label;
@@ -32,13 +31,6 @@ export component InputDevices inherits Rectangle {
                 }
             }
 
-            HorizontalLayout {
-                alignment: end;
-                cbox := CheckBox {
-                    checked: Store.setting-dialog-config.audio.is-auto-v2t;
-                    text: self.checked ? Store.translator.setting-dialog-auto-to-text-enabled : Store.translator.setting-dialog-auto-to-text-disabled;
-               }
-            }
         }
 
         HorizontalLayout {
@@ -74,6 +66,14 @@ export component InputDevices inherits Rectangle {
                         }
                     }
                 }
+            }
+
+            HorizontalLayout {
+                alignment: end;
+                cbox := CheckBox {
+                    checked: Store.setting-dialog-config.audio.is-auto-v2t;
+                    text: self.checked ? Store.translator.setting-dialog-auto-to-text-enabled : Store.translator.setting-dialog-auto-to-text-disabled;
+               }
             }
         }
     }

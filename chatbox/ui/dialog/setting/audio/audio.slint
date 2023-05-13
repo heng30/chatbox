@@ -3,6 +3,7 @@ import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 import { Azure } from "./azure.slint";
 import { InputDevices } from "./input-devices.slint";
+import { OutputDevices } from "./output-devices.slint";
 import { Cache } from "./cache.slint";
 import { Btn } from "../../../base/btn.slint";
 import { Logic } from "../../../logic.slint";
@@ -19,6 +20,7 @@ export component Audio inherits Rectangle {
     in-out property azure-region <=> azure.region;
 
     in-out property current-input-device <=> input-devices.current-device;
+    in-out property current-output-device <=> output-devices.current-device;
     in-out property is-auto-v2t <=> input-devices.is-auto-v2t;
     in-out property speech-language <=> input-devices.language;
 
@@ -47,6 +49,7 @@ export component Audio inherits Rectangle {
                 visible: current-api-type-index == 0;
             }
 
+            output-devices := OutputDevices {}
             input-devices := InputDevices {}
 
             Cache {}

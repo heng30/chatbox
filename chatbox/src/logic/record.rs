@@ -136,7 +136,7 @@ pub fn init(ui: &AppWindow) {
                             let question = if question.trim().is_empty() {
                                 item.display_text.into()
                             } else {
-                                question + "\n\n" + &item.display_text
+                                question + &item.display_text
                             };
                             ui_v2t_box.borrow().set_question(question);
                         }) {
