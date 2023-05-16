@@ -33,6 +33,8 @@ async fn main() -> CResult {
     db::init();
 
     let ui = AppWindow::new().unwrap();
+    logic::util::init(&ui);
+
     clipboard::init(&ui);
     message::init(&ui);
     archive::init(&ui);

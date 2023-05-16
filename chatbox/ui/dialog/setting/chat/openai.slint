@@ -81,7 +81,7 @@ export component OpenAI inherits Rectangle {
                 width: Theme.default-font-size * 4;
 
                 Text {
-                    text: temp-slider.value / 100;
+                    text: Math.round(temp-slider.value) / 100;
                 }
             }
         }
@@ -103,7 +103,7 @@ export component OpenAI inherits Rectangle {
                 width: Theme.default-font-size * 4;
 
                 Text {
-                    text: frequency-slider.value / 100;
+                    text: Math.round(frequency-slider.value) / 100;
                 }
             }
         }
@@ -125,7 +125,7 @@ export component OpenAI inherits Rectangle {
                 width: Theme.default-font-size * 4;
 
                 Text {
-                    text: presence-slider.value / 100;
+                    text: Math.round(presence-slider.value) / 100;
                 }
             }
         }

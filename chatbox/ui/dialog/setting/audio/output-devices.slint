@@ -3,6 +3,7 @@ import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 import { Btn } from "../../../base/btn.slint";
 import { Logic } from "../../../logic.slint";
+import { Util } from "../../../util.slint";
 
 export component OutputDevices inherits Rectangle {
     property<length> label-width: Theme.default-label-width * 1.5;
@@ -48,7 +49,7 @@ export component OutputDevices inherits Rectangle {
                 width: Theme.default-font-size * 4;
 
                 Text {
-                    text: volume-slider.value / 100;
+                    text: Math.round(volume-slider.value) / 100;
                 }
             }
         }
