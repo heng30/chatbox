@@ -57,6 +57,10 @@ export component AppWindow inherits Window {
         key-pressed(event) => {
             if (event.text == Key.Escape) {
                 Logic.hide-window();
+            } else if (event.text == " ") {
+                if (Store.is-audio-recording) {
+                    Logic.stop-audio-record();
+                }
             } else if (event.text == Key.Tab) {
                 rpanel.force-question-input-focus();
             } else if (event.text == Key.Control) {
@@ -108,6 +112,7 @@ export component AppWindow inherits Window {
                 icon: @image-url("./images/file-archive.svg");
                 clicked => {
                     Store.show-archive-dialog = true;
+                    arch-dialog.focus();
                 }
             }
 
@@ -154,7 +159,7 @@ export component AppWindow inherits Window {
 
         help-dialog := HelpDialog { }
 
-        arch-dialog := NewArchiveDialog {  }
+        arch-dialog := NewArchiveDialog { }
 
         oc-dialog := OkCancelDialog { }
     }

@@ -13,6 +13,8 @@ export component NewArchiveDialog inherits CDialog {
     background: rect.background;
     body-height: rect.preferred-height;
 
+    forward-focus: name-lineedit;
+
     rect := Rectangle {
         background: Theme.dialog-background;
         HorizontalLayout {
@@ -27,7 +29,11 @@ export component NewArchiveDialog inherits CDialog {
                 }
             }
 
-            name-lineedit := LineEdit { }
+            name-lineedit := LineEdit {
+                accepted => {
+                    root.ok-clicked();
+                }
+            }
         }
     }
 

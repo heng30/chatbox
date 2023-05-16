@@ -61,6 +61,7 @@ where
     let sink = Sink::try_new(&handle)?;
 
     sink.append(source);
+    sink.set_volume(audio_config.output_volume);
     sink.play();
     sink.sleep_until_end();
     Ok(())

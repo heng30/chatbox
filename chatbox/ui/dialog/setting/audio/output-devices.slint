@@ -1,4 +1,4 @@
-import { ComboBox, CheckBox } from "std-widgets.slint";
+import { ComboBox, CheckBox, Slider } from "std-widgets.slint";
 import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 import { Btn } from "../../../base/btn.slint";
@@ -8,6 +8,7 @@ export component OutputDevices inherits Rectangle {
     property<length> label-width: Theme.default-label-width * 1.5;
 
     in-out property current-device <=> devices-combox.current-value;
+    in-out property current-volume <=> volume-slider.value;
 
     width: 100%;
 
@@ -26,6 +27,28 @@ export component OutputDevices inherits Rectangle {
                     height: label-txt.preferred-height;
                     model: Store.output-audio-devices;
                     current-value: Store.setting-dialog-config.audio.current-output-device;
+                }
+            }
+        }
+
+        HorizontalLayout {
+            Text {
+                width: label-width;
+                text: Store.translator.setting-dialog-audio-output-volume;
+            }
+
+            volume-slider := Slider {
+                minimum: 0;
+                maximum: 200;
+            }
+
+            VerticalLayout {
+                alignment: center;
+                padding-left: Theme.padding * 4;
+                width: Theme.default-font-size * 4;
+
+                Text {
+                    text: volume-slider.value / 100;
                 }
             }
         }

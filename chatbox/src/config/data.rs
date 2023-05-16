@@ -106,6 +106,7 @@ impl Default for OpenAiChat {
 pub struct Audio {
     pub region: String,
     pub api_key: String,
+    pub output_volume: f32,
     pub current_input_device: String,
     pub current_output_device: String,
     pub is_auto_v2t: bool,
@@ -120,6 +121,7 @@ impl Default for Audio {
         Self {
             region: String::default(),
             api_key: String::default(),
+            output_volume: 1.0f32,
             current_input_device: "default".to_string(),
             current_output_device: "default".to_string(),
             is_auto_v2t: false,

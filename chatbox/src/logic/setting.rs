@@ -95,6 +95,7 @@ pub fn init(ui: &AppWindow) {
         config.audio.current_output_device = setting_config.audio.current_output_device.to_string();
         config.audio.speech_language = setting_config.audio.speech_language.to_string();
         config.audio.is_auto_v2t = setting_config.audio.is_auto_v2t;
+        config.audio.output_volume = setting_config.audio.output_volume.round() / 100.0;
 
         match config::save(config) {
             Err(e) => {
@@ -167,6 +168,7 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     setting_dialog.audio.current_output_device = audio_config.current_output_device.into();
     setting_dialog.audio.speech_language = audio_config.speech_language.into();
     setting_dialog.audio.is_auto_v2t = audio_config.is_auto_v2t;
+    setting_dialog.audio.output_volume = audio_config.output_volume * 100.0;
 
     ui.global::<Store>()
         .set_setting_dialog_config(setting_dialog);

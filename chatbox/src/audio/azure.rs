@@ -41,6 +41,15 @@ pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
         if let Err(e) = if !audio_filepath.is_empty() && path.exists() {
             play::audio_local(&audio_filepath)
         } else if !text.is_empty() {
+            if let Err(err) = slint::invoke_from_event_loop(move || {
+                ui_box.borrow().global::<Logic>().invoke_show_message(
+                    slint::format!("{}", tr("正在将文本转为音频...")),
+                    "info".into(),
+                );
+            }) {
+                warn!("{:?}", err);
+            }
+
             let text = make_text(&text);
             text_to_speech(&text, &audio_filepath).await
         } else {

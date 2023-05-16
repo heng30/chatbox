@@ -23,6 +23,7 @@ export component Audio inherits Rectangle {
     in-out property current-output-device <=> output-devices.current-device;
     in-out property is-auto-v2t <=> input-devices.is-auto-v2t;
     in-out property speech-language <=> input-devices.language;
+    in-out property output-volume <=> output-devices.current-volume;
 
     VerticalLayout {
         width: 100%;

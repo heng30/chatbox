@@ -3,7 +3,7 @@ use crate::db::{self, data::SessionChats};
 use crate::slint_generatedAppWindow::{AppWindow, ArchiveChatItem, ChatItem, Logic, Store};
 use crate::util::translator::tr;
 use log::warn;
-use slint::{ComponentHandle, Model, VecModel};
+use slint::{ComponentHandle, Model, VecModel, SortModel};
 use std::rc::Rc;
 use uuid::Uuid;
 
@@ -204,6 +204,11 @@ pub fn init(ui: &AppWindow) {
                             name: item.1.into(),
                         });
                     }
+
+                    let aitems = SortModel::new(aitems, |a, b| {
+                        a.name.to_lowercase().cmp(&b.name.to_lowercase())
+                    });
+
                     ui.global::<Store>()
                         .set_session_archive_datas(Rc::new(aitems).into());
                 }
