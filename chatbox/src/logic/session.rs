@@ -419,7 +419,9 @@ pub fn init(ui: &AppWindow) {
                 if session.uuid == new_uuid {
                     ui.global::<Store>().set_session_datas(session.chat_items);
                     ui.global::<Logic>()
-                        .invoke_show_session_archive_list(new_uuid);
+                        .invoke_show_session_archive_list(new_uuid.clone());
+                    ui.global::<Store>()
+                        .set_current_session_uuid(new_uuid);
                     break;
                 }
             }

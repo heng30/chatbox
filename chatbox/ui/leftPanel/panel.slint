@@ -70,7 +70,6 @@ export component LPanel inherits VerticalLayout {
                 touch := TouchArea {
                     clicked => {
                         Logic.switch-session(Store.current-session-uuid, data.uuid);
-                        Store.current-session-uuid = data.uuid;
                     }
                 }
 
