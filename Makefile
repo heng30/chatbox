@@ -31,4 +31,5 @@ install:
 	cp -rf ./target/release/chatbox ~/bin/
 
 slint-view:
+	# slint-viewer --style material --auto-reload -I chatbox/ui ./chatbox/ui/appwindow.slint
 	slint-viewer --style native --auto-reload -I chatbox/ui ./chatbox/ui/appwindow.slint

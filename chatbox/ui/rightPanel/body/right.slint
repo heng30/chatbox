@@ -1,4 +1,4 @@
-import { ListView } from "std-widgets.slint";
+import { ListView, LineEdit } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
 import { Logic } from "../../logic.slint";
@@ -8,45 +8,76 @@ export component Right inherits Rectangle {
     width: Theme.body-right-panel-width;
     property<string> current-archive-uuid;
 
-    lv := ListView {
-        for data in Store.session-archive-datas : VerticalLayout {
-            padding-bottom: Theme.padding / 2;
-            padding-left: Theme.padding / 2;
+    VerticalLayout {
+        spacing: Theme.spacing / 2;
 
-            Rectangle {
-                background: data.uuid == root.current-archive-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
-
-                touch := TouchArea {
-                    clicked => {
-                        Logic.show-session-archive(Store.current-session-uuid, data.uuid);
-                        root.current-archive-uuid = data.uuid;
-                    }
+        HorizontalLayout {
+            search-lineedit := LineEdit {
+                accepted => {
+                    search-btn.clicked();
                 }
 
-                HorizontalLayout {
-                    padding: Theme.padding;
+                edited=> {
+                    Store.archive-search-text = search-lineedit.text;
+                    if (Store.archive-search-text == "") {
+                        search-btn.clicked();
+                    }
+                }
+            }
 
-                    Text {
-                        width: root.width - 70px;
-                        color: Colors.white;
-                        text: data.name;
+            search-btn := IconBtn {
+                height: search-lineedit.preferred-height;
+                width: search-lineedit.preferred-height * 1.33;
+                border-radius: 0;
+                bg-color: Theme.brand-color;
+                bg-hover-color: self.bg-color.darker(20%);
+                bg-pressed-color: self.bg-color.darker(50%);
+                icon: @image-url("../../images/search.svg");
+                clicked => {
+                    Logic.show-session-archive-list(Store.current-session-uuid);
+                }
+            }
+        }
+
+        lv := ListView {
+            for data in Store.session-archive-datas : VerticalLayout {
+                padding-bottom: Theme.padding / 2;
+
+                Rectangle {
+                    background: data.uuid == root.current-archive-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
+
+                    touch := TouchArea {
+                        clicked => {
+                            Logic.show-session-archive(Store.current-session-uuid, data.uuid);
+                            root.current-archive-uuid = data.uuid;
+                        }
                     }
 
                     HorizontalLayout {
-                        alignment: end;
-                        padding-right: Theme.padding;
-                        spacing: Theme.spacing * 2;
+                        padding: Theme.padding;
 
-                        VerticalLayout {
+                        Text {
+                            width: root.width - 70px;
+                            color: Colors.white;
+                            text: data.name;
+                        }
+
+                        HorizontalLayout {
                             alignment: end;
-                            IconBtn {
-                                icon: @image-url("../../images/delete.svg");
-                                clicked => {
-                                    Store.ok-cancel-dialog-setting.title-type = "warning";
-                                    Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
-                                    Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
-                                    Store.ok-cancel-dialog-setting.handle-type = "session-archive-item";
-                                    Store.ok-cancel-dialog-setting.handle-uuid = data.uuid;
+                            padding-right: Theme.padding;
+                            spacing: Theme.spacing * 2;
+
+                            VerticalLayout {
+                                alignment: end;
+                                IconBtn {
+                                    icon: @image-url("../../images/delete.svg");
+                                    clicked => {
+                                        Store.ok-cancel-dialog-setting.title-type = "warning";
+                                        Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                                        Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
+                                        Store.ok-cancel-dialog-setting.handle-type = "session-archive-item";
+                                        Store.ok-cancel-dialog-setting.handle-uuid = data.uuid;
+                                    }
                                 }
                             }
                         }

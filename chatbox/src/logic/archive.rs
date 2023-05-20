@@ -3,7 +3,7 @@ use crate::db::{self, data::SessionChats};
 use crate::slint_generatedAppWindow::{AppWindow, ArchiveChatItem, ChatItem, Logic, Store};
 use crate::util::translator::tr;
 use log::warn;
-use slint::{ComponentHandle, Model, VecModel, SortModel};
+use slint::{ComponentHandle, Model, SortModel, VecModel};
 use std::rc::Rc;
 use uuid::Uuid;
 
@@ -197,12 +197,15 @@ pub fn init(ui: &AppWindow) {
 
             match db::archive::select_all(suuid.as_str()) {
                 Ok(items) => {
+                    let search_text = ui.global::<Store>().get_archive_search_text();
                     let aitems = VecModel::default();
                     for item in items.into_iter() {
-                        aitems.push(ArchiveChatItem {
-                            uuid: item.0.into(),
-                            name: item.1.into(),
-                        });
+                        if search_text.is_empty() || item.1.contains(search_text.as_str()) {
+                            aitems.push(ArchiveChatItem {
+                                uuid: item.0.into(),
+                                name: item.1.into(),
+                            });
+                        }
                     }
 
                     let aitems = SortModel::new(aitems, |a, b| {
