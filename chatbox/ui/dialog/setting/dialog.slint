@@ -113,6 +113,7 @@ export component SettingDialog inherits Rectangle {
                     current-input-device: Store.setting-dialog-config.audio.current-input-device;
                     current-output-device: Store.setting-dialog-config.audio.current-output-device;
                     is-auto-v2t: Store.setting-dialog-config.audio.is-auto-v2t;
+                    is-auto-play-record: Store.setting-dialog-config.audio.is-auto-play-record;
                     speech-language: Store.setting-dialog-config.audio.speech-language;
                     output-volume: Math.min(Store.setting-dialog-config.audio.output-volume, 200);
                 }
@@ -158,6 +159,7 @@ export component SettingDialog inherits Rectangle {
                     audio-tab.current-input-device = Store.setting-dialog-config.audio.current-input-device;
                     audio-tab.current-output-device = Store.setting-dialog-config.audio.current-output-device;
                     audio-tab.is-auto-v2t = Store.setting-dialog-config.audio.is-auto-v2t;
+                    audio-tab.is-auto-play-record = Store.setting-dialog-config.audio.is-auto-play-record;
                     audio-tab.speech-language = Store.setting-dialog-config.audio.speech-language;
                     audio-tab.output-volume = Store.setting-dialog-config.audio.output-volume;
 
@@ -201,6 +203,7 @@ export component SettingDialog inherits Rectangle {
                             current-input-device: audio-tab.current-input-device,
                             current-output-device: audio-tab.current-output-device,
                             is-auto-v2t: audio-tab.is-auto-v2t,
+                            is-auto-play-record: audio-tab.is-auto-play-record,
                             speech-language: audio-tab.speech-language,
                             output-volume: audio-tab.output-volume,
                         }

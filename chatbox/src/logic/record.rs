@@ -30,6 +30,7 @@ pub fn init(ui: &AppWindow) {
             }
 
             let is_auto_v2t = audio_config.is_auto_v2t;
+            let is_auto_play_record = audio_config.is_auto_play_record;
             match audio::record::record(
                 &device_name,
                 &record_filepath,
@@ -52,6 +53,16 @@ pub fn init(ui: &AppWindow) {
                                 .borrow_mut()
                                 .global::<Logic>()
                                 .invoke_voice_to_text();
+                        }) {
+                            warn!("{:?}", e);
+                        }
+                    }
+                    if is_auto_play_record {
+                        if let Err(e) = slint::invoke_from_event_loop(move || {
+                            ui_start_box
+                                .borrow_mut()
+                                .global::<Logic>()
+                                .invoke_play_audio_record();
                         }) {
                             warn!("{:?}", e);
                         }

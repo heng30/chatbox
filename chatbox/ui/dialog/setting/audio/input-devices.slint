@@ -8,7 +8,8 @@ export component InputDevices inherits Rectangle {
     property<length> label-width: Theme.default-label-width * 1.5;
 
     in-out property current-device <=> devices-combox.current-value;
-    in-out property is-auto-v2t <=> cbox.checked;
+    in-out property is-auto-v2t <=> cbox-v2t.checked;
+    in-out property is-auto-play-record <=> cbox-record.checked;
     in-out property<string> language: Store.setting-dialog-config.audio.speech-language;
 
     width: 100%;
@@ -34,17 +35,16 @@ export component InputDevices inherits Rectangle {
         }
 
         HorizontalLayout {
-            VerticalLayout {
-                alignment: center;
-                Text {
-                    width: root.label-width;
-                    text: Store.translator.setting-dialog-auto-speech-language-label;
-                }
-            }
-
             HorizontalLayout {
-                alignment: start;
-                spacing: Theme.spacing * 4;
+                width: 50%;
+                VerticalLayout {
+                    alignment: center;
+                    Text {
+                        width: root.label-width;
+                        text: Store.translator.setting-dialog-auto-speech-language-label;
+                    }
+                }
+
                 cn-checkbox := CheckBox {
                     text: "中文";
                     checked: root.language != "en";
@@ -55,7 +55,9 @@ export component InputDevices inherits Rectangle {
                         }
                     }
                 }
+            }
 
+            HorizontalLayout {
                 en-checkbox := CheckBox {
                     text: "English";
                     checked: root.language == "en";
@@ -67,14 +69,19 @@ export component InputDevices inherits Rectangle {
                     }
                 }
             }
+        }
 
-            HorizontalLayout {
-                alignment: end;
-                cbox := CheckBox {
-                    checked: Store.setting-dialog-config.audio.is-auto-v2t;
-                    text: self.checked ? Store.translator.setting-dialog-auto-to-text-enabled : Store.translator.setting-dialog-auto-to-text-disabled;
-               }
-            }
+        HorizontalLayout {
+            cbox-record := CheckBox {
+                width: 50%;
+                checked: Store.setting-dialog-config.audio.is-auto-play-record;
+                text: self.checked ? Store.translator.setting-dialog-auto-play-record-enabled : Store.translator.setting-dialog-auto-play-record-disabled;
+           }
+
+            cbox-v2t := CheckBox {
+                checked: Store.setting-dialog-config.audio.is-auto-v2t;
+                text: self.checked ? Store.translator.setting-dialog-auto-to-text-enabled : Store.translator.setting-dialog-auto-to-text-disabled;
+           }
         }
     }
 }

@@ -13,6 +13,7 @@ export component Right inherits Rectangle {
 
         HorizontalLayout {
             search-lineedit := LineEdit {
+                placeholder-text: Store.translator.archive-search-placeholder-text;
                 accepted => {
                     search-btn.clicked();
                 }
