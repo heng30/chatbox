@@ -78,6 +78,18 @@ export component AppWindow inherits Window {
                 if (is-ctrl-pressed) {
                     root.toggle-archive-panel();
                 }
+            } else if (event.text == "r") {
+                if (is-ctrl-pressed) {
+                    if (Store.is-audio-recording) {
+                        Logic.stop-audio-record();
+                    } else {
+                        Logic.start-audio-record();
+                    }
+                }
+            } else if (event.text == "p") {
+                if (is-ctrl-pressed) {
+                    Logic.play-audio-record();
+                }
             }
             reject
         }
