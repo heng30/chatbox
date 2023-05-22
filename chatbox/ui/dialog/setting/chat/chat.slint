@@ -9,7 +9,6 @@ export component Chat inherits Rectangle {
 
     in-out property current-api-type-index <=> type-combox.current-index;
     in-out property openai-api-key <=> openai.api-key;
-    in-out property openai-model <=> type-combox.current-value;
     in-out property openai-url <=> openai.url;
     in-out property openai-max-tokens <=> openai.max-tokens;
     in-out property openai-temperature <=> openai.temperature;
@@ -28,7 +27,7 @@ export component Chat inherits Rectangle {
 
             type-combox := ComboBox {
                 height: type-txt.preferred-height;
-                model: [Store.setting-dialog-config.chat.openai.chat.model];
+                model: Store.session-dialog-setting.api-model;
                 current-value: self.model[0];
                 current-index: 0;
             }

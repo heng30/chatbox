@@ -72,7 +72,6 @@ pub fn init(ui: &AppWindow) {
             .unwrap_or(1080);
         config.openai.api_key = setting_config.chat.openai.api_key.to_string();
         config.openai.chat.url = setting_config.chat.openai.chat.url.to_string();
-        config.openai.chat.model = setting_config.chat.openai.chat.model.to_string();
         config.openai.chat.max_tokens = setting_config
             .chat
             .openai
@@ -155,7 +154,6 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
 
     setting_dialog.chat.openai.api_key = openai_config.api_key.into();
     setting_dialog.chat.openai.chat.url = openai_config.chat.url.into();
-    setting_dialog.chat.openai.chat.model = openai_config.chat.model.into();
     setting_dialog.chat.openai.chat.max_tokens =
         slint::format!("{}", openai_config.chat.max_tokens);
     setting_dialog.chat.openai.chat.temperature = openai_config.chat.temperature * 100.0;

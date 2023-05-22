@@ -48,7 +48,7 @@ async fn send_text(
     let (system_prompt, api_model, use_history) =
         session::current_session_config(ui_box.borrow().as_weak());
 
-    if api_model.contains("chat-3.5-turbo") {
+    if api_model.contains("ChatGPT") {
         let openai_chat = openai::OpenAIChat::make(
             system_prompt,
             question,
@@ -59,9 +59,15 @@ async fn send_text(
             },
         );
 
-        debug!("{:?}", openai_chat);
+        // debug!("{:?}", openai_chat);
 
-        return openai::generate_text(openai_chat, item.uuid, move |sitem| {
+        let api_model = if api_model.contains("chat-3.5-turbo") {
+            "gpt-3.5-turbo".to_string()
+        } else {
+            return Err(anyhow::anyhow!("unknown api model: {}", api_model).into());
+        };
+
+        return openai::generate_text(openai_chat, api_model, item.uuid, move |sitem| {
             if let Err(e) = slint::invoke_from_event_loop(move || {
                 stream_text(ui_box, sitem);
             }) {

@@ -3,8 +3,8 @@ use crate::db;
 use crate::db::data::{SessionChats, SessionConfig};
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, ChatSession, Logic, Store};
 use crate::util::translator::tr;
-use log::debug;
-use log::warn;
+#[allow(unused)]
+use log::{debug, warn};
 use slint::{ComponentHandle, Model, ModelExt, ModelRc, VecModel, Weak};
 use std::cmp::Ordering;
 use std::rc::Rc;
@@ -316,7 +316,7 @@ pub fn init(ui: &AppWindow) {
             .filter(|x| x.uuid == uuid)
             .collect();
 
-        debug!("{:?}", sessions);
+        // debug!("{:?}", sessions);
         if sessions.is_empty() {
             return;
         }
@@ -468,7 +468,7 @@ pub fn current_session_config(ui: Weak<AppWindow>) -> (String, String, bool) {
 
     for session in ui.global::<Store>().get_chat_sessions().iter() {
         if session.uuid == uuid {
-            debug!("{:?}", session);
+            // debug!("{:?}", session);
             return (
                 session.system_prompt.into(),
                 session.api_model.into(),

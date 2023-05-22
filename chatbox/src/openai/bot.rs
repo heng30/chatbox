@@ -24,6 +24,7 @@ fn headers(api_key: &str) -> HeaderMap {
 
 pub async fn generate_text(
     chat: data::request::OpenAIChat,
+    api_model: String,
     uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
@@ -32,7 +33,7 @@ pub async fn generate_text(
 
     let request_body = data::request::ChatCompletion {
         messages: chat.message,
-        model: config.chat.model,
+        model: api_model,
         max_tokens: config.chat.max_tokens,
         temperature: config.chat.temperature,
         frequency_penalty: config.chat.frequency_penalty,

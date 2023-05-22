@@ -82,7 +82,6 @@ impl Default for OpenAi {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OpenAiChat {
     pub url: String,
-    pub model: String,
     pub max_tokens: i32,
     pub temperature: f32,
     pub frequency_penalty: f32,
@@ -93,7 +92,6 @@ impl Default for OpenAiChat {
     fn default() -> Self {
         Self {
             url: "https://api.openai.com/v1/chat/completions".to_string(),
-            model: "gpt-3.5-turbo".to_string(),
             max_tokens: 1024,
             temperature: 0.8,
             frequency_penalty: 0.5,

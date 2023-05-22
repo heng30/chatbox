@@ -146,7 +146,6 @@ export component SettingDialog inherits Rectangle {
                     proxy-tab.proxy-port = Store.setting-dialog-config.proxy.port;
 
                     chat-tab.openai-api-key = Store.setting-dialog-config.chat.openai.api-key;
-                    chat-tab.openai-model = Store.setting-dialog-config.chat.openai.chat.model;
                     chat-tab.openai-url = Store.setting-dialog-config.chat.openai.chat.url;
                     chat-tab.openai-max-tokens = Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 128);
                     chat-tab.openai-temperature = Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, 0);
@@ -189,7 +188,6 @@ export component SettingDialog inherits Rectangle {
                                 api-key: chat-tab.openai-api-key,
                                 chat:  {
                                     url: chat-tab.openai-url,
-                                    model: chat-tab.openai-model,
                                     max-tokens: chat-tab.openai-max-tokens,
                                     temperature: chat-tab.openai-temperature,
                                     frequency-penalty: chat-tab.openai-frequency-penalty,

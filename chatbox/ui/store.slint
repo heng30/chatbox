@@ -79,7 +79,6 @@ export struct SettingProxy {
 
 export struct SettingChatOpenAIChat {
     url: string,
-    model: string,
     max-tokens: string,
     temperature: float,
     frequency-penalty: float,
@@ -186,7 +185,14 @@ export global Store  {
     };
 
     in-out property<[ChatSession]> chat-sessions: [
-        { name: translator.session-default-name, uuid: "default-session-uuid", is-mark: true , system-prompt: system-prompts.prompts[1], use_history: true, api-model: session-dialog-setting.api-model[0]},
+        {
+            name: translator.session-default-name,
+            uuid: "default-session-uuid",
+            is-mark: true ,
+            system-prompt: system-prompts.prompts[1],
+            use_history: true,
+            api-model: session-dialog-setting.api-model[0]
+        },
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
 
