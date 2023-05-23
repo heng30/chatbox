@@ -73,6 +73,8 @@ export struct SettingUI {
 
 export struct SettingProxy {
     enabled: bool,
+    openai: bool,
+    azure: bool,
     url: string,
     port: string,
 }
@@ -201,7 +203,7 @@ export global Store  {
     in-out property<SessionDialogSetting> session-dialog-setting: {
         is-show: false,
         handle-type: "",
-        api-model: ["ChatGPT(chat-3.5-turbo)"],
+        api-model: ["ChatGPT(chat-3.5-turbo)", "Azure(chat-35-turbo)"],
     };
 
     in-out property<OkCancelDialogSetting> ok-cancel-dialog-setting: {
@@ -216,7 +218,7 @@ export global Store  {
     in-out property<[string]> input-audio-devices: [];
     in-out property<[string]> output-audio-devices: [];
     in-out property<SettingDialogConfig> setting-dialog-config: {
-        show: false,
+        show: true,
         ui: {
             font-size: "18",
             win-width: "1200",

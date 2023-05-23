@@ -1,0 +1,24 @@
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"role":"assistant"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":"Hello"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":"!"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" How"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" can"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" I"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" assist"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" you"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" today"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":"?"},"index":0,"finish_reason":null}]}
+
+data: {"id":"chatcmpl-7JE8YtDD6t5JKSPVp2wZkAGyE1RKM","object":"chat.completion.chunk","created":1684816930,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{},"index":0,"finish_reason":"stop"}]}
+
+data: [DONE]
+

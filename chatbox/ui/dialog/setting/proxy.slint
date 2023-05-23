@@ -9,6 +9,8 @@ export component Proxy inherits Rectangle {
     in-out property proxy-url <=> url-lineedit.text;
     in-out property proxy-port <=> port-lineedit.text;
     in-out property proxy-enabled <=> enable-checkbox.checked;
+    in-out property proxy-openai <=> openai-checkbox.checked;
+    in-out property proxy-azure <=> azure-checkbox.checked;
 
     VerticalLayout {
         width: 100%;
@@ -60,6 +62,22 @@ export component Proxy inherits Rectangle {
                 port-lineedit := LineEdit {
                     height: url-txt.preferred-height + Theme.padding;
                     placeholder-text: Store.translator.setting-dialog-proxy-port-placeholder;
+                }
+            }
+        }
+
+        HorizontalLayout {
+            HorizontalLayout {
+                width: 50%;
+                openai-checkbox := CheckBox {
+                    text: self.checked ? Store.translator.setting-dialog-proxy-openai-enabled : Store.translator.setting-dialog-proxy-openai-disabled;
+                }
+            }
+
+            HorizontalLayout {
+                width: 50%;
+                azure-checkbox := CheckBox {
+                    text: self.checked ? Store.translator.setting-dialog-proxy-azure-enabled : Store.translator.setting-dialog-proxy-azure-disabled;
                 }
             }
         }

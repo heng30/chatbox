@@ -1,7 +1,8 @@
 #!/bin/bash
-proxychains curl -v -N --keepalive https://api.openai.com/v1/chat/completions \
+
+curl -v -N --keepalive $AZURE_OPENAI_ENDPOINT/openai/deployments/gpt-35-turbo/chat/completions?api-version=2023-05-15 \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -H "api-key: $AZURE_OPENAI_KEY" \
   -d '{
     "model": "gpt-3.5-turbo",
     "messages": [{"role": "user", "content": "Hi"}],

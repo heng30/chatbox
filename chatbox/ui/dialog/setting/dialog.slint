@@ -12,7 +12,7 @@ export component SettingDialog inherits Rectangle {
     in-out property<length> body-width: 700px;
     in-out property<color> title-bg: Theme.brand-color;
 
-    property<string> current-checked-item: "ui";
+    property<string> current-checked-item: "proxy";
 
     visible: Store.setting-dialog-config.show;
     width: self.visible ? root.body-width : 0;
@@ -121,6 +121,8 @@ export component SettingDialog inherits Rectangle {
                 proxy-tab := Proxy {
                     visible: current-checked-item == "proxy";
                     proxy-enabled: Store.setting-dialog-config.proxy.enabled;
+                    proxy-openai: Store.setting-dialog-config.proxy.openai;
+                    proxy-azure: Store.setting-dialog-config.proxy.azure;
                     proxy-url: Store.setting-dialog-config.proxy.url;
                     proxy-port: Store.setting-dialog-config.proxy.port;
                 }
@@ -142,6 +144,8 @@ export component SettingDialog inherits Rectangle {
                     ui-tab.set-language(Store.setting-dialog-config.ui.language);
 
                     proxy-tab.proxy-enabled = Store.setting-dialog-config.proxy.enabled;
+                    proxy-tab.proxy-openai = Store.setting-dialog-config.proxy.openai;
+                    proxy-tab.proxy-azure = Store.setting-dialog-config.proxy.azure;
                     proxy-tab.proxy-url = Store.setting-dialog-config.proxy.url;
                     proxy-tab.proxy-port = Store.setting-dialog-config.proxy.port;
 
@@ -180,6 +184,8 @@ export component SettingDialog inherits Rectangle {
                         },
                         proxy: {
                             enabled: proxy-tab.proxy-enabled,
+                            openai: proxy-tab.proxy-openai,
+                            azure: proxy-tab.proxy-azure,
                             url: proxy-tab.proxy-url,
                             port: proxy-tab.proxy-port
                         },

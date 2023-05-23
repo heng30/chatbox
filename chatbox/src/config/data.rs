@@ -46,6 +46,8 @@ impl Default for UI {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Socks5 {
     pub enabled: bool,
+    pub openai: bool,
+    pub azure: bool,
     pub url: String,
     pub port: u16,
 }
@@ -54,6 +56,8 @@ impl Default for Socks5 {
     fn default() -> Self {
         Self {
             enabled: false,
+            openai: false,
+            azure: false,
             url: "127.0.0.1".to_string(),
             port: 1080,
         }

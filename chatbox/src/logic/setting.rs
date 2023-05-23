@@ -63,6 +63,8 @@ pub fn init(ui: &AppWindow) {
         config.ui.language = setting_config.ui.language.to_string();
 
         config.socks5.enabled = setting_config.proxy.enabled;
+        config.socks5.openai = setting_config.proxy.openai;
+        config.socks5.azure = setting_config.proxy.azure;
         config.socks5.url = setting_config.proxy.url.to_string();
         config.socks5.port = setting_config
             .proxy
@@ -149,6 +151,8 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     setting_dialog.ui.language = ui_config.language.into();
 
     setting_dialog.proxy.enabled = socks5_config.enabled;
+    setting_dialog.proxy.openai = socks5_config.openai;
+    setting_dialog.proxy.azure = socks5_config.azure;
     setting_dialog.proxy.url = socks5_config.url.into();
     setting_dialog.proxy.port = slint::format!("{}", socks5_config.port);
 

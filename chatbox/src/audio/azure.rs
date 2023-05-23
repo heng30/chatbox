@@ -1,6 +1,6 @@
 use super::data::{AzureTextItem, TextType};
 use super::play;
-use crate::config;
+use crate::{config, util::http};
 use crate::slint_generatedAppWindow::{AppWindow, Logic};
 use crate::util::qbox::QBox;
 use crate::util::translator::tr;
@@ -102,8 +102,8 @@ async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std
         text
     );
 
-    let response = reqwest::ClientBuilder::new()
-        .build()?
+    let client = http::client(http::ClientType::Azure)?;
+    let response = client
         .post(&url)
         .timeout(Duration::from_secs(audio_config.t2s_max_request_duration))
         .headers(headers)
@@ -148,8 +148,8 @@ pub async fn speech_to_text(
         HeaderValue::from_str(&audio_config.api_key)?,
     );
 
-    let response = reqwest::ClientBuilder::new()
-        .build()?
+    let client = http::client(http::ClientType::Azure)?;
+    let response = client
         .post(&url)
         .timeout(Duration::from_secs(audio_config.s2t_max_request_duration))
         .headers(headers)

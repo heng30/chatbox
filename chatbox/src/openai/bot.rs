@@ -28,7 +28,7 @@ pub async fn generate_text(
     uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let client = http::client()?;
+    let client = http::client(http::ClientType::OpenAI)?;
     let config = openai_config();
 
     let request_body = data::request::ChatCompletion {
@@ -90,6 +90,7 @@ pub async fn generate_text(
                         Ok(chunk) => {
                             let choice = &chunk.choices[0];
                             if choice.finish_reason.is_some() {
+                                print!("\n");
                                 debug!("finish_reason: {}", choice.finish_reason.as_ref().unwrap());
                                 break;
                             }
