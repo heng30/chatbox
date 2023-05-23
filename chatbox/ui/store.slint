@@ -87,13 +87,27 @@ export struct SettingChatOpenAIChat {
     presence-penalty: float,
 }
 
+export struct SettingChatAzureChat {
+    url: string,
+    max-tokens: string,
+    temperature: float,
+    frequency-penalty: float,
+    presence-penalty: float,
+}
+
 export struct SettingChatOpenAI {
     api-key: string,
     chat: SettingChatOpenAIChat,
 }
 
+export struct SettingChatAzure {
+    api-key: string,
+    chat: SettingChatAzureChat,
+}
+
 export struct SettingChat {
     openai: SettingChatOpenAI,
+    azure: SettingChatAzure,
 }
 
 export struct SettingAudio {
@@ -218,7 +232,7 @@ export global Store  {
     in-out property<[string]> input-audio-devices: [];
     in-out property<[string]> output-audio-devices: [];
     in-out property<SettingDialogConfig> setting-dialog-config: {
-        show: true,
+        show: false,
         ui: {
             font-size: "18",
             win-width: "1200",
@@ -252,8 +266,8 @@ export global Store  {
             + "  1. chatgpt-turbo-3.5 目前最多支持4096个tokens（输入+输出）。\n"
             + "  2. temperature：控制ChatGPT自由发挥度，数值越高自由发挥度越高。\n"
             + "\n文字转音频:\n"
-            + "  1. 不会使用代理。 2. 仅支持中英双语朗读。\n"
-            + "  3. 第一次转换可能需要比较长的时间，请耐心等待。之后就使用缓存进行朗读。\n"
+            + "  1. 仅支持中英双语朗读。\n"
+            + "  2. 第一次转换可能需要比较长的时间，请耐心等待。之后就使用缓存进行朗读。\n"
             + "\n录音转文字:\n"
             + "  1. 最大录音时长为1分钟。\n"
             + "  2. 录音转文字需要一定的时间，请耐心等待。\n"
@@ -271,8 +285,8 @@ export global Store  {
             + "  1. chatgpt-turbo-3.5 currently supports up to 4096 tokens (input + output).\n"
             + "  2. Temperature: control ChatGPT's degree of freedom, with higher values resulting in more freedom.\n"
             + "\nText-to-speech:\n"
-            + "  1. No proxies are used.  2. Only support Chinese and English Speech.\n"
-            + "  3. The first conversion may take some time, please be patient. Subsequently, caching will be used for reading out text.\n"
+            + "  1. Only support Chinese and English Speech.\n"
+            + "  2. The first conversion may take some time, please be patient. Subsequently, caching will be used for reading out text.\n"
             + "\nSpeech To Text:\n"
             + "  1. Max recording time is 1 minutes\n"
             + "  2. Transcribing audio into text takes some time, please be patient.\n"

@@ -1,10 +1,11 @@
 use super::data::{HistoryChat, StopChat, StreamTextItem};
 use crate::audio;
-use crate::openai;
+use crate::config;
 use crate::session;
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, CodeTextItem, Logic, Store};
 use crate::util::qbox::QBox;
 use crate::util::translator::tr;
+use crate::{azureai, openai};
 #[allow(unused_imports)]
 use log::{debug, warn};
 use slint::{ComponentHandle, Model, VecModel};
@@ -13,7 +14,6 @@ use std::rc::Rc;
 use std::sync::Mutex;
 use tokio::task::spawn;
 use uuid::Uuid;
-use crate::config;
 
 const LOADING_STRING: &str = "Thinking...";
 
@@ -68,6 +68,33 @@ async fn send_text(
         };
 
         return openai::generate_text(openai_chat, api_model, item.uuid, move |sitem| {
+            if let Err(e) = slint::invoke_from_event_loop(move || {
+                stream_text(ui_box, sitem);
+            }) {
+                warn!("{:?}", e);
+            }
+        })
+        .await;
+    } else if api_model.contains("Azure") {
+        let azureai_chat = azureai::AzureAIChat::make(
+            system_prompt,
+            question,
+            if use_history {
+                chats
+            } else {
+                HistoryChat::default()
+            },
+        );
+
+        // debug!("{:?}", azureai_chat);
+
+        let api_model = if api_model.contains("chat-35-turbo") {
+            "gpt-35-turbo".to_string()
+        } else {
+            return Err(anyhow::anyhow!("unknown api model: {}", api_model).into());
+        };
+
+        return azureai::generate_text(azureai_chat, api_model, item.uuid, move |sitem| {
             if let Err(e) = slint::invoke_from_event_loop(move || {
                 stream_text(ui_box, sitem);
             }) {

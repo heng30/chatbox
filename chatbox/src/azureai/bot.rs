@@ -1,11 +1,11 @@
 use super::data;
 use crate::chat;
-use crate::config::openai as openai_config;
+use crate::config::azureai as azureai_config;
 use crate::logic::StreamTextItem;
 use crate::util::http;
 use log::{debug, warn};
 use reqwest::header::HeaderMap;
-use reqwest::header::{ACCEPT, AUTHORIZATION, CACHE_CONTROL, CONTENT_TYPE};
+use reqwest::header::{ACCEPT, CACHE_CONTROL, CONTENT_TYPE};
 use std::time::Duration;
 use tokio_stream::StreamExt;
 
@@ -13,8 +13,8 @@ fn headers(api_key: &str) -> HeaderMap {
     let mut headers = HeaderMap::new();
     headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
     headers.insert(
-        AUTHORIZATION,
-        format!("Bearer {}", api_key).parse().unwrap(),
+        "api-key",
+        api_key.to_string().parse().unwrap(),
     );
     headers.insert(ACCEPT, "text/event-stream".parse().unwrap());
 
@@ -23,13 +23,13 @@ fn headers(api_key: &str) -> HeaderMap {
 }
 
 pub async fn generate_text(
-    chat: data::request::OpenAIChat,
+    chat: data::request::AzureAIChat,
     api_model: String,
     uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let client = http::client(http::ClientType::OpenAI)?;
-    let config = openai_config();
+    let client = http::client(http::ClientType::Azure)?;
+    let config = azureai_config();
 
     let request_body = data::request::ChatCompletion {
         messages: chat.message,

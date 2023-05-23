@@ -90,6 +90,24 @@ pub fn init(ui: &AppWindow) {
         config.openai.chat.presence_penalty =
             setting_config.chat.openai.chat.presence_penalty.round() / 100.0;
 
+        config.azureai.api_key = setting_config.chat.azure.api_key.to_string();
+        config.azureai.chat.url = setting_config.chat.azure.chat.url.to_string();
+        config.azureai.chat.max_tokens = setting_config
+            .chat
+            .azure
+            .chat
+            .max_tokens
+            .to_string()
+            .parse::<f32>()
+            .unwrap_or(1024.0) as i32;
+
+        config.azureai.chat.temperature =
+            setting_config.chat.azure.chat.temperature.round() / 100.0;
+        config.azureai.chat.frequency_penalty =
+            setting_config.chat.azure.chat.frequency_penalty.round() / 100.0;
+        config.azureai.chat.presence_penalty =
+            setting_config.chat.azure.chat.presence_penalty.round() / 100.0;
+
         config.audio.region = setting_config.audio.region.to_string();
         config.audio.api_key = setting_config.audio.api_key.to_string();
         config.audio.current_input_device = setting_config.audio.current_input_device.to_string();
@@ -120,6 +138,7 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     let ui_config = config::ui();
     let socks5_config = config::socks5();
     let openai_config = config::openai();
+    let azureai_config = config::azureai();
     let audio_config = config::audio();
 
     let input_devices: VecModel<slint::SharedString> = VecModel::default();
@@ -164,6 +183,15 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     setting_dialog.chat.openai.chat.frequency_penalty =
         openai_config.chat.frequency_penalty * 100.0;
     setting_dialog.chat.openai.chat.presence_penalty = openai_config.chat.presence_penalty * 100.0;
+
+    setting_dialog.chat.azure.api_key = azureai_config.api_key.into();
+    setting_dialog.chat.azure.chat.url = azureai_config.chat.url.into();
+    setting_dialog.chat.azure.chat.max_tokens =
+        slint::format!("{}", azureai_config.chat.max_tokens);
+    setting_dialog.chat.azure.chat.temperature = azureai_config.chat.temperature * 100.0;
+    setting_dialog.chat.azure.chat.frequency_penalty =
+        azureai_config.chat.frequency_penalty * 100.0;
+    setting_dialog.chat.azure.chat.presence_penalty = azureai_config.chat.presence_penalty * 100.0;
 
     setting_dialog.audio.region = audio_config.region.into();
     setting_dialog.audio.api_key = audio_config.api_key.into();

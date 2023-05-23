@@ -20,6 +20,10 @@ pub fn openai() -> data::OpenAi {
     CONFIG.lock().unwrap().borrow().openai.clone()
 }
 
+pub fn azureai() -> data::AzureAi {
+    CONFIG.lock().unwrap().borrow().azureai.clone()
+}
+
 pub fn socks5() -> data::Socks5 {
     CONFIG.lock().unwrap().borrow().socks5.clone()
 }
@@ -117,6 +121,7 @@ impl Config {
                 Ok(c) => {
                     self.audio = c.audio;
                     self.openai = c.openai;
+                    self.azureai = c.azureai;
                     self.socks5 = c.socks5;
                     self.ui = c.ui;
                     Ok(())

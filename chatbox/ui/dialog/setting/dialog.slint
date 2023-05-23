@@ -12,7 +12,7 @@ export component SettingDialog inherits Rectangle {
     in-out property<length> body-width: 700px;
     in-out property<color> title-bg: Theme.brand-color;
 
-    property<string> current-checked-item: "proxy";
+    property<string> current-checked-item: "ui";
 
     visible: Store.setting-dialog-config.show;
     width: self.visible ? root.body-width : 0;
@@ -104,6 +104,13 @@ export component SettingDialog inherits Rectangle {
                     openai-temperature: Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, 0);
                     openai-frequency-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
                     openai-presence-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200);
+
+                    azure-api-key: Store.setting-dialog-config.chat.azure.api-key;
+                    azure-url: Store.setting-dialog-config.chat.azure.chat.url;
+                    azure-max-tokens: Math.max(Store.setting-dialog-config.chat.azure.chat.max-tokens.to-float(), 128);
+                    azure-temperature: Math.max(Store.setting-dialog-config.chat.azure.chat.temperature, 0);
+                    azure-frequency-penalty: Math.max(Store.setting-dialog-config.chat.azure.chat.frequency-penalty, -200);
+                    azure-presence-penalty: Math.max(Store.setting-dialog-config.chat.azure.chat.presence-penalty, -200);
                 }
 
                 audio-tab := Audio {
@@ -156,6 +163,13 @@ export component SettingDialog inherits Rectangle {
                     chat-tab.openai-frequency-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
                     chat-tab.openai-presence-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200 );
 
+                    chat-tab.azure-api-key = Store.setting-dialog-config.chat.azure.api-key;
+                    chat-tab.azure-url = Store.setting-dialog-config.chat.azure.chat.url;
+                    chat-tab.azure-max-tokens = Math.max(Store.setting-dialog-config.chat.azure.chat.max-tokens.to-float(), 128);
+                    chat-tab.azure-temperature = Math.max(Store.setting-dialog-config.chat.azure.chat.temperature, 0);
+                    chat-tab.azure-frequency-penalty = Math.max(Store.setting-dialog-config.chat.azure.chat.frequency-penalty, -200);
+                    chat-tab.azure-presence-penalty = Math.max(Store.setting-dialog-config.chat.azure.chat.presence-penalty, -200 );
+
 
                     audio-tab.azure-api-key = Store.setting-dialog-config.audio.api-key;
                     audio-tab.azure-region = Store.setting-dialog-config.audio.region;
@@ -198,6 +212,16 @@ export component SettingDialog inherits Rectangle {
                                     temperature: chat-tab.openai-temperature,
                                     frequency-penalty: chat-tab.openai-frequency-penalty,
                                     presence-penalty: chat-tab.openai-presence-penalty
+                                }
+                            },
+                            azure: {
+                                api-key: chat-tab.azure-api-key,
+                                chat:  {
+                                    url: chat-tab.azure-url,
+                                    max-tokens: chat-tab.azure-max-tokens,
+                                    temperature: chat-tab.azure-temperature,
+                                    frequency-penalty: chat-tab.azure-frequency-penalty,
+                                    presence-penalty: chat-tab.azure-presence-penalty
                                 }
                             }
                         },

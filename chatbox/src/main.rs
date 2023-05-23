@@ -16,6 +16,7 @@ mod config;
 mod db;
 mod logic;
 mod openai;
+mod azureai;
 mod util;
 mod version;
 mod audio;

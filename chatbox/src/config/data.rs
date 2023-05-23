@@ -21,6 +21,8 @@ pub struct Config {
 
     pub openai: OpenAi,
 
+    pub azureai: AzureAi,
+
     pub audio: Audio,
 }
 
@@ -96,6 +98,46 @@ impl Default for OpenAiChat {
     fn default() -> Self {
         Self {
             url: "https://api.openai.com/v1/chat/completions".to_string(),
+            max_tokens: 1024,
+            temperature: 0.8,
+            frequency_penalty: 0.5,
+            presence_penalty: 0.0,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AzureAi {
+    pub request_timeout: u64,
+    pub stream_timeout: u64,
+    pub api_key: String,
+    pub chat: AzureAiChat,
+}
+
+impl Default for AzureAi {
+    fn default() -> Self {
+        Self {
+            request_timeout: 30,
+            stream_timeout: 15,
+            api_key: String::default(),
+            chat: AzureAiChat::default(),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AzureAiChat {
+    pub url: String,
+    pub max_tokens: i32,
+    pub temperature: f32,
+    pub frequency_penalty: f32,
+    pub presence_penalty: f32,
+}
+
+impl Default for AzureAiChat {
+    fn default() -> Self {
+        Self {
+            url: "https://{your-resource-name}.openai.azure.com/openai/deployments/{deployment-id}/completions?api-version={api-version}".to_string(),
             max_tokens: 1024,
             temperature: 0.8,
             frequency_penalty: 0.5,

@@ -2,6 +2,7 @@ import { ComboBox } from "std-widgets.slint";
 import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 import { OpenAI } from "./openai.slint";
+import { Azure } from "./azure.slint";
 
 export component Chat inherits Rectangle {
     width: 100%;
@@ -14,6 +15,13 @@ export component Chat inherits Rectangle {
     in-out property openai-temperature <=> openai.temperature;
     in-out property openai-frequency-penalty <=> openai.frequency-penalty;
     in-out property openai-presence-penalty <=> openai.presence-penalty;
+
+    in-out property azure-api-key <=> azure.api-key;
+    in-out property azure-url <=> azure.url;
+    in-out property azure-max-tokens <=> azure.max-tokens;
+    in-out property azure-temperature <=> azure.temperature;
+    in-out property azure-frequency-penalty <=> azure.frequency-penalty;
+    in-out property azure-presence-penalty <=> azure.presence-penalty;
 
     VerticalLayout {
         width: 100%;
@@ -36,6 +44,10 @@ export component Chat inherits Rectangle {
         Rectangle {
             openai := OpenAI {
                 visible: current-api-type-index == 0;
+            }
+
+            azure := Azure {
+                visible: current-api-type-index == 1;
             }
         }
     }

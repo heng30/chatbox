@@ -4,8 +4,7 @@ curl -v -N --keepalive $AZURE_OPENAI_ENDPOINT/openai/deployments/gpt-35-turbo/ch
   -H "Content-Type: application/json" \
   -H "api-key: $AZURE_OPENAI_KEY" \
   -d '{
-    "model": "gpt-3.5-turbo",
-    "messages": [{"role": "user", "content": "Hi"}],
+    "messages": [{"role": "user", "content": "给我一段Rust代码"}],
     "temperature": 0.5,
     "max_tokens": 1024,
     "stream": true,
