@@ -7,6 +7,7 @@ pub fn tr(text: &str) -> String {
     }
 
     let mut items: HashMap<&str, &str> = HashMap::new();
+    items.insert("出错", "Error");
     items.insert("原因", "Reason");
     items.insert("新建成功", "New Session Success");
     items.insert("删除成功", "Delete Success");

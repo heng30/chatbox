@@ -117,10 +117,16 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
     let current_row = rows - 1;
 
     let text = match sitem.etext {
-        Some(etext) => format!("\n\n{}", etext),
+        Some(etext) => {
+            ui.global::<Logic>().invoke_show_message(
+                slint::format!("{}! {}: {}", tr("出错"), tr("原因"), etext),
+                "warning".into(),
+            );
+            return;
+        }
         _ => match sitem.text {
             Some(txt) => txt,
-            _ => "".to_string(),
+            _ => return,
         },
     };
 
