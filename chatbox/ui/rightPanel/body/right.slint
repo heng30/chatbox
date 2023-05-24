@@ -49,8 +49,8 @@ export component Right inherits Rectangle {
 
                     touch := TouchArea {
                         clicked => {
-                            Logic.show-session-archive(Store.current-session-uuid, data.uuid);
                             root.current-archive-uuid = data.uuid;
+                            Logic.show-session-archive(Store.current-session-uuid, data.uuid);
                         }
                     }
 
