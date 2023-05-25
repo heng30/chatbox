@@ -6,7 +6,6 @@ import { IconBtn } from "../../base/icon-btn.slint";
 
 export component Right inherits Rectangle {
     width: Theme.body-right-panel-width;
-    property<string> current-archive-uuid;
 
     VerticalLayout {
         spacing: Theme.spacing / 2;
@@ -45,11 +44,10 @@ export component Right inherits Rectangle {
                 padding-bottom: Theme.padding / 2;
 
                 Rectangle {
-                    background: data.uuid == root.current-archive-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
+                    background: Theme.brand-color;
 
                     touch := TouchArea {
                         clicked => {
-                            root.current-archive-uuid = data.uuid;
                             Logic.show-session-archive(Store.current-session-uuid, data.uuid);
                         }
                     }

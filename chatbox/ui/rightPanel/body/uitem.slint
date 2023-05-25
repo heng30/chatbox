@@ -42,12 +42,12 @@ export component UItem inherits VerticalLayout{
                     icon: @image-url("../../images/star.svg");
                     colorize: root.is-mark ? Theme.mark-color : Theme.unmark-color;
                     clicked => {
-                        Logic.toggle-mark-chat-item(root.uuid);
                         if (root.is-mark) {
                             Logic.show-message(Store.translator.unmarked-success, "success");
                         } else {
                             Logic.show-message(Store.translator.marked-success, "success");
                         }
+                        Logic.toggle-mark-chat-item(root.uuid);
                     }
                 }
             }

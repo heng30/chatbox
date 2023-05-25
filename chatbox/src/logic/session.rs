@@ -411,20 +411,19 @@ pub fn init(ui: &AppWindow) {
                 })
                 .collect();
 
-            let sessions_model = Rc::new(VecModel::from(sessions));
-            ui.global::<Store>()
-                .set_chat_sessions(sessions_model.into());
-
-            for session in ui.global::<Store>().get_chat_sessions().iter() {
+            for session in sessions.iter() {
                 if session.uuid == new_uuid {
-                    ui.global::<Store>().set_session_datas(session.chat_items);
+                    ui.global::<Store>()
+                        .set_session_datas(session.chat_items.clone());
                     ui.global::<Logic>()
                         .invoke_show_session_archive_list(new_uuid.clone());
-                    ui.global::<Store>()
-                        .set_current_session_uuid(new_uuid);
+                    ui.global::<Store>().set_current_session_uuid(new_uuid);
                     break;
                 }
             }
+
+            ui.global::<Store>()
+                .set_chat_sessions(Rc::new(VecModel::from(sessions)).into());
         });
 
     ui.global::<Logic>().on_copy_session_chats(move |_uuid| {
