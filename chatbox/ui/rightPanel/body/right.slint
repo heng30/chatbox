@@ -44,7 +44,7 @@ export component Right inherits Rectangle {
                 padding-bottom: Theme.padding / 2;
 
                 Rectangle {
-                    background: Theme.brand-color;
+                    background: touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
 
                     touch := TouchArea {
                         clicked => {
