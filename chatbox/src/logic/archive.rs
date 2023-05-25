@@ -183,16 +183,19 @@ pub fn init(ui: &AppWindow) {
         .on_show_session_archive_list(move |suuid| {
             let ui = ui_show_list_handle.unwrap();
 
-            ui.global::<Store>()
-                .set_session_archive_datas(Rc::new(VecModel::default()).into());
-
             match db::archive::is_table_exist(suuid.as_str()) {
                 Ok(true) => (),
                 Err(e) => {
+                    ui.global::<Store>()
+                        .set_session_archive_datas(Rc::new(VecModel::default()).into());
                     warn!("{:?}", e);
                     return;
                 }
-                _ => return,
+                _ => {
+                    ui.global::<Store>()
+                        .set_session_archive_datas(Rc::new(VecModel::default()).into());
+                    return;
+                }
             }
 
             match db::archive::select_all(suuid.as_str()) {
