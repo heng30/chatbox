@@ -4,79 +4,76 @@ import { Store } from "../../store.slint";
 import { Logic } from "../../logic.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 
-export component Right inherits Rectangle {
+export component Right inherits VerticalLayout {
     width: Theme.body-right-panel-width;
+    spacing: Theme.spacing / 2;
 
-    VerticalLayout {
-        spacing: Theme.spacing / 2;
-
-        HorizontalLayout {
-            search-lineedit := LineEdit {
-                placeholder-text: Store.translator.archive-search-placeholder-text;
-                accepted => {
-                    search-btn.clicked();
-                }
-
-                edited=> {
-                    Store.archive-search-text = search-lineedit.text;
-                    if (Store.archive-search-text == "") {
-                        search-btn.clicked();
-                    }
-                }
+    HorizontalLayout {
+        search-lineedit := LineEdit {
+            placeholder-text: Store.translator.archive-search-placeholder-text;
+            accepted => {
+                search-btn.clicked();
             }
 
-            search-btn := IconBtn {
-                height: search-lineedit.preferred-height;
-                width: search-lineedit.preferred-height * 1.33;
-                border-radius: 0;
-                bg-color: Theme.brand-color;
-                bg-hover-color: self.bg-color.darker(20%);
-                bg-pressed-color: self.bg-color.darker(50%);
-                icon: @image-url("../../images/search.svg");
-                clicked => {
-                    Logic.show-session-archive-list(Store.current-session-uuid);
+            edited=> {
+                Store.archive-search-text = search-lineedit.text;
+                if (Store.archive-search-text == "") {
+                    search-btn.clicked();
                 }
             }
         }
 
-        lv := ListView {
-            for data in Store.session-archive-datas : VerticalLayout {
-                padding-bottom: Theme.padding / 2;
+        search-btn := IconBtn {
+            height: search-lineedit.preferred-height;
+            width: search-lineedit.preferred-height * 1.33;
+            border-radius: 0;
+            bg-color: Theme.brand-color;
+            bg-hover-color: self.bg-color.darker(20%);
+            bg-pressed-color: self.bg-color.darker(50%);
+            icon: @image-url("../../images/search.svg");
+            clicked => {
+                Logic.show-session-archive-list(Store.current-session-uuid);
+            }
+        }
+    }
 
-                Rectangle {
-                    background: touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
+    ListView {
+        for data in Store.session-archive-datas : VerticalLayout {
+            padding-bottom: Theme.padding / 2;
 
-                    touch := TouchArea {
-                        clicked => {
-                            Logic.show-session-archive(Store.current-session-uuid, data.uuid);
-                        }
+            Rectangle {
+                background: touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
+
+                touch := TouchArea {
+                    clicked => {
+                        Logic.show-session-archive(Store.current-session-uuid, data.uuid);
+                    }
+                }
+
+                HorizontalLayout {
+                    padding: Theme.padding;
+
+                    Text {
+                        width: root.width - 70px;
+                        color: Colors.white;
+                        text: data.name;
                     }
 
                     HorizontalLayout {
-                        padding: Theme.padding;
+                        alignment: end;
+                        padding-right: Theme.padding;
+                        spacing: Theme.spacing * 2;
 
-                        Text {
-                            width: root.width - 70px;
-                            color: Colors.white;
-                            text: data.name;
-                        }
-
-                        HorizontalLayout {
+                        VerticalLayout {
                             alignment: end;
-                            padding-right: Theme.padding;
-                            spacing: Theme.spacing * 2;
-
-                            VerticalLayout {
-                                alignment: end;
-                                IconBtn {
-                                    icon: @image-url("../../images/delete.svg");
-                                    clicked => {
-                                        Store.ok-cancel-dialog-setting.title-type = "warning";
-                                        Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
-                                        Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
-                                        Store.ok-cancel-dialog-setting.handle-type = "session-archive-item";
-                                        Store.ok-cancel-dialog-setting.handle-uuid = data.uuid;
-                                    }
+                            IconBtn {
+                                icon: @image-url("../../images/delete.svg");
+                                clicked => {
+                                    Store.ok-cancel-dialog-setting.title-type = "warning";
+                                    Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                                    Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
+                                    Store.ok-cancel-dialog-setting.handle-type = "session-archive-item";
+                                    Store.ok-cancel-dialog-setting.handle-uuid = data.uuid;
                                 }
                             }
                         }
