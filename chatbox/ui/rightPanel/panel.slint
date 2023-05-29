@@ -2,6 +2,7 @@ import { Theme } from "../theme.slint";
 import { Header } from "./header.slint";
 import { Body } from "./body/panel.slint";
 import { Footer } from "./footer.slint";
+import { ArchivePanel } from "./archive/panel.slint";
 
 export component RPanel inherits VerticalLayout {
     spacing: Theme.spacing;
@@ -19,7 +20,11 @@ export component RPanel inherits VerticalLayout {
         footer.force-focus();
     }
 
-    body := Body {}
+    HorizontalLayout {
+        body := Body {}
+        archPanel := ArchivePanel {}
+    }
+
     footer := Footer {}
 }
 

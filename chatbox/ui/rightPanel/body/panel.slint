@@ -4,7 +4,6 @@ import { Store } from "../../store.slint";
 import { Logic } from "../../logic.slint";
 import { UItem } from "./uitem.slint";
 import { BItem } from "./bitem.slint";
-import { Right } from "./right.slint";
 
 export component Body inherits Rectangle {
     function new-chat-text(utext: string, btext: string) -> string {
@@ -44,8 +43,5 @@ export component Body inherits Rectangle {
                 }
             }
         }
-
-        rg := Right {}
-
     }
 }
