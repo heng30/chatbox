@@ -6,6 +6,7 @@ use crate::util::translator::tr;
 #[allow(unused)]
 use log::{debug, warn};
 use slint::{ComponentHandle, Model, ModelExt, ModelRc, VecModel, Weak};
+use slint::{Timer, TimerMode};
 use std::cmp::Ordering;
 use std::rc::Rc;
 use uuid::Uuid;
@@ -146,6 +147,7 @@ pub fn init(ui: &AppWindow) {
     let ui_switch_handle = ui.as_weak();
     let ui_copy_handle = ui.as_weak();
     let ui_save_chats_handle = ui.as_weak();
+    let timer = Timer::default();
 
     init_db_default_session(ui);
     init_session(ui);
@@ -415,9 +417,22 @@ pub fn init(ui: &AppWindow) {
                 if session.uuid == new_uuid {
                     ui.global::<Store>()
                         .set_session_datas(session.chat_items.clone());
-                    ui.global::<Logic>()
-                        .invoke_show_session_archive_list(new_uuid.clone());
-                    ui.global::<Store>().set_current_session_uuid(new_uuid);
+                    ui.global::<Store>()
+                        .set_current_session_uuid(new_uuid.clone());
+
+                    // TEST: listview update model has a low probability of crashing
+                    let ui_timer = ui.as_weak();
+                    let new_uuid_timer = new_uuid.to_string();
+                    timer.start(
+                        TimerMode::SingleShot,
+                        std::time::Duration::from_millis(100),
+                        move || {
+                            ui_timer
+                                .unwrap()
+                                .global::<Logic>()
+                                .invoke_show_session_archive_list(new_uuid_timer.clone().into());
+                        },
+                    );
                     break;
                 }
             }

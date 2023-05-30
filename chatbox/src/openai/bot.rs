@@ -126,9 +126,9 @@ pub async fn generate_text(
                 warn!("{}", e);
                 break;
             }
-            _ => {
-                warn!("unknown error appear! return from openai chat generate text.");
-                break;
+            Ok(Some(Err(e))) => {
+                warn!("{}", e);
+                continue;
             }
         }
     }

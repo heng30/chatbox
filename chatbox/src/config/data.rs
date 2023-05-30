@@ -77,8 +77,8 @@ pub struct OpenAi {
 impl Default for OpenAi {
     fn default() -> Self {
         Self {
-            request_timeout: 30,
-            stream_timeout: 15,
+            request_timeout: 300,
+            stream_timeout: 30,
             api_key: String::default(),
             chat: OpenAiChat::default(),
         }
@@ -117,8 +117,8 @@ pub struct AzureAi {
 impl Default for AzureAi {
     fn default() -> Self {
         Self {
-            request_timeout: 30,
-            stream_timeout: 15,
+            request_timeout: 300,
+            stream_timeout: 30,
             api_key: String::default(),
             chat: AzureAiChat::default(),
         }
