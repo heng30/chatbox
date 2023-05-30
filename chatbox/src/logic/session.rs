@@ -420,7 +420,7 @@ pub fn init(ui: &AppWindow) {
                     ui.global::<Store>()
                         .set_current_session_uuid(new_uuid.clone());
 
-                    // TEST: listview update model has a low probability of crashing
+                    // TOCHECK: update model after delay, which seem to fix the low probability of program crashing
                     let ui_timer = ui.as_weak();
                     let new_uuid_timer = new_uuid.to_string();
                     timer.start(
