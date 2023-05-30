@@ -128,7 +128,7 @@ pub async fn generate_text(
             }
             Ok(Some(Err(e))) => {
                 warn!("{}", e);
-                continue;
+                break;
             }
         }
     }
