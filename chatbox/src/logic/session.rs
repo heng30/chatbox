@@ -6,7 +6,6 @@ use crate::util::translator::tr;
 #[allow(unused)]
 use log::{debug, warn};
 use slint::{ComponentHandle, Model, ModelExt, ModelRc, VecModel, Weak};
-use slint::{Timer, TimerMode};
 use std::cmp::Ordering;
 use std::rc::Rc;
 use uuid::Uuid;
@@ -147,7 +146,6 @@ pub fn init(ui: &AppWindow) {
     let ui_switch_handle = ui.as_weak();
     let ui_copy_handle = ui.as_weak();
     let ui_save_chats_handle = ui.as_weak();
-    let timer = Timer::default();
 
     init_db_default_session(ui);
     init_session(ui);
@@ -396,49 +394,35 @@ pub fn init(ui: &AppWindow) {
         .on_switch_session(move |old_uuid, new_uuid| {
             let ui = ui_switch_handle.unwrap();
             let chat_items = ui.global::<Store>().get_session_datas();
+            let sessions = ui.global::<Store>().get_chat_sessions();
 
-            let sessions: Vec<ChatSession> = ui
-                .global::<Store>()
-                .get_chat_sessions()
-                .iter()
-                .map(|x| {
-                    if x.uuid != old_uuid {
-                        x
-                    } else {
+            let mut index = 0;
+            for (row, session) in sessions.iter().enumerate() {
+                if session.uuid == old_uuid {
+                    ui.global::<Store>().get_chat_sessions().set_row_data(
+                        row,
                         ChatSession {
                             chat_items: chat_items.clone(),
-                            ..x
-                        }
-                    }
-                })
-                .collect();
+                            ..session
+                        },
+                    );
 
-            for session in sessions.iter() {
-                if session.uuid == new_uuid {
+                    index += 1;
+                } else if session.uuid == new_uuid {
                     ui.global::<Store>()
                         .set_session_datas(session.chat_items.clone());
+                    ui.global::<Logic>()
+                        .invoke_show_session_archive_list(new_uuid.clone());
                     ui.global::<Store>()
                         .set_current_session_uuid(new_uuid.clone());
 
-                    // TOCHECK: update model after delay, which seem to fix the low probability of program crashing
-                    let ui_timer = ui.as_weak();
-                    let new_uuid_timer = new_uuid.to_string();
-                    timer.start(
-                        TimerMode::SingleShot,
-                        std::time::Duration::from_millis(100),
-                        move || {
-                            ui_timer
-                                .unwrap()
-                                .global::<Logic>()
-                                .invoke_show_session_archive_list(new_uuid_timer.clone().into());
-                        },
-                    );
+                    index += 1;
+                }
+
+                if index == 2 {
                     break;
                 }
             }
-
-            ui.global::<Store>()
-                .set_chat_sessions(Rc::new(VecModel::from(sessions)).into());
         });
 
     ui.global::<Logic>().on_copy_session_chats(move |_uuid| {
