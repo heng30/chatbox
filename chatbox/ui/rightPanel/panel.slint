@@ -20,9 +20,17 @@ export component RPanel inherits VerticalLayout {
         footer.force-focus();
     }
 
-    HorizontalLayout {
-        body := Body {}
-        archPanel := ArchivePanel {}
+    Rectangle {
+        HorizontalLayout {
+            Rectangle {
+                body := Body {}
+            }
+
+            Rectangle {
+                width: Theme.body-right-panel-width;
+                archPanel := ArchivePanel {}
+            }
+        }
     }
 
     footer := Footer {}

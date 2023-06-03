@@ -44,12 +44,14 @@ export component AppWindow inherits Window {
         }
     }
 
-    HorizontalLayout {
-        padding: Theme.padding;
-        spacing: Theme.spacing;
-
-        LPanel {}
-        rpanel := RPanel {}
+    Rectangle {
+        height: root.height;
+        HorizontalLayout {
+            padding: Theme.padding;
+            spacing: Theme.spacing;
+            LPanel {}
+            rpanel := RPanel {}
+        }
     }
 
     FocusScope {

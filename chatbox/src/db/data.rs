@@ -15,6 +15,10 @@ pub struct SessionChat {
     pub uuid: String,
     pub utext: String,
     pub btext: String,
+
+    #[serde(default)]
+    pub timestamp: String,
+
     pub is_mark: bool,
 }
 
@@ -44,6 +48,7 @@ impl From<&Vec<ChatItem>> for SessionChats {
                     uuid: item.uuid.clone().into(),
                     utext: item.utext.clone().into(),
                     btext: item.btext.clone().into(),
+                    timestamp: item.timestamp.clone().into(),
                     is_mark: item.is_mark,
                 })
                 .collect(),

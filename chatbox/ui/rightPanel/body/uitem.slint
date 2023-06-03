@@ -5,6 +5,7 @@ import { Logic } from "../../logic.slint";
 
 export component UItem inherits VerticalLayout{
     in-out property text <=> txt.text;
+    in-out property timestamp <=> timestamp-txt.text;
     in-out property<string> uuid;
     in-out property<bool> is-mark;
     callback copy-clicked <=> copy-icon.clicked;
@@ -17,17 +18,29 @@ export component UItem inherits VerticalLayout{
     HorizontalLayout {
         padding-bottom: Theme.padding;
         alignment: space-between;
-        Rectangle {
-            height: img.width + 10px;
-            width: img.width + 10px;
-            border-radius: self.height / 2;
-            background: Theme.basic-black-color;
-            img := Image {
-                width: Theme.icon-size;
-                height: Theme.icon-size;
-                image-fit: ImageFit.contain;
-                source: @image-url("../../images/user.svg");
-                colorize: Colors.steelblue;
+        HorizontalLayout {
+            spacing: Theme.spacing * 4;
+
+            Rectangle {
+                height: img.width + 10px;
+                width: img.width + 10px;
+                border-radius: self.height / 2;
+                background: Theme.basic-black-color;
+                img := Image {
+                    width: Theme.icon-size;
+                    height: Theme.icon-size;
+                    image-fit: ImageFit.contain;
+                    source: @image-url("../../images/user.svg");
+                    colorize: Colors.steelblue;
+                }
+            }
+
+            VerticalLayout {
+                alignment: center;
+                timestamp-txt := Text {
+                    color: Theme.regular-text-color;
+                    font-size: Theme.default-font-size - 2px;
+                }
             }
         }
 

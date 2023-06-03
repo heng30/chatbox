@@ -30,6 +30,7 @@ export component Body inherits Rectangle {
                     text: data.utext;
                     uuid: data.uuid;
                     is-mark: data.is-mark;
+                    timestamp: data.timestamp;
 
                     copy-clicked => {
                         Logic.copy_to_clipboard(root.new-chat-text(data.utext, data.btext));

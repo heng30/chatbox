@@ -12,6 +12,7 @@ export struct ChatItem {
 
     btext-items: [CodeTextItem],
 
+    timestamp: string,
     uuid: string,
     is-mark: bool,
 }
@@ -151,6 +152,7 @@ export global Store  {
         {
             utext: "hello world",
             btext: "int main()\n{\n    printf('hello world');",
+            timestamp: "2023-12-03 12:03:45",
 
             btext-items: [
                 {
@@ -184,14 +186,14 @@ export global Store  {
     in-out property<bool> show-archive-dialog: false;
     in-out property<string> archive-search-text;
     in-out property<[ArchiveChatItem]> session-archive-datas: [
-        // {
-        //     name: "Test",
-        //     uuid: "test-uuid",
-        // },
-        // {
-        //     name: "Test2",
-        //     uuid: "test-uuid2",
-        // },
+        {
+            name: "Test",
+            uuid: "test-uuid",
+        },
+        {
+            name: "Test2",
+            uuid: "test-uuid2",
+        },
     ];
 
 

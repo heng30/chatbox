@@ -1,11 +1,7 @@
 use super::data::{HistoryChat, StopChat, StreamTextItem};
-use crate::audio;
-use crate::config;
-use crate::session;
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, CodeTextItem, Logic, Store};
-use crate::util::qbox::QBox;
-use crate::util::translator::tr;
-use crate::{azureai, openai};
+use crate::util::{qbox::QBox, translator::tr};
+use crate::{audio, azureai, config, openai, session, util};
 #[allow(unused_imports)]
 use log::{debug, warn};
 use slint::{ComponentHandle, Model, VecModel};
@@ -174,6 +170,7 @@ pub fn init(ui: &AppWindow) {
             utext: value,
             btext: LOADING_STRING.into(),
             uuid: uuid.as_str().into(),
+            timestamp: util::time::local_now("%Y-%m-%d %H:%M:%S").into(),
             btext_items: parse_chat_text(LOADING_STRING).into(),
             ..Default::default()
         });
