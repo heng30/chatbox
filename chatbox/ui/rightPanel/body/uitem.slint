@@ -91,12 +91,12 @@ export component UItem inherits VerticalLayout{
 
     HorizontalLayout {
         Rectangle {
-            background: Theme.light-fill-color;
+            background: Theme.brand-color.darker(10%);
             border-radius: Theme.border-radius;
             VerticalLayout{
                 padding: Theme.padding * 2;
                 txt := Text {
-                    color: Theme.primary-text-color;
+                    color: Theme.basic-white-color;
                     font-size: Theme.default-font-size + 2px;
                     wrap: word-wrap;
                 }

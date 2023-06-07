@@ -1,4 +1,4 @@
--  `i-slint-core-1.0.2/model.rs:958` 修改为下面的代码：
+- `.cargo/registry/src/github.com-1ecc6299db9ec823/i-slint-core-1.0.2/model.rs:958` 修改为下面的代码：
 ```
 let mut new_components = Vec::new();
 while new_offset > 0 && new_offset_y > -vp_y {
