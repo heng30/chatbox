@@ -100,10 +100,12 @@ export component SettingDialog inherits Rectangle {
 
                     openai-api-key: Store.setting-dialog-config.chat.openai.api-key;
                     openai-url: Store.setting-dialog-config.chat.openai.chat.url;
-                    openai-max-tokens: Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 128);
+                    openai-max-tokens: Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 0);
+                    openai-max-tokens-16k: Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens-16k.to-float(), 0);
                     openai-temperature: Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, 0);
                     openai-frequency-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
                     openai-presence-penalty: Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200);
+                    openai-context-length: Store.setting-dialog-config.chat.openai.chat.context-length;
 
                     azure-api-key: Store.setting-dialog-config.chat.azure.api-key;
                     azure-url: Store.setting-dialog-config.chat.azure.chat.url;
@@ -158,10 +160,12 @@ export component SettingDialog inherits Rectangle {
 
                     chat-tab.openai-api-key = Store.setting-dialog-config.chat.openai.api-key;
                     chat-tab.openai-url = Store.setting-dialog-config.chat.openai.chat.url;
-                    chat-tab.openai-max-tokens = Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 128);
+                    chat-tab.openai-max-tokens = Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 0);
+                    chat-tab.openai-max-tokens-16k = Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens-16k.to-float(), 0);
                     chat-tab.openai-temperature = Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, 0);
                     chat-tab.openai-frequency-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
                     chat-tab.openai-presence-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200 );
+                    chat-tab.openai-context-length = Store.setting-dialog-config.chat.openai.chat.context-length;
 
                     chat-tab.azure-api-key = Store.setting-dialog-config.chat.azure.api-key;
                     chat-tab.azure-url = Store.setting-dialog-config.chat.azure.chat.url;
@@ -209,9 +213,11 @@ export component SettingDialog inherits Rectangle {
                                 chat:  {
                                     url: chat-tab.openai-url,
                                     max-tokens: chat-tab.openai-max-tokens,
+                                    max-tokens-16k: chat-tab.openai-max-tokens-16k,
                                     temperature: chat-tab.openai-temperature,
                                     frequency-penalty: chat-tab.openai-frequency-penalty,
-                                    presence-penalty: chat-tab.openai-presence-penalty
+                                    presence-penalty: chat-tab.openai-presence-penalty,
+                                    context-length: chat-tab.openai-context-length
                                 }
                             },
                             azure: {

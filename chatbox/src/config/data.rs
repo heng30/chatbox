@@ -89,9 +89,11 @@ impl Default for OpenAi {
 pub struct OpenAiChat {
     pub url: String,
     pub max_tokens: i32,
+    pub max_tokens_16k: i32,
     pub temperature: f32,
     pub frequency_penalty: f32,
     pub presence_penalty: f32,
+    pub context_length: String,
 }
 
 impl Default for OpenAiChat {
@@ -99,9 +101,11 @@ impl Default for OpenAiChat {
         Self {
             url: "https://api.openai.com/v1/chat/completions".to_string(),
             max_tokens: 1024,
+            max_tokens_16k: 10240,
             temperature: 0.8,
             frequency_penalty: 0.5,
             presence_penalty: 0.0,
+            context_length: "4k".to_string(),
         }
     }
 }

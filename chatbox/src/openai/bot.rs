@@ -24,17 +24,24 @@ fn headers(api_key: &str) -> HeaderMap {
 
 pub async fn generate_text(
     chat: data::request::OpenAIChat,
-    api_model: String,
+    _api_model: String,
     uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
     let client = http::client(http::ClientType::OpenAI)?;
     let config = openai_config();
 
+    let (api_model, max_tokens) = match config.chat.context_length.as_str() {
+        "16k" => ("gpt-3.5-turbo-16k".to_string(), config.chat.max_tokens_16k),
+        _ => ("gpt-3.5-turbo".to_string(), config.chat.max_tokens),
+    };
+
+    debug!("mode: {}, max_tokens: {}", &api_model, max_tokens);
+
     let request_body = data::request::ChatCompletion {
         messages: chat.message,
         model: api_model,
-        max_tokens: config.chat.max_tokens,
+        max_tokens,
         temperature: config.chat.temperature,
         frequency_penalty: config.chat.frequency_penalty,
         presence_penalty: config.chat.presence_penalty,

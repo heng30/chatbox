@@ -1,4 +1,4 @@
-import { LineEdit, Slider } from "std-widgets.slint";
+import { CheckBox, LineEdit, Slider } from "std-widgets.slint";
 import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 
@@ -7,9 +7,12 @@ export component OpenAI inherits Rectangle {
     height: 100%;
     property<length> label-width: Theme.default-label-width * 2;
 
+    in-out property<string> context-length: "4k";
+
     in-out property api-key <=> api-lineedit.text;
     in-out property url <=> url-lineedit.text;
     in-out property max-tokens <=> tokens-slider.value;
+    in-out property max-tokens-16k <=> tokens-16k-slider.value;
     in-out property temperature <=> temp-slider.value;
     in-out property frequency-penalty <=> frequency-slider.value;
     in-out property presence-penalty <=> presence-slider.value;
@@ -45,12 +48,12 @@ export component OpenAI inherits Rectangle {
         HorizontalLayout {
             Text {
                 width: label-width;
-                text: "Max Tokens:";
+                text: "Max Tokens(4k):";
             }
 
             tokens-slider := Slider {
-                minimum: 128;
-                maximum: 3968;
+                minimum: 0;
+                maximum: 4096;
             }
 
             VerticalLayout {
@@ -60,6 +63,28 @@ export component OpenAI inherits Rectangle {
 
                 Text {
                     text: Math.floor(tokens-slider.value);
+                }
+            }
+        }
+
+        HorizontalLayout {
+            Text {
+                width: label-width;
+                text: "Max Tokens(16k):";
+            }
+
+            tokens-16k-slider := Slider {
+                minimum: 0;
+                maximum: 16 * 1024;
+            }
+
+            VerticalLayout {
+                alignment: center;
+                padding-left: Theme.padding * 4;
+                width: Theme.default-font-size * 4;
+
+                Text {
+                    text: Math.floor(tokens-16k-slider.value);
                 }
             }
         }
@@ -126,6 +151,39 @@ export component OpenAI inherits Rectangle {
 
                 Text {
                     text: Math.round(presence-slider.value) / 100;
+                }
+            }
+        }
+
+        HorizontalLayout {
+            Text {
+                width: label-width;
+                text: Store.translator.setting-dialog-chat-context-length;
+            }
+
+            HorizontalLayout {
+                checkbox-4k := CheckBox {
+                    width: 50%;
+                    text: "4k";
+                    checked: root.context-length == "4k";
+                    toggled => {
+                        checkbox-16k.checked = !self.checked;
+                        if (self.checked) {
+                            root.context-length = "4k";
+                        }
+                    }
+                }
+
+                checkbox-16k := CheckBox {
+                    width: 50%;
+                    text: "16k";
+                    checked: root.context-length == "16k";
+                    toggled => {
+                        checkbox-4k.checked = !self.checked;
+                        if (self.checked) {
+                            root.context-length = "16k";
+                        }
+                    }
                 }
             }
         }

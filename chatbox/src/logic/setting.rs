@@ -83,12 +83,23 @@ pub fn init(ui: &AppWindow) {
             .parse::<f32>()
             .unwrap_or(1024.0) as i32;
 
+        config.openai.chat.max_tokens_16k = setting_config
+            .chat
+            .openai
+            .chat
+            .max_tokens_16k
+            .to_string()
+            .parse::<f32>()
+            .unwrap_or(10240.0) as i32;
+
         config.openai.chat.temperature =
             setting_config.chat.openai.chat.temperature.round() / 100.0;
         config.openai.chat.frequency_penalty =
             setting_config.chat.openai.chat.frequency_penalty.round() / 100.0;
         config.openai.chat.presence_penalty =
             setting_config.chat.openai.chat.presence_penalty.round() / 100.0;
+
+        config.openai.chat.context_length = setting_config.chat.openai.chat.context_length.to_string();
 
         config.azureai.api_key = setting_config.chat.azure.api_key.to_string();
         config.azureai.chat.url = setting_config.chat.azure.chat.url.to_string();
@@ -179,10 +190,13 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     setting_dialog.chat.openai.chat.url = openai_config.chat.url.into();
     setting_dialog.chat.openai.chat.max_tokens =
         slint::format!("{}", openai_config.chat.max_tokens);
+    setting_dialog.chat.openai.chat.max_tokens_16k =
+        slint::format!("{}", openai_config.chat.max_tokens_16k);
     setting_dialog.chat.openai.chat.temperature = openai_config.chat.temperature * 100.0;
     setting_dialog.chat.openai.chat.frequency_penalty =
         openai_config.chat.frequency_penalty * 100.0;
     setting_dialog.chat.openai.chat.presence_penalty = openai_config.chat.presence_penalty * 100.0;
+    setting_dialog.chat.openai.chat.context_length = openai_config.chat.context_length.into();
 
     setting_dialog.chat.azure.api_key = azureai_config.api_key.into();
     setting_dialog.chat.azure.chat.url = azureai_config.chat.url.into();

@@ -4,7 +4,7 @@
 基于OpenAI chatgpt-3.5-turbo API 的聊天机器人。程序使用`Slint-UI`和`Rust`编写。
 
 #### 功能
-- [x] 支持`OpenAI chatgpt-3.5-turbo` 和 `Azure OpenAI chatgpt-35-turbo`
+- [x] 支持`OpenAI chatgpt-3.5-turbo 4k 和 16k` 和 `Azure OpenAI chatgpt-35-turbo 4k`
 - [x] 新建、保存、删除会话
 - [x] 为每个会话配置`system prompt`
 - [x] 支持删除一次会话提问，清空当前会话，停止当前会话

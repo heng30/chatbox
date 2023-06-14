@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# "model": "gpt-3.5-turbo",
+# "model": "gpt-3.5-turbo-16k",
+
 proxychains curl -v -N --keepalive https://api.openai.com/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
