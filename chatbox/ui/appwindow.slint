@@ -57,6 +57,8 @@ export component AppWindow inherits Window {
     FocusScope {
         property<bool> is-ctrl-pressed: false;
         property<bool> is-shift-pressed: false;
+        property<bool> is-alt-pressed: false;
+
         key-pressed(event) => {
             if (event.text == Key.Escape) {
                 Logic.hide-window();
@@ -68,6 +70,8 @@ export component AppWindow inherits Window {
                 rpanel.force-question-input-focus();
             } else if (event.text == Key.Control) {
                 is-ctrl-pressed = true;
+            } else if (event.text == Key.Alt) {
+                is-alt-pressed = true;
             } else if (event.text == "u") {
                 if (is-ctrl-pressed) {
                     rpanel.scroll-to-top();
@@ -82,10 +86,14 @@ export component AppWindow inherits Window {
                 }
             } else if (event.text == "r") {
                 if (is-ctrl-pressed) {
-                    if (Store.is-audio-recording) {
-                        Logic.stop-audio-record();
+                    if (is-alt-pressed) {
+                        Logic.reset-current-session();
                     } else {
-                        Logic.start-audio-record();
+                        if (Store.is-audio-recording) {
+                            Logic.stop-audio-record();
+                        } else {
+                            Logic.start-audio-record();
+                        }
                     }
                 }
             } else if (event.text == "p") {
@@ -99,6 +107,8 @@ export component AppWindow inherits Window {
         key-released(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = false;
+            } else if (event.text == Key.Alt) {
+                is-alt-pressed = false;
             }
             reject
         }

@@ -4,6 +4,7 @@ use crate::util::{qbox::QBox, translator::tr};
 use crate::{audio, azureai, config, openai, session, util};
 #[allow(unused_imports)]
 use log::{debug, warn};
+use rand::Rng;
 use slint::{ComponentHandle, Model, VecModel};
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -145,6 +146,11 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
                 ..item
             },
         );
+
+        // To reduce cpu rate
+        if rand::thread_rng().gen_range(1..=10) > 7 {
+            ui.window().request_redraw();
+        }
     }
 }
 
