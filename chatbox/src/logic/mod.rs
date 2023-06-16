@@ -1,4 +1,5 @@
 mod data;
+mod chatcache;
 
 pub mod chat;
 pub mod clipboard;

@@ -14,6 +14,7 @@
 - [x] 支持中英双语朗读
 - [x] 支持对话归档
 - [x] 支持录音转文字输入
+- [x] 支持不同会话并发输出
 
 #### 参考
 - [Slint Language Documentation](https://slint-ui.com/releases/1.0.0/docs/slint/)

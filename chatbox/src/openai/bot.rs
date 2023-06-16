@@ -25,6 +25,7 @@ fn headers(api_key: &str) -> HeaderMap {
 pub async fn generate_text(
     chat: data::request::OpenAIChat,
     _api_model: String,
+    suuid: String,
     uuid: String,
     cb: impl Fn(StreamTextItem),
 ) -> Result<(), Box<dyn std::error::Error>> {
@@ -57,7 +58,8 @@ pub async fn generate_text(
         .await?
         .bytes_stream();
 
-    if chat::is_stop_chat(&uuid) {
+    if chat::is_stop_chat(&suuid) {
+        chat::set_stop_chat(suuid.to_string(), false);
         return Ok(());
     }
 
@@ -65,7 +67,8 @@ pub async fn generate_text(
         match tokio::time::timeout(Duration::from_secs(config.stream_timeout), stream.next()).await
         {
             Ok(Some(Ok(chunk))) => {
-                if chat::is_stop_chat(&uuid) {
+                if chat::is_stop_chat(&suuid) {
+                    chat::set_stop_chat(suuid.to_string(), false);
                     return Ok(());
                 }
 
@@ -75,6 +78,8 @@ pub async fn generate_text(
                     if let Some(estr) = err.error.get("message") {
                         cb(StreamTextItem {
                             etext: Some(estr.clone()),
+                            uuid: uuid.clone(),
+                            suuid: suuid.clone(),
                             ..Default::default()
                         });
                         debug!("{}", estr);
@@ -97,6 +102,13 @@ pub async fn generate_text(
                         Ok(chunk) => {
                             let choice = &chunk.choices[0];
                             if choice.finish_reason.is_some() {
+                                cb(StreamTextItem {
+                                    finished: true,
+                                    uuid: uuid.clone(),
+                                    suuid: suuid.clone(),
+                                    ..Default::default()
+                                });
+
                                 println!();
                                 debug!("finish_reason: {}", choice.finish_reason.as_ref().unwrap());
                                 break;
@@ -105,6 +117,8 @@ pub async fn generate_text(
                             if choice.delta.contains_key("content") {
                                 cb(StreamTextItem {
                                     text: Some(choice.delta["content"].clone()),
+                                    uuid: uuid.clone(),
+                                    suuid: suuid.clone(),
                                     ..Default::default()
                                 });
                                 print!("{}", choice.delta["content"]);
@@ -116,6 +130,8 @@ pub async fn generate_text(
                         Err(e) => {
                             cb(StreamTextItem {
                                 etext: Some(e.to_string()),
+                                uuid: uuid.clone(),
+                                suuid: suuid.clone(),
                                 ..Default::default()
                             });
                             debug!("{}", &line);

@@ -1,4 +1,4 @@
-use super::chat;
+use super::{chat, chatcache};
 use crate::db;
 use crate::db::data::{SessionChats, SessionConfig};
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, ChatSession, Logic, Store};
@@ -412,6 +412,40 @@ pub fn init(ui: &AppWindow) {
                 } else if session.uuid == new_uuid {
                     ui.global::<Store>()
                         .set_session_datas(session.chat_items.clone());
+
+                    // join the cache text that recieved in background
+                    let row_count = ui.global::<Store>().get_session_datas().row_count();
+                    if row_count > 0 {
+                        let last_row_index = row_count - 1;
+                        if let Some(item) = ui
+                            .global::<Store>()
+                            .get_session_datas()
+                            .row_data(last_row_index)
+                        {
+                            if let Some((cuuid, text)) = chatcache::get_cache(new_uuid.as_str()) {
+                                // debug!("xxx - {} - {} - {}", &cuuid, &item.uuid, &text);
+                                if item.uuid.to_string() == cuuid {
+                                    let btext = if item.btext == chat::LOADING_STRING {
+                                        text.trim_start().into()
+                                    } else {
+                                        item.btext + &text
+                                    };
+
+                                    ui.global::<Store>().get_session_datas().set_row_data(
+                                        last_row_index,
+                                        ChatItem {
+                                            btext: btext.clone(),
+                                            btext_items: chat::parse_chat_text(btext.as_str())
+                                                .into(),
+                                            ..item
+                                        },
+                                    );
+                                    ui.window().request_redraw();
+                                }
+                            }
+                        }
+                    }
+
                     ui.global::<Logic>()
                         .invoke_show_session_archive_list(new_uuid.clone());
                     ui.global::<Store>()

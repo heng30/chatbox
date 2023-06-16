@@ -1,4 +1,5 @@
-use super::data::{HistoryChat, StopChat, StreamTextItem};
+use super::chatcache;
+use super::data::{HistoryChat, StreamTextItem};
 use crate::slint_generatedAppWindow::{AppWindow, ChatItem, CodeTextItem, Logic, Store};
 use crate::util::{qbox::QBox, translator::tr};
 use crate::{audio, azureai, config, openai, session, util};
@@ -7,32 +8,33 @@ use log::{debug, warn};
 use rand::Rng;
 use slint::{ComponentHandle, Model, VecModel};
 use std::cell::RefCell;
+use std::collections::HashMap;
 use std::rc::Rc;
 use std::sync::Mutex;
 use tokio::task::spawn;
 use uuid::Uuid;
 
-const LOADING_STRING: &str = "Thinking...";
+pub const LOADING_STRING: &str = "Thinking...";
 
 lazy_static! {
-    static ref STOP_CHAT: Mutex<RefCell<StopChat>> = Mutex::new(RefCell::new(StopChat::default()));
+    static ref STOP_CHAT: Mutex<RefCell<HashMap<String, bool>>> =
+        Mutex::new(RefCell::new(HashMap::new()));
 }
 
-pub fn set_stop_chat(uuid: Option<String>, is_stop: bool) {
+pub fn set_stop_chat(suuid: String, is_stop: bool) {
     let item = STOP_CHAT.lock().unwrap();
     let mut item = item.borrow_mut();
-    if let Some(uid) = uuid {
-        item.current_chat_item_uuid = uid;
+    if is_stop {
+        item.insert(suuid, true);
+    } else {
+        item.remove(&suuid);
     }
-    item.is_stop = is_stop;
 }
 
-pub fn is_stop_chat(uuid: &str) -> bool {
+pub fn is_stop_chat(suuid: &str) -> bool {
     let item = STOP_CHAT.lock().unwrap();
     let item = item.borrow();
-
-    // debug!("{} - {} - {}", item.is_stop, item.current_chat_item_uuid, uuid);
-    item.is_stop || item.current_chat_item_uuid != uuid
+    item.contains_key(suuid)
 }
 
 async fn send_text(
@@ -41,6 +43,12 @@ async fn send_text(
 ) -> Result<(), Box<dyn std::error::Error>> {
     let item = chats.items.pop().unwrap();
     let question = item.utext;
+
+    let suuid = ui_box
+        .borrow()
+        .global::<Store>()
+        .get_current_session_uuid()
+        .to_string();
 
     let (system_prompt, api_model, use_history) =
         session::current_session_config(ui_box.borrow().as_weak());
@@ -64,7 +72,7 @@ async fn send_text(
             return Err(anyhow::anyhow!("unknown api model: {}", api_model).into());
         };
 
-        return openai::generate_text(openai_chat, api_model, item.uuid, move |sitem| {
+        return openai::generate_text(openai_chat, api_model, suuid, item.uuid, move |sitem| {
             if let Err(e) = slint::invoke_from_event_loop(move || {
                 stream_text(ui_box, sitem);
             }) {
@@ -91,7 +99,7 @@ async fn send_text(
             return Err(anyhow::anyhow!("unknown api model: {}", api_model).into());
         };
 
-        return azureai::generate_text(azureai_chat, api_model, item.uuid, move |sitem| {
+        return azureai::generate_text(azureai_chat, api_model, suuid, item.uuid, move |sitem| {
             if let Err(e) = slint::invoke_from_event_loop(move || {
                 stream_text(ui_box, sitem);
             }) {
@@ -106,12 +114,10 @@ async fn send_text(
 
 fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
     let ui = ui_box.borrow();
-    let rows = ui.global::<Store>().get_session_datas().row_count();
-    if rows == 0 {
+    if sitem.finished {
+        ui.window().request_redraw();
         return;
     }
-
-    let current_row = rows - 1;
 
     let text = match sitem.etext {
         Some(etext) => {
@@ -126,6 +132,24 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
             _ => return,
         },
     };
+
+    let suuid = ui_box
+        .borrow()
+        .global::<Store>()
+        .get_current_session_uuid()
+        .to_string();
+
+    // debug!("yyy - {} - {} - {}", &suuid, &sitem.suuid, &sitem.uuid);
+    if suuid != sitem.suuid {
+        chatcache::update_cache(sitem.suuid, sitem.uuid.to_string(), text);
+        return;
+    }
+
+    let rows = ui.global::<Store>().get_session_datas().row_count();
+    if rows == 0 {
+        return;
+    }
+    let current_row = rows - 1;
 
     if let Some(item) = ui
         .global::<Store>()
@@ -175,13 +199,14 @@ pub fn init(ui: &AppWindow) {
         datas.push(ChatItem {
             utext: value,
             btext: LOADING_STRING.into(),
-            uuid: uuid.as_str().into(),
+            uuid: uuid.into(),
             timestamp: util::time::local_now("%Y-%m-%d %H:%M:%S").into(),
             btext_items: parse_chat_text(LOADING_STRING).into(),
             ..Default::default()
         });
 
-        set_stop_chat(Some(uuid), false);
+        let suuid = ui.global::<Store>().get_current_session_uuid();
+        set_stop_chat(suuid.to_string(), false);
 
         let chat_datas = HistoryChat::from(&datas);
 
@@ -251,8 +276,8 @@ pub fn init(ui: &AppWindow) {
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
     });
 
-    ui.global::<Logic>().on_stop_generate_text(move || {
-        set_stop_chat(None, true);
+    ui.global::<Logic>().on_stop_generate_text(move |suuid| {
+        set_stop_chat(suuid.to_string(), true);
     });
 
     ui.global::<Logic>().on_text_to_speech(move |uuid, text| {

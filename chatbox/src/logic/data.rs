@@ -5,6 +5,9 @@ use std::convert::From;
 pub struct StreamTextItem {
     pub text: Option<String>,
     pub etext: Option<String>,
+    pub uuid: String,
+    pub suuid: String,
+    pub finished: bool,
 }
 
 #[derive(Default, Clone, Debug)]
@@ -32,11 +35,5 @@ impl From<&Vec<ChatItem>> for HistoryChat {
                 .collect(),
         }
     }
-}
-
-#[derive(Default, Clone, Debug)]
-pub struct StopChat {
-    pub current_chat_item_uuid: String,
-    pub is_stop: bool,
 }
 

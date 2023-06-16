@@ -167,7 +167,7 @@ export component Footer inherits VerticalLayout {
                 icon: @image-url("../images/stop.svg");
                 text: Store.translator.stop;
                 clicked => {
-                    Logic.stop-generate-text();
+                    Logic.stop-generate-text(Store.current-session-uuid);
                 }
             }
         }
