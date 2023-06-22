@@ -424,7 +424,7 @@ pub fn init(ui: &AppWindow) {
                         {
                             if let Some((cuuid, text)) = chatcache::get_cache(new_uuid.as_str()) {
                                 // debug!("xxx - {} - {} - {}", &cuuid, &item.uuid, &text);
-                                if item.uuid.to_string() == cuuid {
+                                if item.uuid == cuuid {
                                     let btext = if item.btext == chat::LOADING_STRING {
                                         text.trim_start().into()
                                     } else {

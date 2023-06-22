@@ -53,6 +53,17 @@ export component CodeText inherits Rectangle {
                     }
                 }
             }
+
+            if item.text-type == "image-latex": VerticalLayout {
+                HorizontalLayout {
+                    alignment: center;
+                    img-latex := Image {
+                        max-width: Theme.max-image-latex-width;
+                        source: item.img;
+                    }
+                }
+
+            }
         }
     }
 }

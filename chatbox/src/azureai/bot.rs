@@ -14,7 +14,6 @@ fn headers(api_key: &str) -> HeaderMap {
     headers.insert(CONTENT_TYPE, "application/json".parse().unwrap());
     headers.insert("api-key", api_key.to_string().parse().unwrap());
     headers.insert(ACCEPT, "text/event-stream".parse().unwrap());
-
     headers.insert(CACHE_CONTROL, "no-cache".parse().unwrap());
     headers
 }

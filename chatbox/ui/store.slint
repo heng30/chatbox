@@ -3,6 +3,7 @@ import { Translator, Translation} from "./translator.slint";
 export struct CodeTextItem {
     text-type: string,
     text: string,
+    img: image,
 }
 
 export struct ChatItem {
@@ -164,7 +165,12 @@ export global Store  {
                 {
                     text-type: "code",
                     text: "int main()\n{\n    printf('hello world');\n}"
-                }
+                },
+                {
+                    text-type: "image-latex",
+                    img: @image-url("/home/blue/tmp/success.svg")
+                },
+
             ]
         },
 
