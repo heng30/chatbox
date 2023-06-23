@@ -110,7 +110,6 @@ export component Footer inherits VerticalLayout {
                         }
                     }
                 }
-
             } else if (event.text == "p") {
                 if (is-ctrl-pressed) {
                     Logic.play-audio-record();
@@ -118,6 +117,12 @@ export component Footer inherits VerticalLayout {
             } else if (event.text == "t") {
                 if (is-ctrl-pressed) {
                     Logic.voice-to-text();
+                }
+            } else if (event.text == "l") {
+                if (is-ctrl-pressed) {
+                    if (is-alt-pressed) {
+                        Logic.remove-current-chats-last();
+                    }
                 }
             }
             reject

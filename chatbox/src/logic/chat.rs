@@ -190,6 +190,7 @@ pub fn init(ui: &AppWindow) {
     let ui_delete_handle = ui.as_weak();
     let ui_mark_handle = ui.as_weak();
     let ui_audio_handle = ui.as_weak();
+    let ui_remove_chats_last_handle = ui.as_weak();
     let ui_audio_box = QBox::new(ui);
 
     ui.global::<Logic>().on_send_input_text(move |value| {
@@ -297,6 +298,23 @@ pub fn init(ui: &AppWindow) {
         }
 
         audio::azure::play(ui_audio_box, uuid.to_string() + ".mp3", text.to_string());
+    });
+
+    ui.global::<Logic>().on_remove_current_chats_last(move || {
+        let ui = ui_remove_chats_last_handle.unwrap();
+
+        let model: VecModel<_> = ui
+            .global::<Store>()
+            .get_session_datas()
+            .iter()
+            .collect::<Vec<ChatItem>>()
+            .into();
+        if model.row_count() > 0 {
+            model.remove(model.row_count() - 1);
+        }
+
+        ui.global::<Store>()
+            .set_session_datas(Rc::new(model).into());
     });
 }
 
