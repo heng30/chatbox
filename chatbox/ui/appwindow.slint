@@ -44,16 +44,6 @@ export component AppWindow inherits Window {
         }
     }
 
-    Rectangle {
-        height: root.height;
-        HorizontalLayout {
-            padding: Theme.padding;
-            spacing: Theme.spacing;
-            LPanel {}
-            rpanel := RPanel {}
-        }
-    }
-
     FocusScope {
         property<bool> is-ctrl-pressed: false;
         property<bool> is-shift-pressed: false;
@@ -117,6 +107,16 @@ export component AppWindow inherits Window {
                 is-alt-pressed = false;
             }
             reject
+        }
+    }
+
+    Rectangle {
+        height: root.height;
+        HorizontalLayout {
+            padding: Theme.padding;
+            spacing: Theme.spacing;
+            LPanel {}
+            rpanel := RPanel {}
         }
     }
 
