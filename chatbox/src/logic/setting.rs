@@ -153,7 +153,6 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
     let audio_config = config::audio();
 
     let input_devices: VecModel<slint::SharedString> = VecModel::default();
-    input_devices.push("default".into());
     input_devices.extend(
         audio::record::input_devices_name()
             .into_iter()
@@ -164,7 +163,6 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
         .set_input_audio_devices(Rc::new(input_devices).into());
 
     let output_devices: VecModel<slint::SharedString> = VecModel::default();
-    output_devices.push("default".into());
     output_devices.extend(
         audio::play::output_devices_name()
             .into_iter()

@@ -147,7 +147,7 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
 
     let rows = ui.global::<Store>().get_session_datas().row_count();
     if rows == 0 {
-        set_stop_chat(suuid.clone(), true);
+        set_stop_chat(suuid, true);
         return;
     }
     let current_row = rows - 1;
@@ -157,8 +157,7 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
         .get_session_datas()
         .row_data(current_row)
     {
-        if &sitem.uuid != item.uuid.as_str() {
-            set_stop_chat(suuid, true);
+        if sitem.uuid != item.uuid.as_str() {
             return;
         }
 
@@ -315,6 +314,7 @@ pub fn init(ui: &AppWindow) {
 
         ui.global::<Store>()
             .set_session_datas(Rc::new(model).into());
+        ui.window().request_redraw();
     });
 }
 
