@@ -17,7 +17,7 @@ export component Footer inherits VerticalLayout {
     property <bool> is-recording: Store.is-audio-recording;
 
     public function force-focus() {
-        te.has-focus = true;
+        te.focus();
     }
 
     FocusScope {
@@ -124,7 +124,68 @@ export component Footer inherits VerticalLayout {
                         Logic.remove-current-chats-last();
                     }
                 }
+            } else if (event.text == "0") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 0) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[0].uuid);
+                    }
+                }
+            } else if (event.text == "1") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 1) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[1].uuid);
+                    }
+                }
+            } else if (event.text == "2") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 2) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[2].uuid);
+                    }
+                }
+            } else if (event.text == "3") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 3) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[3].uuid);
+                    }
+                }
+            } else if (event.text == "4") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 4) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[4].uuid);
+                    }
+                }
+            } else if (event.text == "5") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 5) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[5].uuid);
+                    }
+                }
+            } else if (event.text == "6") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 6) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[6].uuid);
+                    }
+                }
+            } else if (event.text == "7") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 7) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[7].uuid);
+                    }
+                }
+            } else if (event.text == "8") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 8) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[8].uuid);
+                    }
+                }
+            } else if (event.text == "9") {
+                if (is-ctrl-pressed) {
+                    if (Store.chat-sessions.length > 9) {
+                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[9].uuid);
+                    }
+                }
             }
+
             reject
         }
         key-released(event) => {

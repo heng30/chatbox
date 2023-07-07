@@ -35,30 +35,21 @@ export component AppWindow inherits Window {
     function toggle-archive-panel() {
         if (Theme.body-right-panel-width > 0) {
             Theme.body-right-panel-width = 0;
-            Theme.uitem-right-padding = 40%;
-            Theme.bitem-left-padding = 30%;
         } else {
             Theme.body-right-panel-width = 350px;
-            Theme.uitem-right-padding = 30%;
-            Theme.bitem-left-padding = 10%;
         }
+    }
+
+    init => {
+        rpanel.force-question-input-focus();
     }
 
     FocusScope {
         property<bool> is-ctrl-pressed: false;
-        property<bool> is-shift-pressed: false;
         property<bool> is-alt-pressed: false;
 
         key-pressed(event) => {
-            if (event.text == Key.Escape) {
-                Logic.hide-window();
-            } else if (event.text == " ") {
-                if (Store.is-audio-recording) {
-                    Logic.stop-audio-record();
-                }
-            } else if (event.text == Key.Tab) {
-                rpanel.force-question-input-focus();
-            } else if (event.text == Key.Control) {
+            if (event.text == Key.Control) {
                 is-ctrl-pressed = true;
             } else if (event.text == Key.Alt) {
                 is-alt-pressed = true;
@@ -73,28 +64,6 @@ export component AppWindow inherits Window {
             } else if (event.text == "b") {
                 if (is-ctrl-pressed) {
                     root.toggle-archive-panel();
-                }
-            } else if (event.text == "r") {
-                if (is-ctrl-pressed) {
-                    if (is-alt-pressed) {
-                        Logic.reset-current-session();
-                    } else {
-                        if (Store.is-audio-recording) {
-                            Logic.stop-audio-record();
-                        } else {
-                            Logic.start-audio-record();
-                        }
-                    }
-                }
-            } else if (event.text == "p") {
-                if (is-ctrl-pressed) {
-                    Logic.play-audio-record();
-                }
-            } else if (event.text == "l") {
-                if (is-ctrl-pressed) {
-                    if (is-alt-pressed) {
-                        Logic.remove-current-chats-last();
-                    }
                 }
             }
             reject
@@ -190,7 +159,11 @@ export component AppWindow inherits Window {
 
         help-dialog := HelpDialog { }
 
-        arch-dialog := NewArchiveDialog { }
+        arch-dialog := NewArchiveDialog {
+            close => {
+                rpanel.force-question-input-focus();
+            }
+        }
 
         oc-dialog := OkCancelDialog { }
     }

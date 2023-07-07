@@ -6,7 +6,7 @@ fn main() {
 }
 
 fn write_app_version() -> Result<(), Box<dyn std::error::Error>> {
-    let tags = run_fun!(git tag)?
+    let tags = run_fun!(git describe --tags --abbrev=0)?
         .split(char::is_whitespace)
         .map(|s| s.to_owned())
         .collect::<Vec<String>>();

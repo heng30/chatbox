@@ -15,6 +15,8 @@ export component NewArchiveDialog inherits CDialog {
 
     forward-focus: name-lineedit;
 
+    callback close();
+
     rect := Rectangle {
         background: Theme.dialog-background;
         HorizontalLayout {
@@ -43,10 +45,12 @@ export component NewArchiveDialog inherits CDialog {
         }
         name-lineedit.text = "";
         Store.show-archive-dialog = false;
+        root.close();
     }
 
     cancel-clicked => {
         name-lineedit.text = "";
         Store.show-archive-dialog = false;
+        root.close();
     }
 }
