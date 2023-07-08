@@ -41,7 +41,12 @@ export component AppWindow inherits Window {
             padding: Theme.padding;
             spacing: Theme.spacing;
             LPanel {}
-            rpanel := RPanel {}
+            rpanel := RPanel {
+                show-archive-panel => {
+                    Store.show-archive-dialog = true;
+                    arch-dialog.focus();
+                }
+            }
         }
     }
 
@@ -110,11 +115,8 @@ export component AppWindow inherits Window {
 
         session-dialog := SessionDialog { }
         setting-dialog := SettingDialog { }
-
         about-dialog := AboutDialog { }
-
         help-dialog := HelpDialog { }
-
         arch-dialog := NewArchiveDialog {
             close => {
                 rpanel.force-question-input-focus();

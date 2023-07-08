@@ -16,6 +16,7 @@ export component Footer inherits VerticalLayout {
 
     callback scroll-to-top();
     callback scroll-to-bottom();
+    callback show-archive-panel();
 
     public function force-focus() {
         te.focus();
@@ -127,6 +128,10 @@ export component Footer inherits VerticalLayout {
             } else if (event.text == "h") {
                 if (is-ctrl-pressed) {
                     Logic.reset-current-session();
+                }
+            } else if (event.text == "n") {
+                if (is-ctrl-pressed) {
+                    root.show-archive-panel();
                 }
             } else if (event.text == "l") {
                 if (is-ctrl-pressed) {

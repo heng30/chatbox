@@ -8,6 +8,8 @@ export component RPanel inherits VerticalLayout {
     spacing: Theme.spacing;
     in-out property question <=> footer.question;
 
+    callback show-archive-panel();
+
     public function scroll-to-top() {
         body.scroll-to-top();
     }
@@ -40,6 +42,10 @@ export component RPanel inherits VerticalLayout {
 
         scroll-to-bottom => {
             root.scroll-to-bottom()
+        }
+
+        show-archive-panel => {
+            root.show-archive-panel();
         }
     }
 }
