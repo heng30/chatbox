@@ -33,6 +33,14 @@ export component RPanel inherits VerticalLayout {
         }
     }
 
-    footer := Footer {}
+    footer := Footer {
+        scroll-to-top => {
+            root.scroll-to-top()
+        }
+
+        scroll-to-bottom => {
+            root.scroll-to-bottom()
+        }
+    }
 }
 

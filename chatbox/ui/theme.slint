@@ -54,4 +54,12 @@ export global Theme  {
     out property<color> base-background-color: #FFFFFF;
     out property<color> overlay-background-color: #FFFFFF;
 
+    public function toggle-archive-panel() {
+        if (Theme.body-right-panel-width > 0) {
+            Theme.body-right-panel-width = 0;
+        } else {
+            Theme.body-right-panel-width = 350px;
+        }
+    }
+
 }

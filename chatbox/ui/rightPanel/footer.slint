@@ -12,9 +12,10 @@ export component Footer inherits VerticalLayout {
     in-out property question <=> te.text;
 
     property <bool> is-ctrl-pressed;
-    property <bool> is-alt-pressed;
-    property <bool> is-return-pressed;
     property <bool> is-recording: Store.is-audio-recording;
+
+    callback scroll-to-top();
+    callback scroll-to-bottom();
 
     public function force-focus() {
         te.focus();
@@ -82,13 +83,22 @@ export component Footer inherits VerticalLayout {
         key-pressed(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = true;
-            } else if (event.text == Key.Alt) {
-                is-alt-pressed = true;
             } else if (event.text == Key.Return) {
-                is-return-pressed = true;
-                if (is-ctrl-pressed && is-return-pressed) {
+                if (is-ctrl-pressed) {
                     Logic.send-input-text(root.question);
                     root.question = "";
+                }
+            } else if (event.text == "b") {
+                if (is-ctrl-pressed) {
+                    Theme.toggle-archive-panel();
+                }
+            } else if (event.text == "j") {
+                if (is-ctrl-pressed) {
+                    root.scroll-to-bottom();
+                }
+            } else if (event.text == "k") {
+                if (is-ctrl-pressed) {
+                    root.scroll-to-top();
                 }
             } else if (event.text == "u") {
                 if (is-ctrl-pressed && root.height == Theme.bottom-panel-height) {
@@ -100,14 +110,10 @@ export component Footer inherits VerticalLayout {
                 }
             } else if (event.text == "r") {
                 if (is-ctrl-pressed) {
-                    if (is-alt-pressed) {
-                        Logic.reset-current-session();
+                    if (Store.is-audio-recording) {
+                        Logic.stop-audio-record();
                     } else {
-                        if (Store.is-audio-recording) {
-                            Logic.stop-audio-record();
-                        } else {
-                            Logic.start-audio-record();
-                        }
+                        Logic.start-audio-record();
                     }
                 }
             } else if (event.text == "p") {
@@ -118,11 +124,13 @@ export component Footer inherits VerticalLayout {
                 if (is-ctrl-pressed) {
                     Logic.voice-to-text();
                 }
+            } else if (event.text == "h") {
+                if (is-ctrl-pressed) {
+                    Logic.reset-current-session();
+                }
             } else if (event.text == "l") {
                 if (is-ctrl-pressed) {
-                    if (is-alt-pressed) {
-                        Logic.remove-current-chats-last();
-                    }
+                    Logic.remove-current-chats-last();
                 }
             } else if (event.text == "0") {
                 if (is-ctrl-pressed) {
@@ -191,14 +199,6 @@ export component Footer inherits VerticalLayout {
         key-released(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = false;
-            }
-
-            if (event.text == Key.Alt) {
-                is-alt-pressed = false;
-            }
-
-            if (event.text == Key.Return) {
-                is-return-pressed = false;
             }
 
             reject
