@@ -62,6 +62,13 @@ export component AppWindow inherits Window {
             spacing: Theme.spacing * 2;
 
             IconBtn {
+                icon: @image-url("./images/save.svg");
+                clicked => {
+                    Logic.save-session-chats(Store.current-session-uuid);
+                }
+            }
+
+            IconBtn {
                 icon: @image-url("./images/copy.svg");
                 clicked => {
                     Logic.copy-session-chats(Store.current-session-uuid);

@@ -186,6 +186,7 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
 pub fn init(ui: &AppWindow) {
     let ui_box = QBox::new(ui);
     let ui_handle = ui.as_weak();
+    let ui_retry_handle = ui.as_weak();
     let ui_delete_handle = ui.as_weak();
     let ui_mark_handle = ui.as_weak();
     let ui_audio_handle = ui.as_weak();
@@ -235,6 +236,22 @@ pub fn init(ui: &AppWindow) {
                 }
             }
         });
+    });
+
+    ui.global::<Logic>().on_retry_send_input_text(move || {
+        let ui = ui_retry_handle.unwrap();
+
+        let rows = ui.global::<Store>().get_session_datas().row_count();
+        if rows == 0 {
+            return;
+        }
+
+        if let Some(item) = ui.global::<Store>().get_session_datas().row_data(rows - 1) {
+            ui.global::<Logic>().invoke_remove_current_chats_last();
+            ui.global::<Logic>().invoke_send_input_text(item.utext);
+            ui.global::<Logic>()
+                .invoke_show_message(tr("正在重试...").into(), "success".into());
+        }
     });
 
     ui.global::<Logic>().on_delete_chat_item(move |uuid| {

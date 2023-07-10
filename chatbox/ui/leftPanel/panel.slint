@@ -17,19 +17,11 @@ export component LPanel inherits VerticalLayout {
         Btn {
             text: Store.translator.new;
             height: Theme.header-height;
+            bg-color: Theme.success-color;
             icon: @image-url("../images/add.svg");
             clicked => {
                 Store.session-dialog-setting.handle-type = "session-add";
                 Store.session-dialog-setting.is-show = true;
-            }
-        }
-        Btn {
-            text: Store.translator.save;
-            height: Theme.header-height;
-            bg-color: Theme.success-color;
-            icon: @image-url("../images/save.svg");
-            clicked => {
-                Logic.save-session-chats(Store.current-session-uuid);
             }
         }
         Btn {

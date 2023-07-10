@@ -133,6 +133,10 @@ export component Footer inherits VerticalLayout {
                 if (is-ctrl-pressed) {
                     root.show-archive-panel();
                 }
+            } else if (event.text == "m") {
+                if (is-ctrl-pressed) {
+                    Logic.retry-send-input-text();
+                }
             } else if (event.text == "l") {
                 if (is-ctrl-pressed) {
                     Logic.remove-current-chats-last();
