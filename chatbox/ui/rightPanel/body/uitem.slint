@@ -8,7 +8,6 @@ export component UItem inherits VerticalLayout{
     in-out property timestamp <=> timestamp-txt.text;
     in-out property<string> uuid;
     in-out property<bool> is-mark;
-    callback copy-clicked <=> copy-icon.clicked;
 
     padding-top: Theme.padding;
     padding-left: Theme.padding * 2;
@@ -69,6 +68,9 @@ export component UItem inherits VerticalLayout{
                 alignment: end;
                 copy-icon := IconBtn {
                     icon: @image-url("../../images/copy.svg");
+                    clicked => {
+                        Logic.copy_to_clipboard(root.text);
+                    }
                 }
             }
 
@@ -95,18 +97,15 @@ export component UItem inherits VerticalLayout{
             border-radius: Theme.border-radius;
             VerticalLayout{
                 padding: Theme.padding * 2;
-                txt := Text {
+                txt := TextInput {
                     color: Theme.basic-white-color;
                     font-size: Theme.default-font-size + 2px;
                     wrap: word-wrap;
+                    single-line: false;
+                    read-only: true;
                 }
             }
 
-            TouchArea {
-                clicked => {
-                    Logic.copy_to_clipboard(root.text);
-                }
-            }
         }
     }
 }

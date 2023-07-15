@@ -265,7 +265,7 @@ export component Footer inherits VerticalLayout {
             Btn {
                 height: root.btn-height;
                 bg-color: root.is-recording ? Theme.warning-color : Theme.success-color;
-                icon: !root.is-recording ? @image-url("../images/start.svg") : @image-url("../images/stop.svg");
+                icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/stop.svg");
                 width: 30%;
 
                 text: root.is-recording ? Store.translator.recording : Store.translator.record;

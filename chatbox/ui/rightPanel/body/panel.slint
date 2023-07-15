@@ -6,6 +6,8 @@ import { UItem } from "./uitem.slint";
 import { BItem } from "./bitem.slint";
 
 export component Body inherits Rectangle {
+    in-out property viewport-y <=> lv.viewport-y;
+
     function new-chat-text(utext: string, btext: string) -> string {
         return utext + "\n\n" + btext;
     }
@@ -22,6 +24,10 @@ export component Body inherits Rectangle {
         lv.viewport-y = -lv.viewport-height + lv.visible-height;
     }
 
+    public function is-chats-on-bottom() -> bool {
+        lv.viewport-y <= -lv.viewport-height + lv.visible-height;
+    }
+
     HorizontalLayout {
         lv := ListView {
             for data in Store.session-datas : VerticalLayout {
@@ -31,10 +37,6 @@ export component Body inherits Rectangle {
                     uuid: data.uuid;
                     is-mark: data.is-mark;
                     timestamp: data.timestamp;
-
-                    copy-clicked => {
-                        Logic.copy_to_clipboard(root.new-chat-text(data.utext, data.btext));
-                    }
                 }
 
                 BItem {

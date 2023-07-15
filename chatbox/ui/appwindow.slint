@@ -30,21 +30,58 @@ export component AppWindow inherits Window {
     in-out property session-api-model <=> session-dialog.api-model;
     in-out property session-use-history <=> session-dialog.use-history;
     in-out property question <=> rpanel.question;
+    in-out property chats-viewport-y <=> rpanel.chats-viewport-y;
+
+    in-out property<bool> is-chats-auto-scroll-down: false;
+
+    public function is-chats-on-bottom() -> bool {
+        return rpanel.is-chats-on-bottom();
+    }
+
+    public function chats-scroll-to-bottom() {
+        rpanel.scroll-to-bottom();
+    }
 
     init => {
         rpanel.force-question-input-focus();
     }
 
-    Rectangle {
-        height: root.height;
-        HorizontalLayout {
-            padding: Theme.padding;
-            spacing: Theme.spacing;
-            LPanel {}
-            rpanel := RPanel {
-                show-archive-panel => {
-                    Store.show-archive-dialog = true;
-                    arch-dialog.focus();
+    FocusScope {
+        property <bool> is-ctrl-pressed;
+        key-pressed(event) => {
+            if (event.text == Key.Control) {
+                is-ctrl-pressed = true;
+            } else if (event.text == "i") {
+                rpanel.force-question-input-focus();
+            } else if (event.text == "o") {
+                root.is-chats-auto-scroll-down = !root.is-chats-auto-scroll-down;
+                if (root.is-chats-auto-scroll-down) {
+                    Logic.show-message(Store.translator.session-chat-enabled-auto-scroll-down, "success");
+                } else {
+                    Logic.show-message(Store.translator.session-chat-disabled-auto-scroll-down, "success");
+                }
+            }
+            reject
+        }
+
+        key-released(event) => {
+            if (event.text == Key.Control) {
+                is-ctrl-pressed = false;
+            }
+            reject
+        }
+
+        Rectangle {
+            height: root.height;
+            HorizontalLayout {
+                padding: Theme.padding;
+                spacing: Theme.spacing;
+                LPanel {}
+                rpanel := RPanel {
+                    show-archive-panel => {
+                        Store.show-archive-dialog = true;
+                        arch-dialog.focus();
+                    }
                 }
             }
         }

@@ -176,7 +176,10 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
             },
         );
 
-        // To decrease cpu rate
+        if ui.get_is_chats_auto_scroll_down() {
+            ui.invoke_chats_scroll_to_bottom();
+        }
+
         if rand::thread_rng().gen_range(1..=10) > 7 {
             ui.window().request_redraw();
         }
@@ -219,6 +222,8 @@ pub fn init(ui: &AppWindow) {
 
         ui.global::<Store>()
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
+
+        // ui.invoke_chats_scroll_to_bottom();
 
         spawn(async move {
             if let Err(e) = send_text(ui_box, chat_datas).await {

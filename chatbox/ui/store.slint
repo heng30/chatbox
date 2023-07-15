@@ -31,6 +31,7 @@ export struct ChatSession {
     api-model: string,
     use-history: bool,
 
+    chats-viewport-y: length,
     chat-items: [ChatItem]
 }
 
@@ -153,18 +154,18 @@ export global Store  {
 
     in-out property<[ChatItem]> session-datas: [
         {
-            utext: "hello world",
+            utext: "hello world ejfiwejfwij fwij wijfweifj wiofjw iofjwiofjwe iojfwioj fweifjweifj wfjweofj wiofjwifj wiofj wiejf wiofjw ijfwie\n\n wjfiwej iwjwfie  ",
             btext: "int main()\n{\n    printf('hello world');",
             timestamp: "2023-12-03 12:03:45",
 
             btext-items: [
                 {
                     text-type: "plain",
-                    text: "hello world"
+                    text: "hello world fwjeifj iwfj wofjw oijfw jfwij fwijf wijf wiofjw iojfwio jwij fwijf wiofj wijf wioj fwij wiej wjfwifjei11111 fjweifj wfjw ei\n jiwefjw fjwioe jwiefjw"
                 },
                 {
                     text-type: "code",
-                    text: "int main()\n{\n    printf('hello world');\n}"
+                    text: "int main()\n{\n    printf('hello world jweifjw iefjw oifjweio fjweifjw eifjwei fjweifjw iefjwei jfwie wefjwefiwje fowejf oiwejfiow jefiowj fiwejf iwjefio w ');\n}"
                 },
                 {
                     text-type: "image-latex",
@@ -273,6 +274,7 @@ export global Store  {
             + "  4. Ctrl+D: 问题输入框高恢复原来大小。5. Ctrl+B: 打开/关闭归档侧面板。6. Ctrl+R: 启动/停止录音。\n"
             + "  7. Ctrl+P: 播放录音。8. Ctrl+T: 录音转文字。9. Ctrl+H: 重置当前会话。10. Ctrl+L: 移除当前对话最后一次对话。\n"
             + "  11. Ctrl+(0~9): 1~10个会话切换。 12. Ctrl+N: 显示新建归档面板。 13. Ctrl+M: 重新提问最后一个问题。\n"
+            + "  14. Ctrl+I: 定位到输入框。 15. Ctrl+O: 启用/关闭会话更新自动滚动到底部。\n"
             + "\nOpenAI:\n"
             + "  1. temperature：控制ChatGPT自由发挥度，数值越高自由发挥度越高。\n"
             + "\n文字转音频:\n"
@@ -293,7 +295,9 @@ export global Store  {
             + "  7. Ctrl+P: Play Recording. 8. Ctrl+T: Convert Recording to Text. 9. Ctrl+H: Reset Current Session.\n"
             + "  10. Ctrl+L: Remove the last chat from the current chats.\n"
             + "  11. Ctrl+(0~9): Switch session between 1 to 10.\n"
-            + "  12. Ctrl+N: Show archive panel.\n 13. Ctrl+M: Retry the last question."
+            + "  12. Ctrl+N: Show archive panel. 13. Ctrl+M: Retry the last question.\n"
+            + "  14. Ctrl+I: Focus on input box. 15. Ctrl+O: Enabled/Disabled chats panel auto scroll to bottom when updating.\n"
+
             + "\nOpenAI:\n"
             + "  1. Temperature: control ChatGPT's degree of freedom, with higher values resulting in more freedom.\n"
             + "\nText-to-speech:\n"

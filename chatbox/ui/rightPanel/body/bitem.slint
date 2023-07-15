@@ -63,12 +63,6 @@ export component BItem inherits VerticalLayout{
             background: Theme.dark-fill-color;
             border-radius: Theme.border-radius;
 
-            TouchArea {
-                clicked => {
-                    Logic.copy-to-clipboard(root.text);
-                }
-            }
-
             VerticalLayout{
                 padding: Theme.padding * 2;
                 txt := CodeText { }

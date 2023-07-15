@@ -396,6 +396,7 @@ pub fn init(ui: &AppWindow) {
             let ui = ui_switch_handle.unwrap();
             let chat_items = ui.global::<Store>().get_session_datas();
             let sessions = ui.global::<Store>().get_chat_sessions();
+            let chats_viewport_y = ui.get_chats_viewport_y();
 
             let mut index = 0;
             for (row, session) in sessions.iter().enumerate() {
@@ -403,6 +404,7 @@ pub fn init(ui: &AppWindow) {
                     ui.global::<Store>().get_chat_sessions().set_row_data(
                         row,
                         ChatSession {
+                            chats_viewport_y,
                             chat_items: chat_items.clone(),
                             ..session
                         },
@@ -450,6 +452,8 @@ pub fn init(ui: &AppWindow) {
                         .invoke_show_session_archive_list(new_uuid.clone());
                     ui.global::<Store>()
                         .set_current_session_uuid(new_uuid.clone());
+
+                    ui.set_chats_viewport_y(session.chats_viewport_y);
 
                     index += 1;
                 }
