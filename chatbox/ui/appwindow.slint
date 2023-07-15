@@ -54,6 +54,8 @@ export component AppWindow inherits Window {
             } else if (event.text == "i") {
                 rpanel.force-question-input-focus();
             } else if (event.text == "o") {
+                rpanel.force-search-input-focus();
+            } else if (event.text == "y") {
                 root.is-chats-auto-scroll-down = !root.is-chats-auto-scroll-down;
                 if (root.is-chats-auto-scroll-down) {
                     Logic.show-message(Store.translator.session-chat-enabled-auto-scroll-down, "success");

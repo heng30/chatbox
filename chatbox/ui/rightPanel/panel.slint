@@ -27,6 +27,10 @@ export component RPanel inherits VerticalLayout {
         footer.force-focus();
     }
 
+    public function force-search-input-focus() {
+        arch-panel.focus();
+    }
+
     Rectangle {
         HorizontalLayout {
             Rectangle {
@@ -35,7 +39,7 @@ export component RPanel inherits VerticalLayout {
 
             Rectangle {
                 width: Theme.body-right-panel-width;
-                archPanel := ArchivePanel {}
+                arch-panel := ArchivePanel {}
             }
         }
     }

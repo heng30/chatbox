@@ -5,8 +5,8 @@ import { Logic } from "../../logic.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 
 export component ArchivePanel inherits VerticalLayout {
-    // width: Theme.body-right-panel-width;
     spacing: Theme.spacing / 2;
+    forward-focus: search-lineedit;
 
     HorizontalLayout {
         search-lineedit := LineEdit {
