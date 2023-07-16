@@ -75,44 +75,64 @@ export component AppWindow inherits Window {
                         Logic.show-message(Store.translator.session-chat-disabled-auto-scroll-down, "success");
                     }
                 } else if (event.text == "0") {
-                    if (Store.chat-sessions.length > 0) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[0].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 0) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[0].uuid);
+                        }
                     }
                 } else if (event.text == "1") {
-                    if (Store.chat-sessions.length > 1) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[1].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 1) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[1].uuid);
+                        }
                     }
                 } else if (event.text == "2") {
-                    if (Store.chat-sessions.length > 2) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[2].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 2) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[2].uuid);
+                        }
                     }
                 } else if (event.text == "3") {
-                    if (Store.chat-sessions.length > 3) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[3].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 3) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[3].uuid);
+                        }
                     }
                 } else if (event.text == "4") {
-                    if (Store.chat-sessions.length > 4) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[4].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 4) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[4].uuid);
                         }
+                    }
                 } else if (event.text == "5") {
-                    if (Store.chat-sessions.length > 5) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[5].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 5) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[5].uuid);
                         }
+                    }
                 } else if (event.text == "6") {
-                    if (Store.chat-sessions.length > 6) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[6].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 6) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[6].uuid);
+                        }
                     }
                 } else if (event.text == "7") {
-                    if (Store.chat-sessions.length > 7) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[7].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 7) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[7].uuid);
+                        }
                     }
                 } else if (event.text == "8") {
-                    if (Store.chat-sessions.length > 8) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[8].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 8) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[8].uuid);
+                        }
                     }
                 } else if (event.text == "9") {
-                    if (Store.chat-sessions.length > 9) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[9].uuid);
+                    if (is-ctrl-pressed) {
+                        if (Store.chat-sessions.length > 9) {
+                            Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[9].uuid);
+                        }
                     }
                 }
             }

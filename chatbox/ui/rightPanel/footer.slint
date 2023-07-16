@@ -7,7 +7,7 @@ import { IconBtn } from "../base/icon-btn.slint";
 
 export component Footer inherits VerticalLayout {
     spacing: Theme.spacing;
-    height: Theme.bottom-panel-height;
+    height: Theme.question-box-height;
     in-out property<length> btn-height: 40px;
     in-out property question <=> te.text;
 
@@ -16,7 +16,8 @@ export component Footer inherits VerticalLayout {
 
     callback scroll-to-top();
     callback scroll-to-bottom();
-    callback show-archive-panel();
+    callback scroll-up();
+    callback scroll-down();
 
     public function force-focus() {
         te.focus();
@@ -50,11 +51,7 @@ export component Footer inherits VerticalLayout {
                         colorize: black;
                         icon: root.height == Theme.bottom-panel-height ? @image-url("../images/arrow-up.svg") : @image-url("../images/arrow-down.svg");
                         clicked => {
-                            if (root.height == Theme.bottom-panel-height) {
-                                root.height = Theme.bottom-panel-height * 4;
-                            } else {
-                                root.height = Theme.bottom-panel-height;
-                            }
+                            Theme.resize-question-box(root.height);
                         }
                     }
 
@@ -84,122 +81,38 @@ export component Footer inherits VerticalLayout {
         key-pressed(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = true;
-            } else if (event.text == Key.Return) {
-                if (is-ctrl-pressed) {
+            }
+
+            if (is-ctrl-pressed) {
+                if (event.text == Key.Return) {
                     Logic.send-input-text(root.question);
                     root.question = "";
-                }
-            } else if (event.text == "b") {
-                if (is-ctrl-pressed) {
-                    Theme.toggle-archive-panel();
-                }
-            } else if (event.text == "j") {
-                if (is-ctrl-pressed) {
-                    root.scroll-to-bottom();
-                }
-            } else if (event.text == "k") {
-                if (is-ctrl-pressed) {
+                } else if (event.text == "[") {
                     root.scroll-to-top();
-                }
-            } else if (event.text == "u") {
-                if (is-ctrl-pressed && root.height == Theme.bottom-panel-height) {
-                    root.height = Theme.bottom-panel-height * 4;
-                }
-            } else if (event.text == "d") {
-                if (is-ctrl-pressed && root.height == Theme.bottom-panel-height * 4) {
-                    root.height = Theme.bottom-panel-height;
-                }
-            } else if (event.text == "r") {
-                if (is-ctrl-pressed) {
+                } else if (event.text == "]") {
+                    root.scroll-to-bottom();
+                } else if (event.text == "k") {
+                    root.scroll-up();
+                } else if (event.text == "j") {
+                    root.scroll-down();
+                } else if (event.text == "u" || event.text == "d") {
+                    Theme.resize-question-box(root.height)
+                } else if (event.text == "r") {
                     if (Store.is-audio-recording) {
                         Logic.stop-audio-record();
                     } else {
                         Logic.start-audio-record();
                     }
-                }
-            } else if (event.text == "p") {
-                if (is-ctrl-pressed) {
+                } else if (event.text == "p") {
                     Logic.play-audio-record();
-                }
-            } else if (event.text == "t") {
-                if (is-ctrl-pressed) {
+                } else if (event.text == "t") {
                     Logic.voice-to-text();
-                }
-            } else if (event.text == "h") {
-                if (is-ctrl-pressed) {
+                } else if (event.text == "h") {
                     Logic.reset-current-session();
-                }
-            } else if (event.text == "n") {
-                if (is-ctrl-pressed) {
-                    root.show-archive-panel();
-                }
-            } else if (event.text == "m") {
-                if (is-ctrl-pressed) {
+                } else if (event.text == "m") {
                     Logic.retry-send-input-text();
-                }
-            } else if (event.text == "l") {
-                if (is-ctrl-pressed) {
+                } else if (event.text == "l") {
                     Logic.remove-current-chats-last();
-                }
-            } else if (event.text == "0") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 0) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[0].uuid);
-                    }
-                }
-            } else if (event.text == "1") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 1) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[1].uuid);
-                    }
-                }
-            } else if (event.text == "2") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 2) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[2].uuid);
-                    }
-                }
-            } else if (event.text == "3") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 3) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[3].uuid);
-                    }
-                }
-            } else if (event.text == "4") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 4) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[4].uuid);
-                    }
-                }
-            } else if (event.text == "5") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 5) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[5].uuid);
-                    }
-                }
-            } else if (event.text == "6") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 6) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[6].uuid);
-                    }
-                }
-            } else if (event.text == "7") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 7) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[7].uuid);
-                    }
-                }
-            } else if (event.text == "8") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 8) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[8].uuid);
-                    }
-                }
-            } else if (event.text == "9") {
-                if (is-ctrl-pressed) {
-                    if (Store.chat-sessions.length > 9) {
-                        Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[9].uuid);
-                    }
                 }
             }
 

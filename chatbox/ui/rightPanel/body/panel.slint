@@ -24,6 +24,27 @@ export component Body inherits Rectangle {
         lv.viewport-y = -lv.viewport-height + lv.visible-height;
     }
 
+    public function scroll-up() {
+        if (lv.viewport-y + lv.visible-height/4 >= 0) {
+            lv.viewport-y = 0;
+        } else {
+            lv.viewport-y = lv.viewport-y + lv.visible-height/4;
+        }
+    }
+
+    public function scroll-down() {
+        if (lv.viewport-height <= lv.visible-height ||
+                lv.viewport-y <= -lv.viewport-height + lv.visible-height) {
+            return;
+        }
+
+        if (lv.viewport-y - lv.visible-height/4 <= -lv.viewport-height) {
+            lv.viewport-y = -lv.viewport-height + lv.visible-height;
+        } else {
+            lv.viewport-y = lv.viewport-y - lv.visible-height/4;
+        }
+    }
+
     public function is-chats-on-bottom() -> bool {
         lv.viewport-y <= -lv.viewport-height + lv.visible-height;
     }
