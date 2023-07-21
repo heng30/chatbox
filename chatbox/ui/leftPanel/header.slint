@@ -1,0 +1,42 @@
+import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
+import { Logic } from "../logic.slint";
+import { Btn } from "../base/btn.slint";
+
+export component Header inherits HorizontalLayout {
+    Btn {
+        text: Store.translator.new;
+        height: Theme.header-height;
+        bg-color: Theme.success-color;
+        icon: @image-url("../images/add.svg");
+        clicked => {
+            Store.session-dialog-setting.handle-type = "session-add";
+            Store.session-dialog-setting.is-show = true;
+        }
+    }
+    Btn {
+        text: Store.translator.edit;
+        height: Theme.header-height;
+        bg-color: Theme.warning-color;
+        icon: @image-url("../images/edit.svg");
+        clicked => {
+            Logic.set-edit-session(Store.current-session-uuid);
+            Store.session-dialog-setting.handle-type = "session-edit";
+            Store.session-dialog-setting.is-show = true;
+        }
+    }
+    Btn {
+        text: Store.translator.delete;
+        height: Theme.header-height;
+        bg-color: Theme.danger-color;
+        icon: @image-url("../images/delete.svg");
+        clicked => {
+            Store.ok-cancel-dialog-setting.title-type = "warning";
+            Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+            Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
+            Store.ok-cancel-dialog-setting.handle-type = "session-item";
+            Store.ok-cancel-dialog-setting.handle-uuid = Store.current-session-uuid;
+
+        }
+    }
+}

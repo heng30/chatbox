@@ -3,37 +3,30 @@ import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Btn } from "../base/btn.slint";
 
-export component Bottom inherits VerticalLayout {
-    height: Theme.bottom-panel-height;
+export component Bottom inherits HorizontalLayout {
+    height: 40px;
 
-    property<length> btn-height: self.height / 3;
-
-    VerticalLayout {
-        Btn {
-            height: root.btn-height;
-            icon: @image-url("../images/setting-fill.svg");
-            text: Store.translator.setting;
-            clicked => {
-                Store.setting-dialog-config.show = true;
-            }
+    Btn {
+        height: root.height;
+        icon: @image-url("../images/setting-fill.svg");
+        clicked => {
+            Store.setting-dialog-config.show = true;
         }
+    }
 
-        Btn {
-            height: root.btn-height;
-            icon: @image-url("../images/about.svg");
-            text: Store.translator.about;
-            clicked => {
-                Store.about-dialog.show = true;
-            }
+    Btn {
+        height: root.height;
+        icon: @image-url("../images/about.svg");
+        clicked => {
+            Store.about-dialog.show = true;
         }
+    }
 
-        Btn {
-            height: root.btn-height;
-            icon: @image-url("../images/help.svg");
-            text: Store.translator.help;
-            clicked => {
-                Store.help-dialog.show = true;
-            }
+    Btn {
+        height: root.height;
+        icon: @image-url("../images/help.svg");
+        clicked => {
+            Store.help-dialog.show = true;
         }
     }
 }

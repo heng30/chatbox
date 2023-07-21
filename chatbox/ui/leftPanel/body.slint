@@ -1,0 +1,49 @@
+import { ListView } from "std-widgets.slint";
+import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
+import { Logic } from "../logic.slint";
+import { IconBtn } from "../base/icon-btn.slint";
+
+export component Body inherits Rectangle {
+    ListView {
+        for data in Store.chat-sessions : VerticalLayout {
+            Rectangle {
+                background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
+
+                touch := TouchArea {
+                    clicked => {
+                        Logic.switch-session(Store.current-session-uuid, data.uuid);
+                    }
+                }
+
+                HorizontalLayout {
+                    padding: Theme.padding;
+
+                    Text {
+                        color: Colors.white;
+                        text: data.name;
+                        font-size: Theme.enlarge-font-size;
+                    }
+
+                    HorizontalLayout {
+                        alignment: end;
+                        padding-right: Theme.padding;
+                        spacing: Theme.spacing * 2;
+
+                        VerticalLayout {
+                            alignment: center;
+                            IconBtn {
+                                icon: @image-url("../images/star.svg");
+                                colorize: data.is-mark ? Theme.mark-color : Theme.unmark-color;
+                                clicked => {
+                                    Logic.toggle-mark-session(data.uuid);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

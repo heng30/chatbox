@@ -4,6 +4,8 @@ import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
 import { Btn } from "../base/btn.slint";
 import { IconBtn } from "../base/icon-btn.slint";
+import { Header } from "./header.slint";
+import { Body } from "./body.slint";
 import { Bottom } from "./bottom.slint";
 
 import { StandardButton, Button } from "std-widgets.slint";
@@ -11,88 +13,9 @@ import { StandardButton, Button } from "std-widgets.slint";
 export component LPanel inherits VerticalLayout {
     width: Theme.left-panel-width;
 
-    HorizontalLayout {
-        Btn {
-            text: Store.translator.new;
-            height: Theme.header-height;
-            bg-color: Theme.success-color;
-            icon: @image-url("../images/add.svg");
-            clicked => {
-                Store.session-dialog-setting.handle-type = "session-add";
-                Store.session-dialog-setting.is-show = true;
-            }
-        }
-        Btn {
-            text: Store.translator.edit;
-            height: Theme.header-height;
-            bg-color: Theme.warning-color;
-            icon: @image-url("../images/edit.svg");
-            clicked => {
-                Logic.set-edit-session(Store.current-session-uuid);
-                Store.session-dialog-setting.handle-type = "session-edit";
-                Store.session-dialog-setting.is-show = true;
-            }
-        }
-        Btn {
-            text: Store.translator.delete;
-            height: Theme.header-height;
-            bg-color: Theme.danger-color;
-            icon: @image-url("../images/delete.svg");
-            clicked => {
-                Store.ok-cancel-dialog-setting.title-type = "warning";
-                Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
-                Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
-                Store.ok-cancel-dialog-setting.handle-type = "session-item";
-                Store.ok-cancel-dialog-setting.handle-uuid = Store.current-session-uuid;
 
-            }
-        }
-
-    }
-
-    Rectangle {
-        ListView {
-            for data in Store.chat-sessions : VerticalLayout {
-                Rectangle {
-                    background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
-
-                    touch := TouchArea {
-                        clicked => {
-                            Logic.switch-session(Store.current-session-uuid, data.uuid);
-                        }
-                    }
-
-                    HorizontalLayout {
-                        padding: Theme.padding;
-
-                        Text {
-                            color: Colors.white;
-                            text: data.name;
-                            font-size: Theme.enlarge-font-size;
-                        }
-
-                        HorizontalLayout {
-                            alignment: end;
-                            padding-right: Theme.padding;
-                            spacing: Theme.spacing * 2;
-
-                            VerticalLayout {
-                                alignment: end;
-                                IconBtn {
-                                    icon: @image-url("../images/star.svg");
-                                    colorize: data.is-mark ? Theme.mark-color : Theme.unmark-color;
-                                    clicked => {
-                                        Logic.toggle-mark-session(data.uuid);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
+    Header {}
+    Body {}
     Bottom { }
 }
 
