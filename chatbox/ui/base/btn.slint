@@ -3,6 +3,7 @@ import { Theme } from "../theme.slint";
 export component Btn inherits Rectangle {
     in-out property<string> text <=> txt.text;
     in-out property icon <=> img.source;
+    in-out property font-size <=> txt.font-size;
 
     in-out property<color> bg-color: Theme.brand-color;
     in-out property<color> bg-hover-color: bg-color.darker(30%);
@@ -25,7 +26,7 @@ export component Btn inherits Rectangle {
         txt := Text {
             x: (parent.width - self.width) / 2 + img.width / 2 + (root.icon.width > 0 ? Theme.spacing * 2 : 0);
             color: root.text-color;
-            font-size: Theme.default-font-size;
+            font-size: Theme.enlarge-font-size;
         }
     }
     touch := TouchArea { }

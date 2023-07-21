@@ -454,6 +454,7 @@ pub fn init(ui: &AppWindow) {
                         .set_current_session_uuid(new_uuid.clone());
 
                     ui.set_chats_viewport_y(session.chats_viewport_y);
+                    // ui.invoke_jump_to_viewport_y(session.chats_viewport_y);
 
                     index += 1;
                 }

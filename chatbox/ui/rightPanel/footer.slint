@@ -6,7 +6,6 @@ import { Btn } from "../base/btn.slint";
 import { IconBtn } from "../base/icon-btn.slint";
 
 export component Footer inherits VerticalLayout {
-    spacing: Theme.spacing;
     height: Theme.question-box-height;
     in-out property<length> btn-height: 40px;
     in-out property question <=> te.text;
@@ -29,7 +28,7 @@ export component Footer inherits VerticalLayout {
             alignment: start;
 
             Rectangle {
-                height: root.height - btn-height - Theme.spacing;
+                height: root.height - btn-height;
                 te := TextEdit {
                     edited(text) => { }
                 }
@@ -95,7 +94,7 @@ export component Footer inherits VerticalLayout {
                     root.scroll-up();
                 } else if (event.text == "j") {
                     root.scroll-down();
-                } else if (event.text == "u" || event.text == "d") {
+                } else if (event.text == "u") {
                     Theme.resize-question-box(root.height)
                 } else if (event.text == "r") {
                     if (Store.is-audio-recording) {
@@ -128,16 +127,13 @@ export component Footer inherits VerticalLayout {
     }
 
     HorizontalLayout {
-        spacing: Theme.spacing * 2;
-
         HorizontalLayout {
-            spacing: Theme.spacing;
             width: 40%;
 
             Btn {
                 bg-color: Theme.danger-color;
                 icon: @image-url("../images/reset.svg");
-                width: 40%;
+                width: 50%;
                 height: root.btn-height;
                 text: Store.translator.reset;
                 clicked => {
@@ -161,14 +157,11 @@ export component Footer inherits VerticalLayout {
         }
 
         HorizontalLayout {
-            spacing: Theme.spacing;
-
             Btn {
                 height: root.btn-height;
                 bg-color: Theme.danger-color;
                 icon: @image-url("../images/format-clear.svg");
                 width: 20%;
-
                 text: Store.translator.clear;
                 clicked => {
                     te.text = "";
@@ -180,7 +173,6 @@ export component Footer inherits VerticalLayout {
                 bg-color: root.is-recording ? Theme.warning-color : Theme.success-color;
                 icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/stop.svg");
                 width: 30%;
-
                 text: root.is-recording ? Store.translator.recording : Store.translator.record;
                 clicked => {
                     if (root.is-recording) {

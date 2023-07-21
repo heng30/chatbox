@@ -5,7 +5,6 @@ import { Logic } from "../../logic.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 
 export component ArchivePanel inherits VerticalLayout {
-    spacing: Theme.spacing / 2;
     forward-focus: search-lineedit;
 
     FocusScope {
@@ -75,8 +74,6 @@ export component ArchivePanel inherits VerticalLayout {
 
     ListView {
         for data in Store.session-archive-datas : VerticalLayout {
-            padding-bottom: Theme.padding / 2;
-
             Rectangle {
                 background: touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
 

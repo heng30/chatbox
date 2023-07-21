@@ -5,7 +5,6 @@ import { Footer } from "./footer.slint";
 import { ArchivePanel } from "./archive/panel.slint";
 
 export component RPanel inherits VerticalLayout {
-    spacing: Theme.spacing;
     in-out property question <=> footer.question;
     in-out property chats-viewport-y <=> body.viewport-y;
 
@@ -17,6 +16,11 @@ export component RPanel inherits VerticalLayout {
 
     public function scroll-to-bottom() {
         body.scroll-to-bottom();
+    }
+
+
+    public function jump-to-viewport-y(vy: length) {
+        body.jump-to-viewport-y(vy);
     }
 
     public function scroll-up() {

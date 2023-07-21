@@ -5,40 +5,34 @@ import { Btn } from "../base/btn.slint";
 
 export component Bottom inherits VerticalLayout {
     height: Theme.bottom-panel-height;
-    padding-top: Theme.padding;
 
-    property<length> btn-height: (self.height - Theme.spacing) / 3;
+    property<length> btn-height: self.height / 3;
 
-    Rectangle {
-        height: 100%;
-
-        VerticalLayout {
-            spacing: Theme.spacing / 2;
-            Btn {
-                height: root.btn-height;
-                icon: @image-url("../images/setting-fill.svg");
-                text: Store.translator.setting;
-                clicked => {
-                    Store.setting-dialog-config.show = true;
-                }
+    VerticalLayout {
+        Btn {
+            height: root.btn-height;
+            icon: @image-url("../images/setting-fill.svg");
+            text: Store.translator.setting;
+            clicked => {
+                Store.setting-dialog-config.show = true;
             }
+        }
 
-            Btn {
-                height: root.btn-height;
-                icon: @image-url("../images/about.svg");
-                text: Store.translator.about;
-                clicked => {
-                    Store.about-dialog.show = true;
-                }
+        Btn {
+            height: root.btn-height;
+            icon: @image-url("../images/about.svg");
+            text: Store.translator.about;
+            clicked => {
+                Store.about-dialog.show = true;
             }
+        }
 
-            Btn {
-                height: root.btn-height;
-                icon: @image-url("../images/help.svg");
-                text: Store.translator.help;
-                clicked => {
-                    Store.help-dialog.show = true;
-                }
+        Btn {
+            height: root.btn-height;
+            icon: @image-url("../images/help.svg");
+            text: Store.translator.help;
+            clicked => {
+                Store.help-dialog.show = true;
             }
         }
     }

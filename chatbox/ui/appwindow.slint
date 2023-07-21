@@ -42,6 +42,10 @@ export component AppWindow inherits Window {
         rpanel.scroll-to-bottom();
     }
 
+    public function jump-to-viewport-y(vy: length) {
+        rpanel.jump-to-viewport-y(vy);
+    }
+
     public function show-archive-dialog() {
         Store.show-archive-dialog = true;
         arch-dialog.focus();
@@ -129,8 +133,7 @@ export component AppWindow inherits Window {
         Rectangle {
             height: root.height;
             HorizontalLayout {
-                padding: Theme.padding;
-                spacing: Theme.spacing;
+                padding: Theme.padding / 2;
                 LPanel {}
                 rpanel := RPanel { }
             }

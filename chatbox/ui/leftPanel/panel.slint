@@ -10,10 +10,8 @@ import { StandardButton, Button } from "std-widgets.slint";
 
 export component LPanel inherits VerticalLayout {
     width: Theme.left-panel-width;
-    padding-bottom: Theme.padding;
 
     HorizontalLayout {
-        spacing: Theme.spacing;
         Btn {
             text: Store.translator.new;
             height: Theme.header-height;
@@ -52,39 +50,40 @@ export component LPanel inherits VerticalLayout {
 
     }
 
-    ListView {
-        for data in Store.chat-sessions : VerticalLayout {
-            padding-bottom: Theme.padding / 2;
+    Rectangle {
+        ListView {
+            for data in Store.chat-sessions : VerticalLayout {
+                Rectangle {
+                    background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
 
-            Rectangle {
-                background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
-
-                touch := TouchArea {
-                    clicked => {
-                        Logic.switch-session(Store.current-session-uuid, data.uuid);
-                    }
-                }
-
-                HorizontalLayout {
-                    padding: Theme.padding;
-
-                    Text {
-                        color: Colors.white;
-                        text: data.name;
+                    touch := TouchArea {
+                        clicked => {
+                            Logic.switch-session(Store.current-session-uuid, data.uuid);
+                        }
                     }
 
                     HorizontalLayout {
-                        alignment: end;
-                        padding-right: Theme.padding;
-                        spacing: Theme.spacing * 2;
+                        padding: Theme.padding;
 
-                        VerticalLayout {
+                        Text {
+                            color: Colors.white;
+                            text: data.name;
+                            font-size: Theme.enlarge-font-size;
+                        }
+
+                        HorizontalLayout {
                             alignment: end;
-                            IconBtn {
-                                icon: @image-url("../images/star.svg");
-                                colorize: data.is-mark ? Theme.mark-color : Theme.unmark-color;
-                                clicked => {
-                                    Logic.toggle-mark-session(data.uuid);
+                            padding-right: Theme.padding;
+                            spacing: Theme.spacing * 2;
+
+                            VerticalLayout {
+                                alignment: end;
+                                IconBtn {
+                                    icon: @image-url("../images/star.svg");
+                                    colorize: data.is-mark ? Theme.mark-color : Theme.unmark-color;
+                                    clicked => {
+                                        Logic.toggle-mark-session(data.uuid);
+                                    }
                                 }
                             }
                         }

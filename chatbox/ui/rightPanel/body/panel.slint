@@ -45,6 +45,14 @@ export component Body inherits Rectangle {
         }
     }
 
+    public function jump-to-viewport-y(vy: length) {
+        if (vy < -lv.viewport-height + lv.visible-height) {
+            lv.viewport-height = -vy + lv.visible-height;
+        }
+
+        lv.viewport-y = vy;
+    }
+
     public function is-chats-on-bottom() -> bool {
         lv.viewport-y <= -lv.viewport-height + lv.visible-height;
     }
