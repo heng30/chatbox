@@ -7,7 +7,7 @@ import { IconBtn } from "../base/icon-btn.slint";
 
 export component Footer inherits VerticalLayout {
     height: Theme.question-box-height;
-    in-out property<length> btn-height: 40px;
+    in-out property<length> btn-height: Theme.bottom-btn-height;
     in-out property question <=> te.text;
 
     property <bool> is-ctrl-pressed;
@@ -29,51 +29,15 @@ export component Footer inherits VerticalLayout {
 
             Rectangle {
                 height: root.height - btn-height;
-                te := TextEdit {
-                    edited(text) => { }
-                }
+                te := TextEdit { }
 
                 Text {
-                    x: 0;
+                    x: Theme.padding / 2;
                     y: 0;
                     visible: te.text == "";
                     text: "Ctrl+Enter";
                     color: Theme.placeholder-text-color;
                 }
-
-                // VerticalLayout {
-                //     padding-top: Theme.padding;
-                //     x: parent.width - Theme.icon-size - Theme.padding * 6;
-                //     IconBtn {
-                //         bg-color: Colors.white;
-                //         opacity: self.has-hover ? 1 : 0.5;
-                //         colorize: black;
-                //         icon: root.height == Theme.bottom-panel-height ? @image-url("../images/arrow-up.svg") : @image-url("../images/arrow-down.svg");
-                //         clicked => {
-                //             Theme.resize-question-box(root.height);
-                //         }
-                //     }
-
-                //     IconBtn {
-                //         bg-color: Colors.white;
-                //         opacity: self.has-hover ? 1 : 0.5;
-                //         colorize: black;
-                //         icon: @image-url("../images/speaker.svg");
-                //         clicked => {
-                //             Logic.play-audio-record();
-                //         }
-                //     }
-
-                //     IconBtn {
-                //         bg-color: Colors.white;
-                //         opacity: self.has-hover ? 1 : 0.5;
-                //         colorize: black;
-                //         icon: @image-url("../images/convert2text.svg");
-                //         clicked => {
-                //             Logic.voice-to-text();
-                //         }
-                //     }
-                // }
             }
         }
 

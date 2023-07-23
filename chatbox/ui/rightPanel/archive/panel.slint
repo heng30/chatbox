@@ -44,6 +44,7 @@ export component ArchivePanel inherits VerticalLayout {
 
         HorizontalLayout {
             search-lineedit := LineEdit {
+                height: Theme.bottom-btn-height;
                 placeholder-text: Store.translator.archive-search-placeholder-text;
                 accepted => {
                     search-btn.clicked();
@@ -58,8 +59,8 @@ export component ArchivePanel inherits VerticalLayout {
             }
 
             search-btn := IconBtn {
-                height: search-lineedit.preferred-height;
-                width: search-lineedit.preferred-height * 1.33;
+                height: Theme.bottom-btn-height;
+                width: self.height * 1.33;
                 border-radius: 0;
                 bg-color: Theme.brand-color;
                 bg-hover-color: self.bg-color.darker(20%);
