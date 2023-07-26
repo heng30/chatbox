@@ -5,9 +5,10 @@ import { Logic } from "../logic.slint";
 import { IconBtn } from "../base/icon-btn.slint";
 
 export component ArchivePanel inherits Rectangle {
-    private property<length> item-height: 35px;
+    private property<length> item-height: 40px;
     forward-focus: search-lineedit;
 
+    width: Theme.body-right-panel-width;
     background: Theme.light-fill-color.darker(5%);
 
     VerticalLayout {
@@ -82,7 +83,7 @@ export component ArchivePanel inherits Rectangle {
                 y: index * item-height;
                 height: root.item-height;
 
-                background: touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
+                background: touch.has-hover ? Theme.lighter-fill-color : Colors.transparent;
 
                 touch := TouchArea {
                     clicked => {
@@ -98,7 +99,7 @@ export component ArchivePanel inherits Rectangle {
                         padding-left: Theme.padding;
                         Text {
                             width: root.width - 70px;
-                            color: Colors.white;
+                            color: Theme.regular-text-color;
                             text: data.name;
                         }
                     }

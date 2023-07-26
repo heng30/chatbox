@@ -13,7 +13,7 @@ export component Body inherits Rectangle {
         for data[index] in Store.chat-sessions : Rectangle {
             y: index * item-height;
             height: root.item-height;
-            background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color);
+            background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Colors.transparent);
 
             touch := TouchArea {
                 clicked => {
@@ -28,7 +28,7 @@ export component Body inherits Rectangle {
                     alignment: center;
                     padding-left: Theme.padding;
                     Text {
-                        color: Colors.white;
+                    color: data.uuid == Store.current-session-uuid ? Theme.basic-white-color : Theme.basic-black-color;
                         text: data.name;
                         font-size: Theme.enlarge-font-size;
                     }

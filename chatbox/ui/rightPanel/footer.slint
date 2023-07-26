@@ -132,7 +132,7 @@ export component Footer inherits Rectangle {
 
         IconBtn {
             x: parent.width - (self.width + Theme.padding * 2) * 2;
-            icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/stop.svg");
+            icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/record-off.svg");
             clicked => {
                 if (root.is-recording) {
                     Logic.stop-audio-record();

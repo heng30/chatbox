@@ -143,11 +143,7 @@ export component AppWindow inherits Window {
                 padding: Theme.padding / 2;
                 LPanel {}
                 rpanel := RPanel { }
-
-                Rectangle {
-                    width: Theme.body-right-panel-width;
-                    arch-panel := ArchivePanel {}
-                }
+                arch-panel := ArchivePanel {}
             }
         }
 
@@ -181,20 +177,6 @@ export component AppWindow inherits Window {
                     icon: @image-url("./images/file-archive.svg");
                     clicked => {
                         root.show-archive-dialog();
-                    }
-                }
-
-                IconBtn {
-                    icon: @image-url("./images/arrow-down.svg");
-                    clicked => {
-                        rpanel.scroll-to-bottom();
-                    }
-                }
-
-                IconBtn {
-                    icon: @image-url("./images/arrow-up.svg");
-                    clicked => {
-                        rpanel.scroll-to-top();
                     }
                 }
 
