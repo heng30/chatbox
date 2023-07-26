@@ -2,7 +2,6 @@ import { Theme } from "../theme.slint";
 import { Header } from "./header.slint";
 import { Body } from "./body/panel.slint";
 import { Footer } from "./footer.slint";
-import { ArchivePanel } from "./archive/panel.slint";
 
 export component RPanel inherits VerticalLayout {
     in-out property question <=> footer.question;
@@ -17,7 +16,6 @@ export component RPanel inherits VerticalLayout {
     public function scroll-to-bottom() {
         body.scroll-to-bottom();
     }
-
 
     public function jump-to-viewport-y(vy: length) {
         body.jump-to-viewport-y(vy);
@@ -39,22 +37,8 @@ export component RPanel inherits VerticalLayout {
         footer.force-focus();
     }
 
-    public function force-search-input-focus() {
-        arch-panel.focus();
-    }
 
-    Rectangle {
-        HorizontalLayout {
-            Rectangle {
-                body := Body {}
-            }
-
-            Rectangle {
-                width: Theme.body-right-panel-width;
-                arch-panel := ArchivePanel {}
-            }
-        }
-    }
+    body := Body {}
 
     footer := Footer {
         scroll-to-top => {

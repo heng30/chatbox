@@ -2,11 +2,11 @@ import { Button, TextEdit } from "std-widgets.slint";
 import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
-import { Btn } from "../base/btn.slint";
 import { IconBtn } from "../base/icon-btn.slint";
+import { Btn } from "../base/btn.slint";
 
-export component Footer inherits VerticalLayout {
-    height: Theme.question-box-height;
+export component Footer inherits Rectangle {
+    height: Math.min(Math.max(te.preferred-height + vbox.padding * 2 + root.btn-height, Theme.question-box-height), Theme.question-box-height *  4);
     in-out property<length> btn-height: Theme.bottom-btn-height;
     in-out property question <=> te.text;
 
@@ -23,24 +23,6 @@ export component Footer inherits VerticalLayout {
     }
 
     FocusScope {
-        VerticalLayout {
-            width: 100%;
-            alignment: start;
-
-            Rectangle {
-                height: root.height - btn-height;
-                te := TextEdit { }
-
-                Text {
-                    x: Theme.padding / 2;
-                    y: 0;
-                    visible: te.text == "";
-                    text: "Ctrl+Enter";
-                    color: Theme.placeholder-text-color;
-                }
-            }
-        }
-
         key-pressed(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = true;
@@ -58,8 +40,6 @@ export component Footer inherits VerticalLayout {
                     root.scroll-up();
                 } else if (event.text == "j") {
                     root.scroll-down();
-                } else if (event.text == "u") {
-                    Theme.resize-question-box(root.height)
                 } else if (event.text == "r") {
                     if (Store.is-audio-recording) {
                         Logic.stop-audio-record();
@@ -88,76 +68,107 @@ export component Footer inherits VerticalLayout {
 
             reject
         }
-    }
 
-    HorizontalLayout {
-        HorizontalLayout {
-            width: 40%;
+        vbox := VerticalLayout {
+            padding: Theme.padding * 2;
 
-            Btn {
-                bg-color: Theme.danger-color;
-                icon: @image-url("../images/reset.svg");
-                width: 50%;
-                height: root.btn-height;
-                text: Store.translator.reset;
-                clicked => {
-                    Store.ok-cancel-dialog-setting.title-type = "warning";
-                    Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
-                    Store.ok-cancel-dialog-setting.body-text = Store.translator.reset-or-not;
-                    Store.ok-cancel-dialog-setting.handle-type = "session-reset";
-                    Store.ok-cancel-dialog-setting.handle-uuid = "";
+            function scroll-to-bottom() {
+                if (flick.viewport-height <= flick.height) {
+                    return;
                 }
+
+                flick.viewport-y = -flick.viewport-height + flick.height;
             }
 
-            Btn {
-                height: root.btn-height;
-                bg-color: Theme.warning-color;
-                icon: @image-url("../images/stop.svg");
-                text: Store.translator.stop;
-                clicked => {
-                    Logic.stop-generate-text(Store.current-session-uuid);
+            Rectangle {
+                background: Theme.light-fill-color.darker(10%);
+                border-radius: Theme.border-radius;
+
+                flick := Flickable {
+                    x: 0px;
+                    y: 0px;
+                    viewport-height: te.preferred-height;
+                    height: root.height - root.btn-height;
+
+                    te := TextInput {
+                        x: 1px;
+                        y: Theme.padding;
+                        single-line: false;
+                        wrap: word-wrap;
+
+                        edited => {
+                            vbox.scroll-to-bottom();
+                        }
+                    }
+                }
+
+                Text {
+                    x: 1px;
+                    y: Theme.padding;
+                    visible: te.text == "";
+                    text: "Ctrl+Enter";
+                    color: Theme.placeholder-text-color;
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        x: vbox.padding;
+        y: root.height - root.btn-height - Theme.padding * 2;
+        height: root.btn-height;
+        width: root.width - vbox.padding * 2;
+
+        IconBtn {
+            x: parent.width - (self.width + Theme.padding * 2) * 1;
+            icon: @image-url("../images/send.svg");
+            clicked => {
+                if (te.text == "") { return; }
+
+                Logic.send-input-text(te.text);
+                te.text = "";
+            }
+        }
+
+        IconBtn {
+            x: parent.width - (self.width + Theme.padding * 2) * 2;
+            icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/stop.svg");
+            clicked => {
+                if (root.is-recording) {
+                    Logic.stop-audio-record();
+                } else {
+                    Logic.start-audio-record();
                 }
             }
         }
 
-        HorizontalLayout {
-            Btn {
-                height: root.btn-height;
-                bg-color: Theme.danger-color;
-                icon: @image-url("../images/format-clear.svg");
-                width: 20%;
-                text: Store.translator.clear;
-                clicked => {
-                    te.text = "";
-                }
+        IconBtn {
+            x: parent.width - (self.width + Theme.padding * 2) * 3;
+            icon: @image-url("../images/format-clear.svg");
+            clicked => {
+                te.text = "";
             }
+        }
 
-            Btn {
-                height: root.btn-height;
-                bg-color: root.is-recording ? Theme.warning-color : Theme.success-color;
-                icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/stop.svg");
-                width: 30%;
-                text: root.is-recording ? Store.translator.recording : Store.translator.record;
-                clicked => {
-                    if (root.is-recording) {
-                        Logic.stop-audio-record();
-                    } else {
-                        Logic.start-audio-record();
-                    }
-                }
+        IconBtn {
+            x: parent.width - (self.width + Theme.padding * 2) * 4;
+            icon: @image-url("../images/stop.svg");
+            clicked => {
+                Logic.stop-generate-text(Store.current-session-uuid);
             }
+        }
 
-            Btn {
-                height: root.btn-height;
-                icon: @image-url("../images/send.svg");
-                text: Store.translator.send;
-                clicked => {
-                    if (te.text == "") { return; }
-
-                    Logic.send-input-text(te.text);
-                    te.text = "";
-                }
+        IconBtn {
+            x: parent.width - (self.width + Theme.padding * 2) * 5;
+            icon: @image-url("../images/reset.svg");
+            clicked => {
+                Store.ok-cancel-dialog-setting.title-type = "warning";
+                Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                Store.ok-cancel-dialog-setting.body-text = Store.translator.reset-or-not;
+                Store.ok-cancel-dialog-setting.handle-type = "session-reset";
+                Store.ok-cancel-dialog-setting.handle-uuid = "";
             }
         }
     }
 }
+

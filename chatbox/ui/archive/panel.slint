@@ -1,0 +1,129 @@
+import { ListView, LineEdit } from "std-widgets.slint";
+import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
+import { Logic } from "../logic.slint";
+import { IconBtn } from "../base/icon-btn.slint";
+
+export component ArchivePanel inherits Rectangle {
+    private property<length> item-height: 35px;
+    forward-focus: search-lineedit;
+
+    background: Theme.light-fill-color.darker(5%);
+
+    VerticalLayout {
+        FocusScope {
+            property <bool> is-ctrl-pressed;
+            key-pressed(event) => {
+                if (event.text == Key.Control) {
+                    is-ctrl-pressed = true;
+                }
+
+                if (is-ctrl-pressed) {
+                    if (event.text == "o" || event.text == "d") {
+                        if (Store.session-archive-datas.length == 1) {
+                            if (event.text == "o") {
+                                Logic.show-session-archive(Store.current-session-uuid, Store.session-archive-datas[0].uuid);
+                            } else if (event.text == "d") {
+                                Logic.delete-session-archive(Store.current-session-uuid, Store.session-archive-datas[0].uuid);
+                                search-lineedit.text = "";
+                                search-lineedit.edited("");
+
+                            }
+                        }
+                        accept
+                    } else {
+                        reject
+                    }
+                } else {
+                    reject
+                }
+            }
+            key-released(event) => {
+                if (event.text == Key.Control) {
+                    is-ctrl-pressed = false;
+                }
+
+                reject
+            }
+
+            HorizontalLayout {
+                search-lineedit := LineEdit {
+                    placeholder-text: Store.translator.archive-search-placeholder-text;
+                    accepted => {
+                        search-btn.clicked();
+                    }
+
+                    edited => {
+                        Store.archive-search-text = search-lineedit.text;
+                        if (Store.archive-search-text == "") {
+                            search-btn.clicked();
+                        }
+                    }
+                }
+
+                search-btn := IconBtn {
+                    height: Theme.header-height;
+                    width: Theme.bottom-btn-height * 1.33;
+                    border-radius: 0;
+                    bg-color: Theme.info-color;
+                    bg-hover-color: self.bg-color.darker(20%);
+                    bg-pressed-color: self.bg-color.darker(50%);
+                    icon: @image-url("../images/search.svg");
+                    clicked => {
+                        Logic.show-session-archive-list(Store.current-session-uuid);
+                    }
+                }
+            }
+        }
+
+        Flickable {
+            viewport-height: Store.session-archive-datas.length * root.item-height;
+            for data[index] in Store.session-archive-datas : Rectangle {
+                y: index * item-height;
+                height: root.item-height;
+
+                background: touch.has-hover ? Theme.brand-color.darker(30%) : Theme.brand-color;
+
+                touch := TouchArea {
+                    clicked => {
+                        Logic.show-session-archive(Store.current-session-uuid, data.uuid);
+                    }
+                }
+
+                HorizontalLayout {
+                    padding: Theme.padding;
+
+                    VerticalLayout {
+                        alignment: center;
+                        padding-left: Theme.padding;
+                        Text {
+                            width: root.width - 70px;
+                            color: Colors.white;
+                            text: data.name;
+                        }
+                    }
+
+                    HorizontalLayout {
+                        alignment: end;
+                        padding-right: Theme.padding;
+                        spacing: Theme.spacing * 2;
+
+                        VerticalLayout {
+                            alignment: end;
+                            IconBtn {
+                                icon: @image-url("../images/delete.svg");
+                                clicked => {
+                                    Store.ok-cancel-dialog-setting.title-type = "warning";
+                                    Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                                    Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
+                                    Store.ok-cancel-dialog-setting.handle-type = "session-archive-item";
+                                    Store.ok-cancel-dialog-setting.handle-uuid = data.uuid;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

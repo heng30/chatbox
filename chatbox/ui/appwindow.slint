@@ -16,6 +16,7 @@ import { HelpDialog } from "./dialog/help.slint";
 import { OkCancelDialog } from "./dialog/ok-cancel.slint";
 import { IconBtn } from "./base/icon-btn.slint";
 import { NewArchiveDialog } from "./dialog/new-archive.slint";
+import { ArchivePanel } from "./archive/panel.slint";
 
 export component AppWindow inherits Window {
     default-font-size: Theme.default-font-size;
@@ -51,6 +52,10 @@ export component AppWindow inherits Window {
         arch-dialog.focus();
     }
 
+    public function force-search-input-focus() {
+        arch-panel.focus();
+    }
+
     init => {
         rpanel.force-question-input-focus();
     }
@@ -68,7 +73,7 @@ export component AppWindow inherits Window {
                 } else if (event.text == "i") {
                     rpanel.force-question-input-focus();
                 } else if (event.text == "o") {
-                    rpanel.force-search-input-focus();
+                    root.force-search-input-focus();
                 } else if (event.text == "n") {
                     root.show-archive-dialog();
                 } else if (event.text == "y") {
@@ -130,12 +135,19 @@ export component AppWindow inherits Window {
             reject
         }
 
+
+
         Rectangle {
             height: root.height;
             HorizontalLayout {
                 padding: Theme.padding / 2;
                 LPanel {}
                 rpanel := RPanel { }
+
+                Rectangle {
+                    width: Theme.body-right-panel-width;
+                    arch-panel := ArchivePanel {}
+                }
             }
         }
 
