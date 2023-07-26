@@ -7,7 +7,6 @@ export component UItem inherits VerticalLayout{
     in-out property text <=> txt.text;
     in-out property timestamp <=> timestamp-txt.text;
     in-out property<string> uuid;
-    in-out property<bool> is-mark;
 
     padding-top: Theme.padding;
     padding-left: Theme.padding * 2;
@@ -50,22 +49,6 @@ export component UItem inherits VerticalLayout{
 
             VerticalLayout {
                 alignment: end;
-                IconBtn {
-                    icon: @image-url("../../images/star.svg");
-                    colorize: root.is-mark ? Theme.mark-color : Theme.unmark-color;
-                    clicked => {
-                        if (root.is-mark) {
-                            Logic.show-message(Store.translator.unmarked-success, "success");
-                        } else {
-                            Logic.show-message(Store.translator.marked-success, "success");
-                        }
-                        Logic.toggle-mark-chat-item(root.uuid);
-                    }
-                }
-            }
-
-            VerticalLayout {
-                alignment: end;
                 copy-icon := IconBtn {
                     icon: @image-url("../../images/copy.svg");
                     clicked => {
@@ -91,21 +74,18 @@ export component UItem inherits VerticalLayout{
         }
     }
 
-    HorizontalLayout {
-        Rectangle {
-            background: Theme.brand-color.darker(10%);
-            border-radius: Theme.border-radius;
-            VerticalLayout{
-                padding: Theme.padding * 2;
-                txt := TextInput {
-                    color: Theme.basic-white-color;
-                    font-size: Theme.default-font-size + 2px;
-                    wrap: word-wrap;
-                    single-line: false;
-                    read-only: true;
-                }
+    Rectangle {
+        background: Theme.brand-color.darker(10%);
+        border-radius: Theme.border-radius;
+        VerticalLayout{
+            padding: Theme.padding * 2;
+            txt := TextInput {
+                color: Theme.basic-white-color;
+                font-size: Theme.default-font-size + 2px;
+                wrap: word-wrap;
+                single-line: false;
+                read-only: true;
             }
-
         }
     }
 }

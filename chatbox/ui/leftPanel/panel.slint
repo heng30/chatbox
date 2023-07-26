@@ -10,13 +10,21 @@ import { Bottom } from "./bottom.slint";
 
 import { StandardButton, Button } from "std-widgets.slint";
 
-export component LPanel inherits VerticalLayout {
+export component LPanel inherits Rectangle {
     width: Theme.left-panel-width;
+    background: Theme.light-fill-color.darker(5%);
 
+    VerticalLayout {
+        Header {}
+        Body {}
+        Rectangle {
+            x: Theme.padding;
+            width: root.width - Theme.padding * 2;
+            height: 2px;
+            background: Theme.brand-color;
+        }
+        Bottom { }
+    }
 
-    Header {}
-    Body {}
-    Bottom { }
 }
-
 

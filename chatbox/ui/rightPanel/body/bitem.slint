@@ -58,16 +58,13 @@ export component BItem inherits VerticalLayout{
         }
     }
 
-    HorizontalLayout {
-        Rectangle {
-            background: Theme.dark-fill-color;
-            border-radius: Theme.border-radius;
+    Rectangle {
+        background: Theme.dark-fill-color;
+        border-radius: Theme.border-radius;
 
-            VerticalLayout{
-                padding: Theme.padding * 2;
-                txt := CodeText { }
-            }
-
+        VerticalLayout{
+            padding: Theme.padding * 2;
+            txt := CodeText { }
         }
     }
 }

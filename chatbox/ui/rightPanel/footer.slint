@@ -155,6 +155,7 @@ export component Footer inherits Rectangle {
             icon: @image-url("../images/stop.svg");
             clicked => {
                 Logic.stop-generate-text(Store.current-session-uuid);
+                Logic.show-message(Store.translator.session-chat-stop, "info");
             }
         }
 

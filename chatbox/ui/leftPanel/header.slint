@@ -1,23 +1,22 @@
 import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
-import { Btn } from "../base/btn.slint";
+import { TabBtn } from "../base/tab-btn.slint";
 
 export component Header inherits HorizontalLayout {
-    Btn {
+    TabBtn {
         text: Store.translator.new;
         height: Theme.header-height;
-        bg-color: Theme.success-color;
         icon: @image-url("../images/add.svg");
         clicked => {
             Store.session-dialog-setting.handle-type = "session-add";
             Store.session-dialog-setting.is-show = true;
         }
     }
-    Btn {
+    TabBtn {
         text: Store.translator.edit;
         height: Theme.header-height;
-        bg-color: Theme.warning-color;
+        text-color: Theme.info-color;
         icon: @image-url("../images/edit.svg");
         clicked => {
             Logic.set-edit-session(Store.current-session-uuid);
@@ -25,10 +24,10 @@ export component Header inherits HorizontalLayout {
             Store.session-dialog-setting.is-show = true;
         }
     }
-    Btn {
+    TabBtn {
         text: Store.translator.delete;
         height: Theme.header-height;
-        bg-color: Theme.danger-color;
+        text-color: Theme.danger-color;
         icon: @image-url("../images/delete.svg");
         clicked => {
             Store.ok-cancel-dialog-setting.title-type = "warning";

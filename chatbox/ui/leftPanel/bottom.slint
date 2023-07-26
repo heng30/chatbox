@@ -1,12 +1,12 @@
 import { Button, ListView,  TextEdit } from "std-widgets.slint";
 import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
-import { Btn } from "../base/btn.slint";
+import { TabBtn } from "../base/tab-btn.slint";
 
 export component Bottom inherits HorizontalLayout {
     height: Theme.bottom-btn-height;
 
-    Btn {
+    TabBtn {
         height: root.height;
         icon: @image-url("../images/setting-fill.svg");
         clicked => {
@@ -14,7 +14,7 @@ export component Bottom inherits HorizontalLayout {
         }
     }
 
-    Btn {
+    TabBtn {
         height: root.height;
         icon: @image-url("../images/about.svg");
         clicked => {
@@ -22,7 +22,7 @@ export component Bottom inherits HorizontalLayout {
         }
     }
 
-    Btn {
+    TabBtn {
         height: root.height;
         icon: @image-url("../images/help.svg");
         clicked => {
