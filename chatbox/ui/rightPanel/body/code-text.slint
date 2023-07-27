@@ -7,7 +7,6 @@ import { IconBtn } from "../../base/icon-btn.slint";
 export component CodeText inherits Rectangle {
     height: vbox.preferred-height;
     in-out property<string> org-text;
-
     in-out property<[CodeTextItem]> items: [];
 
     vbox := VerticalLayout {

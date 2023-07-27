@@ -57,21 +57,19 @@ export component Body inherits Rectangle {
         lv.viewport-y <= -lv.viewport-height + lv.visible-height;
     }
 
-    HorizontalLayout {
-        lv := ListView {
-            for data in Store.session-datas : VerticalLayout {
-                padding-bottom: Theme.padding * 2;
-                UItem {
-                    text: data.utext;
-                    uuid: data.uuid;
-                    timestamp: data.timestamp;
-                }
+    lv := ListView {
+        for data in Store.session-datas : VerticalLayout {
+            padding-bottom: Theme.padding * 2;
+            UItem {
+                text: data.utext;
+                uuid: data.uuid;
+                timestamp: data.timestamp;
+            }
 
-                BItem {
-                    text: data.btext;
-                    uuid: data.uuid;
-                    items: data.btext-items;
-                }
+            BItem {
+                text: data.btext;
+                uuid: data.uuid;
+                items: data.btext-items;
             }
         }
     }
