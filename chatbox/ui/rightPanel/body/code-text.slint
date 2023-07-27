@@ -57,11 +57,11 @@ export component CodeText inherits Rectangle {
                 }
             }
 
-            if item.text-type == "image-latex": VerticalLayout {
+            if item.text-type == "image": VerticalLayout {
                 HorizontalLayout {
                     alignment: center;
-                    img-latex := Image {
-                        max-width: Theme.max-image-latex-width;
+                    Image {
+                        max-width: Theme.max-image-width;
                         source: item.img;
                     }
                 }

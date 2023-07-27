@@ -6,7 +6,7 @@ import { IconBtn } from "../base/icon-btn.slint";
 import { Btn } from "../base/btn.slint";
 
 export component Footer inherits Rectangle {
-    height: Math.min(Math.max(te.preferred-height + vbox.padding * 2 + root.btn-height, Theme.question-box-height), Theme.question-box-height *  4);
+    height: Math.min(Math.max(te.preferred-height + vbox.padding + root.btn-height, Theme.question-box-height), Theme.question-box-height *  4);
     in-out property<length> btn-height: Theme.bottom-btn-height;
     in-out property question <=> te.text;
 
@@ -71,6 +71,7 @@ export component Footer inherits Rectangle {
 
         vbox := VerticalLayout {
             padding: Theme.padding * 2;
+            padding-top: 0px;
 
             function scroll-to-bottom() {
                 if (flick.viewport-height <= flick.height) {
@@ -85,25 +86,24 @@ export component Footer inherits Rectangle {
                 border-radius: Theme.border-radius;
 
                 flick := Flickable {
-                    x: 0px;
-                    y: 0px;
-                    viewport-height: te.preferred-height;
-                    height: root.height - root.btn-height;
+                    x: 0px; y: 0px;
+                    height: root.height - root.btn-height - vbox.padding;
 
-                    te := TextInput {
-                        x: 1px;
-                        y: Theme.padding;
-                        single-line: false;
-                        wrap: word-wrap;
+                    VerticalLayout {
+                        padding: Theme.padding;
+                        te := TextInput {
+                            single-line: false;
+                            wrap: word-wrap;
 
-                        edited => {
-                            vbox.scroll-to-bottom();
+                            edited => {
+                                vbox.scroll-to-bottom();
+                            }
                         }
                     }
                 }
 
                 Text {
-                    x: 1px;
+                    x: Theme.padding;
                     y: Theme.padding;
                     visible: te.text == "";
                     text: "Ctrl+Enter";
@@ -133,6 +133,7 @@ export component Footer inherits Rectangle {
         IconBtn {
             x: parent.width - (self.width + Theme.padding * 2) * 2;
             icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/record-off.svg");
+            colorize: !root.is-recording ? Colors.black : Theme.danger-color;
             clicked => {
                 if (root.is-recording) {
                     Logic.stop-audio-record();
