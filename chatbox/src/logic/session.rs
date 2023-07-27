@@ -393,6 +393,10 @@ pub fn init(ui: &AppWindow) {
 
     ui.global::<Logic>()
         .on_switch_session(move |old_uuid, new_uuid| {
+            if old_uuid == new_uuid || new_uuid.is_empty() {
+                return;
+            }
+
             let ui = ui_switch_handle.unwrap();
             let chat_items = ui.global::<Store>().get_session_datas();
             let sessions = ui.global::<Store>().get_chat_sessions();
@@ -450,6 +454,8 @@ pub fn init(ui: &AppWindow) {
 
                     ui.global::<Logic>()
                         .invoke_show_session_archive_list(new_uuid.clone());
+                    ui.global::<Store>()
+                        .set_previous_session_uuid(old_uuid.clone());
                     ui.global::<Store>()
                         .set_current_session_uuid(new_uuid.clone());
 

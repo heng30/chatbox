@@ -253,6 +253,7 @@ export global Store  {
         // },
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
+    in-out property<string> previous-session-uuid: chat-sessions[0].uuid;
 
     in-out property<MessageItem> message;
 
@@ -302,6 +303,7 @@ export global Store  {
         show: false,
         text-cn: "快捷键:\n"
             + "  1. Ctrl+[: 当前会话滚动到顶部。2. Ctrl+]: 当前会话滚动到底部。\n"
+            + "  3. Ctrl+U: 切换最近两个会话。\n"
             + "  5. Ctrl+B: 打开/关闭归档侧面板。6. Ctrl+R: 启动/停止录音。\n"
             + "  7. Ctrl+P: 播放录音。8. Ctrl+T: 录音转文字。9. Ctrl+H: 重置当前会话。10. Ctrl+L: 移除当前对话最后一次对话。\n"
             + "  11. Ctrl+(0~9): 1~10个会话切换。 12. Ctrl+N: 显示新建归档面板。 13. Ctrl+M: 重新提问最后一个问题。\n"
@@ -322,6 +324,7 @@ export global Store  {
 
         text-en: "Keyboard shortcuts:\n"
             + "  1. Ctrl+[: Scroll to the top of the current session. 2. Ctrl+]: Scroll to the bottom of the current session.\n"
+            + "  3. Ctrl+U: Switch between the last two sessions. \n"
             + "  5. Ctrl+B: Open/Close archive panel. 6. Ctrl+R: Start/Stop Recording.\n"
             + "  7. Ctrl+P: Play Recording. 8. Ctrl+T: Convert Recording to Text. 9. Ctrl+H: Reset Current Session.\n"
             + "  10. Ctrl+L: Remove the last chat from the current chats.\n"

@@ -76,6 +76,8 @@ export component AppWindow inherits Window {
                     root.force-search-input-focus();
                 } else if (event.text == "n") {
                     root.show-archive-dialog();
+                } else if (event.text == "u") {
+                    Logic.switch-session(Store.current-session-uuid, Store.previous-session-uuid);
                 } else if (event.text == "y") {
                     root.is-chats-auto-scroll-down = !root.is-chats-auto-scroll-down;
                     if (root.is-chats-auto-scroll-down) {
