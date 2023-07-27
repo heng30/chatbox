@@ -77,12 +77,11 @@ export component ArchivePanel inherits Rectangle {
             }
         }
 
-        Flickable {
+        flick := Flickable {
             viewport-height: Store.session-archive-datas.length * root.item-height;
             for data[index] in Store.session-archive-datas : Rectangle {
                 y: index * item-height;
                 height: root.item-height;
-
                 background: touch.has-hover ? Theme.lighter-fill-color : Colors.transparent;
 
                 touch := TouchArea {
@@ -110,9 +109,10 @@ export component ArchivePanel inherits Rectangle {
                         spacing: Theme.spacing * 2;
 
                         VerticalLayout {
-                            alignment: end;
+                            alignment: center;
                             IconBtn {
                                 icon: @image-url("../images/delete.svg");
+                                colorize: Theme.regular-text-color;
                                 clicked => {
                                     Store.ok-cancel-dialog-setting.title-type = "warning";
                                     Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;

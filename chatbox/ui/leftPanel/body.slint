@@ -9,42 +9,48 @@ export component Body inherits Rectangle {
     Flickable {
         viewport-height: Store.chat-sessions.length * root.item-height;
 
-        for data[index] in Store.chat-sessions : Rectangle {
+        for data[index] in Store.chat-sessions : VerticalLayout {
             y: index * item-height;
             height: root.item-height;
-            background: data.uuid == Store.current-session-uuid ? Theme.brand-color.darker(70%) : (touch.pressed ? Theme.brand-color.darker(50%) : touch.has-hover ? Theme.brand-color.darker(30%) : Colors.transparent);
+            padding: Theme.padding;
+            padding-right: Theme.padding * 1.5;
 
-            touch := TouchArea {
-                clicked => {
-                    Logic.switch-session(Store.current-session-uuid, data.uuid);
-                }
-            }
+            Rectangle {
+                border-radius: Theme.border-radius;
+                background: data.uuid == Store.current-session-uuid ? Theme.brand-color : (touch.has-hover ? Theme.lighter-fill-color : Colors.transparent);
 
-            HorizontalLayout {
-                padding: Theme.padding;
-
-                VerticalLayout {
-                    alignment: center;
-                    padding-left: Theme.padding;
-                    Text {
-                    color: data.uuid == Store.current-session-uuid ? Theme.basic-white-color : Theme.basic-black-color;
-                        text: data.name;
-                        font-size: Theme.enlarge-font-size;
+                touch := TouchArea {
+                    clicked => {
+                        Logic.switch-session(Store.current-session-uuid, data.uuid);
                     }
                 }
 
                 HorizontalLayout {
-                    alignment: end;
-                    padding-right: Theme.padding;
-                    spacing: Theme.spacing * 2;
+                    padding: Theme.padding;
 
                     VerticalLayout {
                         alignment: center;
-                        IconBtn {
-                            icon: @image-url("../images/star.svg");
-                            colorize: data.is-mark ? Theme.mark-color : Theme.unmark-color;
-                            clicked => {
-                                Logic.toggle-mark-session(data.uuid);
+                        padding-left: Theme.padding;
+                        Text {
+                        color: data.uuid == Store.current-session-uuid ? Theme.basic-white-color : Theme.basic-black-color;
+                            text: data.name;
+                            font-size: Theme.enlarge-font-size;
+                        }
+                    }
+
+                    HorizontalLayout {
+                        alignment: end;
+                        padding-right: Theme.padding;
+                        spacing: Theme.spacing * 2;
+
+                        VerticalLayout {
+                            alignment: center;
+                            IconBtn {
+                                icon: @image-url("../images/star.svg");
+                                colorize: data.is-mark ? Theme.mark-color : Theme.unmark-color;
+                                clicked => {
+                                    Logic.toggle-mark-session(data.uuid);
+                                }
                             }
                         }
                     }
@@ -53,4 +59,3 @@ export component Body inherits Rectangle {
         }
     }
 }
-
