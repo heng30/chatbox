@@ -6,6 +6,10 @@ pub struct SessionConfig {
     pub name: String,
     pub system_prompt: String,
     pub api_model: String,
+
+    #[serde(default)]
+    pub shortcut_instruction: String,
+
     pub use_history: bool,
     pub is_mark: bool,
 }
@@ -33,6 +37,7 @@ impl From<&ChatSession> for SessionConfig {
             name: cs.name.clone().into(),
             system_prompt: cs.system_prompt.clone().into(),
             api_model: cs.api_model.clone().into(),
+            shortcut_instruction: cs.shortcut_instruction.clone().into(),
             use_history: cs.use_history,
             is_mark: cs.is_mark,
         }

@@ -8,8 +8,8 @@ export component SessionDialog inherits CDialog {
     visible: Store.session-dialog-setting.is-show;
 
     title: Store.translator.session-new-dialog-title;
-    width: 700px;
-    height: 400px;
+    width: 900px;
+    height: 500px;
 
     property<length> text-width:
         Store.setting-dialog-config.ui.language == "cn" ? Theme.default-label-width : Theme.default-label-width * 1.8;
@@ -18,9 +18,10 @@ export component SessionDialog inherits CDialog {
     in-out property system-prompt <=> text-edit-prompt.text;
     in-out property api-model <=> api-model-combobox.current-value;
     in-out property use-history <=> use-history-checkbox.checked;
+    in-out property shortcut-instruction <=> shortcut-inst.text;
 
     rect := Rectangle {
-         background: Theme.dialog-background;
+        background: Theme.dialog-background;
         VerticalLayout {
             padding: Theme.padding;
             spacing: Theme.spacing * 2;
@@ -40,12 +41,12 @@ export component SessionDialog inherits CDialog {
 
             HorizontalLayout {
                 HorizontalLayout {
+                    width: 50%;
                     Text {
                         width: root.text-width;
                         text: Store.translator.session-new-dialog-api-model;
                     }
                     api-model-combobox := ComboBox {
-                        horizontal-stretch: 1;
                         model: Store.session-dialog-setting.api-model;
                         current-value: Store.session-dialog-setting.api-model[0];
                     }
@@ -56,6 +57,18 @@ export component SessionDialog inherits CDialog {
                     use-history-checkbox := CheckBox {
 text: self.checked ? Store.translator.session-new-dialog-used-history : Store.translator.session-new-dialog-unused-history;
                     }
+                }
+            }
+
+            HorizontalLayout {
+                HorizontalLayout {
+                    width: 50%;
+                    Text {
+                        width: root.text-width;
+                        text: Store.translator.session-new-dialog-shortcut-instruction;
+                    }
+
+                    shortcut-inst := LineEdit { }
                 }
             }
 
@@ -91,7 +104,8 @@ text: self.checked ? Store.translator.session-new-dialog-used-history : Store.tr
                 name: root.name,
                 system-prompt: root.system-prompt,
                 api-model: root.api-model,
-                use-history: root.use-history
+                use-history: root.use-history,
+                shortcut-instruction: root.shortcut-instruction
             });
         } else if (Store.session-dialog-setting.handle-type == "session-edit") {
 
@@ -99,7 +113,8 @@ text: self.checked ? Store.translator.session-new-dialog-used-history : Store.tr
                 name: root.name,
                 system-prompt: root.system-prompt,
                 api-model: root.api-model,
-                use-history: root.use-history
+                use-history: root.use-history,
+                shortcut-instruction: root.shortcut-instruction
             });
         }
 

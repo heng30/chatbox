@@ -71,6 +71,7 @@ fn init_session(ui: &AppWindow) {
                         chat_session.name = sc.name.into();
                         chat_session.system_prompt = sc.system_prompt.into();
                         chat_session.api_model = sc.api_model.into();
+                        chat_session.shortcut_instruction = sc.shortcut_instruction.into();
                     }
                     Err(e) => {
                         warn!("{:?}", e);
@@ -141,10 +142,12 @@ pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
     let ui_delete_handle = ui.as_weak();
     let ui_set_edit_handle = ui.as_weak();
+    let ui_reset_edit_handle = ui.as_weak();
     let ui_save_edit_handle = ui.as_weak();
     let ui_reset_handle = ui.as_weak();
     let ui_mark_handle = ui.as_weak();
     let ui_switch_handle = ui.as_weak();
+    let ui_switch_shortcut_inst_handle = ui.as_weak();
     let ui_copy_handle = ui.as_weak();
     let ui_save_chats_handle = ui.as_weak();
 
@@ -161,6 +164,7 @@ pub fn init(ui: &AppWindow) {
             system_prompt: config.system_prompt,
             use_history: config.use_history,
             api_model: config.api_model,
+            shortcut_instruction: config.shortcut_instruction,
             uuid: Uuid::new_v4().to_string().into(),
             ..Default::default()
         };
@@ -325,7 +329,16 @@ pub fn init(ui: &AppWindow) {
         ui.set_session_name(sessions[0].name.clone());
         ui.set_session_system_prompt(sessions[0].system_prompt.clone());
         ui.set_session_api_model(sessions[0].api_model.clone());
+        ui.set_session_shortcut_instruction(sessions[0].shortcut_instruction.clone());
         ui.set_session_use_history(sessions[0].use_history);
+    });
+
+    ui.global::<Logic>().on_reset_edit_session(move || {
+        let ui = ui_reset_edit_handle.unwrap();
+        ui.set_session_name("".into());
+        ui.set_session_system_prompt("".into());
+        ui.set_session_shortcut_instruction("".into());
+        ui.set_session_use_history(false);
     });
 
     ui.global::<Logic>()
@@ -343,6 +356,7 @@ pub fn init(ui: &AppWindow) {
                             name: config.name.clone(),
                             system_prompt: config.system_prompt.clone(),
                             api_model: config.api_model.clone(),
+                            shortcut_instruction: config.shortcut_instruction.clone(),
                             use_history: config.use_history,
                             ..x
                         }
@@ -471,6 +485,29 @@ pub fn init(ui: &AppWindow) {
             }
         });
 
+    ui.global::<Logic>()
+        .on_switch_session_shortcut_inst(move |current_uuid| {
+            let ui = ui_switch_shortcut_inst_handle.unwrap();
+            let mut question = ui.get_question();
+
+            for session in ui.global::<Store>().get_chat_sessions().iter() {
+                let shortcut_inst = session.shortcut_instruction;
+                if shortcut_inst.is_empty() || !question.starts_with(shortcut_inst.as_str()) {
+                    continue;
+                }
+
+                question = question
+                    .trim_start_matches(shortcut_inst.as_str())
+                    .trim_start()
+                    .into();
+
+                ui.global::<Logic>()
+                    .invoke_switch_session(current_uuid, session.uuid);
+                ui.set_question(question);
+                return;
+            }
+        });
+
     ui.global::<Logic>().on_copy_session_chats(move |_uuid| {
         let ui = ui_copy_handle.unwrap();
         let mut chats = slint::SharedString::default();
@@ -506,7 +543,7 @@ pub fn init(ui: &AppWindow) {
     });
 }
 
-pub fn current_session_config(ui: Weak<AppWindow>) -> (String, String, bool) {
+pub fn current_session_config(ui: Weak<AppWindow>) -> (String, String, String, bool) {
     let ui = ui.unwrap();
     let uuid = ui.global::<Store>().get_current_session_uuid();
 
@@ -516,6 +553,7 @@ pub fn current_session_config(ui: Weak<AppWindow>) -> (String, String, bool) {
             return (
                 session.system_prompt.into(),
                 session.api_model.into(),
+                session.shortcut_instruction.into(),
                 session.use_history,
             );
         }

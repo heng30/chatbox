@@ -30,6 +30,7 @@ export struct ChatSession {
     system-prompt: string,
     api-model: string,
     use-history: bool,
+    shortcut-instruction: string,
 
     chats-viewport-y: length,
     chat-items: [ChatItem]
@@ -51,6 +52,7 @@ export struct SessionConfig {
     system-prompt: string,
     api-model: string,
     use-history: bool,
+    shortcut-instruction: string,
 }
 
 export struct OkCancelDialogSetting {

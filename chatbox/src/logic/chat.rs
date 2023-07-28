@@ -50,7 +50,7 @@ async fn send_text(
         .get_current_session_uuid()
         .to_string();
 
-    let (system_prompt, api_model, use_history) =
+    let (system_prompt, api_model, _, use_history) =
         session::current_session_config(ui_box.borrow().as_weak());
 
     if api_model.contains("ChatGPT") {

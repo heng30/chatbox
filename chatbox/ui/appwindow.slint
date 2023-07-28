@@ -30,6 +30,7 @@ export component AppWindow inherits Window {
     in-out property session-system-prompt <=> session-dialog.system-prompt;
     in-out property session-api-model <=> session-dialog.api-model;
     in-out property session-use-history <=> session-dialog.use-history;
+    in-out property session-shortcut-instruction <=> session-dialog.shortcut-instruction;
     in-out property question <=> rpanel.question;
     in-out property chats-viewport-y <=> rpanel.chats-viewport-y;
 
@@ -229,4 +230,4 @@ export component AppWindow inherits Window {
     }
 }
 
-export { Util, Logic, ChatItem, ChatSession, Store, Translator }
+export { Util, Logic, ChatItem, ChatSession, Store }

@@ -30,6 +30,7 @@ export component Footer inherits Rectangle {
 
             if (is-ctrl-pressed) {
                 if (event.text == Key.Return) {
+                    Logic.switch-session-shortcut-inst(Store.current-session-uuid);
                     Logic.send-input-text(root.question);
                     root.question = "";
                 } else if (event.text == "[") {
@@ -73,12 +74,12 @@ export component Footer inherits Rectangle {
             padding: Theme.padding * 2;
             padding-top: 0px;
 
-            function scroll-to-bottom() {
+            function ensure-show-cursor() {
                 if (flick.viewport-height <= flick.height) {
-                    return;
+                    flick.viewport-y = 0;
+                } else {
+                    flick.viewport-y = -flick.viewport-height + flick.height;
                 }
-
-                flick.viewport-y = -flick.viewport-height + flick.height;
             }
 
             Rectangle {
@@ -96,7 +97,7 @@ export component Footer inherits Rectangle {
                             wrap: word-wrap;
 
                             edited => {
-                                vbox.scroll-to-bottom();
+                                vbox.ensure-show-cursor();
                             }
                         }
                     }
@@ -125,6 +126,7 @@ export component Footer inherits Rectangle {
             clicked => {
                 if (te.text == "") { return; }
 
+                Logic.switch-session-shortcut-inst(Store.current-session-uuid);
                 Logic.send-input-text(te.text);
                 te.text = "";
             }
