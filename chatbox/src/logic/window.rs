@@ -1,6 +1,7 @@
 use crate::slint_generatedAppWindow::{AppWindow, Logic};
 use crate::util::translator::tr;
 use slint::ComponentHandle;
+use crate::audio::azure;
 
 pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
@@ -13,5 +14,9 @@ pub fn init(ui: &AppWindow) {
                 "warning".into(),
             );
         }
+    });
+
+    ui.global::<Logic>().on_stop_audio_play(move || {
+        azure::stop_play();
     });
 }

@@ -142,8 +142,6 @@ export component AppWindow inherits Window {
             reject
         }
 
-
-
         Rectangle {
             height: root.height;
             HorizontalLayout {
@@ -164,6 +162,13 @@ export component AppWindow inherits Window {
                 alignment: end;
                 padding-right: Theme.padding * 2;
                 spacing: Theme.spacing * 2;
+
+                IconBtn {
+                    icon: @image-url("./images/mute.svg");
+                    clicked => {
+                        Logic.stop-audio-play();
+                    }
+                }
 
                 IconBtn {
                     icon: @image-url("./images/save.svg");

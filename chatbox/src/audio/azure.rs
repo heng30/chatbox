@@ -10,25 +10,17 @@ use slint::ComponentHandle;
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
-use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Duration;
 use tokio::fs::OpenOptions;
 use tokio::io::AsyncWriteExt;
 use tokio::task::spawn;
 
-static IS_PLAYING: AtomicBool = AtomicBool::new(false);
+
+pub fn stop_play() {
+    play::stop_play();
+}
 
 pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
-    if IS_PLAYING.load(Ordering::SeqCst) {
-        ui_box
-            .borrow()
-            .global::<Logic>()
-            .invoke_show_message(slint::format!("{}", tr("正在播放...")), "info".into());
-        return;
-    } else {
-        IS_PLAYING.store(true, Ordering::SeqCst);
-    }
-
     let audio_filepath = if !audio_file.is_empty() {
         config::audio_path() + "/" + &audio_file
     } else {
@@ -65,8 +57,6 @@ pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
                 warn!("{:?}", err);
             }
         };
-
-        IS_PLAYING.store(false, Ordering::SeqCst);
     });
 }
 

@@ -6,6 +6,11 @@ use rodio::{Decoder, OutputStream, Sink};
 use std::fs::File;
 use std::io::BufReader;
 use std::io::{Cursor, Read, Seek};
+use std::sync::atomic::{AtomicU64, Ordering};
+use std::time::Duration;
+use log::debug;
+
+static PLAYING_INDEX: AtomicU64 = AtomicU64::new(0);
 
 pub fn output_devices_name() -> Vec<String> {
     let mut names = vec![];
@@ -36,10 +41,15 @@ pub fn audio_memory(source: &Bytes) -> Result<(), Box<dyn std::error::Error>> {
     play_audio(cursor)
 }
 
+pub fn stop_play() {
+    PLAYING_INDEX.fetch_add(1, Ordering::SeqCst);
+}
+
 fn play_audio<R>(source: R) -> Result<(), Box<dyn std::error::Error>>
 where
     R: Read + Seek + Send + Sync + 'static,
 {
+    let playing_index = PLAYING_INDEX.fetch_add(1, Ordering::SeqCst);
     let audio_config = config::audio();
     let source = Decoder::new(source)?;
 
@@ -59,10 +69,19 @@ where
     };
 
     let sink = Sink::try_new(&handle)?;
-
     sink.append(source);
     sink.set_volume(audio_config.output_volume);
     sink.play();
-    sink.sleep_until_end();
+
+    while playing_index + 1 == PLAYING_INDEX.load(Ordering::SeqCst) {
+        if sink.empty() {
+            break;
+        }
+        std::thread::sleep(Duration::from_secs(1));
+    }
+
+    sink.stop();
+
+    debug!("audio exit...");
     Ok(())
 }
