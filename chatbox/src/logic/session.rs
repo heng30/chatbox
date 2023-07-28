@@ -472,9 +472,8 @@ pub fn init(ui: &AppWindow) {
                         .set_previous_session_uuid(old_uuid.clone());
                     ui.global::<Store>()
                         .set_current_session_uuid(new_uuid.clone());
-
+                    ui.invoke_archive_scroll_to_top();
                     ui.set_chats_viewport_y(session.chats_viewport_y);
-                    // ui.invoke_jump_to_viewport_y(session.chats_viewport_y);
 
                     index += 1;
                 }
