@@ -68,7 +68,9 @@ text: self.checked ? Store.translator.session-new-dialog-used-history : Store.tr
                         text: Store.translator.session-new-dialog-shortcut-instruction;
                     }
 
-                    shortcut-inst := LineEdit { }
+                    shortcut-inst := LineEdit {
+                        placeholder-text: "/default";
+                    }
                 }
             }
 
