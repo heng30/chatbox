@@ -12,12 +12,9 @@ export component Body inherits Rectangle {
         for data[index] in Store.chat-sessions : VerticalLayout {
             y: index * item-height;
             height: root.item-height;
-            padding: Theme.padding;
-            padding-right: Theme.padding * 1.5;
 
             Rectangle {
-                border-radius: Theme.border-radius;
-                background: data.uuid == Store.current-session-uuid ? Theme.brand-color : (touch.has-hover ? Theme.lighter-fill-color : Colors.transparent);
+                background: data.uuid == Store.current-session-uuid ? Theme.base-background-color : (touch.has-hover ? Theme.light-fill-color.darker(10%) : Colors.transparent);
 
                 touch := TouchArea {
                     clicked => {
@@ -26,13 +23,13 @@ export component Body inherits Rectangle {
                 }
 
                 HorizontalLayout {
-                    padding: Theme.padding;
+                    padding-left: Theme.padding * 2;
+                    padding-right: Theme.padding * 2;
 
                     VerticalLayout {
                         alignment: center;
-                        padding-left: Theme.padding;
                         Text {
-                        color: data.uuid == Store.current-session-uuid ? Theme.basic-white-color : Theme.basic-black-color;
+                            color: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.basic-black-color;
                             text: data.name;
                             font-size: Theme.enlarge-font-size;
                         }
@@ -40,8 +37,6 @@ export component Body inherits Rectangle {
 
                     HorizontalLayout {
                         alignment: end;
-                        padding-right: Theme.padding;
-                        spacing: Theme.spacing * 2;
 
                         VerticalLayout {
                             alignment: center;
