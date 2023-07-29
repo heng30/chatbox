@@ -237,22 +237,22 @@ export global Store  {
             use_history: true,
             api-model: session-dialog-setting.api-model[0]
         },
-        {
-            name: "会话1",
-            uuid: "default-session-xxxuuid",
-            is-mark: true,
-            system-prompt: system-prompts.prompts[1],
-            use_history: true,
-            api-model: session-dialog-setting.api-model[0]
-        },
-        {
-            name: "会话2",
-            uuid: "default-session-xxuuid",
-            is-mark: false,
-            system-prompt: system-prompts.prompts[1],
-            use_history: true,
-            api-model: session-dialog-setting.api-model[0]
-        },
+        // {
+        //     name: "会话1",
+        //     uuid: "default-session-xxxuuid",
+        //     is-mark: true,
+        //     system-prompt: system-prompts.prompts[1],
+        //     use_history: true,
+        //     api-model: session-dialog-setting.api-model[0]
+        // },
+        // {
+        //     name: "会话2",
+        //     uuid: "default-session-xxuuid",
+        //     is-mark: false,
+        //     system-prompt: system-prompts.prompts[1],
+        //     use_history: true,
+        //     api-model: session-dialog-setting.api-model[0]
+        // },
     ];
     in-out property<string> current-session-uuid: chat-sessions[0].uuid;
     in-out property<string> previous-session-uuid: chat-sessions[0].uuid;
