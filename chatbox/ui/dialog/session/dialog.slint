@@ -7,11 +7,10 @@ import { Theme} from "../../theme.slint";
 export component SessionDialog inherits CDialog {
     visible: Store.session-dialog-setting.is-show;
     title: Store.translator.session-new-dialog-title;
-    width: 900px;
-    height: 500px;
+    width: 1000px;
+    height: 650px;
 
-    property<length> text-width:
-        Store.setting-dialog-config.ui.language == "cn" ? Theme.default-label-width : Theme.default-label-width * 1.8;
+    property<length> text-width: Theme.default-label-width;
 
     in-out property name <=> line-edit-name.text;
     in-out property system-prompt <=> text-edit-prompt.text;
@@ -34,30 +33,19 @@ export component SessionDialog inherits CDialog {
                 }
 
                 line-edit-name := LineEdit {
-                    height: txt-name.preferred-height + Theme.padding;
                     placeholder-text: Store.translator.session-new-dialog-name-placeholder;
                     enabled: !(Store.session-dialog-setting.handle-type == "session-edit" && Store.current-session-uuid == "default-session-uuid");
                 }
             }
 
             HorizontalLayout {
-                HorizontalLayout {
-                    width: 50%;
-                    Text {
-                        width: root.text-width;
-                        text: Store.translator.session-new-dialog-api-model;
-                    }
-                    api-model-combobox := ComboBox {
-                        model: Store.session-dialog-setting.api-model;
-                        current-value: Store.session-dialog-setting.api-model[0];
-                    }
+                Text {
+                    width: root.text-width;
+                    text: Store.translator.session-new-dialog-api-model;
                 }
-
-                HorizontalLayout {
-                    alignment: end;
-                    use-history-checkbox := CheckBox {
-text: self.checked ? Store.translator.session-new-dialog-used-history : Store.translator.session-new-dialog-unused-history;
-                    }
+                api-model-combobox := ComboBox {
+                    model: Store.session-dialog-setting.api-model;
+                    current-value: Store.session-dialog-setting.api-model[0];
                 }
             }
 
@@ -71,6 +59,13 @@ text: self.checked ? Store.translator.session-new-dialog-used-history : Store.tr
 
                     shortcut-inst := LineEdit {
                         placeholder-text: "/default";
+                    }
+                }
+
+                HorizontalLayout {
+                    alignment: end;
+                    use-history-checkbox := CheckBox {
+text: self.checked ? Store.translator.session-new-dialog-used-history : Store.translator.session-new-dialog-unused-history;
                     }
                 }
             }

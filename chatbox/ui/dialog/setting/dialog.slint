@@ -131,7 +131,6 @@ export component SettingDialog inherits Rectangle {
 
                 proxy-tab := Proxy {
                     visible: current-checked-item == "proxy";
-                    proxy-enabled: Store.setting-dialog-config.proxy.enabled;
                     proxy-openai: Store.setting-dialog-config.proxy.openai;
                     proxy-azure: Store.setting-dialog-config.proxy.azure;
                     proxy-url: Store.setting-dialog-config.proxy.url;
@@ -153,7 +152,6 @@ export component SettingDialog inherits Rectangle {
                     ui-tab.win-height = Theme.default-height / 1px;
                     ui-tab.set-language(Store.setting-dialog-config.ui.language);
 
-                    proxy-tab.proxy-enabled = Store.setting-dialog-config.proxy.enabled;
                     proxy-tab.proxy-openai = Store.setting-dialog-config.proxy.openai;
                     proxy-tab.proxy-azure = Store.setting-dialog-config.proxy.azure;
                     proxy-tab.proxy-url = Store.setting-dialog-config.proxy.url;
@@ -203,7 +201,6 @@ export component SettingDialog inherits Rectangle {
                             language: ui-tab.language
                         },
                         proxy: {
-                            enabled: proxy-tab.proxy-enabled,
                             openai: proxy-tab.proxy-openai,
                             azure: proxy-tab.proxy-azure,
                             url: proxy-tab.proxy-url,

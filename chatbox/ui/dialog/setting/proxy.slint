@@ -3,79 +3,58 @@ import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
 
 export component Proxy inherits Rectangle {
-    width: 100%;
-    height: 100%;
-
     in-out property proxy-url <=> url-lineedit.text;
     in-out property proxy-port <=> port-lineedit.text;
-    in-out property proxy-enabled <=> enable-checkbox.checked;
     in-out property proxy-openai <=> openai-checkbox.checked;
     in-out property proxy-azure <=> azure-checkbox.checked;
 
     VerticalLayout {
-        width: 100%;
-        spacing: Theme.spacing * 3;
+        spacing: Theme.spacing * 4;
+        alignment: start;
 
         HorizontalLayout {
-            HorizontalLayout {
-                width: 50%;
-                enable-checkbox := CheckBox {
-                    text: self.checked ? Store.translator.setting-dialog-proxy-enabled : Store.translator.setting-dialog-proxy-disabled;
-                }
+            type-txt := Text {
+                width: Theme.default-label-width;
+                text: Store.translator.setting-dialog-proxy-type;
             }
 
-            HorizontalLayout {
-                type-txt := Text {
-                    width: Theme.default-label-width;
-                    text: Store.translator.setting-dialog-proxy-type;
-                }
+            ComboBox {
+                height: type-txt.preferred-height;
+                model: ["Socks5"];
+                current-value: self.model[0];
+            }
+        }
 
-                ComboBox {
-                    height: type-txt.preferred-height;
-                    model: ["Socks5"];
-                    current-value: self.model[0];
-                }
+        HorizontalLayout {
+            url-txt := Text {
+                width: Theme.default-label-width;
+                text: "URL/IP:";
+            }
+
+            url-lineedit := LineEdit {
+                placeholder-text: Store.translator.setting-dialog-proxy-url-placeholder;
+            }
+        }
+
+        HorizontalLayout {
+            port-txt := Text {
+                width: Theme.default-label-width;
+                text: Store.translator.setting-dialog-proxy-port;
+            }
+
+            port-lineedit := LineEdit {
+                placeholder-text: Store.translator.setting-dialog-proxy-port-placeholder;
             }
         }
 
         HorizontalLayout {
             HorizontalLayout {
-                width: 50%;
-                padding-right: Theme.padding * 4;
-                url-txt := Text {
-                    width: Theme.default-label-width;
-                    text: "URL/IP:";
-                }
-
-                url-lineedit := LineEdit {
-                    height: url-txt.preferred-height + Theme.padding;
-                    placeholder-text: Store.translator.setting-dialog-proxy-url-placeholder;
-                }
-            }
-
-            HorizontalLayout {
-                port-txt := Text {
-                    width: Theme.default-label-width;
-                    text: Store.translator.setting-dialog-proxy-port;
-                }
-
-                port-lineedit := LineEdit {
-                    height: url-txt.preferred-height + Theme.padding;
-                    placeholder-text: Store.translator.setting-dialog-proxy-port-placeholder;
-                }
-            }
-        }
-
-        HorizontalLayout {
-            HorizontalLayout {
-                width: 50%;
                 openai-checkbox := CheckBox {
                     text: self.checked ? Store.translator.setting-dialog-proxy-openai-enabled : Store.translator.setting-dialog-proxy-openai-disabled;
                 }
             }
 
             HorizontalLayout {
-                width: 50%;
                 azure-checkbox := CheckBox {
                     text: self.checked ? Store.translator.setting-dialog-proxy-azure-enabled : Store.translator.setting-dialog-proxy-azure-disabled;
                 }

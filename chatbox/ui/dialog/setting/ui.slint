@@ -3,9 +3,6 @@ import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
 
 export component UI inherits Rectangle {
-    width: 100%;
-    height: 100%;
-
     in-out property font-size <=> font-size-spin-box.value;
     in-out property win-width <=> win-width-lineedit.text;
     in-out property win-height <=> win-height-lineedit.text;
@@ -22,94 +19,86 @@ export component UI inherits Rectangle {
     }
 
     VerticalLayout {
-        spacing: Theme.spacing;
+        spacing: Theme.spacing * 4;
+        alignment: start;
+
         HorizontalLayout {
-            HorizontalLayout {
-                width: 50%;
-
-                VerticalLayout {
-                    alignment: Store.setting-dialog-config.ui.language == "cn" ? start : center;
-                    font-size-txt := Text {
-                        width: Theme.default-label-width;
-                        text: Store.translator.setting-dialog-ui-font-size;
-                    }
-                }
-
-                font-size-spin-box := SpinBox {
-                    width: 30%;
-                    height: Store.setting-dialog-config.ui.language == "cn" ? font-size-txt.preferred-height : font-size-txt.preferred-height * 1.33;
-                    minimum: 15;
-                    maximum: 50;
+            height: Store.setting-dialog-config.ui.language == "cn" ? window-size-txt.preferred-height : window-size-txt.preferred-height * 1.33;
+            VerticalLayout {
+                alignment: center;
+                window-size-txt := Text {
+                    width: Theme.default-label-width;
+                    text: Store.translator.setting-dialog-ui-win-WH;
                 }
             }
 
             HorizontalLayout {
-                width: 50%;
+                width: 30%;
+                spacing: Theme.spacing * 2;
+                win-width-lineedit := LineEdit {
+                    placeholder-text: Store.translator.setting-dialog-ui-win-W;
+                }
+
                 VerticalLayout {
                     alignment: center;
                     Text {
-                        width: Math.max(Theme.default-label-width, self.preferred-width + Theme.padding * 2);
-                        text: Store.translator.setting-dialog-ui-win-WH;
+                        text: "x";
                     }
                 }
-
-                HorizontalLayout {
-                    spacing: Theme.spacing * 2;
-                    win-width-lineedit := LineEdit {
-                        width: 40%;
-                        placeholder-text: Store.translator.setting-dialog-ui-win-W;
-                    }
-
-                    VerticalLayout {
-                        alignment: center;
-                        Text {
-                            width: Theme.default-font-size;
-                            text: "x";
-                        }
-                    }
-                    win-height-lineedit := LineEdit {
-                        width: 40%;
-                        placeholder-text: Store.translator.setting-dialog-ui-win-H;
-                    }
+                win-height-lineedit := LineEdit {
+                    placeholder-text: Store.translator.setting-dialog-ui-win-H;
                 }
             }
         }
 
+        HorizontalLayout {
+            height: Store.setting-dialog-config.ui.language == "cn" ? font-size-txt.preferred-height : font-size-txt.preferred-height * 1.33;
+            VerticalLayout {
+                alignment: center;
+                font-size-txt := Text {
+                    width: Theme.default-label-width;
+                    text: Store.translator.setting-dialog-ui-font-size;
+                }
+            }
+
+            font-size-spin-box := SpinBox {
+                width: 15%;
+                minimum: 15;
+                maximum: 50;
+            }
+        }
 
         HorizontalLayout {
-            HorizontalLayout {
-                width: 50%;
-                VerticalLayout {
-                    alignment: center;
-                    Text {
-                        width: Theme.default-label-width;
-                        text: Store.translator.setting-dialog-ui-language;
-                    }
+            VerticalLayout {
+                alignment: center;
+                Text {
+                    width: Theme.default-label-width;
+                    text: Store.translator.setting-dialog-ui-language;
                 }
-
-                cn-checkbox := CheckBox {
-                    text: "中文";
-                    checked: root.language != "en";
-                    toggled => {
-                        en-checkbox.checked = !self.checked;
-                        if (self.checked) {
-                            root.language = "cn";
-                        }
-                    }
-                }
-
-                en-checkbox := CheckBox {
-                    text: "English";
-                    checked: root.language == "en";
-                    toggled => {
-                        cn-checkbox.checked = !self.checked;
-                        if (self.checked) {
-                            root.language = "en";
-                        }
-                    }
-                }
-
             }
+
+            cn-checkbox := CheckBox {
+                text: "中文";
+                checked: root.language != "en";
+                toggled => {
+                    en-checkbox.checked = !self.checked;
+                    if (self.checked) {
+                        root.language = "cn";
+                    }
+                }
+            }
+
+            en-checkbox := CheckBox {
+                text: "English";
+                checked: root.language == "en";
+                toggled => {
+                    cn-checkbox.checked = !self.checked;
+                    if (self.checked) {
+                        root.language = "en";
+                    }
+                }
+            }
+
         }
 
     }

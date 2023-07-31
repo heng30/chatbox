@@ -3,16 +3,14 @@ import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 
 export component Azure inherits Rectangle {
-    width: 100%;
-
-    property<length> label-width: Theme.default-label-width * 1.5;
+    property<length> label-width: Theme.default-label-width;
 
     in-out property api-key <=> api-lineedit.text;
     in-out property region <=> region-lineedit.text;
 
     VerticalLayout {
-        width: 100%;
-        spacing: Theme.spacing * 3;
+        spacing: Theme.spacing * 4;
+        alignment: start;
 
         HorizontalLayout {
             region-txt := Text {
@@ -21,7 +19,6 @@ export component Azure inherits Rectangle {
             }
 
             region-lineedit := LineEdit {
-                height: region-txt.preferred-height + Theme.padding;
                 placeholder-text: Store.translator.setting-dialog-audio-region-placeholder;
             }
         }
@@ -33,7 +30,6 @@ export component Azure inherits Rectangle {
             }
 
             api-lineedit := LineEdit {
-                height: api-txt.preferred-height + Theme.padding;
                 placeholder-text: "API Key";
             }
         }

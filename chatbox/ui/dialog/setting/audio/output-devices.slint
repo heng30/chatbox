@@ -6,16 +6,14 @@ import { Logic } from "../../../logic.slint";
 import { Util } from "../../../util.slint";
 
 export component OutputDevices inherits Rectangle {
-    property<length> label-width: Theme.default-label-width * 1.5;
+    property<length> label-width: Theme.default-label-width;
 
     in-out property current-device <=> devices-combox.current-value;
     in-out property current-volume <=> volume-slider.value;
 
-    width: 100%;
-
-   VerticalLayout {
-        padding-top: Theme.padding * 4;
-        spacing: Theme.spacing;
+    VerticalLayout {
+        spacing: Theme.spacing * 4;
+        alignment: start;
 
         HorizontalLayout {
             HorizontalLayout {
