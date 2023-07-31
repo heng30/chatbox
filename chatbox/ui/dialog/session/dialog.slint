@@ -6,7 +6,6 @@ import { Theme} from "../../theme.slint";
 
 export component SessionDialog inherits CDialog {
     visible: Store.session-dialog-setting.is-show;
-
     title: Store.translator.session-new-dialog-title;
     width: 900px;
     height: 500px;
@@ -19,6 +18,8 @@ export component SessionDialog inherits CDialog {
     in-out property api-model <=> api-model-combobox.current-value;
     in-out property use-history <=> use-history-checkbox.checked;
     in-out property shortcut-instruction <=> shortcut-inst.text;
+
+    callback close();
 
     rect := Rectangle {
         background: Theme.dialog-background;
@@ -121,9 +122,11 @@ text: self.checked ? Store.translator.session-new-dialog-used-history : Store.tr
         }
 
         Store.session-dialog-setting.is-show = false;
+        root.close();
     }
 
     cancel-clicked => {
         Store.session-dialog-setting.is-show = false;
+        root.close();
     }
 }

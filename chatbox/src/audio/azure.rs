@@ -103,8 +103,6 @@ async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std
 
     let response_body = response.bytes().await?;
 
-    play::audio_memory(&response_body)?;
-
     let mut output_file = OpenOptions::new()
         .write(true)
         .create(true)
@@ -112,6 +110,8 @@ async fn text_to_speech(text: &str, output_path: &str) -> Result<(), Box<dyn std
         .await?;
 
     output_file.write_all(&response_body).await?;
+
+    play::audio_memory(&response_body)?;
 
     Ok(())
 }

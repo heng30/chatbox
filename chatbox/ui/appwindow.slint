@@ -214,17 +214,27 @@ export component AppWindow inherits Window {
                 TouchArea {}
             }
 
-            session-dialog := SessionDialog { }
-            setting-dialog := SettingDialog { }
-            about-dialog := AboutDialog { }
-            help-dialog := HelpDialog { }
+            session-dialog := SessionDialog {
+                close => {
+                    rpanel.force-question-input-focus();
+                }
+            }
+
             arch-dialog := NewArchiveDialog {
                 close => {
                     rpanel.force-question-input-focus();
                 }
             }
 
+            setting-dialog := SettingDialog {
+                close => {
+                    rpanel.force-question-input-focus();
+                }
+            }
+
             oc-dialog := OkCancelDialog { }
+            about-dialog := AboutDialog { }
+            help-dialog := HelpDialog { }
         }
 
         msg := Message {
