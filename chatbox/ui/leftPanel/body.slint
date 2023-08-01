@@ -26,6 +26,19 @@ export component Body inherits Rectangle {
                     padding-left: Theme.padding * 2;
                     padding-right: Theme.padding * 2;
 
+                    if (data.uuid == Store.current-session-uuid) : VerticalLayout {
+                        alignment: center;
+                        height: root.item-height;
+                        padding-right: Theme.padding * 2;
+
+                        Rectangle {
+                            width: 4px;
+                            height: 80%;
+                            border-radius: 2px;
+                            background: Theme.brand-color;
+                        }
+                    }
+
                     VerticalLayout {
                         alignment: center;
                         Text {
