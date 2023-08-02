@@ -1,6 +1,7 @@
 import { LineEdit } from "std-widgets.slint";
 import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
+import { Label } from "../../../base/label.slint";
 
 export component Azure inherits Rectangle {
     property<length> label-width: Theme.default-label-width;
@@ -13,7 +14,7 @@ export component Azure inherits Rectangle {
         alignment: start;
 
         HorizontalLayout {
-            region-txt := Text {
+            region-txt := Label {
                 width: label-width;
                 text: Store.translator.setting-dialog-audio-region;
             }
@@ -24,7 +25,7 @@ export component Azure inherits Rectangle {
         }
 
         HorizontalLayout {
-            api-txt := Text {
+            api-txt := Label {
                 width: label-width;
                 text: "API Key:";
             }

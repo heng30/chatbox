@@ -4,6 +4,7 @@ import { Store } from "../../../store.slint";
 import { Btn } from "../../../base/btn.slint";
 import { Logic } from "../../../logic.slint";
 import { Util } from "../../../util.slint";
+import { Label } from "../../../base/label.slint";
 
 export component OutputDevices inherits Rectangle {
     property<length> label-width: Theme.default-label-width;
@@ -17,7 +18,7 @@ export component OutputDevices inherits Rectangle {
 
         HorizontalLayout {
             HorizontalLayout {
-                label-txt := Text {
+                label-txt := Label {
                     width: root.label-width;
                     text: Store.translator.setting-dialog-audio-output-devices-label;
                 }
@@ -31,7 +32,7 @@ export component OutputDevices inherits Rectangle {
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: Store.translator.setting-dialog-audio-output-volume;
             }
@@ -46,7 +47,7 @@ export component OutputDevices inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.round(volume-slider.value) / 100;
                 }
             }

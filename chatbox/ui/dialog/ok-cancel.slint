@@ -6,7 +6,6 @@ import { Theme } from "../theme.slint";
 
 export component OkCancelDialog inherits CDialog {
     visible: Store.ok-cancel-dialog-setting.body-text != "";
-
     title: Store.ok-cancel-dialog-setting.title-text;
     title-bg: Util.text-color(Store.ok-cancel-dialog-setting.title-type);
     body-height: 200px;
@@ -15,6 +14,7 @@ export component OkCancelDialog inherits CDialog {
     rect := Rectangle {
         background: Theme.dialog-background;
         Text {
+            color: Theme.primary-text-color;
             text: Store.ok-cancel-dialog-setting.body-text;
             wrap: word-wrap;
         }

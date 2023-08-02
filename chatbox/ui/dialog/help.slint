@@ -15,6 +15,7 @@ export component HelpDialog inherits CDialog {
         HorizontalLayout {
             padding: Theme.padding;
             Text {
+                color: Theme.primary-text-color;
                 text: Store.setting-dialog-config.ui.language == "cn" ?
                           Store.help-dialog.text-cn : Store.help-dialog.text-en;
                 wrap: word-wrap;

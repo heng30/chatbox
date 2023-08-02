@@ -1,6 +1,7 @@
 import { CheckBox, LineEdit, Slider } from "std-widgets.slint";
 import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
+import { Label } from "../../../base/label.slint";
 
 export component OpenAI inherits Rectangle {
     property<length> label-width: Theme.default-label-width;
@@ -20,7 +21,7 @@ export component OpenAI inherits Rectangle {
         alignment: start;
 
         HorizontalLayout {
-            api-txt := Text {
+            api-txt := Label {
                 width: label-width;
                 text: "API Key:";
             }
@@ -31,7 +32,7 @@ export component OpenAI inherits Rectangle {
         }
 
         HorizontalLayout {
-            url-txt := Text {
+            url-txt := Label {
                 width: label-width;
                 text: "API URL:";
             }
@@ -42,7 +43,7 @@ export component OpenAI inherits Rectangle {
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Tokens(4k):";
             }
@@ -60,14 +61,14 @@ export component OpenAI inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.floor(tokens-slider.value);
                 }
             }
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Tokens(16k):";
             }
@@ -85,14 +86,14 @@ export component OpenAI inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.floor(tokens-16k-slider.value);
                 }
             }
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Temperature:";
             }
@@ -110,14 +111,14 @@ export component OpenAI inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.round(temp-slider.value) / 100;
                 }
             }
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Frequency:";
             }
@@ -135,14 +136,14 @@ export component OpenAI inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.round(frequency-slider.value) / 100;
                 }
             }
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Presence:";
             }
@@ -160,14 +161,14 @@ export component OpenAI inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.round(presence-slider.value) / 100;
                 }
             }
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: Store.translator.setting-dialog-chat-context-length;
             }

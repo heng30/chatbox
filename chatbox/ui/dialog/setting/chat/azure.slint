@@ -1,6 +1,7 @@
 import { LineEdit, Slider } from "std-widgets.slint";
 import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
+import { Label } from "../../../base/label.slint";
 
 export component Azure inherits Rectangle {
     property<length> label-width: Theme.default-label-width;
@@ -17,7 +18,7 @@ export component Azure inherits Rectangle {
         alignment: start;
 
         HorizontalLayout {
-            api-txt := Text {
+            api-txt := Label {
                 width: label-width;
                 text: "API Key:";
             }
@@ -28,7 +29,7 @@ export component Azure inherits Rectangle {
         }
 
         HorizontalLayout {
-            url-txt := Text {
+            url-txt := Label {
                 width: label-width;
                 text: "API URL:";
             }
@@ -39,7 +40,7 @@ export component Azure inherits Rectangle {
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Max Tokens:";
             }
@@ -57,14 +58,14 @@ export component Azure inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.floor(tokens-slider.value);
                 }
             }
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Temperature:";
             }
@@ -82,14 +83,14 @@ export component Azure inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.round(temp-slider.value) / 100;
                 }
             }
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Frequency:";
             }
@@ -107,14 +108,14 @@ export component Azure inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.round(frequency-slider.value) / 100;
                 }
             }
         }
 
         HorizontalLayout {
-            Text {
+            Label {
                 width: label-width;
                 text: "Presence:";
             }
@@ -132,7 +133,7 @@ export component Azure inherits Rectangle {
                 padding-left: Theme.padding * 4;
                 width: Theme.default-font-size * 4;
 
-                Text {
+                Label {
                     text: Math.round(presence-slider.value) / 100;
                 }
             }

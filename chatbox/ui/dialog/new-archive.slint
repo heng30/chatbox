@@ -1,5 +1,6 @@
 import { LineEdit } from "std-widgets.slint";
 import { CDialog } from "../base/cdialog.slint";
+import { Label } from "../base/label.slint";
 import { Store } from "../store.slint";
 import { Util } from "../util.slint";
 import { Logic } from "../logic.slint";
@@ -25,9 +26,8 @@ export component NewArchiveDialog inherits CDialog {
 
             VerticalLayout {
                 alignment: center;
-                name-text := Text {
+                name-text := Label {
                     text: Store.translator.name + ":";
-                    wrap: word-wrap;
                 }
             }
 

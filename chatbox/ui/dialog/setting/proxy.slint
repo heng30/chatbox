@@ -1,6 +1,7 @@
 import { ComboBox, LineEdit, CheckBox } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
+import { Label } from "../../base/label.slint";
 
 export component Proxy inherits Rectangle {
     in-out property proxy-url <=> url-lineedit.text;
@@ -13,7 +14,7 @@ export component Proxy inherits Rectangle {
         alignment: start;
 
         HorizontalLayout {
-            type-txt := Text {
+            type-txt := Label {
                 width: Theme.default-label-width;
                 text: Store.translator.setting-dialog-proxy-type;
             }
@@ -26,7 +27,7 @@ export component Proxy inherits Rectangle {
         }
 
         HorizontalLayout {
-            url-txt := Text {
+            url-txt := Label {
                 width: Theme.default-label-width;
                 text: "URL/IP:";
             }
@@ -37,7 +38,7 @@ export component Proxy inherits Rectangle {
         }
 
         HorizontalLayout {
-            port-txt := Text {
+            port-txt := Label {
                 width: Theme.default-label-width;
                 text: Store.translator.setting-dialog-proxy-port;
             }

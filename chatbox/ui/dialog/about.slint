@@ -35,12 +35,14 @@ export component AboutDialog inherits CDialog {
                     alignment: center;
                     height: title-txt.preferred-height;
                     title-txt := Text {
+                        color: Theme.primary-text-color;
                         text: Store.about-dialog.title;
                         font-size: Theme.default-font-size + 2px;
                     }
                 }
 
                 Text {
+                    color: Theme.primary-text-color;
                     text: Store.about-dialog.text;
                     wrap: word-wrap;
                 }
@@ -51,6 +53,7 @@ export component AboutDialog inherits CDialog {
                         alignment: center;
                         spacing: Theme.spacing * 2;
                         Text {
+                            color: Theme.primary-text-color;
                             text: "🎉❤(MateMask)❤🎉";
 
                         }
@@ -64,7 +67,9 @@ export component AboutDialog inherits CDialog {
                     }
 
                     HorizontalLayout {
+                        alignment: center;
                         Text {
+                            color: Theme.primary-text-color;
                             text: Store.about-dialog.sponsor;
                             wrap: word-wrap;
                         }

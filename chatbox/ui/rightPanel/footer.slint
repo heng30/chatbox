@@ -96,6 +96,7 @@ export component Footer inherits Rectangle {
                         te := TextInput {
                             single-line: false;
                             wrap: word-wrap;
+                            color: Theme.primary-text-color;
 
                             edited => {
                                 vbox.ensure-show-cursor();

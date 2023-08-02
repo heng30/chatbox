@@ -1,6 +1,7 @@
 import { SpinBox, LineEdit, CheckBox } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
+import { Label } from "../../base/label.slint";
 
 export component UI inherits Rectangle {
     in-out property font-size <=> font-size-spin-box.value;
@@ -26,7 +27,7 @@ export component UI inherits Rectangle {
             height: Store.setting-dialog-config.ui.language == "cn" ? window-size-txt.preferred-height : window-size-txt.preferred-height * 1.33;
             VerticalLayout {
                 alignment: center;
-                window-size-txt := Text {
+                window-size-txt := Label {
                     width: Theme.default-label-width;
                     text: Store.translator.setting-dialog-ui-win-WH;
                 }
@@ -41,7 +42,7 @@ export component UI inherits Rectangle {
 
                 VerticalLayout {
                     alignment: center;
-                    Text {
+                    Label {
                         text: "x";
                     }
                 }
@@ -55,7 +56,7 @@ export component UI inherits Rectangle {
             height: Store.setting-dialog-config.ui.language == "cn" ? font-size-txt.preferred-height : font-size-txt.preferred-height * 1.33;
             VerticalLayout {
                 alignment: center;
-                font-size-txt := Text {
+                font-size-txt := Label {
                     width: Theme.default-label-width;
                     text: Store.translator.setting-dialog-ui-font-size;
                 }
@@ -71,7 +72,7 @@ export component UI inherits Rectangle {
         HorizontalLayout {
             VerticalLayout {
                 alignment: center;
-                Text {
+                Label {
                     width: Theme.default-label-width;
                     text: Store.translator.setting-dialog-ui-language;
                 }

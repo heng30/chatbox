@@ -3,6 +3,7 @@ import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 import { Btn } from "../../../base/btn.slint";
 import { Logic } from "../../../logic.slint";
+import { Label } from "../../../base/label.slint";
 
 export component InputDevices inherits Rectangle {
     property<length> label-width: Theme.default-label-width;
@@ -18,7 +19,7 @@ export component InputDevices inherits Rectangle {
 
         HorizontalLayout {
             HorizontalLayout {
-                label-txt := Text {
+                label-txt := Label {
                     width: root.label-width;
                     text: Store.translator.setting-dialog-audio-input-devices-label;
                 }
@@ -37,7 +38,7 @@ export component InputDevices inherits Rectangle {
                 width: 50%;
                 VerticalLayout {
                     alignment: center;
-                    Text {
+                    Label {
                         width: root.label-width;
                         text: Store.translator.setting-dialog-auto-speech-language-label;
                     }

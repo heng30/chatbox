@@ -3,6 +3,7 @@ import { Theme } from "../../../theme.slint";
 import { Store } from "../../../store.slint";
 import { OpenAI } from "./openai.slint";
 import { Azure } from "./azure.slint";
+import { Label } from "../../../base/label.slint";
 
 export component Chat inherits Rectangle {
     width: 100%;
@@ -30,7 +31,7 @@ export component Chat inherits Rectangle {
         spacing: Theme.spacing * 3;
 
         HorizontalLayout {
-            type-txt := Text {
+            type-txt := Label {
                 width: Theme.default-label-width;
                 text: Store.translator.setting-dialog-chat-api-type;
             }

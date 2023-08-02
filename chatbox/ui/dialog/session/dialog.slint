@@ -1,5 +1,6 @@
 import { CheckBox, LineEdit, TextEdit, ComboBox } from "std-widgets.slint";
 import { CDialog } from "../../base/cdialog.slint";
+import { Label } from "../../base/label.slint";
 import { Store, SessionConfig } from "../../store.slint";
 import { Logic} from "../../logic.slint";
 import { Theme} from "../../theme.slint";
@@ -28,7 +29,7 @@ export component SessionDialog inherits CDialog {
             spacing: Theme.spacing * 2;
 
             HorizontalLayout {
-                txt-name := Text {
+                txt-name := Label {
                     width: root.text-width;
                     text: Store.translator.session-new-dialog-name;
                 }
@@ -40,7 +41,7 @@ export component SessionDialog inherits CDialog {
             }
 
             HorizontalLayout {
-                Text {
+                Label {
                     width: root.text-width;
                     text: Store.translator.session-new-dialog-api-model;
                 }
@@ -53,7 +54,7 @@ export component SessionDialog inherits CDialog {
             HorizontalLayout {
                 HorizontalLayout {
                     width: 50%;
-                    Text {
+                    Label {
                         width: root.text-width;
                         text: Store.translator.session-new-dialog-shortcut-instruction;
                     }
@@ -66,7 +67,7 @@ export component SessionDialog inherits CDialog {
                 HorizontalLayout {
                     alignment: end;
                     use-history-checkbox := CheckBox {
-text: self.checked ? Store.translator.session-new-dialog-used-history : Store.translator.session-new-dialog-unused-history;
+                        text: self.checked ? Store.translator.session-new-dialog-used-history : Store.translator.session-new-dialog-unused-history;
                     }
                 }
             }
@@ -75,7 +76,7 @@ text: self.checked ? Store.translator.session-new-dialog-used-history : Store.tr
                 spacing: Theme.spacing;
 
                 HorizontalLayout {
-                    prompt-name := Text {
+                    prompt-name := Label {
                         width: root.text-width;
                         text: Store.translator.session-new-dialog-system-prompt;
                         horizontal-stretch: 0;

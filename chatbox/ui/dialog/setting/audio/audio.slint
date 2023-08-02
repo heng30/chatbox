@@ -6,6 +6,7 @@ import { InputDevices } from "./input-devices.slint";
 import { OutputDevices } from "./output-devices.slint";
 import { Btn } from "../../../base/btn.slint";
 import { Logic } from "../../../logic.slint";
+import { Label } from "../../../base/label.slint";
 
 export component Audio inherits Rectangle {
     width: 100%;
@@ -30,7 +31,7 @@ export component Audio inherits Rectangle {
         alignment: start;
 
         HorizontalLayout {
-            type-txt := Text {
+            type-txt := Label {
                 width: root.label-width;
                 text: Store.translator.setting-dialog-audio-api-type;
             }
