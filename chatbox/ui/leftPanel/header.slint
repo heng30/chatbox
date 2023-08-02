@@ -5,9 +5,8 @@ import { TabBtn } from "../base/tab-btn.slint";
 
 export component Header inherits HorizontalLayout {
     TabBtn {
-        text: Store.translator.new;
         height: Theme.header-height;
-        icon: @image-url("../images/add.svg");
+        icon: @image-url("../images/addition.svg");
         clicked => {
             Logic.reset-edit-session();
             Store.session-dialog-setting.handle-type = "session-add";
@@ -15,7 +14,6 @@ export component Header inherits HorizontalLayout {
         }
     }
     TabBtn {
-        text: Store.translator.edit;
         height: Theme.header-height;
         text-color: Theme.info-color;
         icon: @image-url("../images/edit.svg");
@@ -26,7 +24,6 @@ export component Header inherits HorizontalLayout {
         }
     }
     TabBtn {
-        text: Store.translator.delete;
         height: Theme.header-height;
         text-color: Theme.danger-color;
         icon: @image-url("../images/delete.svg");

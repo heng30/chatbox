@@ -42,7 +42,7 @@ export component Body inherits Rectangle {
                     VerticalLayout {
                         alignment: center;
                         Text {
-                            color: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.basic-black-color;
+                            color: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.regular-text-color;
                             text: data.name;
                             font-size: Theme.enlarge-font-size;
                         }

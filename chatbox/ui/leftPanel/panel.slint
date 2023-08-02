@@ -4,6 +4,7 @@ import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
 import { Btn } from "../base/btn.slint";
 import { IconBtn } from "../base/icon-btn.slint";
+import { Divider } from "../base/divider.slint";
 import { Header } from "./header.slint";
 import { Body } from "./body.slint";
 import { Bottom } from "./bottom.slint";
@@ -16,12 +17,15 @@ export component LPanel inherits Rectangle {
 
     VerticalLayout {
         Header {}
-        Body {}
-        Rectangle {
+        Divider {
             x: Theme.padding;
             width: root.width - Theme.padding * 2;
-            height: 2px;
-            background: Theme.brand-color;
+        }
+
+        Body {}
+        Divider {
+            x: Theme.padding;
+            width: root.width - Theme.padding * 2;
         }
         Bottom { }
     }
