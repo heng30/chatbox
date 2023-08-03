@@ -23,6 +23,7 @@ export component AppWindow inherits Window {
     preferred-width: Theme.default-width;
     preferred-height: Theme.default-height;
     background: Theme.base-background-color;
+    forward-focus: fscope;
     no-frame: true;
     title: "chatbox";
 
@@ -65,7 +66,7 @@ export component AppWindow inherits Window {
         rpanel.force-question-input-focus();
     }
 
-    FocusScope {
+    fscope := FocusScope {
         property <bool> is-ctrl-pressed: false;
         key-pressed(event) => {
             if (event.text == Key.Control) {
@@ -132,14 +133,14 @@ export component AppWindow inherits Window {
                     }
                 }
             }
-            reject
+            accept
         }
 
         key-released(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = false;
             }
-            reject
+            accept
         }
 
         Rectangle {
