@@ -11,6 +11,8 @@ export component Footer inherits Rectangle {
     in-out property<length> btn-height: Theme.bottom-btn-height;
     in-out property question <=> te.text;
 
+    forward-focus: fscope;
+
     property <bool> is-ctrl-pressed;
     property <bool> is-recording: Store.is-audio-recording;
 
@@ -23,7 +25,7 @@ export component Footer inherits Rectangle {
         te.focus();
     }
 
-    FocusScope {
+    fscope := FocusScope {
         key-pressed(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = true;
@@ -114,75 +116,67 @@ export component Footer inherits Rectangle {
                 }
             }
         }
-    }
 
-    Rectangle {
-        x: vbox.padding;
-        y: root.height - root.btn-height - Theme.padding * 2;
-        height: root.btn-height;
-        width: root.width - vbox.padding * 2;
+        Rectangle {
+            x: vbox.padding;
+            y: root.height - root.btn-height - Theme.padding * 2;
+            height: root.btn-height;
+            width: root.width - vbox.padding * 2;
 
-        IconBtn {
-            x: parent.width - (self.width + Theme.padding * 2) * 1;
-            icon: @image-url("../images/send.svg");
-            clicked => {
-                if (te.text == "") { return; }
+            IconBtn {
+                x: parent.width - (self.width + Theme.padding * 2) * 1;
+                icon: @image-url("../images/send.svg");
+                clicked => {
+                    if (te.text == "") { return; }
 
-                Logic.switch-session-shortcut-inst(Store.current-session-uuid);
-                Logic.send-input-text(te.text);
-                te.text = "";
+                    Logic.switch-session-shortcut-inst(Store.current-session-uuid);
+                    Logic.send-input-text(te.text);
+                    te.text = "";
+                }
             }
-        }
 
-        IconBtn {
-            x: parent.width - (self.width + Theme.padding * 2) * 2;
-            icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/record-off.svg");
-            colorize: !root.is-recording ? Colors.black : Theme.danger-color;
-            clicked => {
-                if (root.is-recording) {
-                    Logic.stop-audio-record();
-                } else {
-                    Logic.start-audio-record();
+            IconBtn {
+                x: parent.width - (self.width + Theme.padding * 2) * 2;
+                icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/record-off.svg");
+                colorize: !root.is-recording ? Colors.black : Theme.danger-color;
+                clicked => {
+                    if (root.is-recording) {
+                        Logic.stop-audio-record();
+                    } else {
+                        Logic.start-audio-record();
+                    }
+                }
+            }
+
+            IconBtn {
+                x: parent.width - (self.width + Theme.padding * 2) * 3;
+                icon: @image-url("../images/format-clear.svg");
+                clicked => {
+                    te.text = "";
+                }
+            }
+
+            IconBtn {
+                x: parent.width - (self.width + Theme.padding * 2) * 4;
+                icon: @image-url("../images/stop.svg");
+                clicked => {
+                    Logic.stop-generate-text(Store.current-session-uuid);
+                    Logic.show-message(Store.translator.session-chat-stop, "info");
+                }
+            }
+
+            IconBtn {
+                x: parent.width - (self.width + Theme.padding * 2) * 5;
+                icon: @image-url("../images/reset.svg");
+                clicked => {
+                    Store.ok-cancel-dialog-setting.title-type = "warning";
+                    Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                    Store.ok-cancel-dialog-setting.body-text = Store.translator.reset-or-not;
+                    Store.ok-cancel-dialog-setting.handle-type = "session-reset";
+                    Store.ok-cancel-dialog-setting.handle-uuid = "";
                 }
             }
         }
-
-        IconBtn {
-            x: parent.width - (self.width + Theme.padding * 2) * 3;
-            icon: @image-url("../images/format-clear.svg");
-            clicked => {
-                te.text = "";
-            }
-        }
-
-        IconBtn {
-            x: parent.width - (self.width + Theme.padding * 2) * 4;
-            icon: @image-url("../images/stop.svg");
-            clicked => {
-                Logic.stop-generate-text(Store.current-session-uuid);
-                Logic.show-message(Store.translator.session-chat-stop, "info");
-            }
-        }
-
-        IconBtn {
-            x: parent.width - (self.width + Theme.padding * 2) * 5;
-            icon: @image-url("../images/reset.svg");
-            clicked => {
-                Store.ok-cancel-dialog-setting.title-type = "warning";
-                Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
-                Store.ok-cancel-dialog-setting.body-text = Store.translator.reset-or-not;
-                Store.ok-cancel-dialog-setting.handle-type = "session-reset";
-                Store.ok-cancel-dialog-setting.handle-uuid = "";
-            }
-        }
     }
-
-    // if (te.has-focus) : Divider {
-        // x: vbox.padding + Theme.padding * 2;
-        // x: (root.width - self.width - vbox.padding) / 2;
-        // y: root.height - Theme.padding * 2 - self.height;
-        // width: root.width - vbox.padding * 2 - Theme.padding * 4;
-        // width: root.width * 0.2;
-    // }
 }
 
