@@ -6,6 +6,10 @@ all:
 build:
 	SLINT_STYLE=fluent cargo build --release
 
+build-timings:
+	SLINT_STYLE=fluent cargo build --release --timings
+	cp -rf ./target/cargo-timings/cargo-timing.html ./profile
+
 build-debug:
 	SLINT_STYLE=fluent cargo build
 

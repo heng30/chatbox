@@ -150,6 +150,22 @@ export component Footer inherits Rectangle {
 
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 3;
+                icon: @image-url("../images/speaker-fill.svg");
+                clicked => {
+                    Logic.play-audio-record();
+                }
+            }
+
+            IconBtn {
+                x: parent.width - (self.width + Theme.padding * 2) * 4;
+                icon: @image-url("../images/text.svg");
+                clicked => {
+                    Logic.voice-to-text();
+                }
+            }
+
+            IconBtn {
+                x: parent.width - (self.width + Theme.padding * 2) * 5;
                 icon: @image-url("../images/format-clear.svg");
                 clicked => {
                     te.text = "";
@@ -157,7 +173,7 @@ export component Footer inherits Rectangle {
             }
 
             IconBtn {
-                x: parent.width - (self.width + Theme.padding * 2) * 4;
+                x: parent.width - (self.width + Theme.padding * 2) * 6;
                 icon: @image-url("../images/stop.svg");
                 clicked => {
                     Logic.stop-generate-text(Store.current-session-uuid);
@@ -166,7 +182,7 @@ export component Footer inherits Rectangle {
             }
 
             IconBtn {
-                x: parent.width - (self.width + Theme.padding * 2) * 5;
+                x: parent.width - (self.width + Theme.padding * 2) * 7;
                 icon: @image-url("../images/reset.svg");
                 clicked => {
                     Store.ok-cancel-dialog-setting.title-type = "warning";
