@@ -1,0 +1,12 @@
+import { Theme } from "../theme.slint";
+
+export component BlinkCircle inherits Rectangle {
+    in-out property<length> size: 16px;
+    in-out property<duration> duration: 1000ms;
+    background: Theme.danger-color;
+
+    visible: mod(animation-tick(), root.duration) > root.duration / 2;
+    width:  root.size;
+    height: root.size;
+    border-radius: self.size / 2;
+}
