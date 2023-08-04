@@ -15,6 +15,7 @@ import { AboutDialog } from "./dialog/about.slint";
 import { HelpDialog } from "./dialog/help.slint";
 import { OkCancelDialog } from "./dialog/ok-cancel.slint";
 import { IconBtn } from "./base/icon-btn.slint";
+import { LivingCircle } from "./base/living-circle.slint";
 import { NewArchiveDialog } from "./dialog/new-archive.slint";
 import { ArchivePanel } from "./archive/panel.slint";
 
@@ -63,11 +64,11 @@ export component AppWindow inherits Window {
     }
 
     public function show-record-indicator() {
-        record-indicator.visible = true;
+        record-indicator.start();
     }
 
     public function hide-record-indicator() {
-        record-indicator.visible = false;
+        record-indicator.stop();
     }
 
     init => {
@@ -172,19 +173,11 @@ export component AppWindow inherits Window {
                 padding-right: Theme.padding * 2;
                 spacing: Theme.spacing * 2;
 
-                record-indicator := VerticalLayout {
-                    visible: false;
+                Rectangle {
                     width: Theme.icon-size;
-                    height: Theme.icon-size;
-                    alignment: center;
-                    HorizontalLayout {
-                        alignment: center;
-                        Rectangle {
-                            width:  16px; height: 16px;
-                            border-radius: self.width / 2;
-                            background: Theme.danger-color;
-                        }
-                    }
+
+                    // Warning: animation will cause high used cpu rate
+                    record-indicator := LivingCircle { }
                 }
 
                 IconBtn {
