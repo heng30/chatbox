@@ -25,6 +25,10 @@ pub fn init(ui: &AppWindow) {
                     .borrow()
                     .global::<Store>()
                     .set_is_audio_recording(true);
+
+                ui_start_box
+                    .borrow()
+                    .invoke_show_record_indicator();
             }) {
                 warn!("{:?}", e);
             }
@@ -77,6 +81,10 @@ pub fn init(ui: &AppWindow) {
                     .borrow()
                     .global::<Store>()
                     .set_is_audio_recording(false);
+
+                ui_start_box
+                    .borrow()
+                    .invoke_hide_record_indicator();
             }) {
                 warn!("{:?}", e);
             }
@@ -89,6 +97,7 @@ pub fn init(ui: &AppWindow) {
             .invoke_show_message(slint::format!("{}", tr("停止录音...")), "info".into());
         audio::record::set_recording(false);
         ui.global::<Store>().set_is_audio_recording(false);
+        ui.invoke_hide_record_indicator();
     });
 
     ui.global::<Logic>().on_play_audio_record(move || {

@@ -1,0 +1,33 @@
+import { Theme } from "../theme.slint";
+
+export component LivingCircle inherits Rectangle {
+    in-out property<length> size: 16px;
+    in-out property<duration> duration: 500ms;
+    in-out property<color> bgcolor: Theme.danger-color;
+
+    private property<bool> is-start: false;
+
+    public function start() {
+        root.visible = true;
+
+        if (root.is-start) { return; }
+
+        root.is-start = true;
+        root.width = root.size;
+        root.height = root.size;
+    }
+
+    public function stop() {
+        root.visible = false;
+    }
+
+    width:  root.size * 0.8;
+    height: root.size * 0.8;
+    border-radius: self.size / 2;
+    background: is-start ? root.bgcolor : Colors.transparent;
+
+    animate width, height {
+        duration: root.duration;
+        iteration-count: root.is-start ? -1 : 0;
+    }
+}

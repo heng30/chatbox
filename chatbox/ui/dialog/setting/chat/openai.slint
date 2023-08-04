@@ -28,6 +28,7 @@ export component OpenAI inherits Rectangle {
 
             api-lineedit := LineEdit {
                 placeholder-text: "API Key";
+                input-type: self.has-focus ? text : password;
             }
         }
 
