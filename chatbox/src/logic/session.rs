@@ -68,6 +68,7 @@ fn init_session(ui: &AppWindow) {
                     Ok(sc) => {
                         chat_session.is_mark = sc.is_mark;
                         chat_session.use_history = sc.use_history;
+                        chat_session.icon_index = sc.icon_index;
                         chat_session.name = sc.name.into();
                         chat_session.system_prompt = sc.system_prompt.into();
                         chat_session.api_model = sc.api_model.into();
@@ -165,6 +166,7 @@ pub fn init(ui: &AppWindow) {
             use_history: config.use_history,
             api_model: config.api_model,
             shortcut_instruction: config.shortcut_instruction,
+            icon_index: config.icon_index,
             uuid: Uuid::new_v4().to_string().into(),
             ..Default::default()
         };
@@ -331,6 +333,7 @@ pub fn init(ui: &AppWindow) {
         ui.set_session_api_model(sessions[0].api_model.clone());
         ui.set_session_shortcut_instruction(sessions[0].shortcut_instruction.clone());
         ui.set_session_use_history(sessions[0].use_history);
+        ui.set_session_icon_index(sessions[0].icon_index);
     });
 
     ui.global::<Logic>().on_reset_edit_session(move || {
@@ -339,6 +342,7 @@ pub fn init(ui: &AppWindow) {
         ui.set_session_system_prompt("".into());
         ui.set_session_shortcut_instruction("".into());
         ui.set_session_use_history(false);
+        ui.set_session_icon_index(0);
     });
 
     ui.global::<Logic>()
@@ -357,6 +361,7 @@ pub fn init(ui: &AppWindow) {
                             system_prompt: config.system_prompt.clone(),
                             api_model: config.api_model.clone(),
                             shortcut_instruction: config.shortcut_instruction.clone(),
+                            icon_index: config.icon_index,
                             use_history: config.use_history,
                             ..x
                         }

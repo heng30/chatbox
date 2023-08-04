@@ -3,21 +3,21 @@ import { Theme } from "../theme.slint";
 export component IconBtn inherits Rectangle {
     in-out property icon <=> img.source;
     in-out property colorize <=> img.colorize;
+    in-out property icon-width <=> img.width;
     out property has-hover <=> touch.has-hover;
 
     callback clicked <=> touch.clicked;
 
     in-out property<color> bg-color: transparent;
-    in-out property<color> bg-hover-color: Colors.gray;
-    in-out property<color> bg-pressed-color: Colors.lightgray;
+    in-out property<color> hover-color: Theme.hover-color;
 
     width: Theme.icon-size;
     height: self.width;
     border-radius: self.width / 3;
-    background: touch.pressed ? bg-pressed-color : touch.has-hover ? bg-hover-color : bg-color;
+    background: touch.has-hover ? hover-color : bg-color;
 
     img := Image {
-        width: Theme.icon-size * 0.8;
+        width: root.width * 0.8;
         colorize: Theme.basic-black-color;
     }
 

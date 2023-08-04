@@ -71,8 +71,8 @@ export component ArchivePanel inherits Rectangle {
                     width: Theme.bottom-btn-height * 1.33;
                     border-radius: 0;
                     bg-color: Theme.info-color;
-                    bg-hover-color: self.bg-color.darker(20%);
-                    bg-pressed-color: self.bg-color.darker(50%);
+                    hover-color: Theme.info-color.darker(20%);
+                    icon-width: Theme.icon-size;
                     icon: @image-url("../images/search.svg");
                     clicked => {
                         Logic.show-session-archive-list(Store.current-session-uuid);

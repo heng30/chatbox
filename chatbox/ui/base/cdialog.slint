@@ -7,6 +7,7 @@ export component CDialog inherits Rectangle {
     in-out property<length> body-height: 300px;
     in-out property title <=> txt.text;
     in-out property<color> title-bg: Theme.brand-color;
+    in-out property<bool> is-hide-btns: false;
 
     callback cancel-clicked();
     callback ok-clicked();
@@ -30,7 +31,7 @@ export component CDialog inherits Rectangle {
             @children
         }
 
-        Rectangle {
+        if (!is-hide-btns) : Rectangle {
             background: root.background;
             HorizontalLayout {
                 cancel-btn := Btn {

@@ -10,6 +10,9 @@ pub struct SessionConfig {
     #[serde(default)]
     pub shortcut_instruction: String,
 
+    #[serde(default)]
+    pub icon_index: i32,
+
     pub use_history: bool,
     pub is_mark: bool,
 }
@@ -40,6 +43,7 @@ impl From<&ChatSession> for SessionConfig {
             shortcut_instruction: cs.shortcut_instruction.clone().into(),
             use_history: cs.use_history,
             is_mark: cs.is_mark,
+            icon_index: cs.icon_index,
         }
     }
 }

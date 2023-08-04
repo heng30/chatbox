@@ -4,6 +4,7 @@ import { Label } from "../../base/label.slint";
 import { Store, SessionConfig } from "../../store.slint";
 import { Logic} from "../../logic.slint";
 import { Theme} from "../../theme.slint";
+import { IconBtn } from "../../base/icon-btn.slint";
 
 export component SessionDialog inherits CDialog {
     visible: Store.session-dialog-setting.is-show;
@@ -19,6 +20,7 @@ export component SessionDialog inherits CDialog {
     in-out property api-model <=> api-model-combobox.current-value;
     in-out property use-history <=> use-history-checkbox.checked;
     in-out property shortcut-instruction <=> shortcut-inst.text;
+    in-out property<int> icon-index: 0;
 
     callback close();
 
@@ -37,6 +39,17 @@ export component SessionDialog inherits CDialog {
                 line-edit-name := LineEdit {
                     placeholder-text: Store.translator.session-new-dialog-name-placeholder;
                     enabled: !(Store.session-dialog-setting.handle-type == "session-edit" && Store.current-session-uuid == "default-session-uuid");
+                }
+
+                VerticalLayout {
+                    alignment: center;
+                    padding-left: Theme.padding;
+                    session-icon := IconBtn {
+                        icon: Store.icon-dialog-setting.icons[Math.max(0, Math.min(root.icon-index, Store.icon-dialog-setting.icons.length - 1))];
+                        clicked => {
+                            Store.icon-dialog-setting.is-show = true;
+                        }
+                    }
                 }
             }
 
@@ -105,6 +118,7 @@ export component SessionDialog inherits CDialog {
                 system-prompt: root.system-prompt,
                 api-model: root.api-model,
                 use-history: root.use-history,
+                icon_index: root.icon-index,
                 shortcut-instruction: root.shortcut-instruction
             });
         } else if (Store.session-dialog-setting.handle-type == "session-edit") {
@@ -114,6 +128,7 @@ export component SessionDialog inherits CDialog {
                 system-prompt: root.system-prompt,
                 api-model: root.api-model,
                 use-history: root.use-history,
+                icon_index: root.icon-index,
                 shortcut-instruction: root.shortcut-instruction
             });
         }

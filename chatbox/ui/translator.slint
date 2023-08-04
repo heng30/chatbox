@@ -88,6 +88,8 @@ export struct Translation {
     session-new-dialog-preset-system-prompt-name: string,
     session-new-dialog-preset-system-prompt-chatbot-name: string,
     session-new-dialog-preset-system-prompt-chatbot: string,
+
+    icon-dialog-title: string,
 }
 
 export global Translator {
@@ -179,7 +181,9 @@ export global Translator {
         session-new-dialog-system-prompt: "系统提示:",
         session-new-dialog-preset-system-prompt-name: "选择预定义提示",
         session-new-dialog-preset-system-prompt-chatbot-name: "通用聊天机器人",
-    session-new-dialog-preset-system-prompt-chatbot: "你是一个通用聊天机器人。",
+        session-new-dialog-preset-system-prompt-chatbot: "你是一个通用聊天机器人。",
+
+        icon-dialog-title: "图标库",
     };
 
     in-out property<Translation> en: {
@@ -272,5 +276,7 @@ export global Translator {
         session-new-dialog-preset-system-prompt-name: "Select Preset Prompt",
         session-new-dialog-preset-system-prompt-chatbot-name: "Service me as a chatbot.",
         session-new-dialog-preset-system-prompt-chatbot: "You are chatbot. Service me as best as you can.",
+
+        icon-dialog-title: "Icons",
     };
 }

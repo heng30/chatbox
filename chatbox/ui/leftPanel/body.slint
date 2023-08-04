@@ -39,12 +39,25 @@ export component Body inherits Rectangle {
                         }
                     }
 
-                    VerticalLayout {
-                        alignment: center;
-                        Text {
-                            color: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.regular-text-color;
-                            text: data.name;
-                            font-size: Theme.enlarge-font-size;
+                    HorizontalLayout {
+                        spacing: Theme.spacing * 2;
+
+                        VerticalLayout {
+                            alignment: center;
+                            Image {
+                                source: Store.icon-dialog-setting.icons[Math.max(0, Math.min(data.icon-index, Store.icon-dialog-setting.icons.length - 1))];
+                                colorize: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.regular-text-color;
+                                width: Theme.enlarge-font-size * 1.2;
+                            }
+                        }
+
+                        VerticalLayout {
+                            alignment: center;
+                            name-txt := Text {
+                                color: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.regular-text-color;
+                                text: data.name;
+                                font-size: Theme.enlarge-font-size;
+                            }
                         }
                     }
 

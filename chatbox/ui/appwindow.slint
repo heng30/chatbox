@@ -1,5 +1,3 @@
-import { Button, ListView, ComboBox , VerticalBox, TextEdit, HorizontalBox} from "std-widgets.slint";
-
 import { Theme } from "./theme.slint";
 import { Logic } from "./logic.slint";
 import { Store } from "./store.slint";
@@ -12,6 +10,7 @@ import { Message } from "./base/message.slint";
 import { SessionDialog } from "./dialog/session/dialog.slint";
 import { SettingDialog } from "./dialog/setting/dialog.slint";
 import { AboutDialog } from "./dialog/about.slint";
+import { IconDialog } from "./dialog/icons.slint";
 import { HelpDialog } from "./dialog/help.slint";
 import { OkCancelDialog } from "./dialog/ok-cancel.slint";
 import { IconBtn } from "./base/icon-btn.slint";
@@ -33,6 +32,8 @@ export component AppWindow inherits Window {
     in-out property session-api-model <=> session-dialog.api-model;
     in-out property session-use-history <=> session-dialog.use-history;
     in-out property session-shortcut-instruction <=> session-dialog.shortcut-instruction;
+    in-out property session-icon-index <=> session-dialog.icon-index;
+
     in-out property question <=> rpanel.question;
     in-out property chats-viewport-y <=> rpanel.chats-viewport-y;
 
@@ -223,11 +224,8 @@ export component AppWindow inherits Window {
 
         Rectangle {
             if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible : Rectangle {
-                width: 100%;
-                height: 100%;
-                opacity: 0.3;
+                width: 100%; height: 100%; opacity: 0.3;
                 background: Theme.basic-black-color;
-
                 TouchArea {}
             }
 
@@ -246,6 +244,18 @@ export component AppWindow inherits Window {
             setting-dialog := SettingDialog {
                 close => {
                     rpanel.force-question-input-focus();
+                }
+            }
+
+            if icon-dialog.visible : Rectangle {
+                width: 100%; height: 100%; opacity: 0.3;
+                background: Theme.basic-black-color;
+                TouchArea {}
+            }
+
+            icon-dialog := IconDialog {
+                select-index(index) => {
+                    root.session-icon-index = index;
                 }
             }
 

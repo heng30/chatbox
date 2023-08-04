@@ -126,6 +126,7 @@ export component Footer inherits Rectangle {
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 1;
                 icon: @image-url("../images/send.svg");
+                hover-color: Theme.hover-color-dark;
                 clicked => {
                     if (te.text == "") { return; }
 
@@ -138,6 +139,7 @@ export component Footer inherits Rectangle {
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 2;
                 icon: !root.is-recording ? @image-url("../images/recording.svg") : @image-url("../images/record-off.svg");
+                hover-color: Theme.hover-color-dark;
                 colorize: !root.is-recording ? Colors.black : Theme.danger-color;
                 clicked => {
                     if (root.is-recording) {
@@ -151,6 +153,7 @@ export component Footer inherits Rectangle {
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 3;
                 icon: @image-url("../images/speaker-fill.svg");
+                hover-color: Theme.hover-color-dark;
                 clicked => {
                     Logic.play-audio-record();
                 }
@@ -159,6 +162,7 @@ export component Footer inherits Rectangle {
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 4;
                 icon: @image-url("../images/text.svg");
+                hover-color: Theme.hover-color-dark;
                 clicked => {
                     Logic.voice-to-text();
                 }
@@ -167,6 +171,7 @@ export component Footer inherits Rectangle {
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 5;
                 icon: @image-url("../images/format-clear.svg");
+                hover-color: Theme.hover-color-dark;
                 clicked => {
                     te.text = "";
                 }
@@ -175,6 +180,7 @@ export component Footer inherits Rectangle {
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 6;
                 icon: @image-url("../images/stop.svg");
+                hover-color: Theme.hover-color-dark;
                 clicked => {
                     Logic.stop-generate-text(Store.current-session-uuid);
                     Logic.show-message(Store.translator.session-chat-stop, "info");
@@ -184,6 +190,7 @@ export component Footer inherits Rectangle {
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 7;
                 icon: @image-url("../images/reset.svg");
+                hover-color: Theme.hover-color-dark;
                 clicked => {
                     Store.ok-cancel-dialog-setting.title-type = "warning";
                     Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;

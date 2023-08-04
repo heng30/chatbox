@@ -31,6 +31,7 @@ export struct ChatSession {
     api-model: string,
     use-history: bool,
     shortcut-instruction: string,
+    icon-index: int,
 
     chats-viewport-y: length,
     chat-items: [ChatItem]
@@ -39,6 +40,11 @@ export struct ChatSession {
 export struct MessageItem {
     text: string,
     text-type: string,
+}
+
+export struct IconDialogSetting {
+    is-show: bool,
+    icons: [image],
 }
 
 export struct SessionDialogSetting {
@@ -53,6 +59,7 @@ export struct SessionConfig {
     api-model: string,
     use-history: bool,
     shortcut-instruction: string,
+    icon-index: int,
 }
 
 export struct OkCancelDialogSetting {
@@ -231,9 +238,10 @@ export global Store  {
         {
             name: translator.session-default-name,
             uuid: "default-session-uuid",
-            is-mark: true ,
+            is-mark: true,
             system-prompt: system-prompts.prompts[1],
             use_history: true,
+            icon-index: 0,
             api-model: session-dialog-setting.api-model[0]
         },
         // {
@@ -242,7 +250,8 @@ export global Store  {
         //     is-mark: true,
         //     system-prompt: system-prompts.prompts[1],
         //     use_history: true,
-        //     api-model: session-dialog-setting.api-model[0]
+        //     icon-index: 0,
+        //     api-model: session-dialog-setting.api-model[0],
         // },
         // {
         //     name: "会话2",
@@ -250,6 +259,7 @@ export global Store  {
         //     is-mark: false,
         //     system-prompt: system-prompts.prompts[1],
         //     use_history: true,
+        //     icon-index: 0,
         //     api-model: session-dialog-setting.api-model[0]
         // },
     ];
@@ -346,5 +356,41 @@ export global Store  {
     };
 
     in-out property<Translation> translator: setting-dialog-config.ui.language != "en" ? Translator.cn : Translator.en;
+
+    in-out property<IconDialogSetting> icon-dialog-setting: {
+        is-show: false,
+        icons : [
+            @image-url("./icons/home.svg"),
+            @image-url("./icons/book.svg"),
+            @image-url("./icons/garget.svg"),
+            @image-url("./icons/map.svg"),
+            @image-url("./icons/tag.svg"),
+            @image-url("./icons/abacus.svg"),
+            @image-url("./icons/car.svg"),
+            @image-url("./icons/gift.svg"),
+            @image-url("./icons/panel.svg"),
+            @image-url("./icons/alarm.svg"),
+            @image-url("./icons/cart.svg"),
+            @image-url("./icons/plate.svg"),
+            @image-url("./icons/wifi.svg"),
+            @image-url("./icons/alien.svg"),
+            @image-url("./icons/danger.svg"),
+            @image-url("./icons/leida.svg"),
+            @image-url("./icons/record.svg"),
+            @image-url("./icons/zoom-in.svg"),
+            @image-url("./icons/disk.svg"),
+            @image-url("./icons/light.svg"),
+            @image-url("./icons/security.svg"),
+            @image-url("./icons/boat.svg"),
+            @image-url("./icons/email.svg"),
+            @image-url("./icons/stack.svg"),
+            @image-url("./icons/1.svg"),
+            @image-url("./icons/2.svg"),
+            @image-url("./icons/3.svg"),
+            @image-url("./icons/4.svg"),
+            @image-url("./icons/5.svg"),
+            @image-url("./icons/6.svg"),
+        ],
+    };
 }
 
