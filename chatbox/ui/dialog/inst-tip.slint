@@ -11,9 +11,16 @@ export component InstTip inherits Rectangle {
     border-color: Theme.base-border-color;
     border-radius: Theme.border-radius;
 
-    animate height {
-        duration: Theme.default-animate-duration / 2;
-        easing: ease-in-out;
+    property<length> max-txt-length: 0px;
+
+    function cal-max-txt-length(index: int, width: length) {
+        if (index == 0) {
+            root.max-txt-length = 0px;
+        }
+
+        if (width > root.max-txt-length) {
+            root.max-txt-length = width;
+        }
     }
 
     vbox := VerticalLayout {
@@ -24,36 +31,40 @@ export component InstTip inherits Rectangle {
             background: area.has-hover ? Theme.label-hover-color : Colors.transparent;
             border-radius: Theme.border-radius;
 
+            init => {
+                root.cal-max-txt-length(index, txt.preferred-width);
+            }
+
             HorizontalLayout {
                 padding: Theme.padding * 2;
 
                 VerticalLayout {
                     alignment: center;
-                    width: 150px;
-                    Text {
+                    width: root.max-txt-length + Theme.padding * 4;
+                    txt := Text {
                         text: item.inst;
                         color: Theme.regular-text-color;
                     }
                 }
 
-                    HorizontalLayout {
-                        spacing: Theme.spacing * 2;
+                HorizontalLayout {
+                    spacing: Theme.spacing * 2;
 
-                        VerticalLayout {
-                            alignment: center;
-                            Image {
-                                source: Store.icon-dialog-setting.icons[Math.max(0, Math.min(item.session-icon-index, Store.icon-dialog-setting.icons.length - 1))];
-                                colorize: Theme.regular-text-color;
-                                width: Theme.enlarge-font-size * 1.2;
-                            }
+                    VerticalLayout {
+                        alignment: center;
+                        Image {
+                            source: Store.icon-dialog-setting.icons[Math.max(0, Math.min(item.session-icon-index, Store.icon-dialog-setting.icons.length - 1))];
+                            colorize: Theme.regular-text-color;
+                            width: Theme.enlarge-font-size * 1.2;
                         }
+                    }
 
-                        VerticalLayout {
-                            alignment: center;
-                            Text {
-                                text: item.session-name;
-                                color: Theme.regular-text-color;
-                            }
+                    VerticalLayout {
+                        alignment: center;
+                        Text {
+                            text: item.session-name;
+                            color: Theme.regular-text-color;
+                        }
                     }
                 }
             }

@@ -15,6 +15,7 @@
 - [x] 支持对话归档
 - [x] 支持录音转文字输入
 - [x] 支持不同会话并发输出
+- [x] 支持快捷指令切换会话并发送问题
 
 #### 参考
 - [Slint Language Documentation](https://slint-ui.com/releases/1.0.0/docs/slint/)
