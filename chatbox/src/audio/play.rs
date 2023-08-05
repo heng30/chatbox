@@ -77,7 +77,7 @@ where
         if sink.empty() {
             break;
         }
-        std::thread::sleep(Duration::from_secs(1));
+        std::thread::sleep(Duration::from_millis(200));
     }
 
     sink.stop();

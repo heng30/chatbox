@@ -12,6 +12,7 @@ pub mod setting;
 pub mod archive;
 pub mod record;
 pub mod util;
+pub mod instip;
 
 pub use data::HistoryChat;
 pub use data::StreamTextItem;

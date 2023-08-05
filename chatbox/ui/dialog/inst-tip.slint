@@ -36,11 +36,24 @@ export component InstTip inherits Rectangle {
                     }
                 }
 
-                VerticalLayout {
-                    alignment: center;
-                    Text {
-                        text: item.session-name;
-                        color: Theme.regular-text-color;
+                    HorizontalLayout {
+                        spacing: Theme.spacing * 2;
+
+                        VerticalLayout {
+                            alignment: center;
+                            Image {
+                                source: Store.icon-dialog-setting.icons[Math.max(0, Math.min(item.session-icon-index, Store.icon-dialog-setting.icons.length - 1))];
+                                colorize: Theme.regular-text-color;
+                                width: Theme.enlarge-font-size * 1.2;
+                            }
+                        }
+
+                        VerticalLayout {
+                            alignment: center;
+                            Text {
+                                text: item.session-name;
+                                color: Theme.regular-text-color;
+                            }
                     }
                 }
             }

@@ -197,11 +197,13 @@ pub fn init(ui: &AppWindow) {
     let ui_audio_box = QBox::new(ui);
 
     ui.global::<Logic>().on_send_input_text(move |value| {
+        let ui = ui_handle.unwrap();
+        ui.global::<Logic>().invoke_clear_inst_tip();
+
         if value.trim().is_empty() {
             return;
         }
 
-        let ui = ui_handle.unwrap();
         let mut datas: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().collect();
 
         let uuid = Uuid::new_v4().to_string();
@@ -222,8 +224,6 @@ pub fn init(ui: &AppWindow) {
 
         ui.global::<Store>()
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
-
-        // ui.invoke_chats_scroll_to_bottom();
 
         spawn(async move {
             if let Err(e) = send_text(ui_box, chat_datas).await {

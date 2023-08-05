@@ -50,6 +50,7 @@ export struct IconDialogSetting {
 export struct InstTipItem {
     inst: string,
     session-name: string,
+    session-icon-index: int,
 }
 
 export struct InstTipSetting {
@@ -371,11 +372,13 @@ export global Store  {
         items: [
             // {
             //     inst: "/gr",
-            //     session-name: "语法解释"
+            //     session-name: "语法解释",
+            //     session-icon-index: 0,
             // },
             // {
             //     inst: "/wo",
-            //     session-name: "单词解释"
+            //     session-name: "单词解释",
+            //     session-icon-index: 0,
             // }
         ]
     };
