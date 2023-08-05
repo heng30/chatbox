@@ -4,6 +4,7 @@ import { Store } from "../../store.slint";
 import { Logic } from "../../logic.slint";
 import { UItem } from "./uitem.slint";
 import { BItem } from "./bitem.slint";
+import { InstTip } from "../../dialog/inst-tip.slint";
 
 export component Body inherits Rectangle {
     in-out property viewport-y <=> lv.viewport-y;
@@ -72,5 +73,10 @@ export component Body inherits Rectangle {
                 items: data.btext-items;
             }
         }
+    }
+
+    InstTip {
+        x: Theme.padding * 2;
+        y: root.height - self.height - Theme.padding;
     }
 }

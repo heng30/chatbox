@@ -102,6 +102,7 @@ export component Footer inherits Rectangle {
 
                             edited => {
                                 vbox.ensure-show-cursor();
+                                Logic.refresh-inst(te.text);
                             }
                         }
                     }

@@ -1,0 +1,57 @@
+import { Theme } from "../theme.slint";
+import { Store } from "../store.slint";
+import { Logic } from "../logic.slint";
+
+export component InstTip inherits Rectangle {
+    visible: Store.inst-tip-setting.items.length > 0;
+    width: vbox.preferred-width;
+    height: vbox.preferred-height;
+    background: Theme.dark-fill-color;
+    border-width: 1px;
+    border-color: Theme.base-border-color;
+    border-radius: Theme.border-radius;
+
+    animate height {
+        duration: Theme.default-animate-duration / 2;
+        easing: ease-in-out;
+    }
+
+    vbox := VerticalLayout {
+        alignment: start;
+        padding: Theme.padding;
+
+        for item[index] in Store.inst-tip-setting.items : Rectangle {
+            background: area.has-hover ? Theme.label-hover-color : Colors.transparent;
+            border-radius: Theme.border-radius;
+
+            HorizontalLayout {
+                padding: Theme.padding * 2;
+
+                VerticalLayout {
+                    alignment: center;
+                    width: 150px;
+                    Text {
+                        text: item.inst;
+                        color: Theme.regular-text-color;
+                    }
+                }
+
+                VerticalLayout {
+                    alignment: center;
+                    Text {
+                        text: item.session-name;
+                        color: Theme.regular-text-color;
+                    }
+                }
+            }
+
+            area := TouchArea {
+                clicked => {
+                    Logic.select-inst(item.inst);
+                    Store.inst-tip-setting.items = [];
+                }
+            }
+        }
+    }
+
+}

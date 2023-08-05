@@ -47,6 +47,15 @@ export struct IconDialogSetting {
     icons: [image],
 }
 
+export struct InstTipItem {
+    inst: string,
+    session-name: string,
+}
+
+export struct InstTipSetting {
+    items: [InstTipItem],
+}
+
 export struct SessionDialogSetting {
     is-show: bool,
     handle-type: string,
@@ -356,6 +365,20 @@ export global Store  {
     };
 
     in-out property<Translation> translator: setting-dialog-config.ui.language != "en" ? Translator.cn : Translator.en;
+
+
+    in-out property<InstTipSetting> inst-tip-setting: {
+        items: [
+            // {
+            //     inst: "/gr",
+            //     session-name: "语法解释"
+            // },
+            // {
+            //     inst: "/wo",
+            //     session-name: "单词解释"
+            // }
+        ]
+    };
 
     in-out property<IconDialogSetting> icon-dialog-setting: {
         is-show: false,
