@@ -365,8 +365,7 @@ export global Store  {
             + "  1. Deleting a session will also delete the associated archive file.\n"
     };
 
-    in-out property<Translation> translator: setting-dialog-config.ui.language != "en" ? Translator.cn : Translator.en;
-
+    in-out property<Translation> translator: Translator.translation(setting-dialog-config.ui.language == "cn");
 
     in-out property<InstTipSetting> inst-tip-setting: {
         items: [
