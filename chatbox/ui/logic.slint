@@ -17,11 +17,12 @@ export global Logic {
     callback save-session-chats(string);
     callback remove-current-chats-last();
 
-    callback show-session-archive-list(string);
+    callback show-session-archive-list(string, string);
     callback save-session-archive(string, string);
     callback delete-session-archive(string, string);
     callback delete-session-archives(string);
     callback show-session-archive(string, string);
+    callback archive-list-reactive(string);
 
     callback send-input-text(string);
     callback retry-send-input-text();

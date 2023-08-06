@@ -5,6 +5,8 @@ import { Logic } from "../logic.slint";
 import { IconBtn } from "../base/icon-btn.slint";
 
 export component ArchivePanel inherits Rectangle {
+    in-out property search-text <=> search-lineedit.text;
+
     private property<length> item-height: 45px;
     forward-focus: search-lineedit;
 
@@ -64,9 +66,10 @@ export component ArchivePanel inherits Rectangle {
                     }
 
                     edited => {
-                        Store.archive-search-text = search-lineedit.text;
-                        if (Store.archive-search-text == "") {
+                        if (root.search-text == "") {
                             search-btn.clicked();
+                        } else {
+                            Logic.archive-list-reactive(root.search-text);
                         }
                     }
                 }
@@ -80,7 +83,7 @@ export component ArchivePanel inherits Rectangle {
                     icon-width: Theme.icon-size;
                     icon: @image-url("../images/search.svg");
                     clicked => {
-                        Logic.show-session-archive-list(Store.current-session-uuid);
+                        Logic.show-session-archive-list(Store.current-session-uuid, root.search-text);
                     }
                 }
             }

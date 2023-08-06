@@ -13,6 +13,7 @@ pub fn init(ui: &AppWindow) {
     let ui_delete_session_archives_handle = ui.as_weak();
     let ui_show_handle = ui.as_weak();
     let ui_show_list_handle = ui.as_weak();
+    let ui_reactive_handle = ui.as_weak();
 
     ui.global::<Logic>()
         .on_save_session_archive(move |suuid, name| {
@@ -181,7 +182,7 @@ pub fn init(ui: &AppWindow) {
         });
 
     ui.global::<Logic>()
-        .on_show_session_archive_list(move |suuid| {
+        .on_show_session_archive_list(move |suuid, search_text| {
             let ui = ui_show_list_handle.unwrap();
 
             match db::archive::is_table_exist(suuid.as_str()) {
@@ -201,7 +202,7 @@ pub fn init(ui: &AppWindow) {
 
             match db::archive::select_all(suuid.as_str()) {
                 Ok(items) => {
-                    let search_text = ui.global::<Store>().get_archive_search_text();
+                    // let search_text = ui.global::<Store>().get_archive_search_text();
                     let aitems = VecModel::default();
                     for item in items.into_iter() {
                         if search_text.is_empty() || item.1.contains(search_text.as_str()) {
@@ -224,5 +225,19 @@ pub fn init(ui: &AppWindow) {
                     "warning".into(),
                 ),
             }
+        });
+
+    ui.global::<Logic>()
+        .on_archive_list_reactive(move |search_text| {
+            let ui = ui_reactive_handle.unwrap();
+            let search_text = search_text.trim_start();
+            if search_text.is_empty() || !search_text.starts_with("/") {
+                return;
+            }
+
+            ui.global::<Logic>().invoke_show_session_archive_list(
+                ui.global::<Store>().get_current_session_uuid(),
+                (&search_text[1..]).into(),
+            );
         });
 }

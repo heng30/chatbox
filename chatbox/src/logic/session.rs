@@ -126,8 +126,10 @@ fn init_session(ui: &AppWindow) {
             if sessions.row_count() > 0 {
                 ui.global::<Store>()
                     .set_session_datas(sessions.row_data(0).unwrap().chat_items);
-                ui.global::<Logic>()
-                    .invoke_show_session_archive_list(sessions.row_data(0).unwrap().uuid);
+                ui.global::<Logic>().invoke_show_session_archive_list(
+                    sessions.row_data(0).unwrap().uuid,
+                    ui.get_archive_search_text(),
+                );
             }
 
             ui.global::<Store>()
@@ -228,8 +230,10 @@ pub fn init(ui: &AppWindow) {
         ui.global::<Store>()
             .set_current_session_uuid(DEFAULT_SESSION_UUID.into());
 
-        ui.global::<Logic>()
-            .invoke_show_session_archive_list(DEFAULT_SESSION_UUID.into());
+        ui.global::<Logic>().invoke_show_session_archive_list(
+            DEFAULT_SESSION_UUID.into(),
+            ui.get_archive_search_text(),
+        );
 
         let sessions_model = Rc::new(VecModel::from(sessions));
         if sessions_model.row_count() > 0 {
@@ -471,8 +475,11 @@ pub fn init(ui: &AppWindow) {
                         }
                     }
 
-                    ui.global::<Logic>()
-                        .invoke_show_session_archive_list(new_uuid.clone());
+                    ui.set_archive_search_text("".into());
+                    ui.global::<Logic>().invoke_show_session_archive_list(
+                        new_uuid.clone(),
+                        ui.get_archive_search_text(),
+                    );
                     ui.global::<Store>()
                         .set_previous_session_uuid(old_uuid.clone());
                     ui.global::<Store>()

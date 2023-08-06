@@ -37,6 +37,8 @@ export component AppWindow inherits Window {
     in-out property question <=> rpanel.question;
     in-out property chats-viewport-y <=> rpanel.chats-viewport-y;
 
+    in-out property archive-search-text <=> arch-panel.search-text;
+
     in-out property<bool> is-chats-auto-scroll-down: false;
 
     public function is-chats-on-bottom() -> bool {

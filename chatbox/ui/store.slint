@@ -226,7 +226,6 @@ export global Store  {
     ];
 
     in-out property<bool> show-archive-dialog: false;
-    in-out property<string> archive-search-text;
     in-out property<[ArchiveChatItem]> session-archive-datas: [
         {
             name: "测试1",
@@ -336,9 +335,11 @@ export global Store  {
             + "\n录音转文字:\n"
             + "  1. 最大录音时长为1分钟。2. 录音转文字需要一定的时间，请耐心等待。\n"
             + "\n配置和数据:\n"
-            + "  1. 配置保存在~/.config/chatbox目录下。  2. 数据保存在~/.local/share/chatbox目录下。\n"
+            + "  1. 配置保存在~/.config/chatbox目录下。\n"
+            + "  2. 数据保存在~/.local/share/chatbox目录下。\n"
             + "\n注意:\n"
-            + "  1. 删除会话会将该会话关联的归档文件一并删除。\n",
+            + "  1. 删除会话会将该会话关联的归档文件一并删除。\n"
+            + "  2. 归档搜索框输入'/'进入实时刷新模式。\n",
 
         text-en: "Keyboard shortcuts:\n"
             + "  1. Ctrl+[: Scroll to the top of the current session. 2. Ctrl+]: Scroll to the bottom of the current session.\n"
@@ -363,6 +364,7 @@ export global Store  {
             + "  1. Configuration is stored in the ~/.config/chatbox directory.  2. Data is stored in the ~/.local/share/chatbox directory.\n"
             + "\nWarning:\n"
             + "  1. Deleting a session will also delete the associated archive file.\n"
+            + "  2. Enter '/' in the archive search box to enter real-time refresh mode. \n"
     };
 
     in-out property<Translation> translator: Translator.translation(setting-dialog-config.ui.language == "cn");
