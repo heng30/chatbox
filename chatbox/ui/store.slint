@@ -323,8 +323,8 @@ export global Store  {
         show: false,
         text-cn: "快捷键:\n"
             + "  1. Ctrl+[: 当前会话滚动到顶部。2. Ctrl+]: 当前会话滚动到底部。3. Ctrl+U: 切换最近两个会话。\n"
-            + "  5. Ctrl+B: 打开/关闭归档侧面板。6. Ctrl+R: 启动/停止录音。\n"
-            + "  7. Ctrl+P: 播放录音。8. Ctrl+T: 录音转文字。9. Ctrl+H: 重置当前会话。10. Ctrl+L: 移除当前对话最后一次对话。\n"
+            + "  4. Ctrl+H: 移除当前对话第一项。5. Ctrl+B: 打开/关闭归档侧面板。6. Ctrl+R: 启动/停止录音。\n"
+            + "  7. Ctrl+P: 播放录音。8. Ctrl+T: 录音转文字。9. Ctrl+G: 重置当前会话。10. Ctrl+L: 移除当前对话最后一项。\n"
             + "  11. Ctrl+(0~9): 1~10个会话切换。 12. Ctrl+N: 显示新建归档面板。 13. Ctrl+M: 重新提问最后一个问题。\n"
             + "  14. Ctrl+I: 定位到提问框。 15. Ctrl+O: 定位到搜索框。 16. Ctrl+Y: 启用/关闭会话更新自动滚动到底部。 \n"
             + "  17. Ctrl+J: 会话向下滚动25%。 18. Ctrl+K: 会话向上滚动25%。\n"
@@ -335,18 +335,16 @@ export global Store  {
             + "\n录音转文字:\n"
             + "  1. 最大录音时长为1分钟。2. 录音转文字需要一定的时间，请耐心等待。\n"
             + "\n配置和数据:\n"
-            + "  1. 配置保存在~/.config/chatbox目录下。\n"
-            + "  2. 数据保存在~/.local/share/chatbox目录下。\n"
+            + "  1. 配置保存在~/.config/chatbox目录下。2. 数据保存在~/.local/share/chatbox目录下。\n"
             + "\n注意:\n"
-            + "  1. 删除会话会将该会话关联的归档文件一并删除。\n"
-            + "  2. 归档搜索框输入'/'进入实时刷新模式。\n",
+            + "  1. 删除会话会将该会话关联的归档文件一并删除。2. 归档搜索框输入'/'进入实时刷新模式。\n",
 
         text-en: "Keyboard shortcuts:\n"
             + "  1. Ctrl+[: Scroll to the top of the current session. 2. Ctrl+]: Scroll to the bottom of the current session.\n"
-            + "  3. Ctrl+U: Switch between the last two sessions. \n"
+            + "  3. Ctrl+U: Switch between the last two sessions. 4. Ctrl+H: Remove the first item from the current chats.\n"
             + "  5. Ctrl+B: Open/Close archive panel. 6. Ctrl+R: Start/Stop Recording.\n"
-            + "  7. Ctrl+P: Play Recording. 8. Ctrl+T: Convert Recording to Text. 9. Ctrl+H: Reset Current Session.\n"
-            + "  10. Ctrl+L: Remove the last chat from the current chats.\n"
+            + "  7. Ctrl+P: Play Recording. 8. Ctrl+T: Convert Recording to Text. 9. Ctrl+G: Reset Current Session.\n"
+            + "  10. Ctrl+L: Remove the last item from the current chats.\n"
             + "  11. Ctrl+(0~9): Switch session between 1 to 10.\n"
             + "  12. Ctrl+N: Show archive panel. 13. Ctrl+M: Retry the last question.\n"
             + "  14. Ctrl+I: Focus on question input box. 15. Ctrl+O. Focus on search input box.\n"
@@ -387,54 +385,30 @@ export global Store  {
     in-out property<IconDialogSetting> icon-dialog-setting: {
         is-show: false,
         icons : [
-            @image-url("./icons/1.svg"),
-            @image-url("./icons/2.svg"),
-            @image-url("./icons/3.svg"),
-            @image-url("./icons/4.svg"),
-            @image-url("./icons/5.svg"),
-            @image-url("./icons/6.svg"),
-            @image-url("./icons/7.svg"),
-            @image-url("./icons/8.svg"),
-            @image-url("./icons/9.svg"),
-            @image-url("./icons/10.svg"),
-            @image-url("./icons/11.svg"),
-            @image-url("./icons/12.svg"),
-            @image-url("./icons/13.svg"),
-            @image-url("./icons/14.svg"),
-            @image-url("./icons/15.svg"),
-            @image-url("./icons/16.svg"),
-            @image-url("./icons/17.svg"),
-            @image-url("./icons/18.svg"),
-            @image-url("./icons/19.svg"),
-            @image-url("./icons/20.svg"),
-            @image-url("./icons/21.svg"),
-            @image-url("./icons/22.svg"),
-            @image-url("./icons/23.svg"),
-            @image-url("./icons/24.svg"),
-            @image-url("./icons/25.svg"),
-            @image-url("./icons/26.svg"),
-            @image-url("./icons/27.svg"),
-            @image-url("./icons/28.svg"),
-            @image-url("./icons/29.svg"),
-            @image-url("./icons/30.svg"),
-            @image-url("./icons/31.svg"),
-            @image-url("./icons/32.svg"),
-            @image-url("./icons/33.svg"),
-            @image-url("./icons/34.svg"),
-            @image-url("./icons/35.svg"),
-            @image-url("./icons/36.svg"),
-            @image-url("./icons/37.svg"),
-            @image-url("./icons/38.svg"),
-            @image-url("./icons/39.svg"),
-            @image-url("./icons/40.svg"),
-            @image-url("./icons/41.svg"),
-            @image-url("./icons/42.svg"),
-            @image-url("./icons/43.svg"),
-            @image-url("./icons/44.svg"),
-            @image-url("./icons/45.svg"),
-            @image-url("./icons/46.svg"),
-            @image-url("./icons/47.svg"),
-            @image-url("./icons/48.svg"),
+            @image-url("./icons/1.svg"), @image-url("./icons/2.svg"),
+            @image-url("./icons/3.svg"), @image-url("./icons/4.svg"),
+            @image-url("./icons/5.svg"), @image-url("./icons/6.svg"),
+            @image-url("./icons/7.svg"), @image-url("./icons/8.svg"),
+            @image-url("./icons/9.svg"), @image-url("./icons/10.svg"),
+            @image-url("./icons/11.svg"), @image-url("./icons/12.svg"),
+            @image-url("./icons/13.svg"), @image-url("./icons/14.svg"),
+            @image-url("./icons/15.svg"), @image-url("./icons/16.svg"),
+            @image-url("./icons/17.svg"), @image-url("./icons/18.svg"),
+            @image-url("./icons/19.svg"), @image-url("./icons/20.svg"),
+            @image-url("./icons/21.svg"), @image-url("./icons/22.svg"),
+            @image-url("./icons/23.svg"), @image-url("./icons/24.svg"),
+            @image-url("./icons/25.svg"), @image-url("./icons/26.svg"),
+            @image-url("./icons/27.svg"), @image-url("./icons/28.svg"),
+            @image-url("./icons/29.svg"), @image-url("./icons/30.svg"),
+            @image-url("./icons/31.svg"), @image-url("./icons/32.svg"),
+            @image-url("./icons/33.svg"), @image-url("./icons/34.svg"),
+            @image-url("./icons/35.svg"), @image-url("./icons/36.svg"),
+            @image-url("./icons/37.svg"), @image-url("./icons/38.svg"),
+            @image-url("./icons/39.svg"), @image-url("./icons/40.svg"),
+            @image-url("./icons/41.svg"), @image-url("./icons/42.svg"),
+            @image-url("./icons/43.svg"), @image-url("./icons/44.svg"),
+            @image-url("./icons/45.svg"), @image-url("./icons/46.svg"),
+            @image-url("./icons/47.svg"), @image-url("./icons/48.svg"),
         ],
     };
 }

@@ -54,10 +54,12 @@ export component Footer inherits Rectangle {
                     Logic.play-audio-record();
                 } else if (event.text == "t") {
                     Logic.voice-to-text();
-                } else if (event.text == "h") {
-                    Logic.reset-current-session();
                 } else if (event.text == "m") {
                     Logic.retry-send-input-text();
+                } else if (event.text == "g") {
+                    Logic.reset-current-session();
+                } else if (event.text == "h") {
+                    Logic.remove-current-chats-first();
                 } else if (event.text == "l") {
                     Logic.remove-current-chats-last();
                 }
