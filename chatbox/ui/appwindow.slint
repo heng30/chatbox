@@ -248,7 +248,11 @@ export component AppWindow inherits Window {
             if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible : low-modal := Rectangle {
                 width: 100%; height: 100%; opacity: 0.3;
                 background: Theme.basic-black-color;
-                TouchArea {}
+                TouchArea {
+                    clicked => {
+                        modal.hide();
+                    }
+                }
             }
 
             session-dialog := SessionDialog {
@@ -272,7 +276,11 @@ export component AppWindow inherits Window {
             if icon-dialog.visible : middle-modal := Rectangle {
                 width: 100%; height: 100%; opacity: 0.3;
                 background: Theme.basic-black-color;
-                TouchArea {}
+                TouchArea {
+                    clicked => {
+                        modal.hide();
+                    }
+                }
             }
 
             icon-dialog := IconDialog {
