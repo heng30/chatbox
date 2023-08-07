@@ -83,6 +83,8 @@ export component AppWindow inherits Window {
         key-pressed(event) => {
             if (event.text == Key.Control) {
                 is-ctrl-pressed = true;
+            } else if (event.text == Key.Escape) {
+                modal.hide();
             }
 
             if (is-ctrl-pressed) {
@@ -229,8 +231,21 @@ export component AppWindow inherits Window {
             }
         }
 
-        Rectangle {
-            if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible : Rectangle {
+        modal := Rectangle {
+            function hide() {
+                if (icon-dialog.visible) {
+                    Store.icon-dialog-setting.is-show = false;
+                } else if (arch-dialog.visible) {
+                    Store.show-archive-dialog = false;
+                    rpanel.force-question-input-focus();
+                } else if (about-dialog.visible) {
+                    Store.about-dialog.show = false;
+                } else if (help-dialog.visible) {
+                    Store.help-dialog.show = false;
+                }
+            }
+
+            if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible : low-modal := Rectangle {
                 width: 100%; height: 100%; opacity: 0.3;
                 background: Theme.basic-black-color;
                 TouchArea {}
@@ -254,7 +269,7 @@ export component AppWindow inherits Window {
                 }
             }
 
-            if icon-dialog.visible : Rectangle {
+            if icon-dialog.visible : middle-modal := Rectangle {
                 width: 100%; height: 100%; opacity: 0.3;
                 background: Theme.basic-black-color;
                 TouchArea {}
