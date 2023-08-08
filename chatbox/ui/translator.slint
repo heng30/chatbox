@@ -1,4 +1,7 @@
 export struct Translation {
+    new: string,
+    edit: string,
+    delete: string,
     cancel: string,
     ok: string,
     setting: string,
@@ -75,6 +78,9 @@ export struct Translation {
 export global Translator {
     public pure function translation(is-cn: bool) -> Translation {
         return {
+            new: is-cn ? "新建" : "New",
+            edit: is-cn ? "编辑" : "Edit",
+            delete: is-cn ? "删除" : "Delete",
             cancel: is-cn ? "取消" : "Cancel",
             ok: is-cn ? "确定" : "Comfire",
             setting: is-cn ? "设     置" : "Setting",

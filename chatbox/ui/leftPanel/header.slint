@@ -4,10 +4,13 @@ import { Logic } from "../logic.slint";
 import { TabBtn } from "../base/tab-btn.slint";
 
 export component Header inherits HorizontalLayout {
+    alignment: space-around;
+
     TabBtn {
         height: Theme.header-height;
         text-color: Theme.regular-text-color;
-        icon: @image-url("../images/addition.svg");
+        icon: @image-url("../images/add.svg");
+        text: Store.translator.new;
         clicked => {
             Logic.reset-edit-session();
             Store.session-dialog-setting.handle-type = "session-add";
@@ -18,6 +21,7 @@ export component Header inherits HorizontalLayout {
         height: Theme.header-height;
         text-color: Theme.regular-text-color;
         icon: @image-url("../images/edit.svg");
+        text: Store.translator.edit;
         clicked => {
             Logic.set-edit-session(Store.current-session-uuid);
             Store.session-dialog-setting.handle-type = "session-edit";
@@ -28,6 +32,7 @@ export component Header inherits HorizontalLayout {
         height: Theme.header-height;
         text-color: Theme.regular-text-color;
         icon: @image-url("../images/delete.svg");
+        text: Store.translator.delete;
         clicked => {
             Store.ok-cancel-dialog-setting.title-type = "warning";
             Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;

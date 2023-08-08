@@ -12,19 +12,24 @@ export component TabBtn inherits Rectangle {
     callback clicked <=> touch.clicked;
 
     height: txt.preferred-height * 1.33;
-    min-width: txt.preferred-width + 20px;
 
-    Rectangle {
-        img := Image {
-            width: root.icon.width > 0 ? txt.height - Theme.padding : 0;
-            x: txt.x - Theme.icon-size - Theme.spacing * 2;
-            colorize: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
+    HorizontalLayout {
+        spacing: Theme.spacing;
+
+        VerticalLayout {
+            alignment: center;
+            img := Image {
+                width: root.icon.width > 0 ? txt.height - Theme.padding : 0;
+                colorize: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
+            }
         }
 
-        txt := Text {
-            x: (parent.width - self.width) / 2 + img.width / 2 + (root.icon.width > 0 ? Theme.spacing * 2 : 0);
-            color: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
-           font-size: Theme.default-font-size;
+        VerticalLayout {
+            alignment: center;
+            txt := Text {
+                color: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
+               font-size: Theme.default-font-size;
+            }
         }
     }
 
