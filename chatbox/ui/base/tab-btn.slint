@@ -11,15 +11,14 @@ export component TabBtn inherits Rectangle {
 
     callback clicked <=> touch.clicked;
 
-    height: txt.preferred-height * 1.33;
-
     HorizontalLayout {
         spacing: Theme.spacing;
 
         VerticalLayout {
             alignment: center;
             img := Image {
-                width: root.icon.width > 0 ? txt.height - Theme.padding : 0;
+                height: Theme.enlarge-font-size;
+                width: self.height;
                 colorize: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
             }
         }
@@ -28,7 +27,7 @@ export component TabBtn inherits Rectangle {
             alignment: center;
             txt := Text {
                 color: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
-               font-size: Theme.default-font-size;
+                font-size: Theme.default-font-size;
             }
         }
     }

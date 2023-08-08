@@ -8,6 +8,7 @@ export component Bottom inherits HorizontalLayout {
     TabBtn {
         height: Theme.bottom-btn-height;
         icon: @image-url("../images/setting-fill.svg");
+        // text: Store.translator.setting-btn;
         clicked => {
             Store.setting-dialog-config.show = true;
         }
@@ -16,6 +17,7 @@ export component Bottom inherits HorizontalLayout {
     TabBtn {
         height: Theme.bottom-btn-height;
         icon: @image-url("../images/about.svg");
+        // text: Store.translator.about-btn;
         clicked => {
             Store.about-dialog.show = true;
         }
@@ -24,6 +26,7 @@ export component Bottom inherits HorizontalLayout {
     TabBtn {
         height: Theme.bottom-btn-height;
         icon: @image-url("../images/help.svg");
+        // text: Store.translator.help-btn;
         clicked => {
             Store.help-dialog.show = true;
         }
