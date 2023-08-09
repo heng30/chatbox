@@ -36,6 +36,7 @@ export component Footer inherits Rectangle {
                     Logic.switch-session-shortcut-inst(Store.current-session-uuid);
                     Logic.send-input-text(root.question);
                     root.question = "";
+                    vbox.ensure-show-cursor();
                 } else if (event.text == "[") {
                     root.scroll-to-top();
                 } else if (event.text == "]") {
@@ -126,6 +127,12 @@ export component Footer inherits Rectangle {
             height: root.btn-height;
             width: root.width - vbox.padding * 2;
 
+            TouchArea {
+                clicked => {
+                    root.force-focus();
+                }
+            }
+
             IconBtn {
                 x: parent.width - (self.width + Theme.padding * 2) * 1;
                 icon: @image-url("../images/send.svg");
@@ -136,6 +143,7 @@ export component Footer inherits Rectangle {
                     Logic.switch-session-shortcut-inst(Store.current-session-uuid);
                     Logic.send-input-text(te.text);
                     te.text = "";
+                    vbox.ensure-show-cursor();
                 }
             }
 
