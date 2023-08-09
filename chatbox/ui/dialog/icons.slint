@@ -27,6 +27,7 @@ export component IconDialog inherits CDialog {
                     y: (icon-size + icon-spacing) * Math.floor(index / column-count);
                     width: icon-size;
                     height: icon-size;
+                    border-radius: Theme.border-radius;
                     background: touch.has-hover ? Theme.hover-color : Colors.transparent;
 
                     VerticalLayout {

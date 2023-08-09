@@ -20,6 +20,8 @@ export global Theme  {
     in-out property<length> default-font-size: Store.setting-dialog-config.ui.font-size.to-float() * 1px;
     in-out property<length> enlarge-font-size: default-font-size + 1px;
 
+    in-out property<string> code-font-family: "monospace";
+
     out property<length> icon-size: 24px;
     out property<length> default-label-width: 200px;
     out property<duration> default-animate-duration: 200ms;
@@ -44,6 +46,7 @@ export global Theme  {
     out property<color> darker-border-color: #CDD0D6;
     out property<color> dark-border-color: #D4D7DE;
     out property<color> base-border-color: #DCDFE6;
+    out property<color> brand-border-color: #005FB8;
     out property<color> light-border-color: #E4E7ED;
     out property<color> lighter-border-color: #EBEEF5;
     out property<color> extra-light-border-color: #F2F6FC;

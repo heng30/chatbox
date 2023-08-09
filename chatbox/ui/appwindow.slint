@@ -92,10 +92,10 @@ export component AppWindow inherits Window {
                     Theme.toggle-archive-panel();
                 } else if (event.text == "i") {
                     rpanel.force-question-input-focus();
-                } else if (event.text == "o") {
-                    root.force-search-input-focus();
                 } else if (event.text == "n") {
                     root.show-archive-dialog();
+                } else if (event.text == "o") {
+                    root.force-search-input-focus();
                 } else if (event.text == "u") {
                     Logic.switch-session(Store.current-session-uuid, Store.previous-session-uuid);
                 } else if (event.text == "y") {
@@ -105,6 +105,8 @@ export component AppWindow inherits Window {
                     } else {
                         Logic.show-message(Store.translator.session-chat-disabled-auto-scroll-down, "success");
                     }
+                } else if (event.text == "z") {
+                    Logic.stop-audio-play();
                 } else if (event.text == "0") {
                     if (Store.chat-sessions.length > 0) {
                         Logic.switch-session(Store.current-session-uuid, Store.chat-sessions[0].uuid);

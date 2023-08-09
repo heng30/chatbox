@@ -90,7 +90,7 @@ export component Footer inherits Rectangle {
 
             Rectangle {
                 background: Theme.dark-fill-color.darker(10%);
-                border-radius: Theme.border-radius;
+                border-radius: Theme.border-radius / 2;
 
                 flick := Flickable {
                     x: 0px; y: 0px;
@@ -212,5 +212,16 @@ export component Footer inherits Rectangle {
             }
         }
     }
+
+
+    Divider {
+        x: vbox.padding + Theme.border-radius / 2;
+        y: vbox.height - vbox.padding - self.height;
+        height: 2px;
+        width: root.width - vbox.padding * 2 - Theme.border-radius;
+        border-radius: self.height / 2;
+        background: te.has-focus ? Theme.brand-border-color : Theme.dark-fill-color.darker(30%);
+    }
+
 }
 
