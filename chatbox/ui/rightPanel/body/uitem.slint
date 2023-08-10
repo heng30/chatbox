@@ -8,9 +8,11 @@ export component UItem inherits VerticalLayout{
     in-out property timestamp <=> timestamp-txt.text;
     in-out property<string> uuid;
 
+    in-out property<length> lv-width: 500px;
+
     padding-left: Theme.padding * 2;
     spacing: Theme.spacing;
-    width: Math.min(txt-vbox.preferred-width + self.padding-left, Theme.uitem-max-width);
+    width: Math.min(txt-vbox.preferred-width + self.padding-left, lv-width - Theme.uitem-right-padding);
 
     HorizontalLayout {
         padding-bottom: Theme.padding;

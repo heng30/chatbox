@@ -7,7 +7,7 @@ export component RPanel inherits VerticalLayout {
     in-out property question <=> footer.question;
     in-out property chats-viewport-y <=> body.viewport-y;
 
-    callback show-archive-panel();
+    callback show-archive-dialog();
 
     public function scroll-to-top() {
         body.scroll-to-top();
@@ -37,6 +37,19 @@ export component RPanel inherits VerticalLayout {
         footer.force-focus();
     }
 
+    public function start-record-indicator() {
+        header.start-record-indicator();
+    }
+
+    public function stop-record-indicator() {
+        header.stop-record-indicator();
+    }
+
+    header := Header{
+        show-archive-dialog => {
+            root.show-archive-dialog();
+        }
+    }
 
     body := Body {}
 

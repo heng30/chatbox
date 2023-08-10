@@ -14,7 +14,6 @@ import { IconDialog } from "./dialog/icons.slint";
 import { HelpDialog } from "./dialog/help.slint";
 import { OkCancelDialog } from "./dialog/ok-cancel.slint";
 import { IconBtn } from "./base/icon-btn.slint";
-import { LivingCircle } from "./base/living-circle.slint";
 import { NewArchiveDialog } from "./dialog/new-archive.slint";
 import { ArchivePanel } from "./archive/panel.slint";
 
@@ -67,11 +66,11 @@ export component AppWindow inherits Window {
     }
 
     public function show-record-indicator() {
-        record-indicator.start();
+        rpanel.start-record-indicator();
     }
 
     public function hide-record-indicator() {
-        record-indicator.stop();
+        rpanel.stop-record-indicator();
     }
 
     init => {
@@ -162,74 +161,17 @@ export component AppWindow inherits Window {
         Rectangle {
             height: root.height;
             HorizontalLayout {
+                alignment: stretch;
                 padding: Theme.padding / 2;
                 LPanel {}
-                rpanel := RPanel { }
-                arch-panel := ArchivePanel {}
-            }
-        }
 
-        Rectangle {
-            x: parent.width - self.width - Theme.body-right-panel-width;
-            y: Theme.padding * 2;
-            height: Theme.icon-size;
-            width: hbox.preferred-width;
-
-            animate x {
-                duration: Theme.default-animate-duration;
-                easing: ease-in-out;
-            }
-
-            hbox := HorizontalLayout {
-                alignment: end;
-                padding-right: Theme.padding * 2;
-                spacing: Theme.spacing * 2;
-
-                Rectangle {
-                    width: Theme.icon-size;
-
-                    // Warning: animation will cause high used cpu rate
-                    record-indicator := LivingCircle { }
-                }
-
-                IconBtn {
-                    icon: @image-url("./images/mute.svg");
-                    clicked => {
-                        Logic.stop-audio-play();
-                    }
-                }
-
-                IconBtn {
-                    icon: @image-url("./images/save.svg");
-                    clicked => {
-                        Logic.save-session-chats(Store.current-session-uuid);
-                    }
-                }
-
-                IconBtn {
-                    icon: @image-url("./images/copy.svg");
-                    clicked => {
-                        Logic.copy-session-chats(Store.current-session-uuid);
-                        Logic.show-message(Store.translator.session-chat-copy-success, "success");
-                    }
-                }
-
-                IconBtn {
-                    icon: @image-url("./images/file-archive.svg");
-                    clicked => {
+                rpanel := RPanel {
+                    show-archive-dialog => {
                         root.show-archive-dialog();
                     }
                 }
 
-                IconBtn {
-                    icon: Theme.body-right-panel-width > 0 ?
-                              @image-url("./images/arrow-right.svg")
-                              : @image-url("./images/arrow-left.svg");
-
-                    clicked => {
-                        Theme.toggle-archive-panel();
-                    }
-                }
+                arch-panel := ArchivePanel {}
             }
         }
 

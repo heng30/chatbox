@@ -62,6 +62,7 @@ export component Body inherits Rectangle {
         for data in Store.session-datas : VerticalLayout {
             padding-bottom: Theme.padding * 2;
             UItem {
+                lv-width: lv.width;
                 text: data.utext;
                 uuid: data.uuid;
                 timestamp: data.timestamp;
