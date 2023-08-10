@@ -5,6 +5,8 @@ import { IconBtn } from "../base/icon-btn.slint";
 import { LivingCircle } from "../base/living-circle.slint";
 
 export component Header inherits Rectangle {
+    height: Theme.header-height;
+
     callback show-archive-dialog();
 
     public function start-record-indicator() {
@@ -20,57 +22,59 @@ export component Header inherits Rectangle {
         easing: ease-in-out;
     }
 
-    hbox := HorizontalLayout {
-        alignment: end;
-        padding-top: Theme.padding * 2;
+    VerticalLayout {
+        alignment: center;
         padding-right: Theme.padding * 2;
-        spacing: Theme.spacing * 2;
 
-        Rectangle {
-            width: Theme.icon-size;
+        hbox := HorizontalLayout {
+            alignment: end;
+            spacing: Theme.spacing * 2;
 
-            // Warning: animation will cause high used cpu rate
-            record-indicator := LivingCircle { }
-        }
+            Rectangle {
+                width: Theme.icon-size;
 
-        IconBtn {
-            icon: @image-url("../images/mute.svg");
-            clicked => {
-                Logic.stop-audio-play();
+                // Warning: animation will cause high used cpu rate
+                record-indicator := LivingCircle { }
             }
-        }
 
-        IconBtn {
-            icon: @image-url("../images/save.svg");
-            clicked => {
-                Logic.save-session-chats(Store.current-session-uuid);
+            IconBtn {
+                icon: @image-url("../images/mute.svg");
+                clicked => {
+                    Logic.stop-audio-play();
+                }
             }
-        }
 
-        IconBtn {
-            icon: @image-url("../images/copy.svg");
-            clicked => {
-                Logic.copy-session-chats(Store.current-session-uuid);
-                Logic.show-message(Store.translator.session-chat-copy-success, "success");
+            IconBtn {
+                icon: @image-url("../images/save.svg");
+                clicked => {
+                    Logic.save-session-chats(Store.current-session-uuid);
+                }
             }
-        }
 
-        IconBtn {
-            icon: @image-url("../images/file-archive.svg");
-            clicked => {
-                root.show-archive-dialog();
+            IconBtn {
+                icon: @image-url("../images/copy.svg");
+                clicked => {
+                    Logic.copy-session-chats(Store.current-session-uuid);
+                    Logic.show-message(Store.translator.session-chat-copy-success, "success");
+                }
             }
-        }
 
-        IconBtn {
-            icon: Theme.body-right-panel-width > 0 ?
-                      @image-url("../images/arrow-right.svg")
-                      : @image-url("../images/arrow-left.svg");
+            IconBtn {
+                icon: @image-url("../images/file-archive.svg");
+                clicked => {
+                    root.show-archive-dialog();
+                }
+            }
 
-            clicked => {
-                Theme.toggle-archive-panel();
+            IconBtn {
+                icon: Theme.body-right-panel-width > 0 ?
+                          @image-url("../images/arrow-right.svg")
+                          : @image-url("../images/arrow-left.svg");
+
+                clicked => {
+                    Theme.toggle-archive-panel();
+                }
             }
         }
     }
 }
-
