@@ -51,6 +51,7 @@ export component CodeText inherits Rectangle {
                         x: parent.width - self.width - Theme.padding;
                         y: Theme.padding;
                         icon: @image-url("../../images/copy.svg");
+                        hover-color: Theme.hover-color-dark;
                         clicked => {
                             Logic.copy_to_clipboard(item.text);
                         }
