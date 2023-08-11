@@ -33,10 +33,10 @@ export component BItem inherits VerticalLayout{
 
             VerticalLayout {
                 alignment: end;
-                copy-icon := IconBtn {
+                IconBtn {
                     icon: @image-url("../../images/speaker.svg");
                     clicked => {
-                        Logic.text-to-speech(root.uuid, root.text);
+                        Logic.text-to-speech(root.uuid + "-bot", root.text);
                     }
                 }
             }

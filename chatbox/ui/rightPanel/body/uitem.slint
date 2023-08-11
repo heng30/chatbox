@@ -51,6 +51,16 @@ export component UItem inherits VerticalLayout{
 
             VerticalLayout {
                 alignment: center;
+                IconBtn {
+                    icon: @image-url("../../images/speaker.svg");
+                    clicked => {
+                        Logic.text-to-speech(root.uuid + "-user", root.text);
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: center;
                 copy-icon := IconBtn {
                     icon: @image-url("../../images/copy.svg");
                     clicked => {
