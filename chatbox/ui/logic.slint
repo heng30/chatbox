@@ -17,6 +17,7 @@ export global Logic {
     callback save-session-chats(string);
     callback remove-current-chats-first();
     callback remove-current-chats-last();
+    pure callback chats-viewport-y(string) -> length;
 
     callback show-session-archive-list(string, string);
     callback save-session-archive(string, string);

@@ -14,7 +14,6 @@ export component Btn inherits Rectangle {
 
     background: touch.pressed ? bg-pressed-color : touch.has-hover ? bg-hover-color : bg-color;
     height: txt.preferred-height * 1.33;
-    min-width: txt.preferred-width + 20px;
 
     Rectangle {
         img := Image {

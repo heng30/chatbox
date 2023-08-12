@@ -20,6 +20,7 @@ export component Footer inherits Rectangle {
     callback scroll-to-bottom();
     callback scroll-up();
     callback scroll-down();
+    callback jump-to-last-pos();
 
     public function force-focus() {
         te.focus();
@@ -45,6 +46,8 @@ export component Footer inherits Rectangle {
                     root.scroll-up();
                 } else if (event.text == "j") {
                     root.scroll-down();
+                } else if (event.text == "b") {
+                    root.jump-to-last-pos();
                 } else if (event.text == "r") {
                     if (Store.is-audio-recording) {
                         Logic.stop-audio-record();

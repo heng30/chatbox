@@ -4,10 +4,10 @@ import { Logic } from "../logic.slint";
 import { TabBtn } from "../base/tab-btn.slint";
 
 export component Header inherits HorizontalLayout {
+    height: Theme.header-height;
     alignment: space-around;
 
     TabBtn {
-        height: Theme.header-height;
         text-color: Theme.regular-text-color;
         icon: @image-url("../images/add.svg");
         text: Store.translator.new;
@@ -18,7 +18,6 @@ export component Header inherits HorizontalLayout {
         }
     }
     TabBtn {
-        height: Theme.header-height;
         text-color: Theme.regular-text-color;
         icon: @image-url("../images/edit.svg");
         text: Store.translator.edit;
@@ -29,7 +28,6 @@ export component Header inherits HorizontalLayout {
         }
     }
     TabBtn {
-        height: Theme.header-height;
         text-color: Theme.regular-text-color;
         icon: @image-url("../images/delete.svg");
         text: Store.translator.delete;

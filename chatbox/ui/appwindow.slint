@@ -87,8 +87,10 @@ export component AppWindow inherits Window {
             }
 
             if (is-ctrl-pressed) {
-                if (event.text == "b") {
+                if (event.text == ".") {
                     Theme.toggle-archive-panel();
+                } else if (event.text == ",") {
+                    Theme.toggle-sessions-panel();
                 } else if (event.text == "i") {
                     rpanel.force-question-input-focus();
                 } else if (event.text == "n") {

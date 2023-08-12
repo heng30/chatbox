@@ -552,6 +552,18 @@ pub fn init(ui: &AppWindow) {
             }
         }
     });
+
+    let ui_viewport_y_handle = ui.as_weak();
+    ui.global::<Logic>().on_chats_viewport_y(move |uuid| {
+        let ui = ui_viewport_y_handle.unwrap();
+        for session in ui.global::<Store>().get_chat_sessions().iter() {
+            if session.uuid == uuid {
+                return session.chats_viewport_y;
+            }
+        }
+
+        return 0.0;
+    });
 }
 
 pub fn current_session_config(ui: Weak<AppWindow>) -> (String, String, String, bool) {

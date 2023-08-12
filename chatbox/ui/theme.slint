@@ -1,4 +1,5 @@
 import { Store } from "./store.slint";
+import "./fonts/monospace.ttf";
 
 export global Theme  {
     out property<length> padding: 4px;
@@ -68,6 +69,14 @@ export global Theme  {
             Theme.body-right-panel-width = 0;
         } else {
             Theme.body-right-panel-width = 350px;
+        }
+    }
+
+    public function toggle-sessions-panel() {
+        if (Theme.left-panel-width > 0) {
+            Theme.left-panel-width = 0;
+        } else {
+            Theme.left-panel-width = 350px;
         }
     }
 }

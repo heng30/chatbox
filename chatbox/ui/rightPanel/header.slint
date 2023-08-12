@@ -4,11 +4,17 @@ import { Logic } from "../logic.slint";
 import { IconBtn } from "../base/icon-btn.slint";
 import { LivingCircle } from "../base/living-circle.slint";
 import { Divider } from "../base/divider.slint";
+import { CenterLayout } from "../base/center-layout.slint";
+import { Btn } from "../base/btn.slint";
 
 export component Header inherits Rectangle {
     height: Theme.header-height;
 
+    in property<string> cur-pos-text <=> cur-pos-txt.text;
+    in property<string> last-pos-text <=> last-pos-txt.text;
+
     callback show-archive-dialog();
+    callback jump-to-last-pos <=> last-pos-touch.clicked;
 
     public function start-record-indicator() {
         record-indicator.start();
@@ -29,100 +35,143 @@ export component Header inherits Rectangle {
         padding-right: Theme.padding * 2;
 
         HorizontalLayout {
-            alignment: end;
+            spacing: Theme.spacing * 2;
+
+            HorizontalLayout {
+                alignment: start;
+                spacing: Theme.spacing * 2;
+
+                CenterLayout {
+                    IconBtn {
+                        icon: Theme.left-panel-width > 0 ?
+                                  @image-url("../images/arrow-left.svg") :
+                                  @image-url("../images/arrow-right.svg");
+
+                        clicked => {
+                            Theme.toggle-sessions-panel();
+                        }
+                    }
+                }
+
+                CenterLayout {
+                    Rectangle {
+                        border-radius: Theme.border-radius / 2;
+                        background: last-pos-touch.has-hover ? Theme.hover-color : Colors.transparent;
+                        width: last-pos-txt.preferred-width + Theme.padding * 4;
+
+                        last-pos-txt := Text {
+                            color: Theme.regular-text-color;
+                            font-size: Theme.default-font-size - 2px;
+                        }
+
+                        last-pos-touch := TouchArea {}
+                    }
+                }
+
+                CenterLayout {
+                    cur-pos-txt := Text {
+                        color: Theme.regular-text-color;
+                        font-size: Theme.default-font-size - 2px;
+                    }
+                }
+            }
 
             HorizontalLayout {
                 alignment: end;
-                spacing: Theme.spacing * 2;
 
-                Rectangle {
-                    width: Theme.icon-size;
+                HorizontalLayout {
+                    alignment: end;
+                    spacing: Theme.spacing * 2;
 
-                    // Warning: animation will cause high used cpu rate
-                    record-indicator := LivingCircle { }
-                }
+                    Rectangle {
+                        width: Theme.icon-size;
 
-                IconBtn {
-                    icon: @image-url("../images/mute.svg");
-                    clicked => {
-                        Logic.stop-audio-play();
+                        // Warning: animation will cause high used cpu rate
+                        record-indicator := LivingCircle { }
+                    }
+
+                    IconBtn {
+                        icon: @image-url("../images/mute.svg");
+                        clicked => {
+                            Logic.stop-audio-play();
+                        }
+                    }
+
+                    IconBtn {
+                        icon: @image-url("../images/save.svg");
+                        clicked => {
+                            Logic.save-session-chats(Store.current-session-uuid);
+                        }
+                    }
+
+                    IconBtn {
+                        icon: @image-url("../images/copy.svg");
+                        clicked => {
+                            Logic.copy-session-chats(Store.current-session-uuid);
+                            Logic.show-message(Store.translator.session-chat-copy-success, "success");
+                        }
+                    }
+
+                    IconBtn {
+                        icon: @image-url("../images/file-archive.svg");
+                        clicked => {
+                            root.show-archive-dialog();
+                        }
                     }
                 }
 
-                IconBtn {
-                    icon: @image-url("../images/save.svg");
-                    clicked => {
-                        Logic.save-session-chats(Store.current-session-uuid);
+
+                VerticalLayout {
+                    alignment: center;
+                    padding-left: Theme.padding * 2;
+                    padding-right: Theme.padding * 2;
+
+                    Divider {
+                        width: 3px;
+                        height: root.height * 0.5;
+                        background: Theme.base-border-color;
                     }
                 }
 
-                IconBtn {
-                    icon: @image-url("../images/copy.svg");
-                    clicked => {
-                        Logic.copy-session-chats(Store.current-session-uuid);
-                        Logic.show-message(Store.translator.session-chat-copy-success, "success");
+
+                HorizontalLayout {
+                    spacing: Theme.spacing * 2;
+                    IconBtn {
+                        icon: @image-url("../images/setting-fill.svg");
+                        clicked => {
+                            Store.setting-dialog-config.show = true;
+                        }
+                    }
+
+                    IconBtn {
+                        icon: @image-url("../images/help.svg");
+                        clicked => {
+                            Store.help-dialog.show = true;
+                        }
+                    }
+
+                    IconBtn {
+                        icon: @image-url("../images/about.svg");
+                        clicked => {
+                            Store.about-dialog.show = true;
+                        }
                     }
                 }
 
-                IconBtn {
-                    icon: @image-url("../images/file-archive.svg");
-                    clicked => {
-                        root.show-archive-dialog();
-                    }
-                }
-            }
+                HorizontalLayout {
+                    padding-left: Theme.padding * 2;
 
+                    IconBtn {
+                        icon: Theme.body-right-panel-width > 0 ?
+                                  @image-url("../images/arrow-right.svg")
+                                  : @image-url("../images/arrow-left.svg");
 
-            VerticalLayout {
-                alignment: center;
-                padding-left: Theme.padding * 2;
-                padding-right: Theme.padding * 2;
-
-                Divider {
-                    width: 3px;
-                    height: root.height * 0.5;
-                    background: Theme.base-border-color;
-                }
-            }
-
-
-            HorizontalLayout {
-                spacing: Theme.spacing * 2;
-                IconBtn {
-                    icon: @image-url("../images/setting-fill.svg");
-                    clicked => {
-                        Store.setting-dialog-config.show = true;
-                    }
-                }
-
-                IconBtn {
-                    icon: @image-url("../images/help.svg");
-                    clicked => {
-                        Store.help-dialog.show = true;
-                    }
-                }
-
-                IconBtn {
-                    icon: @image-url("../images/about.svg");
-                    clicked => {
-                        Store.about-dialog.show = true;
-                    }
-                }
-            }
-
-            HorizontalLayout {
-                padding-left: Theme.padding * 2;
-
-                IconBtn {
-                    icon: Theme.body-right-panel-width > 0 ?
-                              @image-url("../images/arrow-right.svg")
-                              : @image-url("../images/arrow-left.svg");
-
-                    clicked => {
-                        Theme.toggle-archive-panel();
+                        clicked => {
+                            Theme.toggle-archive-panel();
+                        }
                     }
                 }
             }
         }
-    }
+        }
 }

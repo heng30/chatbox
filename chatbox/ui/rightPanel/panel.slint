@@ -1,4 +1,6 @@
 import { Theme } from "../theme.slint";
+import { Logic } from "../logic.slint";
+import { Store } from "../store.slint";
 import { Header } from "./header.slint";
 import { Body } from "./body/panel.slint";
 import { Footer } from "./footer.slint";
@@ -45,9 +47,20 @@ export component RPanel inherits VerticalLayout {
         header.stop-record-indicator();
     }
 
+    public function jump-to-last-pos() {
+        root.jump-to-viewport-y(-header.last-pos-text.to-float() * 1px);
+    }
+
     header := Header{
+        cur-pos-text: Math.round(Math.abs(body.viewport-y / 1px));
+        last-pos-text: Math.round(Math.abs(Logic.chats-viewport-y(Store.current-session-uuid) / 1px));
+
         show-archive-dialog => {
             root.show-archive-dialog();
+        }
+
+        jump-to-last-pos => {
+            root.jump-to-last-pos();
         }
     }
 
@@ -68,6 +81,10 @@ export component RPanel inherits VerticalLayout {
 
         scroll-down => {
             root.scroll-down();
+        }
+
+        jump-to-last-pos => {
+            root.jump-to-last-pos();
         }
     }
 }
