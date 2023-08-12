@@ -5,9 +5,11 @@ use crate::slint_generatedAppWindow::{AppWindow, ChatItem, ChatSession, Logic, S
 use crate::util::translator::tr;
 #[allow(unused)]
 use log::{debug, warn};
+use slint::Timer;
 use slint::{ComponentHandle, Model, ModelExt, ModelRc, VecModel, Weak};
 use std::cmp::Ordering;
 use std::rc::Rc;
+use std::time::Duration;
 use uuid::Uuid;
 
 const DEFAULT_SESSION_UUID: &str = "default-session-uuid";
@@ -486,6 +488,19 @@ pub fn init(ui: &AppWindow) {
                         .set_current_session_uuid(new_uuid.clone());
                     ui.invoke_archive_scroll_to_top();
                     ui.set_chats_viewport_y(session.chats_viewport_y);
+
+                    let new_y = session.chats_viewport_y;
+                    for i in 1..=3 {
+                        let ui = ui.as_weak();
+                        Timer::single_shot(Duration::from_millis(i * 100), move || {
+                            let ui = ui.unwrap();
+                            if ui.get_chats_viewport_y() == new_y {
+                                return;
+                            }
+
+                            ui.set_chats_viewport_y(new_y);
+                        });
+                    }
 
                     index += 1;
                 }
