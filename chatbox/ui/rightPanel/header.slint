@@ -13,6 +13,8 @@ export component Header inherits Rectangle {
     in property<string> cur-pos-text <=> cur-pos-txt.text;
     in property<string> last-pos-text <=> last-pos-txt.text;
 
+    property<length> text-font-size: Theme.icon-size * 0.7;
+
     callback show-archive-dialog();
     callback jump-to-last-pos <=> last-pos-touch.clicked;
 
@@ -61,7 +63,7 @@ export component Header inherits Rectangle {
 
                         last-pos-txt := Text {
                             color: Theme.regular-text-color;
-                            font-size: Theme.default-font-size - 2px;
+                            font-size: root.text-font-size;
                         }
 
                         last-pos-touch := TouchArea {}
@@ -71,7 +73,7 @@ export component Header inherits Rectangle {
                 CenterLayout {
                     cur-pos-txt := Text {
                         color: Theme.regular-text-color;
-                        font-size: Theme.default-font-size - 2px;
+                        font-size: root.text-font-size;
                     }
                 }
             }

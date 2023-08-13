@@ -8,6 +8,7 @@ import { InstTip } from "../../dialog/inst-tip.slint";
 
 export component Body inherits Rectangle {
     in-out property viewport-y <=> lv.viewport-y;
+    in-out property viewport-height <=> lv.viewport-height;
 
     function new-chat-text(utext: string, btext: string) -> string {
         return utext + "\n\n" + btext;
