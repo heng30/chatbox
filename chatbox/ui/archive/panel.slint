@@ -119,6 +119,8 @@ export component ArchivePanel inherits Rectangle {
                     VerticalLayout {
                         alignment: center;
                         icon := IconBtn {
+                            tip-pos: "left";
+                            tip-text: Store.translator.tip-delete;
                             icon: @image-url("../images/delete.svg");
                             colorize: Theme.regular-text-color;
                             clicked => {

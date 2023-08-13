@@ -1,10 +1,16 @@
 import { Theme } from "../theme.slint";
+import { Tip } from "./tip.slint";
 
 export component IconBtn inherits Rectangle {
     in-out property icon <=> img.source;
     in-out property colorize <=> img.colorize;
     in-out property icon-width <=> img.width;
     out property has-hover <=> touch.has-hover;
+
+
+    in-out property tip-pos <=> tip.pos;
+    in-out property tip-text <=> tip.text;
+    in-out property tip-is-show <=> tip.is-show;
 
     callback clicked <=> touch.clicked;
 
@@ -15,6 +21,12 @@ export component IconBtn inherits Rectangle {
     height: self.width;
     border-radius: self.width / 3;
     background: touch.has-hover ? hover-color : bg-color;
+
+    tip := Tip {
+        pwidth: root.width;
+        pheight: root.height;
+        is-show: touch.has-hover;
+    }
 
     img := Image {
         width: root.width * 0.8;

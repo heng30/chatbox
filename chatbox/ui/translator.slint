@@ -76,6 +76,17 @@ export struct Translation {
     session-new-dialog-preset-system-prompt-chatbot: string,
 
     icon-dialog-title: string,
+
+    tip-copy: string,
+    tip-delete: string,
+    tip-send: string,
+    tip-record: string,
+    tip-stop-record: string,
+    tip-play: string,
+    tip-text2voice: string,
+    tip-clear: string,
+    tip-stop: string,
+    tip-reset: string,
 }
 
 export global Translator {
@@ -157,6 +168,17 @@ export global Translator {
             session-new-dialog-preset-system-prompt-chatbot: is-cn ?"你是一个通用聊天机器人。" : "You are chatbot. Service me as best as you can.",
 
             icon-dialog-title: is-cn ? "图标库" : "Icons",
+
+            tip-copy: is-cn ? "复制" : "Copy",
+            tip-send: is-cn ? "发送" : "Send",
+            tip-clear: is-cn ? "清除" : "Clear",
+            tip-play: is-cn ? "播放" : "Play",
+            tip-stop: is-cn ? "停止" : "Stop",
+            tip-reset: is-cn ? "重置" : "Rest",
+            tip-delete: is-cn ? "删除" : "Delete",
+            tip-record: is-cn ? "录音" : "Record",
+            tip-stop-record: is-cn ? "停止录音" : "Stop Record",
+            tip-text2voice: is-cn ? "文字转声音" : "Text to Voice",
         };
     }
 }
