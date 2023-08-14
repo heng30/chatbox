@@ -59,6 +59,7 @@ export component AboutDialog inherits CDialog {
 
                         IconBtn {
                             icon: @image-url("../images/copy.svg");
+                            tip-text: Store.translator.tip-copy;
                             clicked => {
                                 Logic.copy-to-clipboard(Store.about-dialog.sponsor)
                             }

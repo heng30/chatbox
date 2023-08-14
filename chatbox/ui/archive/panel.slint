@@ -107,13 +107,12 @@ export component ArchivePanel inherits Rectangle {
                     padding-right: Theme.padding * 2;
                     alignment: space-between;
 
-                    VerticalLayout {
-                        alignment: center;
-                        Text {
-                            width: root.width - icon.width - Theme.padding * 6;
-                            color: Theme.regular-text-color;
-                            text: data.name;
-                        }
+                    Text {
+                        width: root.width - icon.width - Theme.padding * 6;
+                        color: Theme.regular-text-color;
+                        text: data.name;
+                        overflow: elide;
+                        vertical-alignment: center;
                     }
 
                     VerticalLayout {

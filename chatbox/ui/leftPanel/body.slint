@@ -51,13 +51,12 @@ export component Body inherits Rectangle {
                             }
                         }
 
-                        VerticalLayout {
-                            alignment: center;
-                            name-txt := Text {
-                                color: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.regular-text-color;
-                                text: data.name;
-                                font-size: Theme.enlarge-font-size;
-                            }
+                        name-txt := Text {
+                            color: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.regular-text-color;
+                            text: data.name;
+                            font-size: Theme.enlarge-font-size;
+                            overflow: elide;
+                            vertical-alignment: center;
                         }
                     }
 

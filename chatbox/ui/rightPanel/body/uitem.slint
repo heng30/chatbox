@@ -36,12 +36,10 @@ export component UItem inherits VerticalLayout{
                 }
             }
 
-            VerticalLayout {
-                alignment: center;
-                timestamp-txt := Text {
-                    color: Theme.regular-text-color;
-                    font-size: Theme.icon-size * 0.7;
-                }
+            timestamp-txt := Text {
+                color: Theme.regular-text-color;
+                font-size: Theme.icon-size * 0.7;
+                vertical-alignment: center;
             }
         }
 
