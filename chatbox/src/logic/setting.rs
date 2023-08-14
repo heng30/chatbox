@@ -47,6 +47,10 @@ pub fn init(ui: &AppWindow) {
             .to_string()
             .parse()
             .unwrap_or(18);
+        config.ui.font_family = setting_config
+            .ui
+            .font_family
+            .to_string();
         config.ui.win_width = setting_config
             .ui
             .win_width
@@ -173,6 +177,7 @@ fn init_setting_dialog(ui: Weak<AppWindow>) {
 
     let mut setting_dialog = ui.global::<Store>().get_setting_dialog_config();
     setting_dialog.ui.font_size = slint::format!("{}", ui_config.font_size);
+    setting_dialog.ui.font_family = ui_config.font_family.into();
     setting_dialog.ui.win_width = slint::format!("{}", ui_config.win_width);
     setting_dialog.ui.win_height = slint::format!("{}", ui_config.win_height);
     setting_dialog.ui.language = ui_config.language.into();

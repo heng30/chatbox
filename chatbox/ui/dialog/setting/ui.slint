@@ -1,10 +1,11 @@
-import { SpinBox, LineEdit, CheckBox } from "std-widgets.slint";
+import { SpinBox, LineEdit, CheckBox, ComboBox } from "std-widgets.slint";
 import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
 import { Label } from "../../base/label.slint";
 
 export component UI inherits Rectangle {
     in-out property font-size <=> font-size-spin-box.value;
+    in-out property font-family <=> fonts-combox.current-value;
     in-out property win-width <=> win-width-lineedit.text;
     in-out property win-height <=> win-height-lineedit.text;
     in-out property<string> language: Store.setting-dialog-config.ui.language;
@@ -25,12 +26,9 @@ export component UI inherits Rectangle {
 
         HorizontalLayout {
             height: Store.setting-dialog-config.ui.language == "cn" ? window-size-txt.preferred-height : window-size-txt.preferred-height * 1.33;
-            VerticalLayout {
-                alignment: center;
-                window-size-txt := Label {
-                    width: Theme.default-label-width;
-                    text: Store.translator.setting-dialog-ui-win-WH;
-                }
+            window-size-txt := Label {
+                width: Theme.default-label-width;
+                text: Store.translator.setting-dialog-ui-win-WH;
             }
 
             HorizontalLayout {
@@ -40,12 +38,10 @@ export component UI inherits Rectangle {
                     placeholder-text: Store.translator.setting-dialog-ui-win-W;
                 }
 
-                VerticalLayout {
-                    alignment: center;
-                    Label {
-                        text: "x";
-                    }
+                Label {
+                    text: "x";
                 }
+
                 win-height-lineedit := LineEdit {
                     placeholder-text: Store.translator.setting-dialog-ui-win-H;
                 }
@@ -54,12 +50,9 @@ export component UI inherits Rectangle {
 
         HorizontalLayout {
             height: Store.setting-dialog-config.ui.language == "cn" ? font-size-txt.preferred-height : font-size-txt.preferred-height * 1.33;
-            VerticalLayout {
-                alignment: center;
-                font-size-txt := Label {
-                    width: Theme.default-label-width;
-                    text: Store.translator.setting-dialog-ui-font-size;
-                }
+            font-size-txt := Label {
+                width: Theme.default-label-width;
+                text: Store.translator.setting-dialog-ui-font-size;
             }
 
             font-size-spin-box := SpinBox {
@@ -70,22 +63,35 @@ export component UI inherits Rectangle {
         }
 
         HorizontalLayout {
-            VerticalLayout {
-                alignment: center;
-                Label {
-                    width: Theme.default-label-width;
-                    text: Store.translator.setting-dialog-ui-language;
-                }
+            Label {
+                width: Theme.default-label-width;
+                text: Store.translator.setting-dialog-ui-font-family;
+            }
+
+            fonts-combox := ComboBox {
+                model: ["SystemDefault", "LXGWNeoXiHei"];
+                current-value: self.model[0];
+                current-index: 0;
+            }
+        }
+
+        HorizontalLayout {
+            Label {
+                width: Theme.default-label-width;
+                text: Store.translator.setting-dialog-ui-language;
             }
 
             cn-checkbox := CheckBox {
                 text: "中文";
                 checked: root.language != "en";
                 toggled => {
-                    en-checkbox.checked = !self.checked;
-                    if (self.checked) {
-                        root.language = "cn";
+                    if (!self.checked) {
+                        self.checked = true;
+                        return;
                     }
+
+                    en-checkbox.checked = !self.checked;
+                    root.language = "cn";
                 }
             }
 
@@ -93,14 +99,15 @@ export component UI inherits Rectangle {
                 text: "English";
                 checked: root.language == "en";
                 toggled => {
-                    cn-checkbox.checked = !self.checked;
-                    if (self.checked) {
-                        root.language = "en";
+                    if (!self.checked) {
+                        self.checked = true;
+                        return;
                     }
+
+                    cn-checkbox.checked = !self.checked;
+                    root.language = "en";
                 }
             }
-
         }
-
     }
 }

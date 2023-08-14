@@ -1,5 +1,6 @@
 import { Store } from "./store.slint";
 import "./fonts/monospace.ttf";
+import "./fonts/LXGWNeoXiHei.ttf";
 
 export global Theme  {
     out property<length> padding: 4px;
@@ -21,6 +22,7 @@ export global Theme  {
     in-out property<length> default-font-size: Store.setting-dialog-config.ui.font-size.to-float() * 1px;
     in-out property<length> enlarge-font-size: default-font-size + 1px;
 
+    in-out property<string> default-font-family: Store.setting-dialog-config.ui.font-family;
     in-out property<string> code-font-family: "monospace";
 
     out property<length> icon-size: 24px;

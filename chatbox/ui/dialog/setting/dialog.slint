@@ -92,6 +92,7 @@ export component SettingDialog inherits Rectangle {
                 ui-tab := UI {
                     visible: current-checked-item == "ui";
                     font-size: Theme.default-font-size / 1px;
+                    font-family: Store.setting-dialog-config.ui.font-family;
                     win-width: Theme.default-width / 1px;
                     win-height: Theme.default-height / 1px;
                 }
@@ -147,6 +148,7 @@ export component SettingDialog inherits Rectangle {
                     Logic.setting-cancel();
 
                     ui-tab.font-size = Theme.default-font-size / 1px;
+                    ui-tab.font-family = Store.setting-dialog-config.ui.font-family;
                     ui-tab.win-width = Theme.default-width / 1px;
                     ui-tab.win-height = Theme.default-height / 1px;
                     ui-tab.set-language(Store.setting-dialog-config.ui.language);
@@ -195,6 +197,7 @@ export component SettingDialog inherits Rectangle {
                     Logic.setting-ok({
                         ui: {
                             font-size: ui-tab.font-size,
+                            font-family: ui-tab.font-family,
                             win-width: ui-tab.win-width,
                             win-height: ui-tab.win-height,
                             language: ui-tab.language
