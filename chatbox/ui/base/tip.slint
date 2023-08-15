@@ -1,7 +1,7 @@
 import { Theme } from "../theme.slint";
 
 export component Tip inherits Rectangle {
-        in-out property<bool> is-show: true;
+        in-out property<bool> is-show: false;
         in-out property<string> pos: "up";
         in-out property text <=> tip-txt.text;
 

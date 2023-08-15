@@ -48,10 +48,13 @@ export component InputDevices inherits Rectangle {
                     text: "中文";
                     checked: root.language != "en";
                     toggled => {
-                        en-checkbox.checked = !self.checked;
-                        if (self.checked) {
-                            root.language = "cn";
+                        if (!self.checked) {
+                            self.checked = true;
+                            return;
                         }
+
+                        en-checkbox.checked = !self.checked;
+                        root.language = "cn";
                     }
                 }
             }
@@ -61,10 +64,13 @@ export component InputDevices inherits Rectangle {
                     text: "English";
                     checked: root.language == "en";
                     toggled => {
-                        cn-checkbox.checked = !self.checked;
-                        if (self.checked) {
-                            root.language = "en";
+                        if (!self.checked) {
+                            self.checked = true;
+                            return;
                         }
+
+                        cn-checkbox.checked = !self.checked;
+                        root.language = "en";
                     }
                 }
             }

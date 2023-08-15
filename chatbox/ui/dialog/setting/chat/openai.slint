@@ -180,10 +180,13 @@ export component OpenAI inherits Rectangle {
                     text: "4k";
                     checked: root.context-length == "4k";
                     toggled => {
-                        checkbox-16k.checked = !self.checked;
-                        if (self.checked) {
-                            root.context-length = "4k";
+                        if (!self.checked) {
+                            self.checked = true;
+                            return;
                         }
+
+                        checkbox-16k.checked = !self.checked;
+                        root.context-length = "4k";
                     }
                 }
 
@@ -192,10 +195,13 @@ export component OpenAI inherits Rectangle {
                     text: "16k";
                     checked: root.context-length == "16k";
                     toggled => {
-                        checkbox-4k.checked = !self.checked;
-                        if (self.checked) {
-                            root.context-length = "16k";
+                        if (!self.checked) {
+                            self.checked = true;
+                            return;
                         }
+
+                        checkbox-4k.checked = !self.checked;
+                        root.context-length = "16k";
                     }
                 }
             }
