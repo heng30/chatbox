@@ -88,6 +88,15 @@ export struct Translation {
     tip-clear: string,
     tip-stop: string,
     tip-reset: string,
+    tip-mute: string,
+    tip-save: string,
+    tip-save-as-session-screen: string,
+    tip-archive: string,
+    tip-help: string,
+    tip-about: string,
+    tip-setting: string,
+    tip-last-session-pos: string,
+    tip-cur-session-pos: string,
 }
 
 export global Translator {
@@ -181,6 +190,15 @@ export global Translator {
             tip-record: is-cn ? "录音" : "Record",
             tip-stop-record: is-cn ? "停止录音" : "Stop Record",
             tip-text2voice: is-cn ? "文字转声音" : "Text to Voice",
+            tip-mute: is-cn ? "停止播发音频" : "Stop Playing Aduio",
+            tip-save: is-cn ? "保存" : "Save",
+            tip-save-as-session-screen: is-cn ? "保存为会话启动屏" : "Save as Session Launching Screen",
+            tip-archive: is-cn ? "归档" : "Archive",
+            tip-help: is-cn ? "帮助" : "Help",
+            tip-about: is-cn ? "关于" : "About",
+            tip-setting: is-cn ? "设置" : "Setting",
+            tip-last-session-pos: is-cn ? "上一次位置" : "Previous Position",
+            tip-cur-session-pos: is-cn ? "当前位置" : "Current Position",
         };
     }
 }

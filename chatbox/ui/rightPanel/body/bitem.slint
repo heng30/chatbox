@@ -25,6 +25,8 @@ export component BItem inherits VerticalLayout{
                 alignment: end;
                 IconBtn {
                     icon: @image-url("../../images/copy.svg");
+                    tip-pos: "left";
+                    tip-text: Store.translator.tip-copy;
                     clicked => {
                         Logic.copy-to-clipboard(root.text);
                     }
@@ -35,6 +37,8 @@ export component BItem inherits VerticalLayout{
                 alignment: end;
                 IconBtn {
                     icon: @image-url("../../images/speaker.svg");
+                    tip-pos: "left";
+                    tip-text: Store.translator.tip-play;
                     clicked => {
                         Logic.text-to-speech(root.uuid + "-bot", root.text);
                     }

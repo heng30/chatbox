@@ -51,6 +51,8 @@ export component UItem inherits VerticalLayout{
                 alignment: center;
                 IconBtn {
                     icon: @image-url("../../images/speaker.svg");
+                    tip-pos: "left";
+                    tip-text: Store.translator.tip-play;
                     clicked => {
                         Logic.text-to-speech(root.uuid + "-user", root.text);
                     }
@@ -61,6 +63,8 @@ export component UItem inherits VerticalLayout{
                 alignment: center;
                 copy-icon := IconBtn {
                     icon: @image-url("../../images/copy.svg");
+                    tip-pos: "left";
+                    tip-text: Store.translator.tip-copy;
                     clicked => {
                         Logic.copy_to_clipboard(root.text);
                     }
@@ -70,7 +74,9 @@ export component UItem inherits VerticalLayout{
             VerticalLayout {
                 alignment: center;
                 IconBtn {
-                    icon: @image-url("../../images/delete.svg");
+                    icon: @image-url("../../images/delete-light.svg");
+                    tip-pos: "left";
+                    tip-text: Store.translator.tip-delete;
                     clicked => {
                         Store.ok-cancel-dialog-setting.title-type = "warning";
                         Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
