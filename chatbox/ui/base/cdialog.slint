@@ -3,8 +3,6 @@ import { Store } from "../store.slint";
 import { Btn } from "./btn.slint";
 
 export component CDialog inherits Rectangle {
-    in-out property<length> body-width: 450px;
-    in-out property<length> body-height: 300px;
     in-out property title <=> txt.text;
     in-out property<color> title-bg: Theme.brand-color;
     in-out property<bool> is-hide-btns: false;
@@ -13,8 +11,8 @@ export component CDialog inherits Rectangle {
     callback ok-clicked();
 
     visible: false;
-    width: self.visible ? root.body-width : 0;
-    height: self.visible ? root.body-height : 0;
+    width: 450px;
+    height: 300px;
     background: Theme.dialog-background;
 
     VerticalLayout {
