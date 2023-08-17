@@ -53,7 +53,7 @@ export component Body inherits Rectangle {
 
                         name-txt := Text {
                             color: data.uuid == Store.current-session-uuid ? Theme.brand-color : Theme.regular-text-color;
-                            text: data.name;
+                            text: data.uuid == "default-session-uuid" ? Store.translator.session-default-name : data.name;
                             font-size: Theme.enlarge-font-size;
                             overflow: elide;
                             vertical-alignment: center;

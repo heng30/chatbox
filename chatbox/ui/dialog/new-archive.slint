@@ -7,8 +7,9 @@ import { Logic } from "../logic.slint";
 import { Theme } from "../theme.slint";
 
 export component NewArchiveDialog inherits CDialog {
-    visible: Store.show-archive-dialog;
+    in-out property text <=> name-lineedit.text;
 
+    visible: Store.show-archive-dialog;
     title: Store.translator.session-new-archive;
     title-bg: Theme.brand-color;
     background: rect.background;

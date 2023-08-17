@@ -87,6 +87,10 @@ export component Footer inherits Rectangle {
                 if (flick.viewport-height <= flick.height) {
                     flick.viewport-y = 0;
                 } else {
+                    if (-flick.viewport-y + Theme.default-font-size * 2 < flick.viewport-height - flick.height) {
+
+                        return;
+                    }
                     flick.viewport-y = -flick.viewport-height + flick.height;
                 }
             }
@@ -225,10 +229,10 @@ export component Footer inherits Rectangle {
 
 
     Divider {
-        x: vbox.padding + Theme.border-radius / 2;
+        x: vbox.padding;
         y: vbox.height - vbox.padding - self.height;
         height: 2px;
-        width: root.width - vbox.padding * 2 - Theme.border-radius;
+        width: root.width - vbox.padding * 2;
         border-radius: self.height / 2;
         background: te.has-focus ? Theme.brand-border-color : Theme.dark-fill-color.darker(30%);
     }

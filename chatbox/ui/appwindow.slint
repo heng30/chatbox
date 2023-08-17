@@ -60,6 +60,7 @@ export component AppWindow inherits Window {
 
     public function show-archive-dialog() {
         Store.show-archive-dialog = true;
+        arch-dialog.text = "";
         arch-dialog.focus();
     }
 
@@ -162,21 +163,17 @@ export component AppWindow inherits Window {
             accept
         }
 
-        Rectangle {
-            height: root.height;
-            HorizontalLayout {
-                alignment: stretch;
-                padding: Theme.padding / 2;
-                LPanel {}
+        HorizontalLayout {
+            padding: Theme.padding / 2;
+            LPanel {}
 
-                rpanel := RPanel {
-                    show-archive-dialog => {
-                        root.show-archive-dialog();
-                    }
+            rpanel := RPanel {
+                show-archive-dialog => {
+                    root.show-archive-dialog();
                 }
-
-                arch-panel := ArchivePanel {}
             }
+
+            arch-panel := ArchivePanel {}
         }
 
         modal := Rectangle {

@@ -3,6 +3,7 @@ import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
 import { IconBtn } from "../base/icon-btn.slint";
+import { Tip } from "../base/tip.slint";
 
 export component ArchivePanel inherits Rectangle {
     in-out property search-text <=> search-lineedit.text;
@@ -113,6 +114,14 @@ export component ArchivePanel inherits Rectangle {
                         text: data.name;
                         overflow: elide;
                         vertical-alignment: center;
+
+                        // Tip {
+                        //     pwidth: parent.width;
+                        //     pheight: parent.height;
+                        //     text: data.name;
+                        //     pos: "left";
+                        //     is-show: touch.has-hover;
+                        // }
                     }
 
                     VerticalLayout {
