@@ -97,6 +97,9 @@ export struct Translation {
     tip-setting: string,
     tip-last-session-pos: string,
     tip-cur-session-pos: string,
+    tip-edit: string,
+    tip-enabled-edit: string,
+    tip-disabled-edit: string,
 }
 
 export global Translator {
@@ -199,6 +202,9 @@ export global Translator {
             tip-setting: is-cn ? "设置" : "Setting",
             tip-last-session-pos: is-cn ? "上一次位置" : "Previous Position",
             tip-cur-session-pos: is-cn ? "当前位置" : "Current Position",
+            tip-edit: is-cn ? "编辑" : "Edit",
+            tip-enabled-edit: is-cn ? "启用编辑" : "Enabled Edit",
+            tip-disabled-edit: is-cn ? "关闭编辑" : "Disabled Edit",
         };
     }
 }

@@ -8,6 +8,8 @@ export component CodeText inherits Rectangle {
     height: vbox.preferred-height;
     in-out property<string> org-text;
     in-out property<[CodeTextItem]> items: [];
+    in-out property<bool> read-only: true;
+
 
     vbox := VerticalLayout {
         x: 0; y: 0;
@@ -22,7 +24,7 @@ export component CodeText inherits Rectangle {
                     color: Theme.primary-text-color;
                     font-size: Theme.default-font-size + 2px;
                     single-line: false;
-                    read-only: true;
+                    read-only: root.read-only;
                 }
             }
 
@@ -44,7 +46,7 @@ export component CodeText inherits Rectangle {
                         font-size: Theme.default-font-size + 2px;
                         font-family: Theme.code-font-family;
                         single-line: false;
-                        read-only: true;
+                        read-only: root.read-only;
                     }
 
                     img := IconBtn {

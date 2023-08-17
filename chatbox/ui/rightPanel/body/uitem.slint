@@ -73,6 +73,19 @@ export component UItem inherits VerticalLayout{
 
             VerticalLayout {
                 alignment: center;
+                edit-icon := IconBtn {
+                    icon: @image-url("../../images/edit-text.svg");
+                    colorize: txt.read-only ? Theme.basic-black-color : Theme.danger-color;
+                    tip-pos: "left";
+                    tip-text: txt.read-only ? Store.translator.tip-enabled-edit : Store.translator.tip-disabled-edit;
+                    clicked => {
+                        txt.read-only = !txt.read-only;
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: center;
                 IconBtn {
                     icon: @image-url("../../images/delete-light.svg");
                     tip-pos: "left";

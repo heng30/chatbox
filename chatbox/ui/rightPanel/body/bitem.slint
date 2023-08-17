@@ -23,6 +23,19 @@ export component BItem inherits VerticalLayout{
 
             VerticalLayout {
                 alignment: end;
+                edit-icon := IconBtn {
+                    icon: @image-url("../../images/edit-text.svg");
+                    colorize: txt.read-only ? Theme.basic-black-color : Theme.danger-color;
+                    tip-pos: "left";
+                    tip-text: txt.read-only ? Store.translator.tip-enabled-edit : Store.translator.tip-disabled-edit;
+                    clicked => {
+                        txt.read-only = !txt.read-only;
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: end;
                 IconBtn {
                     icon: @image-url("../../images/copy.svg");
                     tip-pos: "left";
