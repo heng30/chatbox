@@ -21,18 +21,18 @@ export component BItem inherits VerticalLayout{
             padding-left: Theme.padding;
             spacing: Theme.spacing * 2;
 
-            VerticalLayout {
-                alignment: end;
-                edit-icon := IconBtn {
-                    icon: @image-url("../../images/edit-text.svg");
-                    colorize: txt.read-only ? Theme.basic-black-color : Theme.danger-color;
-                    tip-pos: "left";
-                    tip-text: txt.read-only ? Store.translator.tip-enabled-edit : Store.translator.tip-disabled-edit;
-                    clicked => {
-                        txt.read-only = !txt.read-only;
-                    }
-                }
-            }
+            // VerticalLayout {
+            //     alignment: end;
+            //     edit-icon := IconBtn {
+            //         icon: @image-url("../../images/edit-text.svg");
+            //         colorize: txt.read-only ? Theme.basic-black-color : Theme.danger-color;
+            //         tip-pos: "left";
+            //         tip-text: txt.read-only ? Store.translator.tip-enabled-edit : Store.translator.tip-disabled-edit;
+            //         clicked => {
+            //             txt.read-only = !txt.read-only;
+            //         }
+            //     }
+            // }
 
             VerticalLayout {
                 alignment: end;
