@@ -121,11 +121,21 @@ export component Header inherits Rectangle {
                     IconBtn {
                         icon: @image-url("../images/launching-screen.svg");
                         tip-pos: "left";
-                        tip-text: Store.translator.tip-save-as-session-screen;
+                        tip-text: Store.translator.tip-show-session-screen;
                         clicked => {
-                            Logic.save-session-chats(Store.current-session-uuid);
+                            Logic.show-session-screen(Store.current-session-uuid);
                         }
                     }
+
+                    screen-btn := IconBtn {
+                        icon: @image-url("../images/edit-text.svg");
+                        tip-pos: "left";
+                        tip-text: Store.translator.tip-edit-session-screen;
+                        clicked => {
+                            Logic.show-session-screen-dialog(Store.current-session-uuid);
+                        }
+                    }
+
 
                     IconBtn {
                         icon: @image-url("../images/copy.svg");

@@ -11,6 +11,7 @@ export struct ChatItem {
     btext: string,
     etext: string,
 
+    utext-items: [CodeTextItem],
     btext-items: [CodeTextItem],
 
     timestamp: string,
@@ -34,7 +35,10 @@ export struct ChatSession {
     icon-index: int,
 
     chats-viewport-y: length,
-    chat-items: [ChatItem]
+    chat-items: [ChatItem],
+
+    screen-text: string,
+    screen-items: [ChatItem]
 }
 
 export struct MessageItem {
@@ -79,6 +83,10 @@ export struct OkCancelDialogSetting {
 
     handle-type: string,
     handle-uuid: string,
+}
+
+export struct ScreenDialogSetting {
+    is-show: bool,
 }
 
 export struct SystemPrompts {
@@ -177,6 +185,17 @@ export global Store  {
             btext: "int main()\n{\n    printf('hello world');",
             timestamp: "2023-12-03 12:03:45",
 
+            utext-items: [
+                {
+                    text-type: "plain",
+                    text: "hello world fwjeifj iwfj wofjw oijfw jfwij fwijf wijf wiofjw iojfwio jwij fwijf wiofj wijf wioj fwij wiej wjfwifjei11111 fjweifj wfjw ei\n jiwefjw fjwioe jwiefjw"
+                },
+                {
+                    text-type: "code",
+                    text: "int main()\n{\n    printf('hello world jweifjw iefjw oifjweio fjweifjw eifjwei fjweifjw iefjwei jfwie wefjwefiwje fowejf oiwejfiow jefiowj fiwejf iwjefio w ');\n}"
+                }
+            ],
+
             btext-items: [
                 {
                     text-type: "plain",
@@ -194,8 +213,29 @@ export global Store  {
         },
         {
             utext: "hello world jfjeif wfwejif jwifjw ",
+            btext: "",
+            timestamp: "2023-12-03 12:03:45",
+
+            utext-items: [
+                {
+                    text-type: "plain",
+                    text: "hello world"
+                },
+            ],
+
+            btext-items: [ ]
+        },
+        {
+            utext: "hello world jfjeif wfwejif jwifjw ",
             btext: "int main()\n{\n    printf('hello world');",
             timestamp: "2023-12-03 12:03:45",
+
+            utext-items: [
+                {
+                    text-type: "plain",
+                    text: "hello world"
+                },
+            ],
 
             btext-items: [
                 {
@@ -212,6 +252,13 @@ export global Store  {
             utext: "hello world",
             btext: "int main()\n{\n    printf('hello world');",
             timestamp: "2023-12-03 12:03:45",
+
+            utext-items: [
+                {
+                    text-type: "plain",
+                    text: "hello world"
+                },
+            ],
 
             btext-items: [
                 {
@@ -371,6 +418,10 @@ export global Store  {
     };
 
     in-out property<Translation> translator: Translator.translation(setting-dialog-config.ui.language == "cn");
+
+    in-out property <ScreenDialogSetting> screen-dialog-setting:  {
+        is-show: false,
+    };
 
     in-out property<InstTipSetting> inst-tip-setting: {
         items: [

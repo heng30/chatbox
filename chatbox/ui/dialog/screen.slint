@@ -1,0 +1,32 @@
+import { TextEdit } from "std-widgets.slint";
+import { CDialog } from "../base/cdialog.slint";
+import { Store } from "../store.slint";
+import { Util } from "../util.slint";
+import { Logic } from "../logic.slint";
+import { Theme } from "../theme.slint";
+
+export component ScreenDialog inherits CDialog {
+    visible: Store.screen-dialog-setting.is-show;
+    title: Store.translator.screen-dialog-title;
+    width: 1000px;
+    height: 650px;
+
+    in-out property text <=> text-edit.text;
+
+    forward-focus: text-edit;
+
+    callback close();
+
+    text-edit := TextEdit { }
+
+    ok-clicked => {
+        Logic.save-session-screen(Store.current-session-uuid);
+        Store.screen-dialog-setting.is-show = false;
+        root.close();
+    }
+
+    cancel-clicked => {
+        Store.screen-dialog-setting.is-show = false;
+        root.close();
+    }
+}

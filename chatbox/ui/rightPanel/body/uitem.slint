@@ -2,17 +2,16 @@ import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 import { Logic } from "../../logic.slint";
+import { CodeText } from "./code-text.slint";
 
 export component UItem inherits VerticalLayout{
-    in-out property text <=> txt.text;
+    in-out property text <=> txt.org-text;
+    in-out property items <=> txt.items;
     in-out property timestamp <=> timestamp-txt.text;
     in-out property<string> uuid;
 
-    in-out property<length> lv-width: 500px;
-
     padding-left: Theme.padding * 2;
     spacing: Theme.spacing;
-    width: Math.min(txt-vbox.preferred-width + self.padding-left, lv-width - Theme.uitem-right-padding);
 
     HorizontalLayout {
         padding-bottom: Theme.padding;
@@ -44,7 +43,6 @@ export component UItem inherits VerticalLayout{
         }
 
         HorizontalLayout {
-            alignment: end;
             spacing: Theme.spacing * 2;
 
             VerticalLayout {
@@ -71,19 +69,6 @@ export component UItem inherits VerticalLayout{
                 }
             }
 
-            // VerticalLayout {
-            //     alignment: center;
-            //     edit-icon := IconBtn {
-            //         icon: @image-url("../../images/edit-text.svg");
-            //         colorize: txt.read-only ? Theme.basic-black-color : Theme.danger-color;
-            //         tip-pos: "left";
-            //         tip-text: txt.read-only ? Store.translator.tip-enabled-edit : Store.translator.tip-disabled-edit;
-            //         clicked => {
-            //             txt.read-only = !txt.read-only;
-            //         }
-            //     }
-            // }
-
             VerticalLayout {
                 alignment: center;
                 IconBtn {
@@ -91,6 +76,7 @@ export component UItem inherits VerticalLayout{
                     tip-pos: "left";
                     tip-text: Store.translator.tip-delete;
                     clicked => {
+                        debug(txt.preferred-width);
                         Store.ok-cancel-dialog-setting.title-type = "warning";
                         Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
                         Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
@@ -104,17 +90,12 @@ export component UItem inherits VerticalLayout{
     }
 
     Rectangle {
-        background: Theme.light-fill-color;
+        background: Theme.dark-fill-color;
         border-radius: Theme.border-radius;
+
         txt-vbox := VerticalLayout{
             padding: Theme.padding * 2;
-            txt := TextInput {
-                color: Theme.primary-text-color;
-                font-size: Theme.default-font-size + 2px;
-                wrap: word-wrap;
-                single-line: false;
-                read-only: true;
-            }
+            txt := CodeText { }
         }
     }
 }

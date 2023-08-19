@@ -9,7 +9,7 @@ export component BItem inherits VerticalLayout{
     in-out property items <=> txt.items;
     in-out property<string> uuid;
 
-    padding-left: Theme.bitem-left-padding;
+    padding-left: Theme.padding * 2;
     spacing: Theme.spacing;
 
     HorizontalLayout {
@@ -17,28 +17,13 @@ export component BItem inherits VerticalLayout{
         alignment: space-between;
 
         HorizontalLayout {
-            alignment: end;
             padding-left: Theme.padding;
             spacing: Theme.spacing * 2;
 
-            // VerticalLayout {
-            //     alignment: end;
-            //     edit-icon := IconBtn {
-            //         icon: @image-url("../../images/edit-text.svg");
-            //         colorize: txt.read-only ? Theme.basic-black-color : Theme.danger-color;
-            //         tip-pos: "left";
-            //         tip-text: txt.read-only ? Store.translator.tip-enabled-edit : Store.translator.tip-disabled-edit;
-            //         clicked => {
-            //             txt.read-only = !txt.read-only;
-            //         }
-            //     }
-            // }
-
             VerticalLayout {
-                alignment: end;
+                alignment: center;
                 IconBtn {
                     icon: @image-url("../../images/copy.svg");
-                    tip-pos: "left";
                     tip-text: Store.translator.tip-copy;
                     clicked => {
                         Logic.copy-to-clipboard(root.text);
@@ -47,10 +32,9 @@ export component BItem inherits VerticalLayout{
             }
 
             VerticalLayout {
-                alignment: end;
+                alignment: center;
                 IconBtn {
                     icon: @image-url("../../images/speaker.svg");
-                    tip-pos: "left";
                     tip-text: Store.translator.tip-play;
                     clicked => {
                         Logic.text-to-speech(root.uuid + "-bot", root.text);

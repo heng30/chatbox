@@ -10,6 +10,7 @@ import { Message } from "./base/message.slint";
 import { SessionDialog } from "./dialog/session/dialog.slint";
 import { SettingDialog } from "./dialog/setting/dialog.slint";
 import { AboutDialog } from "./dialog/about.slint";
+import { ScreenDialog } from "./dialog/screen.slint";
 import { IconDialog } from "./dialog/icons.slint";
 import { HelpDialog } from "./dialog/help.slint";
 import { OkCancelDialog } from "./dialog/ok-cancel.slint";
@@ -39,6 +40,8 @@ export component AppWindow inherits Window {
     in-out property chats-viewport-y <=> rpanel.chats-viewport-y;
 
     in-out property archive-search-text <=> arch-panel.search-text;
+
+    in-out property screen-text <=> screen-dialog.text;
 
     in-out property<bool> is-chats-auto-scroll-down: false;
 
@@ -74,6 +77,12 @@ export component AppWindow inherits Window {
 
     public function hide-record-indicator() {
         rpanel.stop-record-indicator();
+    }
+
+    public function show-screen-dialog(text: string) {
+        screen-dialog.text = text;
+        Store.screen-dialog-setting.is-show = true;
+        screen-dialog.focus();
     }
 
     init => {
@@ -171,6 +180,7 @@ export component AppWindow inherits Window {
                 show-archive-dialog => {
                     root.show-archive-dialog();
                 }
+
             }
 
             arch-panel := ArchivePanel {}
@@ -190,13 +200,19 @@ export component AppWindow inherits Window {
                 }
             }
 
-            if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible : low-modal := Rectangle {
+            if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible || screen-dialog.visible: low-modal := Rectangle {
                 width: 100%; height: 100%; opacity: 0.3;
                 background: Theme.basic-black-color;
                 TouchArea { }
             }
 
             session-dialog := SessionDialog {
+                close => {
+                    rpanel.force-question-input-focus();
+                }
+            }
+
+            screen-dialog := ScreenDialog {
                 close => {
                     rpanel.force-question-input-focus();
                 }

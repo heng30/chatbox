@@ -34,14 +34,14 @@ export component Tip inherits Rectangle {
         //     }
         // }
 
-        width: tip-txt.preferred-width + Theme.padding * 4;
+        width: tip-txt.preferred-width + Theme.padding * 2;
         height: tip-txt.preferred-height;
         background: Theme.basic-white-color;
         border-color: Theme.basic-black-color;
         border-width: 1px;
 
         tip-txt := Text {
-            x: Theme.padding * 2;
+            x: Theme.padding;
             font-size: Theme.default-font-size - 2px;
             color: Theme.primary-text-color;
         }

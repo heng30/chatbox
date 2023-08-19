@@ -14,7 +14,9 @@ export global Logic {
     callback switch-session(string, string);
     callback switch-session-shortcut-inst(string);
     callback copy-session-chats(string);
-    callback save-session-chats(string);
+    callback save-session-screen(string);
+    callback show-session-screen-dialog(string);
+    callback show-session-screen(string);
     callback remove-current-chats-first();
     callback remove-current-chats-last();
     pure callback chats-viewport-y(string) -> length;

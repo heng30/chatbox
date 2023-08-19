@@ -5,7 +5,8 @@ import { Store, CodeTextItem } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 
 export component CodeText inherits Rectangle {
-    height: vbox.preferred-height;
+    preferred-width: vbox.preferred-width;
+    preferred-height: vbox.preferred-height;
     in-out property<string> org-text;
     in-out property<[CodeTextItem]> items: [];
     in-out property<bool> read-only: true;
@@ -32,7 +33,7 @@ export component CodeText inherits Rectangle {
                 padding: Theme.padding * 2;
 
                 Rectangle {
-                    background: Theme.dark-fill-color;
+                    background: Theme.dark-fill-color.darker(5%);
                     height: txt-code.preferred-height + Theme.padding * 4;
                     border-radius: Theme.border-radius;
 

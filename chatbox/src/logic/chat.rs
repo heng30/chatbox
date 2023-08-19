@@ -210,10 +210,11 @@ pub fn init(ui: &AppWindow) {
         let uuid = Uuid::new_v4().to_string();
 
         datas.push(ChatItem {
-            utext: value,
+            utext: value.clone(),
             btext: LOADING_STRING.into(),
             uuid: uuid.into(),
             timestamp: util::time::local_now("%Y-%m-%d %H:%M:%S").into(),
+            utext_items: parse_chat_text(value.as_str()).into(),
             btext_items: parse_chat_text(LOADING_STRING).into(),
             ..Default::default()
         });

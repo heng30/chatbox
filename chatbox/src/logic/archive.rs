@@ -150,11 +150,12 @@ pub fn init(ui: &AppWindow) {
                             for citem in sc.chats.into_iter() {
                                 chat_items.push(ChatItem {
                                     uuid: citem.uuid.into(),
-                                    utext: citem.utext.into(),
+                                    utext: citem.utext.as_str().into(),
                                     btext: citem.btext.as_str().into(),
                                     timestamp: citem.timestamp.into(),
                                     etext: "".into(),
                                     is_mark: citem.is_mark,
+                                    utext_items: chat::parse_chat_text(citem.utext.as_str()).into(),
                                     btext_items: chat::parse_chat_text(citem.btext.as_str()).into(),
                                 })
                             }
