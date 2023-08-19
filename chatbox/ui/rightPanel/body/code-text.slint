@@ -11,7 +11,6 @@ export component CodeText inherits Rectangle {
     in-out property<[CodeTextItem]> items: [];
     in-out property<bool> read-only: true;
 
-
     vbox := VerticalLayout {
         x: 0; y: 0;
         for item in items : HorizontalLayout {

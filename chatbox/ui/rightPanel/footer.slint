@@ -80,8 +80,9 @@ export component Footer inherits Rectangle {
         }
 
         vbox := VerticalLayout {
-            padding: Theme.padding * 2;
+            padding: Theme.scroll-width;
             padding-top: 0px;
+            padding-bottom: Theme.padding;
 
             function ensure-show-cursor() {
                 if (flick.viewport-height <= flick.height) {
@@ -230,7 +231,7 @@ export component Footer inherits Rectangle {
 
     Divider {
         x: vbox.padding;
-        y: vbox.height - vbox.padding - self.height;
+        y: vbox.height - vbox.padding-bottom - self.height;
         height: 2px;
         width: root.width - vbox.padding * 2;
         border-radius: self.height / 2;
