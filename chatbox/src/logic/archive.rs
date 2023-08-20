@@ -3,8 +3,10 @@ use crate::db::{self, data::SessionChats};
 use crate::slint_generatedAppWindow::{AppWindow, ArchiveChatItem, ChatItem, Logic, Store};
 use crate::util::translator::tr;
 use log::warn;
+use slint::Timer;
 use slint::{ComponentHandle, Model, SortModel, VecModel};
 use std::rc::Rc;
+use std::time::Duration;
 use uuid::Uuid;
 
 pub fn init(ui: &AppWindow) {
@@ -162,6 +164,16 @@ pub fn init(ui: &AppWindow) {
 
                             ui.global::<Store>()
                                 .set_session_datas(Rc::new(chat_items).into());
+
+                            for i in 1..=3 {
+                                let ui_handle = ui.as_weak();
+                                Timer::single_shot(Duration::from_millis(i * 100), move || {
+                                    let ui = ui_handle.unwrap();
+                                    if f32::abs(ui.get_chats_viewport_y()) > 0.0 {
+                                        ui.set_chats_viewport_y(0.0);
+                                    }
+                                });
+                            }
                         }
 
                         Err(e) => ui.global::<Logic>().invoke_show_message(
