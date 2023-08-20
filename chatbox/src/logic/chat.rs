@@ -361,6 +361,7 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
     let mut cur_item = CodeTextItem::default();
     let mut in_code_block = false;
 
+    // Only support code format likes this: \n```some code```\n
     for line in data.lines() {
         if line.trim().starts_with("```") {
             if in_code_block {
@@ -384,12 +385,30 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
                 cur_item.text_type = "code".into();
             }
 
-            if !in_code_block && cur_item.text_type.is_empty() {
-                cur_item.text_type = "plain".into();
+            if !in_code_block  {
+                if line.trim_start().starts_with("- ") {
+                    if !cur_item.text.is_empty() {
+                        cur_item.text = cur_item.text.trim_end().into();
+                        items.push(cur_item.clone());
+                        cur_item = CodeTextItem::default();
+                    }
+                    cur_item.text_type = "list-item".into();
+                } else if cur_item.text_type.is_empty() {
+                    cur_item.text_type = "plain".into();
+                }
             }
 
-            cur_item.text.push_str(line);
-            cur_item.text.push_str("\n");
+            if cur_item.text_type == "list-item" {
+                cur_item.text = line
+                    .replacen("-", "⚫", 1)
+                    .trim_end()
+                    .into();
+                items.push(cur_item.clone());
+                cur_item = CodeTextItem::default();
+            } else {
+                cur_item.text.push_str(line);
+                cur_item.text.push_str("\n");
+            }
         }
     }
 

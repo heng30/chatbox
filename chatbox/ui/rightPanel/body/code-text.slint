@@ -3,6 +3,7 @@ import { Theme } from "../../theme.slint";
 import { Logic } from "../../logic.slint";
 import { Store, CodeTextItem } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
+import { CenterLayout } from "../../base/center-layout.slint";
 
 export component CodeText inherits Rectangle {
     preferred-width: vbox.preferred-width;
@@ -19,6 +20,20 @@ export component CodeText inherits Rectangle {
                 txt-plain := TextInput {
                     x: 0; y: 0;
                     width: parent.width;
+                    wrap: word-wrap;
+                    text: item.text;
+                    color: Theme.primary-text-color;
+                    font-size: Theme.default-font-size + 2px;
+                    single-line: false;
+                    read-only: root.read-only;
+                }
+            }
+
+            if item.text-type == "list-item": HorizontalLayout {
+                padding-top: Theme.padding;
+                padding-bottom: Theme.padding;
+
+                txt-list-item := TextInput {
                     wrap: word-wrap;
                     text: item.text;
                     color: Theme.primary-text-color;
@@ -70,7 +85,6 @@ export component CodeText inherits Rectangle {
                         source: item.img;
                     }
                 }
-
             }
         }
     }
