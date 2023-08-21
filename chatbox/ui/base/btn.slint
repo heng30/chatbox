@@ -15,6 +15,11 @@ export component Btn inherits Rectangle {
     background: touch.pressed ? bg-pressed-color : touch.has-hover ? bg-hover-color : bg-color;
     height: txt.preferred-height * 1.33;
 
+    animate background {
+        duration: Theme.default-animate-duration;
+        easing: ease-in-out;
+    }
+
     Rectangle {
         img := Image {
             width: root.icon.width > 0 ? txt.height - Theme.padding : 0;

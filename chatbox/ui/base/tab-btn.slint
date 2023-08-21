@@ -20,6 +20,11 @@ export component TabBtn inherits Rectangle {
                 height: Theme.enlarge-font-size;
                 width: self.height;
                 colorize: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
+
+                animate colorize {
+                    duration: Theme.default-animate-duration;
+                    easing: ease-in-out;
+                }
             }
         }
 
@@ -28,6 +33,11 @@ export component TabBtn inherits Rectangle {
             txt := Text {
                 color: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
                 font-size: Theme.default-font-size;
+
+                animate color {
+                    duration: Theme.default-animate-duration;
+                    easing: ease-in-out;
+                }
             }
         }
     }

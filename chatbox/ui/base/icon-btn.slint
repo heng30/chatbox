@@ -23,6 +23,11 @@ export component IconBtn inherits Rectangle {
     border-radius: self.width / 3;
     background: touch.has-hover ? hover-color : bg-color;
 
+    animate background {
+        duration: Theme.default-animate-duration;
+        easing: ease-in-out;
+    }
+
     tip := Tip {
         pwidth: root.width;
         pheight: root.height;

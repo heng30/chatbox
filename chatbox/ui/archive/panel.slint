@@ -14,11 +14,6 @@ export component ArchivePanel inherits Rectangle {
     width: Theme.body-right-panel-width;
     background: Theme.dark-fill-color;
 
-    animate width {
-        duration: Theme.default-animate-duration;
-        easing: ease-in-out;
-    }
-
     public function scroll-to-top() {
         flick.viewport-y = 0;
     }
@@ -114,14 +109,6 @@ export component ArchivePanel inherits Rectangle {
                         text: data.name;
                         overflow: elide;
                         vertical-alignment: center;
-
-                        // Tip {
-                        //     pwidth: parent.width;
-                        //     pheight: parent.height;
-                        //     text: data.name;
-                        //     pos: "left";
-                        //     is-show: touch.has-hover;
-                        // }
                     }
 
                     VerticalLayout {
