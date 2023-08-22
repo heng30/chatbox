@@ -12,11 +12,17 @@ export component ArchivePanel inherits Rectangle {
     forward-focus: search-lineedit;
 
     width: Theme.body-right-panel-width;
-    background: Theme.dark-fill-color;
+    background: Theme.base-fill-color;
 
     public function scroll-to-top() {
         flick.viewport-y = 0;
     }
+
+    animate width {
+        duration: Theme.default-animate-duration;
+        easing: ease-in-out;
+    }
+
 
     VerticalLayout {
         FocusScope {
@@ -90,7 +96,7 @@ export component ArchivePanel inherits Rectangle {
             for data[index] in Store.session-archive-datas : Rectangle {
                 y: index * item-height;
                 height: root.item-height;
-                background: touch.has-hover ? Theme.label-hover-color : Colors.transparent;
+                background: touch.has-hover ? root.background.darker(5%) : Colors.transparent;
 
                 touch := TouchArea {
                     clicked => {

@@ -65,7 +65,7 @@ export component Body inherits Rectangle {
             spacing: Theme.spacing * 2;
 
             UItem {
-                visible: self.items.length != 0;
+                visible: data.utext-items.length != 0;
                 text: data.utext;
                 uuid: data.uuid;
                 items: data.utext-items;
@@ -73,7 +73,7 @@ export component Body inherits Rectangle {
             }
 
             BItem {
-                visible: self.items.length != 0;
+                visible: data.btext-items.length != 0;
                 text: data.btext;
                 uuid: data.uuid;
                 items: data.btext-items;

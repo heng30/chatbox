@@ -14,7 +14,7 @@ export component Body inherits Rectangle {
             height: root.item-height;
 
             Rectangle {
-                background: data.uuid == Store.current-session-uuid ? Theme.base-background-color : (touch.has-hover ? Theme.light-fill-color.darker(10%) : Colors.transparent);
+                background: data.uuid == Store.current-session-uuid ? Theme.base-background-color : (touch.has-hover ? Theme.darker-fill-color : Colors.transparent);
 
                 touch := TouchArea {
                     clicked => {

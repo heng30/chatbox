@@ -53,11 +53,13 @@ export global Theme  {
     out property<color> light-border-color: #E4E7ED;
     out property<color> lighter-border-color: #EBEEF5;
     out property<color> extra-light-border-color: #F2F6FC;
-    out property<color> darker-fill-color: #E6E8EB;
-    out property<color> dark-fill-color: #EBEDF0;
-    out property<color> base-fill-color: #F0F2F5;
-    out property<color> light-fill-color: #F5F7FA;
-    out property<color> lighter-fill-color: #FAFAFA;
+
+    out property<color> base-fill-color: #E5ECF1;
+    out property<color> dark-fill-color: base-fill-color.darker(5%);
+    out property<color> darker-fill-color: dark-fill-color.darker(5%);
+    out property<color> light-fill-color: base-fill-color.brighter(5%);
+    out property<color> lighter-fill-color: light-fill-color.brighter(5%);
+
     out property<color> extra-light-fill-color: #FAFCFF;
     out property<color> blank-fill-color: #FFFFFF;
     out property<color> basic-black-color: #000000;
