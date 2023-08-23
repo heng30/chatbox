@@ -7,7 +7,6 @@ export component IconDialog inherits CDialog {
     title: Store.translator.icon-dialog-title;
     title-bg: Theme.brand-color;
     width: (icon-size + icon-spacing) * column-count - icon-spacing + Theme.padding * 2;
-    height: 480px;
 
     property<length> icon-size: 100px;
     property<length> icon-spacing: Theme.spacing;
@@ -16,6 +15,7 @@ export component IconDialog inherits CDialog {
     callback select-index(int);
 
     flick := Flickable {
+        height: 400px;
         viewport-height: (icon-size + icon-spacing) * Math.ceil(Store.icon-dialog-setting.icons.length / column-count) - icon-spacing + Theme.padding * 2;
 
         vbox := VerticalLayout {

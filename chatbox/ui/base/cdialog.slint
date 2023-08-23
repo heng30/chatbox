@@ -11,11 +11,13 @@ export component CDialog inherits Rectangle {
     callback ok-clicked();
 
     visible: false;
-    width: 450px;
-    height: 300px;
+    width: 800px;
+    height: vbox.preferred-height;
     background: Theme.base-background;
 
-    VerticalLayout {
+    vbox := VerticalLayout {
+        alignment: space-between;
+
         Rectangle {
             height: txt.preferred-height * 1.33;
             background: root.title-bg;

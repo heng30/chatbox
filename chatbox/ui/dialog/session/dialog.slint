@@ -10,8 +10,7 @@ export component SessionDialog inherits CDialog {
     visible: Store.session-dialog-setting.is-show;
     title: Store.session-dialog-setting.handle-type == "session-add" ? Store.translator.session-new-dialog-title-new : Store.translator.session-new-dialog-title-edit;
 
-    width: 1000px;
-    height: 650px;
+    width: 1200px;
 
     property<length> text-width: Theme.default-label-width;
 
@@ -106,7 +105,9 @@ export component SessionDialog inherits CDialog {
                     }
                 }
 
-                text-edit-prompt := TextEdit { }
+                text-edit-prompt := TextEdit {
+                    height: 500px;
+                }
             }
         }
     }

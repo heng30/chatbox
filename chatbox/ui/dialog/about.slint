@@ -3,6 +3,7 @@ import { Theme } from "../theme.slint";
 import { Logic } from "../logic.slint";
 import { Store } from "../store.slint";
 import { IconBtn } from "../base/icon-btn.slint";
+import { CenterLayout } from "../base/center-layout.slint";
 
 export component AboutDialog inherits CDialog {
     visible: Store.about-dialog.show;
@@ -10,7 +11,6 @@ export component AboutDialog inherits CDialog {
     title: Store.translator.about;
     title-bg: Theme.brand-color;
     width: 800px;
-    height: 450px;
     background: Theme.base-background;
 
     rect := Rectangle {
@@ -51,16 +51,21 @@ export component AboutDialog inherits CDialog {
                     HorizontalLayout {
                         alignment: center;
                         spacing: Theme.spacing * 2;
-                        Text {
-                            color: Theme.primary-text-color;
-                            text: "🎉❤Buy Me a Coffee(MateMask)❤🎉";
+                        CenterLayout {
+                            Text {
+                                color: Theme.primary-text-color;
+                                text: "🎉❤Buy Me a Coffee(MateMask)❤🎉";
+                            }
                         }
 
-                        IconBtn {
-                            icon: @image-url("../images/copy.svg");
-                            tip-text: Store.translator.tip-copy;
-                            clicked => {
-                                Logic.copy-to-clipboard(Store.about-dialog.sponsor)
+
+                        CenterLayout {
+                            IconBtn {
+                                icon: @image-url("../images/copy.svg");
+                                tip-text: Store.translator.tip-copy;
+                                clicked => {
+                                    Logic.copy-to-clipboard(Store.about-dialog.sponsor)
+                                }
                             }
                         }
                     }
