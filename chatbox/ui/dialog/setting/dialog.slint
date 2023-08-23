@@ -20,7 +20,7 @@ export component SettingDialog inherits Rectangle {
     visible: Store.setting-dialog-config.show;
     width: self.visible ? root.body-width : 0;
     height: self.visible ? vbox.preferred-height : 0;
-    background: Theme.dialog-background;
+    background: Theme.base-background;
 
     vbox := VerticalLayout {
         alignment: start;
