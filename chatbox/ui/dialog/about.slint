@@ -4,6 +4,7 @@ import { Logic } from "../logic.slint";
 import { Store } from "../store.slint";
 import { IconBtn } from "../base/icon-btn.slint";
 import { CenterLayout } from "../base/center-layout.slint";
+import { Brand } from "../base/brand.slint";
 
 export component AboutDialog inherits CDialog {
     visible: Store.about-dialog.show;
@@ -19,10 +20,8 @@ export component AboutDialog inherits CDialog {
             VerticalLayout {
                 width: 20%;
                 Rectangle {
-                    Image {
-                        source: Store.about-dialog.icon;
-                        width: 50%;
-                        colorize: Theme.brand-color;
+                    Brand {
+                        width: 80%;
                     }
                 }
             }

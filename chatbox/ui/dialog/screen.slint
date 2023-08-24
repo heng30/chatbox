@@ -8,16 +8,14 @@ import { Theme } from "../theme.slint";
 export component ScreenDialog inherits CDialog {
     visible: Store.screen-dialog-setting.is-show;
     title: Store.translator.screen-dialog-title;
-    width: 1000px;
-    height: 650px;
+    width: 1200px;
+    forward-focus: text-edit;
 
     in-out property text <=> text-edit.text;
 
-    forward-focus: text-edit;
-
     callback close();
 
-    text-edit := TextEdit { }
+    text-edit := TextEdit { height: 650px; }
 
     ok-clicked => {
         Logic.save-session-screen(Store.current-session-uuid);

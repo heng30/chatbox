@@ -2,9 +2,22 @@ import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
 import { IconBtn } from "../base/icon-btn.slint";
+import { IconBtn } from "../base/icon-btn.slint";
+import { Brand } from "../base/brand.slint";
+import { CenterLayout } from "../base/center-layout.slint";
 
 export component Body inherits Rectangle {
     private property<length> item-height: 45px;
+
+    VerticalLayout {
+        alignment: end;
+        CenterLayout {
+            Brand {
+                width: root.width * 0.5;
+                opacity: 0.2;
+            }
+        }
+    }
 
     Flickable {
         viewport-height: Store.chat-sessions.length * root.item-height;

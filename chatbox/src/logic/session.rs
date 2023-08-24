@@ -59,7 +59,7 @@ fn init_session(ui: &AppWindow) {
 
             for item in items.into_iter() {
                 let config = item.1;
-                let screen_text = item.2;
+                let screen_text = item.2.trim();
 
                 let mut chat_session = ChatSession {
                     uuid: item.0.into(),
@@ -75,7 +75,7 @@ fn init_session(ui: &AppWindow) {
                         chat_session.system_prompt = sc.system_prompt.into();
                         chat_session.api_model = sc.api_model.into();
                         chat_session.shortcut_instruction = sc.shortcut_instruction.into();
-                        chat_session.screen_text = screen_text.as_str().into();
+                        chat_session.screen_text = screen_text.into();
                     }
                     Err(e) => {
                         warn!("{:?}", e);
@@ -84,13 +84,16 @@ fn init_session(ui: &AppWindow) {
                 }
 
                 let chat_items = VecModel::default();
-                chat_items.push(ChatItem {
-                    uuid: Uuid::new_v4().to_string().into(),
-                    timestamp: util::time::local_now("%Y-%m-%d %H:%M:%S").into(),
-                    utext: screen_text.as_str().into(),
-                    utext_items: chat::parse_chat_text(screen_text.as_str()).into(),
-                    ..Default::default()
-                });
+
+                if !screen_text.is_empty() {
+                    chat_items.push(ChatItem {
+                        uuid: Uuid::new_v4().to_string().into(),
+                        timestamp: util::time::local_now("%Y-%m-%d %H:%M:%S").into(),
+                        utext: screen_text.into(),
+                        utext_items: chat::parse_chat_text(screen_text).into(),
+                        ..Default::default()
+                    });
+                }
 
                 chat_session.chat_items = Rc::new(chat_items).into();
                 chat_session.screen_items = chat_session.chat_items.clone();
@@ -546,19 +549,22 @@ pub fn init(ui: &AppWindow) {
     let ui_handle = ui.as_weak();
     ui.global::<Logic>().on_save_session_screen(move |uuid| {
         let ui = ui_handle.unwrap();
-        let text = ui.get_screen_text();
+        let text = ui.get_screen_text().trim().to_string();
 
         let sessions = ui.global::<Store>().get_chat_sessions();
         for (row, session) in sessions.iter().enumerate() {
             if session.uuid == uuid {
-                let mut item = ChatItem::default();
-                item.uuid = Uuid::new_v4().to_string().into();
-                item.timestamp = util::time::local_now("%Y-%m-%d %H:%M:%S").into();
-                item.utext = text.as_str().into();
-                item.utext_items = chat::parse_chat_text(text.as_str()).into();
-
                 let items = VecModel::default();
-                items.push(item.clone());
+
+                if !text.is_empty() {
+                    let mut item = ChatItem::default();
+                    item.uuid = Uuid::new_v4().to_string().into();
+                    item.timestamp = util::time::local_now("%Y-%m-%d %H:%M:%S").into();
+                    item.utext = text.as_str().into();
+                    item.utext_items = chat::parse_chat_text(text.as_str()).into();
+                    items.push(item.clone());
+                }
+
                 ui.global::<Store>().get_chat_sessions().set_row_data(
                     row,
                     ChatSession {

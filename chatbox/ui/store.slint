@@ -165,7 +165,6 @@ export struct SettingDialogConfig {
 
 export struct AboutDialog {
     show: bool,
-    icon: image,
     title: string,
     text: string,
     sponsor: string,
@@ -369,7 +368,6 @@ export global Store  {
         title: "ChatBox v1.0.0",
         text: "Based on Slint-UI. Copyright 2022-2030 The Heng30 Company Ltd. All rights reserved. The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.",
         sponsor: "0xf1199999751b1a3A74590adBf95401D19AB30014",
-        icon: @image-url("./images/bot.svg"),
     };
 
     in-out property<Cache> cache: {
