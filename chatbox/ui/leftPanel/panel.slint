@@ -6,7 +6,7 @@ import { Bottom } from "./bottom.slint";
 
 export component LPanel inherits Rectangle {
     width: Theme.left-panel-width;
-    background: Theme.dark-fill-color;
+    background: @linear-gradient(0deg, Theme.dark-fill-color 0%, Theme.base-background 100%);
 
     animate width {
         duration: Theme.default-animate-duration;
