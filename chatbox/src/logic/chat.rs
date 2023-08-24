@@ -6,11 +6,13 @@ use crate::{audio, azureai, config, openai, session, util};
 #[allow(unused_imports)]
 use log::{debug, warn};
 use rand::Rng;
+use slint::Timer;
 use slint::{ComponentHandle, Model, VecModel};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
 use std::sync::Mutex;
+use std::time::Duration;
 use tokio::task::spawn;
 use uuid::Uuid;
 
@@ -227,6 +229,13 @@ pub fn init(ui: &AppWindow) {
         ui.global::<Store>()
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
 
+        for i in 1..=2 {
+            let ui = ui.as_weak();
+            Timer::single_shot(Duration::from_millis(i * 100), move || {
+                ui.unwrap().invoke_chats_scroll_to_bottom()
+            });
+        }
+
         spawn(async move {
             if let Err(e) = send_text(ui_box, chat_datas).await {
                 let etext = e.to_string();
@@ -385,7 +394,7 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
                 cur_item.text_type = "code".into();
             }
 
-            if !in_code_block  {
+            if !in_code_block {
                 if line.trim_start().starts_with("- ") {
                     if !cur_item.text.is_empty() {
                         cur_item.text = cur_item.text.trim_end().into();
@@ -399,10 +408,7 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
             }
 
             if cur_item.text_type == "list-item" {
-                cur_item.text = line
-                    .replacen("-", "⚫", 1)
-                    .trim_end()
-                    .into();
+                cur_item.text = line.replacen("-", "⚫", 1).trim_end().into();
                 items.push(cur_item.clone());
                 cur_item = CodeTextItem::default();
             } else {
