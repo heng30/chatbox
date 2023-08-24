@@ -1,6 +1,8 @@
 import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Btn } from "./btn.slint";
+import { IconBtn } from "./icon-btn.slint";
+import { CenterLayout } from "./center-layout.slint";
 
 export component CDialog inherits Rectangle {
     in-out property title <=> txt.text;
@@ -25,6 +27,20 @@ export component CDialog inherits Rectangle {
                 color: Colors.white;
                 font-size: Theme.default-font-size + 1px;
             }
+
+            if (is-hide-btns) : HorizontalLayout {
+                alignment: end;
+                padding-right: Theme.padding;
+                CenterLayout {
+                    IconBtn {
+                        width: Theme.icon-size;
+                        icon: @image-url("../images/close.svg");
+                        colorize: txt.color;
+                        hover-color: root.title-bg.darker(15%);
+                        clicked => { root.cancel-clicked(); }
+                    }
+                }
+             }
         }
 
         VerticalLayout {
