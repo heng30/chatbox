@@ -31,7 +31,9 @@ export global Logic {
     callback send-input-text(string);
     callback retry-send-input-text();
     callback delete-chat-item(string);
+    callback switch-chat-item(int, int);
     callback toggle-mark-chat-item(string);
+    callback toggle-show-chat-item(int);
     callback stop-generate-text(string);
     callback code-text-items(string) -> [CodeTextItem];
     callback text-to-speech(string, string);

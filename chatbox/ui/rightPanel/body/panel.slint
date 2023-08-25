@@ -60,20 +60,23 @@ export component Body inherits Rectangle {
     }
 
     lv := ListView {
-        for data in Store.session-datas : VerticalLayout {
+        for data[index] in Store.session-datas : VerticalLayout {
             padding-bottom: Theme.padding * 4;
             spacing: Theme.spacing * 2;
 
-            UItem {
+            uitem := UItem {
                 visible: data.utext-items.length != 0;
                 text: data.utext;
                 uuid: data.uuid;
                 items: data.utext-items;
                 timestamp: data.timestamp;
+                index: index;
+                is-show: !data.is-hide;
             }
 
             BItem {
-                visible: data.btext-items.length != 0;
+                visible: data.btext-items.length != 0 && uitem.is-show;
+                height: uitem.is-show ? self.preferred-height : 0px;
                 text: data.btext;
                 uuid: data.uuid;
                 items: data.btext-items;

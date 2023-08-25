@@ -315,6 +315,35 @@ pub fn init(ui: &AppWindow) {
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
     });
 
+    let ui_handle = ui.as_weak();
+    ui.global::<Logic>().on_toggle_show_chat_item(move |index| {
+        if index < 0 {
+            return;
+        }
+
+        let index = index as usize;
+        let ui = ui_handle.unwrap();
+        if ui
+            .global::<Store>()
+            .get_session_datas()
+            .row_count() <= index {
+                return;
+            }
+
+        let mut item = ui
+            .global::<Store>()
+            .get_session_datas()
+            .row_data(index).unwrap();
+
+        item.is_hide = !item.is_hide;
+
+        ui.global::<Store>()
+            .get_session_datas()
+            .set_row_data(index, item);
+
+        ui.window().request_redraw();
+    });
+
     ui.global::<Logic>().on_stop_generate_text(move |suuid| {
         set_stop_chat(suuid.to_string(), true);
     });
@@ -362,6 +391,34 @@ pub fn init(ui: &AppWindow) {
             ui.global::<Store>()
                 .set_session_datas(Rc::new(model).into());
         }
+    });
+
+    let ui_handle = ui.as_weak();
+    ui.global::<Logic>().on_switch_chat_item(move |from, to| {
+        if from < 0 || to < 0 {
+            return;
+        }
+
+        let (from, to) = (from as usize, to as usize);
+        let ui = ui_handle.unwrap();
+        let model: VecModel<_> = ui
+            .global::<Store>()
+            .get_session_datas()
+            .iter()
+            .collect::<Vec<ChatItem>>()
+            .into();
+
+        if from >= model.row_count() || to >= model.row_count() {
+            return;
+        }
+
+        let from_item = model.row_data(from).unwrap();
+        let to_item = model.row_data(to).unwrap();
+        model.set_row_data(from, to_item);
+        model.set_row_data(to, from_item);
+
+        ui.global::<Store>()
+            .set_session_datas(Rc::new(model).into());
     });
 }
 

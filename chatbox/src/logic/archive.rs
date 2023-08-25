@@ -157,6 +157,7 @@ pub fn init(ui: &AppWindow) {
                                     timestamp: citem.timestamp.into(),
                                     etext: "".into(),
                                     is_mark: citem.is_mark,
+                                    is_hide: false,
                                     utext_items: chat::parse_chat_text(citem.utext.as_str()).into(),
                                     btext_items: chat::parse_chat_text(citem.btext.as_str()).into(),
                                 })

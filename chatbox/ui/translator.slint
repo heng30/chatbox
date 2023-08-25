@@ -104,6 +104,10 @@ export struct Translation {
     tip-edit: string,
     tip-enabled-edit: string,
     tip-disabled-edit: string,
+    tip-up: string,
+    tip-down: string,
+    tip-show: string,
+    tip-hide: string,
 }
 
 export global Translator {
@@ -213,6 +217,10 @@ export global Translator {
             tip-edit: is-cn ? "编辑" : "Edit",
             tip-enabled-edit: is-cn ? "启用编辑" : "Enabled Edit",
             tip-disabled-edit: is-cn ? "关闭编辑" : "Disabled Edit",
+            tip-up: is-cn ? "向上" : "Move Up",
+            tip-down: is-cn ? "向下" : "Move down",
+            tip-show: is-cn ? "显示" : "Show",
+            tip-hide: is-cn ? "隐藏" : "Hide",
         };
     }
 }

@@ -5,9 +5,9 @@ import { Store, CodeTextItem } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 import { CenterLayout } from "../../base/center-layout.slint";
 
-component TextItem inherits TextInput {
+export component TextItem inherits TextInput {
     wrap: word-wrap;
-    color: Theme.primary-text-color;
+    color: Theme.regular-text-color;
     font-size: Theme.body-font-size;
     single-line: false;
     read-only: true;

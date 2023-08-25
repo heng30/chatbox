@@ -2,13 +2,15 @@ import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 import { Logic } from "../../logic.slint";
-import { CodeText } from "./code-text.slint";
+import { CodeText, TextItem } from "./code-text.slint";
 
 export component UItem inherits VerticalLayout{
     in-out property text <=> txt.org-text;
     in-out property items <=> txt.items;
     in-out property timestamp <=> timestamp-txt.text;
     in-out property<string> uuid;
+    in-out property<int> index: -1;
+    in-out property<bool> is-show: true;
 
     padding-left: Theme.scroll-width;
     spacing: Theme.spacing;
@@ -47,6 +49,42 @@ export component UItem inherits VerticalLayout{
 
             VerticalLayout {
                 alignment: center;
+                up-icon := IconBtn {
+                    icon: @image-url("../../images/arrow-up.svg");
+                    tip-pos: "left";
+                    tip-text: Store.translator.tip-up;
+                    clicked => {
+                        Logic.switch-chat-item(root.index, root.index - 1);
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: center;
+                down-icon := IconBtn {
+                    icon: @image-url("../../images/arrow-down.svg");
+                    tip-pos: "left";
+                    tip-text: Store.translator.tip-down;
+                    clicked => {
+                        Logic.switch-chat-item(root.index, root.index + 1);
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: center;
+                IconBtn {
+                    tip-pos: "left";
+                    tip-text: !root.is-show ? Store.translator.tip-show : Store.translator.tip-hide;
+                    icon: root.is-show ? @image-url("../../images/eye.svg") : @image-url("../../images/noeye.svg");
+                    clicked => {
+                        Logic.toggle-show-chat-item(root.index);
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: center;
                 IconBtn {
                     icon: @image-url("../../images/speaker.svg");
                     tip-pos: "left";
@@ -82,7 +120,6 @@ export component UItem inherits VerticalLayout{
                         Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
                         Store.ok-cancel-dialog-setting.handle-type = "chat-item";
                         Store.ok-cancel-dialog-setting.handle-uuid = root.uuid;
-
                     }
                 }
             }
@@ -95,7 +132,18 @@ export component UItem inherits VerticalLayout{
 
         txt-vbox := VerticalLayout{
             padding: Theme.padding * 2;
-            txt := CodeText { }
+            txt := CodeText {
+                visible: root.is-show;
+                height: root.is-show ? self.preferred-height : 0px;
+            }
+
+            TextItem {
+                visible: !root.is-show;
+                height: !root.is-show ? self.font-size + Theme.padding * 2 : 0px;
+                text: root.text;
+                single-line: true;
+                wrap: no-wrap;
+            }
         }
     }
 }
