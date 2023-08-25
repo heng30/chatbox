@@ -6,10 +6,10 @@ export component InstTip inherits Rectangle {
     visible: Store.inst-tip-setting.items.length > 0;
     width: vbox.preferred-width;
     height: vbox.preferred-height;
-    background: Theme.dark-fill-color;
     border-width: 1px;
     border-color: Theme.base-border-color;
     border-radius: Theme.border-radius;
+    background: @linear-gradient(0deg, Theme.dark-fill-color 0%, Theme.base-background 100%);
 
     property<length> max-txt-length: 0px;
 
@@ -28,7 +28,7 @@ export component InstTip inherits Rectangle {
         padding: Theme.padding;
 
         for item[index] in Store.inst-tip-setting.items : Rectangle {
-            background: area.has-hover ? Theme.label-hover-color : Colors.transparent;
+            background: area.has-hover ? Theme.dark-border-color : Colors.transparent;
             border-radius: Theme.border-radius;
 
             init => {

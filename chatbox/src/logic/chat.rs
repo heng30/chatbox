@@ -395,25 +395,59 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
             }
 
             if !in_code_block {
-                if line.trim_start().starts_with("- ") {
+                if line.trim_start().starts_with("- ")
+                    || line.starts_with("# ")
+                    || line.starts_with("## ")
+                    || line.starts_with("### ")
+                {
                     if !cur_item.text.is_empty() {
-                        cur_item.text = cur_item.text.trim_end().into();
+                        if cur_item.text_type == "plain" && cur_item.text.ends_with('\n') {
+                            cur_item.text = cur_item.text[0..cur_item.text.len() - 1].into();
+                        }
                         items.push(cur_item.clone());
                         cur_item = CodeTextItem::default();
                     }
+                }
+
+                if line.trim_start().starts_with("- ") {
                     cur_item.text_type = "list-item".into();
+                } else if line.starts_with("# ") {
+                    cur_item.text_type = "title-1".into();
+                } else if line.starts_with("## ") {
+                    cur_item.text_type = "title-2".into();
+                } else if line.starts_with("### ") {
+                    cur_item.text_type = "title-3".into();
                 } else if cur_item.text_type.is_empty() {
                     cur_item.text_type = "plain".into();
                 }
             }
 
-            if cur_item.text_type == "list-item" {
-                cur_item.text = line.replacen("-", "⚫", 1).trim_end().into();
-                items.push(cur_item.clone());
-                cur_item = CodeTextItem::default();
-            } else {
-                cur_item.text.push_str(line);
-                cur_item.text.push_str("\n");
+            match cur_item.text_type.as_str() {
+                "list-item" => {
+                    cur_item.text = line.replacen("-", "⚫", 1).trim_end().into();
+                }
+                "title-1" => {
+                    cur_item.text = line.replacen("# ", "", 1).trim_end().into();
+                }
+                "title-2" => {
+                    cur_item.text = line.replacen("## ", "", 1).trim_end().into();
+                }
+                "title-3" => {
+                    cur_item.text = line.replacen("### ", "", 1).trim_end().into();
+                }
+
+                _ => {}
+            }
+
+            match cur_item.text_type.as_str() {
+                "list-item" | "title-1" | "title-2" | "title-3" => {
+                    items.push(cur_item.clone());
+                    cur_item = CodeTextItem::default();
+                }
+                _ => {
+                    cur_item.text.push_str(line);
+                    cur_item.text.push_str("\n");
+                }
             }
         }
     }

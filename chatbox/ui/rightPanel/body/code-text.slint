@@ -5,27 +5,27 @@ import { Store, CodeTextItem } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 import { CenterLayout } from "../../base/center-layout.slint";
 
+component TextItem inherits TextInput {
+    wrap: word-wrap;
+    color: Theme.primary-text-color;
+    font-size: Theme.body-font-size;
+    single-line: false;
+    read-only: true;
+}
+
 export component CodeText inherits Rectangle {
     preferred-width: vbox.preferred-width;
     preferred-height: vbox.preferred-height;
     in-out property<string> org-text;
     in-out property<[CodeTextItem]> items: [];
-    in-out property<bool> read-only: true;
 
     vbox := VerticalLayout {
-        x: 0; y: 0;
         for item in items : HorizontalLayout {
             if item.text-type == "plain" : Rectangle {
                 height: txt-plain.preferred-height;
-                txt-plain := TextInput {
-                    x: 0; y: 0;
+                txt-plain := TextItem {
                     width: parent.width;
-                    wrap: word-wrap;
                     text: item.text;
-                    color: Theme.primary-text-color;
-                    font-size: Theme.default-font-size + 2px;
-                    single-line: false;
-                    read-only: root.read-only;
                 }
             }
 
@@ -33,13 +33,41 @@ export component CodeText inherits Rectangle {
                 padding-top: Theme.padding;
                 padding-bottom: Theme.padding;
 
-                txt-list-item := TextInput {
-                    wrap: word-wrap;
+                txt-list-item := TextItem {
                     text: item.text;
-                    color: Theme.primary-text-color;
-                    font-size: Theme.default-font-size + 2px;
-                    single-line: false;
-                    read-only: root.read-only;
+                }
+            }
+
+            if item.text-type == "title-1": HorizontalLayout {
+                padding-top: Theme.padding;
+                padding-bottom: Theme.padding;
+
+                TextItem {
+                    text: item.text;
+                    font-weight: 1.3;
+                    font-size: Theme.title1-font-size;
+                }
+            }
+
+            if item.text-type == "title-2": HorizontalLayout {
+                padding-top: Theme.padding;
+                padding-bottom: Theme.padding;
+
+                TextItem {
+                    text: item.text;
+                    font-weight: 1.2;
+                    font-size: Theme.title2-font-size;
+                }
+            }
+
+            if item.text-type == "title-3": HorizontalLayout {
+                padding-top: Theme.padding;
+                padding-bottom: Theme.padding;
+
+                TextItem {
+                    text: item.text;
+                    font-weight: 1.1;
+                    font-size: Theme.title3-font-size;
                 }
             }
 
@@ -51,17 +79,13 @@ export component CodeText inherits Rectangle {
                     height: txt-code.preferred-height + Theme.padding * 4;
                     border-radius: Theme.border-radius;
 
-                    txt-code := TextInput {
+                    txt-code := TextItem {
                         x: Theme.padding * 2;
                         y: Theme.padding * 2;
                         width: parent.width - self.x;
-                        wrap: word-wrap;
                         text: item.text;
-                        color: Theme.primary-text-color;
-                        font-size: Theme.default-font-size + 2px;
+                        font-size: Theme.code-font-size;
                         font-family: Theme.code-font-family;
-                        single-line: false;
-                        read-only: root.read-only;
                     }
 
                     img := IconBtn {
