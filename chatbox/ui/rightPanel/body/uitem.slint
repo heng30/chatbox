@@ -49,36 +49,24 @@ export component UItem inherits VerticalLayout{
 
             VerticalLayout {
                 alignment: center;
+                IconBtn {
+                    tip-pos: "left";
+                    tip-text: !root.is-show ? Store.translator.tip-show : Store.translator.tip-hide;
+                    icon: root.is-show ? @image-url("../../images/arrow-down.svg") : @image-url("../../images/arrow-up.svg");
+                    clicked => {
+                        Logic.toggle-show-chat-item(root.index);
+                    }
+                }
+            }
+
+            VerticalLayout {
+                alignment: center;
                 up-icon := IconBtn {
-                    icon: @image-url("../../images/arrow-up.svg");
+                    icon: @image-url("../../images/btn-up.svg");
                     tip-pos: "left";
                     tip-text: Store.translator.tip-up;
                     clicked => {
                         Logic.switch-chat-item(root.index, root.index - 1);
-                    }
-                }
-            }
-
-            VerticalLayout {
-                alignment: center;
-                down-icon := IconBtn {
-                    icon: @image-url("../../images/arrow-down.svg");
-                    tip-pos: "left";
-                    tip-text: Store.translator.tip-down;
-                    clicked => {
-                        Logic.switch-chat-item(root.index, root.index + 1);
-                    }
-                }
-            }
-
-            VerticalLayout {
-                alignment: center;
-                IconBtn {
-                    tip-pos: "left";
-                    tip-text: !root.is-show ? Store.translator.tip-show : Store.translator.tip-hide;
-                    icon: root.is-show ? @image-url("../../images/eye.svg") : @image-url("../../images/noeye.svg");
-                    clicked => {
-                        Logic.toggle-show-chat-item(root.index);
                     }
                 }
             }
