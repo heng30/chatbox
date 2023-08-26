@@ -1,6 +1,5 @@
 import { Store } from "./store.slint";
 import "./fonts/monospace.ttf";
-import "./fonts/LXGWNeoXiHei.ttf";
 import "./fonts/SourceHanSerifCN.ttf";
 
 export global Theme  {
@@ -38,6 +37,7 @@ export global Theme  {
     out property<color> warning-color: #E6A23C;
     out property<color> danger-color: #F56C6C;
     out property<color> info-color: #909399;
+    out property<color> discovery-color: #6E5DC6;
     out property<color> mark-color: Theme.warning-color;
     out property<color> unmark-color: Colors.white;
 
@@ -50,8 +50,8 @@ export global Theme  {
     out property<color> label-hover-color: darker-fill-color;
 
     out property<color> primary-text-color: #303133;
-    out property<color> regular-text-color: #606266;
-    out property<color> secondary-text-color: #909399;
+    out property<color> regular-text-color: primary-text-color.brighter(50%);
+    out property<color> secondary-text-color: primary-text-color.brighter(100%);
     out property<color> placeholder-text-color: #A8ABB2;
     out property<color> disabled-text-color: #C0C4CC;
 
