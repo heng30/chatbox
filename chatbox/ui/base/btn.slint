@@ -33,5 +33,8 @@ export component Btn inherits Rectangle {
             font-size: Theme.enlarge-font-size;
         }
     }
-    touch := TouchArea { }
+
+    touch := TouchArea {
+        mouse-cursor: self.has-hover ? pointer : default;
+    }
 }

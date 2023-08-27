@@ -1,0 +1,18 @@
+import { Theme } from "../theme.slint";
+
+export component Avatar inherits Rectangle {
+    in-out property icon-colorize <=> img.colorize;
+    in-out property icon-source <=> img.source;
+
+    height: img.width + 10px;
+    width: img.width + 10px;
+    border-radius: self.height / 2;
+    background: @radial-gradient(circle, Theme.base-background 0%, Theme.darker-fill-color 100%);
+
+    img := Image {
+        width: Theme.icon-size;
+        height: Theme.icon-size;
+        image-fit: ImageFit.contain;
+        colorize: Theme.avatar-color;
+    }
+}

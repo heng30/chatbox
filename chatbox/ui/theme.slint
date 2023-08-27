@@ -68,6 +68,8 @@ export global Theme  {
     out property<color> light-fill-color: base-fill-color.brighter(5%);
     out property<color> lighter-fill-color: light-fill-color.brighter(10%);
 
+    out property<color> avatar-color: primary-text-color.brighter(50%);
+
     public function toggle-archive-panel() {
         if (Theme.right-panel-width > 0) {
             Theme.right-panel-width = 0;

@@ -30,6 +30,7 @@ export component Body inherits Rectangle {
                 background: data.uuid == Store.current-session-uuid ? Theme.base-background : (touch.has-hover ? Theme.darker-fill-color : Colors.transparent);
 
                 touch := TouchArea {
+                    mouse-cursor: self.has-hover ? pointer : default;
                     clicked => {
                         Logic.switch-session(Store.current-session-uuid, data.uuid);
                     }

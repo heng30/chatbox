@@ -421,7 +421,6 @@ pub fn init(ui: &AppWindow) {
             let mut index = 0;
             for (row, session) in sessions.into_iter().enumerate() {
                 if session.uuid == old_uuid {
-                    debug!("1");
                     ui.global::<Store>().get_chat_sessions().set_row_data(
                         row,
                         ChatSession {
@@ -430,7 +429,6 @@ pub fn init(ui: &AppWindow) {
                             ..session
                         },
                     );
-                    debug!("2");
 
                     index += 1;
                 } else if session.uuid == new_uuid {
@@ -455,7 +453,6 @@ pub fn init(ui: &AppWindow) {
                                         item.btext + &text
                                     };
 
-                                    debug!("3");
                                     ui.global::<Store>().get_session_datas().set_row_data(
                                         last_row_index,
                                         ChatItem {
@@ -465,7 +462,6 @@ pub fn init(ui: &AppWindow) {
                                             ..item
                                         },
                                     );
-                                    debug!("4");
                                     ui.window().request_redraw();
                                 }
                             }

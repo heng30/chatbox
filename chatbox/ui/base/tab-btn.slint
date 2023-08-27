@@ -42,5 +42,7 @@ export component TabBtn inherits Rectangle {
         }
     }
 
-    touch := TouchArea { }
+    touch := TouchArea {
+        mouse-cursor: self.has-hover ? pointer : default;
+    }
 }

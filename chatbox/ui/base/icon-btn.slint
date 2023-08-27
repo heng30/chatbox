@@ -39,5 +39,7 @@ export component IconBtn inherits Rectangle {
         colorize: Theme.basic-black-color;
     }
 
-    touch := TouchArea { }
+    touch := TouchArea {
+        mouse-cursor: self.has-hover ? pointer : default;
+    }
 }

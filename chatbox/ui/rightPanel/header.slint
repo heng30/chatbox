@@ -72,7 +72,9 @@ export component Header inherits Rectangle {
                         vertical-alignment: center;
                     }
 
-                    last-pos-touch := TouchArea {}
+                    last-pos-touch := TouchArea {
+                        mouse-cursor: self.has-hover ? pointer : default;
+                    }
 
                     Tip {
                         is-show: last-pos-touch.has-hover;

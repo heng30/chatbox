@@ -54,6 +54,7 @@ export component IconDialog inherits CDialog {
                     }
 
                     touch := TouchArea {
+                        mouse-cursor: self.has-hover ? pointer : default;
                         clicked => {
                             root.select-index(index);
                             Store.icon-dialog-setting.is-show = false;

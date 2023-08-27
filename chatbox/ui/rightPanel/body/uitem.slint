@@ -1,6 +1,7 @@
 import { Theme } from "../../theme.slint";
 import { Store } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
+import { Avatar } from "../../base/avatar.slint";
 import { Logic } from "../../logic.slint";
 import { CodeText, TextItem } from "./code-text.slint";
 
@@ -23,18 +24,8 @@ export component UItem inherits VerticalLayout{
         HorizontalLayout {
             spacing: Theme.spacing * 4;
 
-            Rectangle {
-                height: img.width + 10px;
-                width: img.width + 10px;
-                border-radius: self.height / 2;
-                background: Theme.basic-black-color;
-                img := Image {
-                    width: Theme.icon-size;
-                    height: Theme.icon-size;
-                    image-fit: ImageFit.contain;
-                    source: @image-url("../../images/user.svg");
-                    colorize: Colors.steelblue;
-                }
+            Avatar {
+                icon-source: @image-url("../../images/skull.svg");
             }
 
             timestamp-txt := Text {

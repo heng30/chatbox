@@ -98,6 +98,7 @@ export component ArchivePanel inherits Rectangle {
                 background: touch.has-hover ? root.background.darker(5%) : Colors.transparent;
 
                 touch := TouchArea {
+                    mouse-cursor: self.has-hover ? pointer : default;
                     clicked => {
                         Logic.show-session-archive(Store.current-session-uuid, data.uuid);
                     }
