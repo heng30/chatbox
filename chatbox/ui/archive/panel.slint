@@ -4,6 +4,7 @@ import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
 import { IconBtn } from "../base/icon-btn.slint";
 import { Tip } from "../base/tip.slint";
+import { NoDataImg } from "../base/no-data.slint";
 
 export component ArchivePanel inherits Rectangle {
     in-out property search-text <=> search-lineedit.text;
@@ -21,6 +22,12 @@ export component ArchivePanel inherits Rectangle {
     animate width {
         duration: Theme.default-animate-duration;
         easing: ease-in-out;
+    }
+
+    NoDataImg {
+        visible: Store.session-archive-datas.length <= 0;
+        img-width: root.width * 0.6;
+        text: Store.translator.no-data;
     }
 
     VerticalLayout {
@@ -122,7 +129,7 @@ export component ArchivePanel inherits Rectangle {
                         icon := IconBtn {
                             tip-pos: "left";
                             tip-text: Store.translator.tip-delete;
-                            icon: @image-url("../images/delete.svg");
+                            icon: @image-url("../images/delete-light.svg");
                             colorize: Theme.regular-text-color;
                             clicked => {
                                 Store.ok-cancel-dialog-setting.title-type = "warning";

@@ -1,0 +1,26 @@
+import { Theme } from "../theme.slint";
+import { CenterLayout } from "./center-layout.slint";
+
+export component NoDataImg inherits Rectangle {
+    in-out property img-width <=> img.width;
+    in-out property text <=> txt.text;
+
+    opacity: 0.5;
+
+    CenterLayout {
+        CenterLayout {
+            img := Image {
+                width: root.width * 0.6;
+                source: @image-url("../images/no-data.svg");
+            }
+        }
+
+        CenterLayout {
+            txt := Text {
+                opacity: 0.5;
+                color: Theme.regular-text-color;
+            }
+        }
+    }
+
+}
