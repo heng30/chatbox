@@ -63,7 +63,7 @@ export component SettingDialog inherits Rectangle {
 
                 TabBtn {
                     text: Store.translator.setting-dialog-audio;
-                    icon: @image-url("../../images/speak.svg");
+                    icon: @image-url("../../images/recording.svg");
                     checked: current-checked-item == "audio";
                     clicked => {
                         current-checked-item = "audio";

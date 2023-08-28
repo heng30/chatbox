@@ -4,6 +4,7 @@ import { Store } from "../store.slint";
 import { Header } from "./header.slint";
 import { Body } from "./body/panel.slint";
 import { Footer } from "./footer.slint";
+import { Divider } from "../base/divider.slint";
 
 export component RPanel inherits VerticalLayout {
     in-out property question <=> footer.question;
@@ -61,6 +62,16 @@ export component RPanel inherits VerticalLayout {
 
         jump-to-last-pos => {
             root.jump-to-last-pos();
+        }
+    }
+
+    VerticalLayout {
+        visible: body.viewport-y != 0;
+        padding-left: Theme.scroll-width;
+        padding-right: Theme.scroll-width;
+
+        Divider {
+            background: Theme.base-border-color;
         }
     }
 

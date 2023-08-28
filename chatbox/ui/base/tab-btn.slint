@@ -6,8 +6,10 @@ export component TabBtn inherits Rectangle {
 
     in-out property<bool> checked: false;
     in-out property<color> text-color: Theme.brand-color;
-    in-out property<color> text-hover-color: text-color.darker(30%);
+    in-out property<color> text-hover-color: text-color.darker(50%);
     in-out property<color> text-checked-color: text-color.darker(100%);
+
+    property<color> item-color: root.checked || touch.pressed ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
 
     callback clicked <=> touch.clicked;
 
@@ -17,9 +19,9 @@ export component TabBtn inherits Rectangle {
         VerticalLayout {
             alignment: center;
             img := Image {
-                height: Theme.enlarge-font-size;
+                height: txt.font-size;
                 width: self.height;
-                colorize: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
+                colorize: root.item-color;
 
                 animate colorize {
                     duration: Theme.default-animate-duration;
@@ -31,7 +33,7 @@ export component TabBtn inherits Rectangle {
         VerticalLayout {
             alignment: center;
             txt := Text {
-                color: root.checked ? text-checked-color : touch.has-hover ? text-hover-color : text-color;
+                color: root.item-color;
                 font-size: Theme.default-font-size;
 
                 animate color {

@@ -58,7 +58,7 @@ export component Header inherits Rectangle {
 
                 Rectangle {
                     border-radius: Theme.border-radius;
-                    background: last-pos-touch.has-hover ? Theme.hover-color : Colors.transparent;
+                    background: last-pos-touch.pressed ? Theme.hover-color.darker(50%) : last-pos-touch.has-hover ? Theme.hover-color : Colors.transparent;
                     width: last-pos-txt.preferred-width + Theme.padding * 4;
 
                     animate background {
@@ -223,5 +223,6 @@ export component Header inherits Rectangle {
                 }
             }
         }
-        }
+    }
 }
+

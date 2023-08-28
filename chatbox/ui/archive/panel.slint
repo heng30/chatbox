@@ -95,7 +95,7 @@ export component ArchivePanel inherits Rectangle {
             for data[index] in Store.session-archive-datas : Rectangle {
                 y: index * item-height;
                 height: root.item-height;
-                background: touch.has-hover ? root.background.darker(5%) : Colors.transparent;
+                background: touch.pressed ? root.background.darker(15%) : touch.has-hover ? root.background.darker(5%) : Colors.transparent;
 
                 touch := TouchArea {
                     mouse-cursor: self.has-hover ? pointer : default;

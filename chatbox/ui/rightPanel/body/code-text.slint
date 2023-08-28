@@ -71,6 +71,17 @@ export component CodeText inherits Rectangle {
                 }
             }
 
+            if item.text-type == "title-4": HorizontalLayout {
+                padding-top: Theme.padding;
+                padding-bottom: Theme.padding;
+
+                TextItem {
+                    text: item.text;
+                    font-weight: 1.1;
+                    font-size: Theme.title4-font-size;
+                }
+            }
+
             if item.text-type == "code" : VerticalLayout {
                 padding: Theme.padding * 2;
 

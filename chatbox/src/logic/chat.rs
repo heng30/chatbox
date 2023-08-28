@@ -323,17 +323,15 @@ pub fn init(ui: &AppWindow) {
 
         let index = index as usize;
         let ui = ui_handle.unwrap();
-        if ui
-            .global::<Store>()
-            .get_session_datas()
-            .row_count() <= index {
-                return;
-            }
+        if ui.global::<Store>().get_session_datas().row_count() <= index {
+            return;
+        }
 
         let mut item = ui
             .global::<Store>()
             .get_session_datas()
-            .row_data(index).unwrap();
+            .row_data(index)
+            .unwrap();
 
         item.is_hide = !item.is_hide;
 
@@ -456,6 +454,7 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
                     || line.starts_with("# ")
                     || line.starts_with("## ")
                     || line.starts_with("### ")
+                    || line.starts_with("#### ")
                 {
                     if !cur_item.text.is_empty() {
                         if cur_item.text_type == "plain" && cur_item.text.ends_with('\n') {
@@ -474,6 +473,8 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
                     cur_item.text_type = "title-2".into();
                 } else if line.starts_with("### ") {
                     cur_item.text_type = "title-3".into();
+                } else if line.starts_with("#### ") {
+                    cur_item.text_type = "title-4".into();
                 } else if cur_item.text_type.is_empty() {
                     cur_item.text_type = "plain".into();
                 }
@@ -492,12 +493,15 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
                 "title-3" => {
                     cur_item.text = line.replacen("### ", "", 1).trim_end().into();
                 }
+                "title-4" => {
+                    cur_item.text = line.replacen("#### ", "", 1).trim_end().into();
+                }
 
                 _ => {}
             }
 
             match cur_item.text_type.as_str() {
-                "list-item" | "title-1" | "title-2" | "title-3" => {
+                "list-item" | "title-1" | "title-2" | "title-3" | "title-4" => {
                     items.push(cur_item.clone());
                     cur_item = CodeTextItem::default();
                 }

@@ -19,7 +19,7 @@ export component Header inherits HorizontalLayout {
     }
     TabBtn {
         text-color: Theme.regular-text-color;
-        icon: @image-url("../images/edit.svg");
+        icon: @image-url("../images/edit-text.svg");
         text: Store.translator.edit;
         clicked => {
             Logic.set-edit-session(Store.current-session-uuid);
@@ -29,7 +29,7 @@ export component Header inherits HorizontalLayout {
     }
     TabBtn {
         text-color: Theme.regular-text-color;
-        icon: @image-url("../images/delete.svg");
+        icon: @image-url("../images/delete-light.svg");
         text: Store.translator.delete;
         clicked => {
             Store.ok-cancel-dialog-setting.title-type = "warning";
