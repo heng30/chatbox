@@ -8,31 +8,19 @@ import { UI } from "./ui.slint";
 import { Chat } from "./chat/chat.slint";
 import { Audio } from "./audio/audio.slint";
 import { Proxy } from "./proxy.slint";
+import { CDialog } from "../../base/cdialog.slint";
 
-export component SettingDialog inherits Rectangle {
-    in-out property<length> body-width: 1000px;
-    in-out property<color> title-bg: Theme.brand-color;
-
+export component SettingDialog inherits CDialog {
     property<string> current-checked-item: "ui";
 
     callback close();
 
     visible: Store.setting-dialog-config.show;
-    width: self.visible ? root.body-width : 0;
-    height: self.visible ? vbox.preferred-height : 0;
-    background: Theme.base-background;
+    title: Store.translator.setting;
+    width: 1000px;
 
-    vbox := VerticalLayout {
+    VerticalLayout {
         alignment: start;
-        title-rect := Rectangle {
-            background: root.title-bg;
-            height: txt.preferred-height * 1.33;
-            txt := Text {
-                text: Store.translator.setting;
-                color: Colors.white;
-                font-size: Theme.default-font-size + 1px;
-            }
-        }
 
         VerticalLayout {
             spacing: Theme.spacing * 2;
@@ -138,116 +126,105 @@ export component SettingDialog inherits Rectangle {
                 }
             }
         }
+    }
 
-        footer-hbox := HorizontalLayout {
-            Btn {
-                text: Store.translator.cancel;
-                bg-color: Theme.danger-color;
-                icon: @image-url("../../images/cancel.svg");
-                clicked => {
-                    Logic.setting-cancel();
+    cancel-clicked => {
+        Logic.setting-cancel();
 
-                    ui-tab.font-size = Theme.default-font-size / 1px;
-                    ui-tab.font-family = Store.setting-dialog-config.ui.font-family;
-                    ui-tab.win-width = Theme.default-width / 1px;
-                    ui-tab.win-height = Theme.default-height / 1px;
-                    ui-tab.set-language(Store.setting-dialog-config.ui.language);
+        ui-tab.font-size = Theme.default-font-size / 1px;
+        ui-tab.font-family = Store.setting-dialog-config.ui.font-family;
+        ui-tab.win-width = Theme.default-width / 1px;
+        ui-tab.win-height = Theme.default-height / 1px;
+        ui-tab.set-language(Store.setting-dialog-config.ui.language);
 
-                    proxy-tab.proxy-openai = Store.setting-dialog-config.proxy.openai;
-                    proxy-tab.proxy-azure = Store.setting-dialog-config.proxy.azure;
-                    proxy-tab.proxy-url = Store.setting-dialog-config.proxy.url;
-                    proxy-tab.proxy-port = Store.setting-dialog-config.proxy.port;
+        proxy-tab.proxy-openai = Store.setting-dialog-config.proxy.openai;
+        proxy-tab.proxy-azure = Store.setting-dialog-config.proxy.azure;
+        proxy-tab.proxy-url = Store.setting-dialog-config.proxy.url;
+        proxy-tab.proxy-port = Store.setting-dialog-config.proxy.port;
 
-                    chat-tab.openai-api-key = Store.setting-dialog-config.chat.openai.api-key;
-                    chat-tab.openai-url = Store.setting-dialog-config.chat.openai.chat.url;
-                    chat-tab.openai-max-tokens = Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 0);
-                    chat-tab.openai-max-tokens-16k = Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens-16k.to-float(), 0);
-                    chat-tab.openai-temperature = Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, 0);
-                    chat-tab.openai-frequency-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
-                    chat-tab.openai-presence-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200 );
-                    chat-tab.openai-context-length = Store.setting-dialog-config.chat.openai.chat.context-length;
+        chat-tab.openai-api-key = Store.setting-dialog-config.chat.openai.api-key;
+        chat-tab.openai-url = Store.setting-dialog-config.chat.openai.chat.url;
+        chat-tab.openai-max-tokens = Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens.to-float(), 0);
+        chat-tab.openai-max-tokens-16k = Math.max(Store.setting-dialog-config.chat.openai.chat.max-tokens-16k.to-float(), 0);
+        chat-tab.openai-temperature = Math.max(Store.setting-dialog-config.chat.openai.chat.temperature, 0);
+        chat-tab.openai-frequency-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.frequency-penalty, -200);
+        chat-tab.openai-presence-penalty = Math.max(Store.setting-dialog-config.chat.openai.chat.presence-penalty, -200 );
+        chat-tab.openai-context-length = Store.setting-dialog-config.chat.openai.chat.context-length;
 
-                    chat-tab.azure-api-key = Store.setting-dialog-config.chat.azure.api-key;
-                    chat-tab.azure-url = Store.setting-dialog-config.chat.azure.chat.url;
-                    chat-tab.azure-max-tokens = Math.max(Store.setting-dialog-config.chat.azure.chat.max-tokens.to-float(), 128);
-                    chat-tab.azure-temperature = Math.max(Store.setting-dialog-config.chat.azure.chat.temperature, 0);
-                    chat-tab.azure-frequency-penalty = Math.max(Store.setting-dialog-config.chat.azure.chat.frequency-penalty, -200);
-                    chat-tab.azure-presence-penalty = Math.max(Store.setting-dialog-config.chat.azure.chat.presence-penalty, -200 );
+        chat-tab.azure-api-key = Store.setting-dialog-config.chat.azure.api-key;
+        chat-tab.azure-url = Store.setting-dialog-config.chat.azure.chat.url;
+        chat-tab.azure-max-tokens = Math.max(Store.setting-dialog-config.chat.azure.chat.max-tokens.to-float(), 128);
+        chat-tab.azure-temperature = Math.max(Store.setting-dialog-config.chat.azure.chat.temperature, 0);
+        chat-tab.azure-frequency-penalty = Math.max(Store.setting-dialog-config.chat.azure.chat.frequency-penalty, -200);
+        chat-tab.azure-presence-penalty = Math.max(Store.setting-dialog-config.chat.azure.chat.presence-penalty, -200 );
 
 
-                    audio-tab.azure-api-key = Store.setting-dialog-config.audio.api-key;
-                    audio-tab.azure-region = Store.setting-dialog-config.audio.region;
-                    audio-tab.current-input-device = Store.setting-dialog-config.audio.current-input-device;
-                    audio-tab.current-output-device = Store.setting-dialog-config.audio.current-output-device;
-                    audio-tab.is-auto-v2t = Store.setting-dialog-config.audio.is-auto-v2t;
-                    audio-tab.is-auto-play-record = Store.setting-dialog-config.audio.is-auto-play-record;
-                    audio-tab.speech-language = Store.setting-dialog-config.audio.speech-language;
-                    audio-tab.output-volume = Store.setting-dialog-config.audio.output-volume;
+        audio-tab.azure-api-key = Store.setting-dialog-config.audio.api-key;
+        audio-tab.azure-region = Store.setting-dialog-config.audio.region;
+        audio-tab.current-input-device = Store.setting-dialog-config.audio.current-input-device;
+        audio-tab.current-output-device = Store.setting-dialog-config.audio.current-output-device;
+        audio-tab.is-auto-v2t = Store.setting-dialog-config.audio.is-auto-v2t;
+        audio-tab.is-auto-play-record = Store.setting-dialog-config.audio.is-auto-play-record;
+        audio-tab.speech-language = Store.setting-dialog-config.audio.speech-language;
+        audio-tab.output-volume = Store.setting-dialog-config.audio.output-volume;
 
 
-                    Store.setting-dialog-config.show = false;
-                    root.close();
+        Store.setting-dialog-config.show = false;
+        root.close();
+    }
+
+    ok-clicked => {
+        Logic.setting-ok({
+            ui: {
+                font-size: ui-tab.font-size,
+                font-family: ui-tab.font-family,
+                win-width: ui-tab.win-width,
+                win-height: ui-tab.win-height,
+                language: ui-tab.language
+            },
+            proxy: {
+                openai: proxy-tab.proxy-openai,
+                azure: proxy-tab.proxy-azure,
+                url: proxy-tab.proxy-url,
+                port: proxy-tab.proxy-port
+            },
+            chat: {
+                openai: {
+                    api-key: chat-tab.openai-api-key,
+                    chat:  {
+                        url: chat-tab.openai-url,
+                        max-tokens: chat-tab.openai-max-tokens,
+                        max-tokens-16k: chat-tab.openai-max-tokens-16k,
+                        temperature: chat-tab.openai-temperature,
+                        frequency-penalty: chat-tab.openai-frequency-penalty,
+                        presence-penalty: chat-tab.openai-presence-penalty,
+                        context-length: chat-tab.openai-context-length
+                    }
+                },
+                azure: {
+                    api-key: chat-tab.azure-api-key,
+                    chat:  {
+                        url: chat-tab.azure-url,
+                        max-tokens: chat-tab.azure-max-tokens,
+                        temperature: chat-tab.azure-temperature,
+                        frequency-penalty: chat-tab.azure-frequency-penalty,
+                        presence-penalty: chat-tab.azure-presence-penalty
+                    }
                 }
+            },
+            audio: {
+                region: audio-tab.azure-region,
+                api-key: audio-tab.azure-api-key,
+                current-input-device: audio-tab.current-input-device,
+                current-output-device: audio-tab.current-output-device,
+                is-auto-v2t: audio-tab.is-auto-v2t,
+                is-auto-play-record: audio-tab.is-auto-play-record,
+                speech-language: audio-tab.speech-language,
+                output-volume: audio-tab.output-volume,
             }
+        });
 
-            Btn {
-                text: Store.translator.ok;
-                icon: @image-url("../../images/success.svg");
-                clicked => {
-                    Logic.setting-ok({
-                        ui: {
-                            font-size: ui-tab.font-size,
-                            font-family: ui-tab.font-family,
-                            win-width: ui-tab.win-width,
-                            win-height: ui-tab.win-height,
-                            language: ui-tab.language
-                        },
-                        proxy: {
-                            openai: proxy-tab.proxy-openai,
-                            azure: proxy-tab.proxy-azure,
-                            url: proxy-tab.proxy-url,
-                            port: proxy-tab.proxy-port
-                        },
-                        chat: {
-                            openai: {
-                                api-key: chat-tab.openai-api-key,
-                                chat:  {
-                                    url: chat-tab.openai-url,
-                                    max-tokens: chat-tab.openai-max-tokens,
-                                    max-tokens-16k: chat-tab.openai-max-tokens-16k,
-                                    temperature: chat-tab.openai-temperature,
-                                    frequency-penalty: chat-tab.openai-frequency-penalty,
-                                    presence-penalty: chat-tab.openai-presence-penalty,
-                                    context-length: chat-tab.openai-context-length
-                                }
-                            },
-                            azure: {
-                                api-key: chat-tab.azure-api-key,
-                                chat:  {
-                                    url: chat-tab.azure-url,
-                                    max-tokens: chat-tab.azure-max-tokens,
-                                    temperature: chat-tab.azure-temperature,
-                                    frequency-penalty: chat-tab.azure-frequency-penalty,
-                                    presence-penalty: chat-tab.azure-presence-penalty
-                                }
-                            }
-                        },
-                        audio: {
-                            region: audio-tab.azure-region,
-                            api-key: audio-tab.azure-api-key,
-                            current-input-device: audio-tab.current-input-device,
-                            current-output-device: audio-tab.current-output-device,
-                            is-auto-v2t: audio-tab.is-auto-v2t,
-                            is-auto-play-record: audio-tab.is-auto-play-record,
-                            speech-language: audio-tab.speech-language,
-                            output-volume: audio-tab.output-volume,
-                        }
-                    });
-
-                    Store.setting-dialog-config.show = false;
-                    root.close();
-                }
-            }
-        }
+        Store.setting-dialog-config.show = false;
+        root.close();
     }
 }
