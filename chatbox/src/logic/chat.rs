@@ -1,6 +1,6 @@
 use super::chatcache;
 use super::data::{HistoryChat, StreamTextItem};
-use crate::slint_generatedAppWindow::{AppWindow, ChatItem, CodeTextItem, Logic, Store};
+use crate::slint_generatedAppWindow::{AppWindow, ChatItem, MDItem, Logic, Store};
 use crate::util::{qbox::QBox, translator::tr};
 use crate::{audio, azureai, config, openai, session, util};
 #[allow(unused_imports)]
@@ -420,9 +420,9 @@ pub fn init(ui: &AppWindow) {
     });
 }
 
-pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
+pub fn parse_chat_text(data: &str) -> Rc<VecModel<MDItem>> {
     let items = VecModel::default();
-    let mut cur_item = CodeTextItem::default();
+    let mut cur_item = MDItem::default();
     let mut in_code_block = false;
 
     // Only support code format likes this: \n```some code```\n
@@ -434,14 +434,14 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
                     cur_item.text = cur_item.text.trim_end().into();
                     items.push(cur_item.clone());
                 }
-                cur_item = CodeTextItem::default();
+                cur_item = MDItem::default();
             } else {
                 in_code_block = true;
                 if !cur_item.text.is_empty() {
                     cur_item.text = cur_item.text.trim_end().into();
                     items.push(cur_item.clone());
                 }
-                cur_item = CodeTextItem::default();
+                cur_item = MDItem::default();
             }
             continue;
         } else {
@@ -461,7 +461,7 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
                             cur_item.text = cur_item.text[0..cur_item.text.len() - 1].into();
                         }
                         items.push(cur_item.clone());
-                        cur_item = CodeTextItem::default();
+                        cur_item = MDItem::default();
                     }
                 }
 
@@ -503,7 +503,7 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<CodeTextItem>> {
             match cur_item.text_type.as_str() {
                 "list-item" | "title-1" | "title-2" | "title-3" | "title-4" => {
                     items.push(cur_item.clone());
-                    cur_item = CodeTextItem::default();
+                    cur_item = MDItem::default();
                 }
                 _ => {
                     cur_item.text.push_str(line);

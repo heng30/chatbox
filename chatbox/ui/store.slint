@@ -1,18 +1,13 @@
 import { Translator, Translation} from "./translator.slint";
-
-export struct CodeTextItem {
-    text-type: string,
-    text: string,
-    img: image,
-}
+import { MDItem } from "./base/data.slint";
 
 export struct ChatItem {
     utext: string,
     btext: string,
     etext: string,
 
-    utext-items: [CodeTextItem],
-    btext-items: [CodeTextItem],
+    utext-items: [MDItem],
+    btext-items: [MDItem],
 
     timestamp: string,
     uuid: string,
@@ -492,4 +487,3 @@ export global Store  {
         ],
     };
 }
-

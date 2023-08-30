@@ -1,4 +1,5 @@
-import { SessionConfig, SettingDialogConfig, CodeTextItem } from "./store.slint";
+import { SessionConfig, SettingDialogConfig } from "./store.slint";
+import { MDItem } from "./base/data.slint";
 
 export global Logic {
     callback hide-window();
@@ -35,7 +36,7 @@ export global Logic {
     callback toggle-mark-chat-item(string);
     callback toggle-show-chat-item(int);
     callback stop-generate-text(string);
-    callback code-text-items(string) -> [CodeTextItem];
+    callback code-text-items(string) -> [MDItem];
     callback text-to-speech(string, string);
     callback clean-audio-cache();
     callback start-audio-record();

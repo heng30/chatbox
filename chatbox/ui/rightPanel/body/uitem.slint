@@ -3,7 +3,7 @@ import { Store } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 import { Avatar } from "../../base/avatar.slint";
 import { Logic } from "../../logic.slint";
-import { CodeText, TextItem } from "./code-text.slint";
+import { MD, MDTextItem } from "../../base/md.slint";
 
 export component UItem inherits VerticalLayout{
     in-out property text <=> txt.org-text;
@@ -111,12 +111,17 @@ export component UItem inherits VerticalLayout{
 
         txt-vbox := VerticalLayout{
             padding: Theme.padding * 2;
-            txt := CodeText {
+            txt := MD {
                 visible: root.is-show;
                 height: root.is-show ? self.preferred-height : 0px;
+                tip-text: Store.translator.tip-copy;
+
+                copy(text) => {
+                    Logic.copy-to-clipboard(text);
+                }
             }
 
-            TextItem {
+            MDTextItem {
                 visible: !root.is-show;
                 height: !root.is-show ? self.font-size + Theme.padding * 2 : 0px;
                 text: root.text;

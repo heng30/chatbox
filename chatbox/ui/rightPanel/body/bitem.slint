@@ -3,7 +3,7 @@ import { Store } from "../../store.slint";
 import { IconBtn } from "../../base/icon-btn.slint";
 import { Avatar } from "../../base/avatar.slint";
 import { Logic } from "../../logic.slint";
-import { CodeText } from "./code-text.slint";
+import { MD } from "../../base/md.slint";
 
 export component BItem inherits VerticalLayout{
     in-out property text <=> txt.org-text;
@@ -55,7 +55,13 @@ export component BItem inherits VerticalLayout{
 
         VerticalLayout{
             padding: Theme.padding * 2;
-            txt := CodeText { }
+            txt := MD {
+                tip-text: Store.translator.tip-copy;
+
+                copy(text) => {
+                    Logic.copy-to-clipboard(text);
+                }
+     }
         }
     }
 }
