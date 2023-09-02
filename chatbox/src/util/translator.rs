@@ -14,6 +14,7 @@ pub fn tr(text: &str) -> String {
     items.insert("删除失败", "Delete Failed");
     items.insert("复制失败", "Copy Failed");
     items.insert("复制成功", "Copy Success");
+    items.insert("编辑失败", "Edit Failed");
     items.insert("设置默认会话库失败", "Set Default Session Failed");
     items.insert("保存默认会话到数据库失败", "Save Default Session Failed");
     items.insert("保存到数据库失败", "Save to Database Failed");

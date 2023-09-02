@@ -1,0 +1,58 @@
+import { LineEdit } from "std-widgets.slint";
+import { CDialog } from "../base/cdialog.slint";
+import { Label } from "../base/label.slint";
+import { Store } from "../store.slint";
+import { Util } from "../util.slint";
+import { Logic } from "../logic.slint";
+import { Theme } from "../theme.slint";
+
+export component EditArchiveDialog inherits CDialog {
+    in-out property text <=> name-lineedit.text;
+    in-out property<string> uuid;
+
+    visible: Store.show-edit-archive-dialog;
+    title: Store.translator.session-edit-archive;
+    title-bg: Theme.brand-color;
+    background: rect.background;
+    width: 450px;
+
+    forward-focus: name-lineedit;
+
+    callback close();
+
+    rect := Rectangle {
+        background: Theme.base-background;
+        HorizontalLayout {
+            spacing: Theme.spacing * 2;
+            padding: Theme.padding * 2;
+
+            VerticalLayout {
+                alignment: center;
+                name-text := Label {
+                    text: Store.translator.name + ":";
+                }
+            }
+
+            name-lineedit := LineEdit {
+                accepted => {
+                    root.ok-clicked();
+                }
+            }
+        }
+    }
+
+    ok-clicked => {
+        if (name-lineedit.text != "") {
+            Logic.edit-session-archive(Store.current-session-uuid, root.uuid, name-lineedit.text);
+        }
+        name-lineedit.text = "";
+        Store.show-edit-archive-dialog = false;
+        root.close();
+    }
+
+    cancel-clicked => {
+        name-lineedit.text = "";
+        Store.show-edit-archive-dialog = false;
+        root.close();
+    }
+}

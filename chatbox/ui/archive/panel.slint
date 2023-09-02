@@ -3,6 +3,7 @@ import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
 import { IconBtn } from "../base/icon-btn.slint";
+import { Btn } from "../base/btn.slint";
 import { Tip } from "../base/tip.slint";
 import { NoDataImg } from "../base/no-data.slint";
 
@@ -14,6 +15,8 @@ export component ArchivePanel inherits Rectangle {
 
     width: Theme.right-panel-width;
     background: Theme.light-fill-color;
+
+    callback edit(string, string);
 
     public function scroll-to-top() {
         flick.viewport-y = 0;
@@ -99,15 +102,61 @@ export component ArchivePanel inherits Rectangle {
 
         flick := Flickable {
             viewport-height: Store.session-archive-datas.length * root.item-height;
-            for data[index] in Store.session-archive-datas : Rectangle {
+            for data[index] in Store.session-archive-datas : rec := Rectangle {
                 y: index * item-height;
                 height: root.item-height;
                 background: touch.pressed ? root.background.darker(15%) : touch.has-hover ? root.background.darker(5%) : Colors.transparent;
+
+                property<length> popup-x: 0;
+                property<length> popup-y: 0;
+                property<bool> is-over-middle : -flick.viewport-y + root.height / 2 < rec.y;
 
                 touch := TouchArea {
                     mouse-cursor: self.has-hover ? pointer : default;
                     clicked => {
                         Logic.show-session-archive(Store.current-session-uuid, data.uuid);
+                    }
+                    pointer-event(event) => {
+                        if (event.button == PointerEventButton.right
+                                && event.kind == PointerEventKind.down) {
+                            rec.popup-x = touch.mouse-x;
+                            rec.popup-y = touch.mouse-y;
+                            popup.show();
+                        }
+                    }
+                }
+
+                popup := PopupWindow {
+                    x: rec.popup-x - Theme.padding * 2 - 100px;
+                    y: is-over-middle ? rec.popup-y - Theme.default-font-size * 1.33 * 3 : rec.popup-y;
+                    width: 100px;
+                    Rectangle {
+                        background: Theme.base-background;
+                        VerticalLayout {
+                            Btn {
+                                bg-color: transparent;
+                                bg-hover-color: Theme.hover-color;
+                                bg-pressed-color: Theme.hover-color-dark;
+                                text-color: Theme.primary-text-color;
+                                text: Store.translator.edit;
+                                icon: @image-url("../images/edit-text.svg");
+                                clicked => {
+                                    root.edit(data.uuid, data.name);
+                                }
+                            }
+
+                            Btn {
+                                bg-color: transparent;
+                                bg-hover-color: Theme.hover-color;
+                                bg-pressed-color: Theme.hover-color-dark;
+                                text-color: Theme.primary-text-color;
+                                text: Store.translator.delete;
+                                icon: @image-url("../images/delete-light.svg");
+                                clicked => {
+                                    icon.clicked();
+                                }
+                            }
+                        }
                     }
                 }
 

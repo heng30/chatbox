@@ -51,6 +51,17 @@ pub fn insert(suuid: &str, uuid: &str, name: &str, data: &str) -> Result<()> {
     Ok(())
 }
 
+pub fn update(suuid: &str, uuid: &str, name: &str) -> Result<()> {
+    let conn = connection()?;
+
+    conn.execute(
+        &format!("UPDATE {} SET name=? WHERE uuid=?", table_name(suuid)),
+        [name, uuid],
+    )?;
+
+    Ok(())
+}
+
 pub fn select(suuid: &str, uuid: &str) -> Result<Option<(String, String)>> {
     let conn = connection()?;
 
@@ -101,9 +112,12 @@ pub fn is_exist(suuid: &str, uuid: &str) -> Result<bool> {
 pub fn is_table_exist(suuid: &str) -> Result<bool> {
     let conn = connection()?;
 
-    let sql = format!("SELECT name FROM sqlite_master WHERE type='table' AND name='{}'", table_name(suuid));
+    let sql = format!(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='{}'",
+        table_name(suuid)
+    );
     let mut stmt = conn.prepare(&sql)?;
-    let result = stmt.query_map(params![], |row| { row.get::<_, String>(0) })?;
+    let result = stmt.query_map(params![], |row| row.get::<_, String>(0))?;
     Ok(!result.count().eq(&0))
 }
 

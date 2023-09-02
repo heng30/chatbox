@@ -1,5 +1,4 @@
 import { Theme } from "../theme.slint";
-import { CenterLayout } from "./center-layout.slint";
 
 export component Btn inherits Rectangle {
     in-out property<string> text <=> txt.text;
@@ -21,20 +20,17 @@ export component Btn inherits Rectangle {
         easing: ease-in-out;
     }
 
-    HorizontalLayout {
-        alignment: center;
-        spacing: Theme.spacing * 2;
-        CenterLayout {
-            img := Image {
-                width: root.icon.width > 0 ? txt.height * 0.618 : 0;
-                colorize: root.text-color;
-            }
+    Rectangle {
+        img := Image {
+            width: root.icon.width > 0 ? txt.height - Theme.padding : 0;
+            x: txt.x - Theme.icon-size - Theme.spacing * 2;
+            colorize: root.text-color;
         }
 
         txt := Text {
+            x: (parent.width - self.width) / 2 + img.width / 2 + (root.icon.width > 0 ? Theme.spacing * 2 : 0);
             color: root.text-color;
             font-size: Theme.enlarge-font-size;
-            vertical-alignment: center;
         }
     }
 

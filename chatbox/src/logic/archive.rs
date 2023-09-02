@@ -105,6 +105,40 @@ pub fn init(ui: &AppWindow) {
             }
         });
 
+    let ui_handle = ui.as_weak();
+    ui.global::<Logic>()
+        .on_edit_session_archive(move |suuid, uuid, name| {
+            let ui = ui_handle.unwrap();
+            let datas = ui.global::<Store>().get_session_archive_datas();
+
+            let (mut row, mut row_item) = (None, None);
+            for (index, item) in datas.iter().enumerate() {
+                if item.uuid == uuid {
+                    row = Some(index);
+                    row_item = Some(item);
+                    break;
+                }
+            }
+
+            if row.is_none() || row_item.is_none() {
+                return;
+            }
+
+            let mut row_item = row_item.unwrap();
+            row_item.name = name.clone();
+
+            ui.global::<Store>().get_session_archive_datas()
+                .set_row_data(row.unwrap(), row_item);
+
+            if let Err(e) = db::archive::update(suuid.as_str(), uuid.as_str(), name.as_str()) {
+                ui.global::<Logic>().invoke_show_message(
+                    slint::format!("{}: {:?}", tr("编辑失败") + "!" + &tr("原因"), e),
+                    "warning".into(),
+                );
+                return;
+            }
+        });
+
     ui.global::<Logic>()
         .on_delete_session_archives(move |suuid| {
             let ui = ui_delete_session_archives_handle.unwrap();
