@@ -127,8 +127,8 @@ export component ArchivePanel inherits Rectangle {
                 }
 
                 popup := PopupWindow {
-                    x: rec.popup-x - Theme.padding * 2 - 100px;
-                    y: is-over-middle ? rec.popup-y - Theme.default-font-size * 1.33 * 3 : rec.popup-y;
+                    x: rec.popup-x + Theme.padding * 2;
+                    y: is-over-middle ? rec.popup-y - Theme.default-font-size * 1.33 * 3 : rec.popup-y + Theme.padding * 2;
                     width: del-btn.preferred-width + Theme.padding * 2;
                     Rectangle {
                         background: Theme.base-background;
