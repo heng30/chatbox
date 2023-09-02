@@ -1,5 +1,6 @@
 import { Store } from "./store.slint";
 import "./fonts/monospace.ttf";
+import "./fonts/FiraCode-Regular.ttf";
 import "./fonts/SourceHanSerifCN.ttf";
 
 export global Theme  {
@@ -27,7 +28,7 @@ export global Theme  {
     in-out property<length> title1-font-size: default-font-size + 8px;
 
     in-out property<string> default-font-family: Store.setting-dialog-config.ui.font-family;
-    in-out property<string> code-font-family: "monospace";
+    in-out property<string> code-font-family: "FiraCode";
 
     out property<length> icon-size: 24px;
     out property<length> default-label-width: 200px;
@@ -50,7 +51,7 @@ export global Theme  {
     out property<color> hover-color-dark: hover-color.darker(15%);
     out property<color> label-hover-color: darker-fill-color;
 
-    out property<color> primary-text-color: #303133;
+    out property<color> primary-text-color: #202123;
     out property<color> regular-text-color: primary-text-color.brighter(50%);
     out property<color> secondary-text-color: primary-text-color.brighter(100%);
     out property<color> placeholder-text-color: #A8ABB2;
