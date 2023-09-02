@@ -5,6 +5,7 @@ export component Btn inherits Rectangle {
     in-out property<string> text <=> txt.text;
     in-out property icon <=> img.source;
     in-out property font-size <=> txt.font-size;
+    in-out property halignment <=> hbox.alignment;
 
     in-out property<color> bg-color: Theme.brand-color;
     in-out property<color> bg-hover-color: bg-color.darker(30%);
@@ -21,7 +22,7 @@ export component Btn inherits Rectangle {
         easing: ease-in-out;
     }
 
-    HorizontalLayout {
+    hbox := HorizontalLayout {
         alignment: center;
         spacing: Theme.spacing * 2;
         CenterLayout {
