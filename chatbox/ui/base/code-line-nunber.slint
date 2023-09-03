@@ -1,0 +1,24 @@
+import { Theme } from "../theme.slint";
+
+export component CodeLineNumber inherits Rectangle {
+    in-out property<string> text;
+    in-out property<length> font-size: Theme.code-font-size;
+    in-out property<string> font-family: Theme.code-font-family;
+
+    background: Theme.code-background.darker(10%);
+    clip: true;
+
+    VerticalLayout {
+        padding-left: Theme.padding;
+        padding-right: Theme.padding * 2;
+        TextInput {
+            color: Theme.secondary-text-color;
+            font-size: root.font-size;
+            font-family: root.font-family;
+            wrap: word-wrap;
+            single-line: false;
+            text: root.text;
+
+        }
+    }
+}

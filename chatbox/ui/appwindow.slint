@@ -1,5 +1,6 @@
 import { Theme } from "./theme.slint";
 import { Logic } from "./logic.slint";
+import { BaseLogic } from "./base/logic.slint";
 import { Store } from "./store.slint";
 import { Util } from "./util.slint";
 import { Translator } from "./translator.slint";
@@ -206,6 +207,9 @@ export component AppWindow inherits Window {
                 } else if (arch-dialog.visible) {
                     Store.show-archive-dialog = false;
                     rpanel.force-question-input-focus();
+                } else if (edit-arch-dialog.visible) {
+                    Store.show-edit-archive-dialog = false;
+                    rpanel.force-question-input-focus();
                 } else if (about-dialog.visible) {
                     Store.about-dialog.show = false;
                 } else if (help-dialog.visible) {
@@ -274,4 +278,4 @@ export component AppWindow inherits Window {
     }
 }
 
-export { Util, Logic, ChatItem, ChatSession, Store, InstTipItem, MDItem }
+export { Util, Logic, BaseLogic, ChatItem, ChatSession, Store, InstTipItem, MDItem }

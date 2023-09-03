@@ -1,0 +1,19 @@
+import { Theme } from "../theme.slint";
+
+export component LineNumber inherits Rectangle {
+    in-out property<int> count: 0;
+    in-out property<length> font-size: Theme.code-font-size;
+    in-out property<string> font-family: Theme.code-font-family;
+
+    clip: true;
+
+    VerticalLayout {
+        padding-right: Theme.padding * 2;
+        for index in root.count : Text {
+            color: Theme.secondary-text-color;
+            font-size: root.font-size;
+            font-family: root.font-family;
+            text: index;
+        }
+    }
+}

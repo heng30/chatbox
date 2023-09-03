@@ -1,8 +1,10 @@
 import { Theme } from "../theme.slint";
+import { BaseLogic } from "./logic.slint";
 import { CDialog } from "./cdialog.slint";
 import { IconBtn } from "./icon-btn.slint";
 import { CenterLayout } from "./center-layout.slint";
 import { MDItem } from "./data.slint";
+import { CodeLineNumber } from "./code-line-nunber.slint";
 
 export component MDTextItem inherits TextInput {
     wrap: word-wrap;
@@ -89,17 +91,29 @@ export component MD inherits Rectangle {
                 padding: Theme.padding * 2;
 
                 Rectangle {
-                    background: Theme.dark-fill-color;
+                    background: Theme.code-background;
                     height: txt-code.preferred-height + Theme.padding * 4;
                     border-radius: Theme.border-radius;
 
-                    txt-code := MDTextItem {
+                    HorizontalLayout {
                         x: Theme.padding * 2;
                         y: Theme.padding * 2;
                         width: parent.width - self.x;
-                        text: item.text;
-                        font-size: Theme.code-font-size;
-                        font-family: Theme.code-font-family;
+                        alignment: start;
+                        spacing: cln.text != "" ? Theme.padding : 0px;
+
+                        cln := CodeLineNumber {
+                            width: self.text != "" ? self.preferred-width : 0;
+                            height: txt-code.preferred-height;
+                            // text: "01\n02\n03\n01\n02\n03\n01\n02";
+                            text: BaseLogic.code-line-text(item.text);
+                        }
+
+                        txt-code := MDTextItem {
+                            text: item.text;
+                            font-size: Theme.code-font-size;
+                            font-family: Theme.code-font-family;
+                        }
                     }
 
                     img := IconBtn {

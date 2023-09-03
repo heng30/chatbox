@@ -35,6 +35,7 @@ async fn main() -> CResult {
 
     let ui = AppWindow::new().unwrap();
     logic::util::init(&ui);
+    logic::base::init(&ui);
 
     clipboard::init(&ui);
     message::init(&ui);
