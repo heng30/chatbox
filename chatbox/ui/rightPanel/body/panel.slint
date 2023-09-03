@@ -5,6 +5,8 @@ import { Logic } from "../../logic.slint";
 import { UItem } from "./uitem.slint";
 import { BItem } from "./bitem.slint";
 import { InstTip } from "../../dialog/inst-tip.slint";
+import { NoMessageImg } from "../../base/no-message.slint";
+import { CenterLayout } from "../../base/center-layout.slint";
 
 export component Body inherits Rectangle {
     in-out property viewport-y <=> lv.viewport-y;
@@ -57,6 +59,15 @@ export component Body inherits Rectangle {
 
     public function is-chats-on-bottom() -> bool {
         lv.viewport-y <= -lv.viewport-height + lv.visible-height;
+    }
+
+    CenterLayout {
+        NoMessageImg {
+            visible: Store.session-datas.length <= 0;
+            opacity: 0.2;
+            width: 800px;
+            text: Store.translator.no-message;
+        }
     }
 
     lv := ListView {

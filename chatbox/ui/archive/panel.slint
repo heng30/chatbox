@@ -29,7 +29,7 @@ export component ArchivePanel inherits Rectangle {
 
     NoDataImg {
         visible: Store.session-archive-datas.length <= 0;
-        img-width: root.width * 0.6;
+        width: root.width;
         text: Store.translator.no-data;
     }
 

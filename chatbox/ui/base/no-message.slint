@@ -1,18 +1,18 @@
 import { Theme } from "../theme.slint";
 import { CenterLayout } from "./center-layout.slint";
 
-export component NoDataImg inherits Rectangle {
+export component NoMessageImg inherits Rectangle {
     in-out property img-width <=> img.width;
     in-out property text <=> txt.text;
-
     width: 300px;
+
     opacity: 0.5;
 
     CenterLayout {
         CenterLayout {
             img := Image {
                 width: root.width * 0.6;
-                source: @image-url("../images/no-data.svg");
+                source: @image-url("../images/no-message.svg");
             }
         }
 
