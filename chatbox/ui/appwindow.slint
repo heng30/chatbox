@@ -5,6 +5,7 @@ import { Util } from "./util.slint";
 import { Translator } from "./translator.slint";
 import { ChatItem, ChatSession, Store, InstTipItem } from "./store.slint";
 import { MDItem } from "./base/data.slint";
+import { Blanket } from "./base/blanket.slint";
 import { LPanel } from "./leftPanel/panel.slint";
 import { RPanel } from "./rightPanel/panel.slint";
 import { Message } from "./base/message.slint";
@@ -212,11 +213,7 @@ export component AppWindow inherits Window {
                 }
             }
 
-            if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible || edit-arch-dialog.visible || screen-dialog.visible: low-modal := Rectangle {
-                width: 100%; height: 100%; opacity: 0.3;
-                background: Theme.basic-black-color;
-                TouchArea { }
-            }
+            if session-dialog.visible || setting-dialog.visible || oc-dialog.visible || about-dialog.visible || help-dialog.visible || arch-dialog.visible || edit-arch-dialog.visible || screen-dialog.visible: low-modal := Blanket { }
 
             session-dialog := SessionDialog {
                 close => {

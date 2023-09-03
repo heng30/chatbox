@@ -53,14 +53,12 @@ export component CDialog inherits Rectangle {
                 cancel-btn := Btn {
                     text: Store.translator.cancel;
                     bg-color: Theme.danger-color;
-                    border-width: 0;
                     icon: @image-url("../images/cancel.svg");
                     clicked => { root.cancel-clicked(); }
                 }
 
                 Btn {
                     text: Store.translator.ok;
-                    border-width: 0;
                     icon: @image-url("../images/success-fill.svg");
                     clicked => { root.ok-clicked(); }
                 }
