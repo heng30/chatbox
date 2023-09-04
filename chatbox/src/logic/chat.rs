@@ -1,6 +1,6 @@
 use super::chatcache;
-use super::data::{HistoryChat, StreamTextItem};
-use crate::slint_generatedAppWindow::{AppWindow, ChatItem, MDItem, Logic, Store};
+use super::data::{HistoryChat, SendTextConfig, StreamTextItem};
+use crate::slint_generatedAppWindow::{AppWindow, ChatItem, Logic, MDItem, Store};
 use crate::util::{qbox::QBox, translator::tr};
 use crate::{audio, azureai, config, openai, session, util};
 #[allow(unused_imports)]
@@ -39,27 +39,20 @@ pub fn is_stop_chat(suuid: &str) -> bool {
     item.contains_key(suuid)
 }
 
+// Warning: Don't access UI variable in this function, because is no thread safe.
 async fn send_text(
     ui_box: QBox<AppWindow>,
+    config: SendTextConfig,
     mut chats: HistoryChat,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let item = chats.items.pop().unwrap();
     let question = item.utext;
 
-    let suuid = ui_box
-        .borrow()
-        .global::<Store>()
-        .get_current_session_uuid()
-        .to_string();
-
-    let (system_prompt, api_model, _, use_history) =
-        session::current_session_config(ui_box.borrow().as_weak());
-
-    if api_model.contains("ChatGPT") {
+    if config.api_model.contains("ChatGPT") {
         let openai_chat = openai::OpenAIChat::make(
-            system_prompt,
+            config.system_prompt,
             question,
-            if use_history {
+            if config.use_history {
                 chats
             } else {
                 HistoryChat::default()
@@ -68,25 +61,31 @@ async fn send_text(
 
         // debug!("{:?}", openai_chat);
 
-        let api_model = if api_model.contains("chat-3.5-turbo") {
+        let api_model = if config.api_model.contains("chat-3.5-turbo") {
             "gpt-3.5-turbo".to_string()
         } else {
-            return Err(anyhow::anyhow!("unknown api model: {}", api_model).into());
+            return Err(anyhow::anyhow!("unknown api model: {}", config.api_model).into());
         };
 
-        return openai::generate_text(openai_chat, api_model, suuid, item.uuid, move |sitem| {
-            if let Err(e) = slint::invoke_from_event_loop(move || {
-                stream_text(ui_box, sitem);
-            }) {
-                warn!("{:?}", e);
-            }
-        })
+        return openai::generate_text(
+            openai_chat,
+            api_model,
+            config.suuid,
+            item.uuid,
+            move |sitem| {
+                if let Err(e) = slint::invoke_from_event_loop(move || {
+                    stream_text(ui_box, sitem);
+                }) {
+                    warn!("{:?}", e);
+                }
+            },
+        )
         .await;
-    } else if api_model.contains("Azure") {
+    } else if config.api_model.contains("Azure") {
         let azureai_chat = azureai::AzureAIChat::make(
-            system_prompt,
+            config.system_prompt,
             question,
-            if use_history {
+            if config.use_history {
                 chats
             } else {
                 HistoryChat::default()
@@ -95,19 +94,25 @@ async fn send_text(
 
         // debug!("{:?}", azureai_chat);
 
-        let api_model = if api_model.contains("chat-35-turbo") {
+        let api_model = if config.api_model.contains("chat-35-turbo") {
             "gpt-35-turbo".to_string()
         } else {
-            return Err(anyhow::anyhow!("unknown api model: {}", api_model).into());
+            return Err(anyhow::anyhow!("unknown api model: {}", config.api_model).into());
         };
 
-        return azureai::generate_text(azureai_chat, api_model, suuid, item.uuid, move |sitem| {
-            if let Err(e) = slint::invoke_from_event_loop(move || {
-                stream_text(ui_box, sitem);
-            }) {
-                warn!("{:?}", e);
-            }
-        })
+        return azureai::generate_text(
+            azureai_chat,
+            api_model,
+            config.suuid,
+            item.uuid,
+            move |sitem| {
+                if let Err(e) = slint::invoke_from_event_loop(move || {
+                    stream_text(ui_box, sitem);
+                }) {
+                    warn!("{:?}", e);
+                }
+            },
+        )
         .await;
     }
 
@@ -236,8 +241,17 @@ pub fn init(ui: &AppWindow) {
             });
         }
 
+        let (system_prompt, api_model, _, use_history) =
+            session::current_session_config(ui.as_weak());
+        let send_text_config = SendTextConfig {
+            suuid: suuid.to_string(),
+            system_prompt,
+            api_model,
+            use_history,
+        };
+
         spawn(async move {
-            if let Err(e) = send_text(ui_box, chat_datas).await {
+            if let Err(e) = send_text(ui_box, send_text_config, chat_datas).await {
                 let etext = e.to_string();
                 if let Err(err) = slint::invoke_from_event_loop(move || {
                     stream_text(

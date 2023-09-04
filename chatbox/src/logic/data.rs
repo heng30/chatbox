@@ -37,3 +37,10 @@ impl From<&Vec<ChatItem>> for HistoryChat {
     }
 }
 
+
+pub struct SendTextConfig {
+    pub suuid: String,
+    pub system_prompt: String,
+    pub api_model: String,
+    pub use_history: bool,
+}

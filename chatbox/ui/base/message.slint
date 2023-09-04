@@ -9,7 +9,7 @@ export component Message inherits Rectangle {
 
     width: txt.preferred-width + img.width + Theme.padding * 4 + Theme.spacing * 2;
     height: txt.preferred-height + Theme.padding * 4;
-    border-radius: self.height / 5;
+    border-radius: Theme.border-radius;
     border-color: Theme.basic-black-color;
     background: Util.text-color(root.type);
 

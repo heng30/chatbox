@@ -7,7 +7,14 @@ export component Avatar inherits Rectangle {
     height: img.width + 10px;
     width: img.width + 10px;
     border-radius: self.height / 2;
+    border-width: 2px;
+    border-color: touch.has-hover ? Theme.brand-color : Colors.transparent;
     background: @radial-gradient(circle, Theme.base-background 0%, Theme.darker-fill-color 100%);
+
+    animate border-color {
+        duration: Theme.default-animate-duration * 2;
+        easing: ease-in-out;
+    }
 
     img := Image {
         width: Theme.icon-size;
@@ -15,4 +22,8 @@ export component Avatar inherits Rectangle {
         image-fit: ImageFit.contain;
         colorize: Theme.avatar-color;
     }
+
+    touch := TouchArea {
+        mouse-cursor: self.has-hover ? pointer : default;
+   }
 }
