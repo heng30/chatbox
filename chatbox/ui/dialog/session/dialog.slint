@@ -45,6 +45,8 @@ export component SessionDialog inherits CDialog {
                     padding-left: Theme.padding;
                     session-icon := IconBtn {
                         icon: Store.icon-dialog-setting.icons[Math.max(0, Math.min(root.icon-index, Store.icon-dialog-setting.icons.length - 1))];
+                        tip-pos: "left";
+                        tip-text: Store.translator.tip-select-icon;
                         clicked => {
                             Store.icon-dialog-setting.is-show = true;
                         }

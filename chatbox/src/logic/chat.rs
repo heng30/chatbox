@@ -39,7 +39,7 @@ pub fn is_stop_chat(suuid: &str) -> bool {
     item.contains_key(suuid)
 }
 
-// Warning: Don't access UI variable in this function, because is no thread safe.
+// Warning: Don't access UI variable in this function, because it's thread unsafe.
 async fn send_text(
     ui_box: QBox<AppWindow>,
     config: SendTextConfig,

@@ -415,11 +415,10 @@ pub fn init(ui: &AppWindow) {
             let ui = ui_switch_handle.unwrap();
             let chat_items = ui.global::<Store>().get_session_datas();
             let chats_viewport_y = ui.get_chats_viewport_y();
-            let sessions: Vec<ChatSession> =
-                ui.global::<Store>().get_chat_sessions().iter().collect();
+            let sessions = ui.global::<Store>().get_chat_sessions();
 
             let mut index = 0;
-            for (row, session) in sessions.into_iter().enumerate() {
+            for (row, session) in sessions.iter().enumerate() {
                 if session.uuid == old_uuid {
                     ui.global::<Store>().get_chat_sessions().set_row_data(
                         row,
@@ -506,10 +505,9 @@ pub fn init(ui: &AppWindow) {
         .on_switch_session_shortcut_inst(move |current_uuid| {
             let ui = ui_switch_shortcut_inst_handle.unwrap();
             let mut question = ui.get_question();
-            let sessions: Vec<ChatSession> =
-                ui.global::<Store>().get_chat_sessions().iter().collect();
+            let sessions = ui.global::<Store>().get_chat_sessions();
 
-            for session in sessions.into_iter() {
+            for session in sessions.iter() {
                 let shortcut_inst = session.shortcut_instruction;
                 if shortcut_inst.is_empty() || !question.starts_with(shortcut_inst.as_str()) {
                     continue;
