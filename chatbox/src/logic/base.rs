@@ -10,7 +10,7 @@ pub fn init(ui: &AppWindow) {
         let mut number_text = "".to_string();
         let count = text.lines().count();
         if count > 1 {
-            for i in 0..count {
+            for i in 0..(count as f32 * 1.5) as u32 {
                 if i == 0 {
                     number_text = "01".to_string();
                 } else {

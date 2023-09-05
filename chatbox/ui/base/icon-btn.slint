@@ -15,6 +15,7 @@ export component IconBtn inherits Rectangle {
 
     callback clicked <=> touch.clicked;
 
+    in-out property<bool> checked: false;
     in-out property<color> bg-color: transparent;
     in-out property<color> hover-color: Theme.hover-color;
     in-out property<color> bg-pressed-color: hover-color.darker(50%);
@@ -22,7 +23,7 @@ export component IconBtn inherits Rectangle {
     width: Theme.icon-size;
     height: self.width;
     border-radius: self.width / 3;
-    background: touch.pressed ? bg-pressed-color : touch.has-hover ? hover-color : bg-color;
+    background: touch.pressed || root.checked ? bg-pressed-color : touch.has-hover ? hover-color : bg-color;
 
     animate background {
         duration: Theme.default-animate-duration;
