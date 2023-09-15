@@ -27,4 +27,4 @@ A chatbot based on the OpenAI chatgpt-3.5-turbo API. The program is written usin
 - [azure text2speech](https://learn.microsoft.com/zh-cn/azure/cognitive-services/speech-service/text-to-speech)
 - [speech-synthesis-markup-voice](https://learn.microsoft.com/zh-cn/azure/cognitive-services/speech-service/speech-synthesis-markup-voice)
 - [rest-speech-to-text-short](https://learn.microsoft.com/zh-cn/azure/cognitive-services/speech-service/rest-speech-to-text-short)
-- [Azure OpenAI 服务文档](https://learn.microsoft.com/zh-cn/azure/cognitive-services/openai/)
+- [Azure OpenAI Server Document](https://learn.microsoft.com/zh-cn/azure/cognitive-services/openai/)
