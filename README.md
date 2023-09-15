@@ -19,7 +19,12 @@ A chatbot based on the OpenAI chatgpt-3.5-turbo API. The program is written usin
 - [x] Supports concurrent output for different sessions
 - [x] Supports shortcut commands to switch sessions and send questions
 
-#### 参考
+#### How to build?
+- Install `Rust` and `Cargo`
+- Run `make build`
+- Refer to [Makefile](./Makefile) for more information
+
+#### Reference
 - [Slint Language Documentation](https://slint-ui.com/releases/1.0.0/docs/slint/)
 - [github/slint-ui](https://github.com/slint-ui/slint)
 - [Viewer for Slint](https://github.com/slint-ui/slint/tree/master/tools/viewer)

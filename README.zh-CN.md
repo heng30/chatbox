@@ -19,6 +19,11 @@
 - [x] 支持不同会话并发输出
 - [x] 支持快捷指令切换会话并发送问题
 
+#### 如何构建？
+- 安装`Rust`和`Cargo`
+- 执行`make build`
+- [Makefile](./Makefile)了解更多
+
 #### 参考
 - [Slint Language Documentation](https://slint-ui.com/releases/1.0.0/docs/slint/)
 - [github/slint-ui](https://github.com/slint-ui/slint)
