@@ -1,21 +1,23 @@
 ![screenshot](./screenshot/chatbox.png)
 
-#### ChatBox
-基于OpenAI chatgpt-3.5-turbo API 的聊天机器人。程序使用`Slint-UI`和`Rust`编写。
+[中文文档](./README.zh-CN.md)
 
-#### 功能
-- [x] 支持`OpenAI chatgpt-3.5-turbo 4k 和 16k` 和 `Azure OpenAI chatgpt-35-turbo 4k`
-- [x] 新建、保存、删除会话
-- [x] 为每个会话配置`system prompt`
-- [x] 支持删除一次会话提问，清空当前会话，停止当前会话
-- [x] 支持配置是否启用历史会话模式
-- [x] 支持`Socks5`代理配置
-- [x] 支持中英界面
-- [x] 支持中英双语朗读
-- [x] 支持对话归档
-- [x] 支持录音转文字输入
-- [x] 支持不同会话并发输出
-- [x] 支持快捷指令切换会话并发送问题
+#### Introduction
+A chatbot based on the OpenAI chatgpt-3.5-turbo API. The program is written using `Slint-UI` and `Rust`.
+
+#### Features
+- [x] Supports `OpenAI chatgpt-3.5-turbo 4k and 16k` and `Azure OpenAI chatgpt-35-turbo 4k`
+- [x] Create, save, and delete sessions
+- [x] Configure a `system prompt` for each session
+- [x] Supports deleting a single session question, clearing the current session, and stopping the current session
+- [x] Supports configuring whether to enable historical session mode
+- [x] Supports `Socks5` proxy configuration
+- [x] Supports English and Chinese interface
+- [x] Supports bilingual text-to-speech
+- [x] Supports conversation archiving
+- [x] Supports voice recording to text input
+- [x] Supports concurrent output for different sessions
+- [x] Supports shortcut commands to switch sessions and send questions
 
 #### 参考
 - [Slint Language Documentation](https://slint-ui.com/releases/1.0.0/docs/slint/)
