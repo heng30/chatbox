@@ -12,6 +12,9 @@ export component Body inherits Rectangle {
     in-out property viewport-y <=> lv.viewport-y;
     in-out property viewport-height <=> lv.viewport-height;
 
+    // border-width: 2px;
+    // border-color: red;
+
     function new-chat-text(utext: string, btext: string) -> string {
         return utext + "\n\n" + btext;
     }

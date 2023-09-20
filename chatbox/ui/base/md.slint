@@ -24,6 +24,10 @@ export component MD inherits Rectangle {
 
     callback copy(string);
 
+    TouchArea {
+        mouse-cursor: MouseCursor.text;
+    }
+
     vbox := VerticalLayout {
         for item in items : HorizontalLayout {
             if item.text-type == "plain" : Rectangle {

@@ -213,7 +213,7 @@ pub fn init(ui: &AppWindow) {
         }
 
         let mut datas: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().collect();
-
+        let datas_is_empty = datas.is_empty();
         let uuid = Uuid::new_v4().to_string();
 
         datas.push(ChatItem {
@@ -234,11 +234,15 @@ pub fn init(ui: &AppWindow) {
         ui.global::<Store>()
             .set_session_datas(Rc::new(VecModel::from(datas)).into());
 
-        for i in 1..=2 {
-            let ui = ui.as_weak();
-            Timer::single_shot(Duration::from_millis(i * 100), move || {
-                ui.unwrap().invoke_chats_scroll_to_bottom()
-            });
+        if !datas_is_empty {
+            for i in 1..=2 {
+                let ui = ui.as_weak();
+                Timer::single_shot(Duration::from_millis(i * 100), move || {
+                    ui.unwrap().invoke_chats_scroll_to_bottom()
+                });
+            }
+        } else {
+            ui.invoke_jump_to_viewport_y(0_f32);
         }
 
         let (system_prompt, api_model, _, use_history) =

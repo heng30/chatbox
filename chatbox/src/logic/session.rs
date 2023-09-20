@@ -227,21 +227,29 @@ pub fn init(ui: &AppWindow) {
             ui.get_archive_search_text(),
         );
 
-        let sessions_model = Rc::new(VecModel::from(sessions));
+        let sessions_model = ModelRc::new(VecModel::from(sessions));
         if sessions_model.row_count() > 0 {
             ui.global::<Store>()
                 .set_session_datas(sessions_model.row_data(0).unwrap().chat_items);
         }
 
         ui.global::<Store>()
-            .set_chat_sessions(sessions_model.into());
+            .set_chat_sessions(sessions_model);
         ui.global::<Logic>()
             .invoke_show_message((tr("删除会话成功") + "!").into(), "success".into());
     });
 
     ui.global::<Logic>().on_reset_current_session(move || {
         let ui = ui_reset_handle.unwrap();
-        ui.global::<Store>().set_session_datas(ModelRc::default());
+        // ui.global::<Store>().set_session_datas(ModelRc::default());
+
+        ui.global::<Store>()
+            .get_session_datas()
+            .as_any()
+            .downcast_ref::<VecModel<ChatItem>>()
+            .expect("We know we set a VecModel earlier")
+            .set_vec(vec![]);
+        ui.invoke_jump_to_viewport_y(0_f32);
 
         ui.global::<Logic>()
             .invoke_show_message((tr("重置成功") + "!").into(), "success".into());

@@ -1,1 +1,1 @@
-pub static VERSION: &str = "v1.6.29";
+pub static VERSION: &str = "v1.6.30";
