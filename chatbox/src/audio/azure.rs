@@ -1,9 +1,9 @@
 use super::data::{AzureTextItem, TextType};
 use super::play;
-use crate::{config, util::http};
 use crate::slint_generatedAppWindow::{AppWindow, Logic};
 use crate::util::qbox::QBox;
 use crate::util::translator::tr;
+use crate::{config, util::http};
 use log::warn;
 use reqwest::header::{HeaderMap, HeaderValue};
 use slint::ComponentHandle;
@@ -14,7 +14,6 @@ use std::time::Duration;
 use tokio::fs::OpenOptions;
 use tokio::io::AsyncWriteExt;
 use tokio::task::spawn;
-
 
 pub fn stop_play() {
     play::stop_play();
@@ -34,10 +33,10 @@ pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
             play::audio_local(&audio_filepath)
         } else if !text.is_empty() {
             if let Err(err) = slint::invoke_from_event_loop(move || {
-                ui_box.borrow().global::<Logic>().invoke_show_message(
-                    slint::format!("{}", tr("正在将文本转为音频...")),
-                    "info".into(),
-                );
+                ui_box
+                    .borrow()
+                    .global::<Logic>()
+                    .invoke_show_message(tr("正在将文本转为音频...").into(), "info".into());
             }) {
                 warn!("{:?}", err);
             }
@@ -50,7 +49,7 @@ pub fn play(ui_box: QBox<AppWindow>, audio_file: String, text: String) {
             let estr = e.to_string();
             if let Err(err) = slint::invoke_from_event_loop(move || {
                 ui_box.borrow().global::<Logic>().invoke_show_message(
-                    slint::format!("{}: {}", tr("播放音频失败") + "!" + &tr("原因"), estr),
+                    slint::format!("{}. {}: {}", tr("播放音频失败"), tr("原因"), estr),
                     "warning".into(),
                 );
             }) {

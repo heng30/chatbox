@@ -8,7 +8,6 @@ use log::{debug, warn};
 use slint::Timer;
 use slint::{ComponentHandle, Model, ModelExt, ModelRc, VecModel, Weak};
 use std::cmp::Ordering;
-use std::rc::Rc;
 use std::time::Duration;
 use uuid::Uuid;
 
@@ -31,7 +30,7 @@ fn init_db_default_session(ui: &AppWindow) {
             Ok(config) => config,
             Err(e) => {
                 ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}: {:?}", tr("设置默认会话库失败") + "!" + &tr("原因"), e),
+                    slint::format!("{}. {}: {:?}", tr("设置默认会话库失败"), tr("原因"), e),
                     "warning".into(),
                 );
                 return;
@@ -41,8 +40,9 @@ fn init_db_default_session(ui: &AppWindow) {
         if let Err(e) = db::session::insert(uuid, config_json, "".to_string()) {
             ui.global::<Logic>().invoke_show_message(
                 slint::format!(
-                    "{}: {:?}",
-                    tr("保存默认会话到数据库失败") + "!" + &tr("原因"),
+                    "{}. {}: {:?}",
+                    tr("保存默认会话到数据库失败"),
+                    tr("原因"),
                     e
                 ),
                 "warning".into(),
@@ -84,19 +84,17 @@ fn init_session(ui: &AppWindow) {
                 }
 
                 let chat_items = VecModel::default();
-
                 if !screen_text.is_empty() {
                     chat_items.push(ChatItem {
                         uuid: Uuid::new_v4().to_string().into(),
                         timestamp: util::time::local_now("%Y-%m-%d %H:%M:%S").into(),
                         utext: screen_text.into(),
-                        utext_items: chat::parse_chat_text(screen_text).into(),
+                        utext_items: chat::parse_chat_text(screen_text),
                         ..Default::default()
                     });
                 }
 
-                chat_session.chat_items = Rc::new(chat_items).into();
-                chat_session.screen_items = chat_session.chat_items.clone();
+                chat_session.chat_items = ModelRc::new(chat_items);
                 sessions.push(chat_session);
             }
 
@@ -126,7 +124,7 @@ fn init_session(ui: &AppWindow) {
             }
 
             ui.global::<Store>()
-                .set_chat_sessions(Rc::new(sessions).into());
+                .set_chat_sessions(ModelRc::new(sessions));
         }
         Err(e) => {
             warn!("{:?}", e);
@@ -169,7 +167,7 @@ pub fn init(ui: &AppWindow) {
             Ok(config) => config,
             Err(e) => {
                 ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}: {:?}", tr("保存到数据库失败") + "！" + &tr("原因"), e),
+                    slint::format!("{}. {}: {:?}", tr("保存到数据库失败"), tr("原因"), e),
                     "warning".into(),
                 );
                 return;
@@ -178,18 +176,17 @@ pub fn init(ui: &AppWindow) {
 
         if let Err(e) = db::session::insert(cs.uuid.to_string(), config_json, "".to_string()) {
             ui.global::<Logic>().invoke_show_message(
-                slint::format!("{}: {:?}", tr("保存到数据库失败") + "！" + &tr("原因"), e),
+                slint::format!("{}. {}: {:?}", tr("保存到数据库失败"), tr("原因"), e),
                 "warning".into(),
             );
             return;
         }
 
         sessions.push(cs);
-        let sessions_model = Rc::new(VecModel::from(sessions));
         ui.global::<Store>()
-            .set_chat_sessions(sessions_model.into());
+            .set_chat_sessions(ModelRc::new(VecModel::from(sessions)));
         ui.global::<Logic>()
-            .invoke_show_message((tr("新建成功") + "！").into(), "success".into());
+            .invoke_show_message(tr("新建成功").into(), "success".into());
     });
 
     ui.global::<Logic>().on_delete_session(move |uuid| {
@@ -197,7 +194,7 @@ pub fn init(ui: &AppWindow) {
 
         if uuid == DEFAULT_SESSION_UUID {
             ui.global::<Logic>()
-                .invoke_show_message((tr("不允许删除默认会话") + "!").into(), "warning".into());
+                .invoke_show_message(tr("不允许删除默认会话").into(), "warning".into());
             return;
         }
 
@@ -210,7 +207,7 @@ pub fn init(ui: &AppWindow) {
 
         if let Err(e) = db::session::delete(uuid.to_string()) {
             ui.global::<Logic>().invoke_show_message(
-                slint::format!("{}: {:?}", tr("删除会话失败") + "!" + &tr("原因"), e),
+                slint::format!("{}. {}: {:?}", tr("删除会话失败"), tr("原因"), e),
                 "warning".into(),
             );
             return;
@@ -233,26 +230,24 @@ pub fn init(ui: &AppWindow) {
                 .set_session_datas(sessions_model.row_data(0).unwrap().chat_items);
         }
 
-        ui.global::<Store>()
-            .set_chat_sessions(sessions_model);
+        ui.global::<Store>().set_chat_sessions(sessions_model);
         ui.global::<Logic>()
-            .invoke_show_message((tr("删除会话成功") + "!").into(), "success".into());
+            .invoke_show_message(tr("删除会话成功").into(), "success".into());
     });
 
     ui.global::<Logic>().on_reset_current_session(move || {
         let ui = ui_reset_handle.unwrap();
-        // ui.global::<Store>().set_session_datas(ModelRc::default());
-
         ui.global::<Store>()
             .get_session_datas()
             .as_any()
             .downcast_ref::<VecModel<ChatItem>>()
             .expect("We know we set a VecModel earlier")
             .set_vec(vec![]);
+
         ui.invoke_jump_to_viewport_y(0_f32);
 
         ui.global::<Logic>()
-            .invoke_show_message((tr("重置成功") + "!").into(), "success".into());
+            .invoke_show_message(tr("重置成功").into(), "success".into());
     });
 
     ui.global::<Logic>().on_toggle_mark_session(move |uuid| {
@@ -284,11 +279,7 @@ pub fn init(ui: &AppWindow) {
                 Ok(config) => {
                     if let Err(e) = db::session::update(uuid.to_string(), Some(config), None) {
                         ui.global::<Logic>().invoke_show_message(
-                            slint::format!(
-                                "{}: {:?}",
-                                tr("保存到数据库失败") + "！" + &tr("原因"),
-                                e
-                            ),
+                            slint::format!("{}. {}: {:?}", tr("保存到数据库失败"), tr("原因"), e),
                             "warning".into(),
                         );
                         return;
@@ -297,7 +288,7 @@ pub fn init(ui: &AppWindow) {
                 }
                 Err(e) => {
                     ui.global::<Logic>().invoke_show_message(
-                        slint::format!("{}: {:?}", tr("保存到数据库失败") + "！" + &tr("原因"), e),
+                        slint::format!("{}. {}: {:?}", tr("保存到数据库失败"), tr("原因"), e),
                         "warning".into(),
                     );
                     return;
@@ -305,16 +296,15 @@ pub fn init(ui: &AppWindow) {
             };
         }
 
-        let sessions_model = Rc::new(VecModel::from(sessions));
         ui.global::<Store>()
-            .set_chat_sessions(sessions_model.into());
+            .set_chat_sessions(ModelRc::new(VecModel::from(sessions)));
 
         if is_mark {
             ui.global::<Logic>()
-                .invoke_show_message((tr("收藏成功") + "！").into(), "success".into());
+                .invoke_show_message(tr("收藏成功").into(), "success".into());
         } else {
             ui.global::<Logic>()
-                .invoke_show_message((tr("取消收藏成功") + "！").into(), "success".into());
+                .invoke_show_message(tr("取消收藏成功").into(), "success".into());
         }
     });
 
@@ -382,8 +372,9 @@ pub fn init(ui: &AppWindow) {
                             {
                                 ui.global::<Logic>().invoke_show_message(
                                     slint::format!(
-                                        "{}: {:?}",
-                                        tr("保存会话失败") + "！" + &tr("原因"),
+                                        "{}. {}: {:?}",
+                                        tr("保存会话失败"),
+                                        tr("原因"),
                                         e
                                     ),
                                     "warning".into(),
@@ -395,8 +386,9 @@ pub fn init(ui: &AppWindow) {
                         Err(e) => {
                             ui.global::<Logic>().invoke_show_message(
                                 slint::format!(
-                                    "{}: {:?}",
-                                    tr("保存会话配置失败") + "！" + &tr("原因"),
+                                    "{}. {}: {:?}",
+                                    tr("保存会话配置失败"),
+                                    tr("原因"),
                                     e
                                 ),
                                 "warning".into(),
@@ -407,11 +399,10 @@ pub fn init(ui: &AppWindow) {
                 }
             }
 
-            let sessions_model = Rc::new(VecModel::from(sessions));
             ui.global::<Store>()
-                .set_chat_sessions(sessions_model.into());
+                .set_chat_sessions(ModelRc::new(VecModel::from(sessions)));
             ui.global::<Logic>()
-                .invoke_show_message((tr("保存会话配置成功") + "!").into(), "success".into());
+                .invoke_show_message(tr("保存会话配置成功").into(), "success".into());
         });
 
     ui.global::<Logic>()
@@ -464,8 +455,7 @@ pub fn init(ui: &AppWindow) {
                                         last_row_index,
                                         ChatItem {
                                             btext: btext.clone(),
-                                            btext_items: chat::parse_chat_text(btext.as_str())
-                                                .into(),
+                                            btext_items: chat::parse_chat_text(btext.as_str()),
                                             ..item
                                         },
                                     );
@@ -564,22 +554,10 @@ pub fn init(ui: &AppWindow) {
         let sessions = ui.global::<Store>().get_chat_sessions();
         for (row, session) in sessions.iter().enumerate() {
             if session.uuid == uuid {
-                let items = VecModel::default();
-
-                if !text.is_empty() {
-                    let mut item = ChatItem::default();
-                    item.uuid = Uuid::new_v4().to_string().into();
-                    item.timestamp = util::time::local_now("%Y-%m-%d %H:%M:%S").into();
-                    item.utext = text.as_str().into();
-                    item.utext_items = chat::parse_chat_text(text.as_str()).into();
-                    items.push(item.clone());
-                }
-
                 ui.global::<Store>().get_chat_sessions().set_row_data(
                     row,
                     ChatSession {
                         screen_text: text.as_str().into(),
-                        screen_items: Rc::new(items).into(),
                         ..session
                     },
                 );
@@ -587,12 +565,12 @@ pub fn init(ui: &AppWindow) {
                 if let Err(e) = db::session::update(uuid.to_string(), None, Some(text.to_string()))
                 {
                     ui.global::<Logic>().invoke_show_message(
-                        slint::format!("{}: {:?}", tr("保存失败") + "！" + &tr("原因"), e),
+                        slint::format!("{}. {}: {:?}", tr("保存失败"), tr("原因"), e),
                         "warning".into(),
                     );
                 } else {
                     ui.global::<Logic>()
-                        .invoke_show_message((tr("保存成功") + "!").into(), "success".into());
+                        .invoke_show_message(tr("保存成功").into(), "success".into());
                 }
 
                 break;
@@ -606,8 +584,18 @@ pub fn init(ui: &AppWindow) {
 
         for session in ui.global::<Store>().get_chat_sessions().iter() {
             if session.uuid == uuid {
-                ui.global::<Logic>().invoke_reset_current_session();
-                ui.global::<Store>().set_session_datas(session.screen_items);
+                let items = VecModel::default();
+                let text = session.screen_text;
+
+                if !text.is_empty() {
+                    let mut item = ChatItem::default();
+                    item.uuid = Uuid::new_v4().to_string().into();
+                    item.timestamp = util::time::local_now("%Y-%m-%d %H:%M:%S").into();
+                    item.utext = text.as_str().into();
+                    item.utext_items = chat::parse_chat_text(text.as_str());
+                    items.push(item.clone());
+                }
+                ui.global::<Store>().set_session_datas(ModelRc::new(items));
                 return;
             }
         }

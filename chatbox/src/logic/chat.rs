@@ -7,10 +7,9 @@ use crate::{audio, azureai, config, openai, session, util};
 use log::{debug, warn};
 use rand::Rng;
 use slint::Timer;
-use slint::{ComponentHandle, Model, VecModel};
+use slint::{ComponentHandle, ModelRc, Model, VecModel};
 use std::cell::RefCell;
 use std::collections::HashMap;
-use std::rc::Rc;
 use std::sync::Mutex;
 use std::time::Duration;
 use tokio::task::spawn;
@@ -178,7 +177,7 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
             current_row,
             ChatItem {
                 btext: btext.clone(),
-                btext_items: parse_chat_text(btext.as_str()).into(),
+                btext_items: parse_chat_text(btext.as_str()),
                 ..item
             },
         );
@@ -221,8 +220,8 @@ pub fn init(ui: &AppWindow) {
             btext: LOADING_STRING.into(),
             uuid: uuid.into(),
             timestamp: util::time::local_now("%Y-%m-%d %H:%M:%S").into(),
-            utext_items: parse_chat_text(value.as_str()).into(),
-            btext_items: parse_chat_text(LOADING_STRING).into(),
+            utext_items: parse_chat_text(value.as_str()),
+            btext_items: parse_chat_text(LOADING_STRING),
             ..Default::default()
         });
 
@@ -232,7 +231,7 @@ pub fn init(ui: &AppWindow) {
         let chat_datas = HistoryChat::from(&datas);
 
         ui.global::<Store>()
-            .set_session_datas(Rc::new(VecModel::from(datas)).into());
+            .set_session_datas(ModelRc::new(VecModel::from(datas)));
 
         if !datas_is_empty {
             for i in 1..=2 {
@@ -302,10 +301,10 @@ pub fn init(ui: &AppWindow) {
             .collect();
 
         ui.global::<Store>()
-            .set_session_datas(Rc::new(VecModel::from(datas)).into());
+            .set_session_datas(ModelRc::new(VecModel::from(datas)));
 
         ui.global::<Logic>()
-            .invoke_show_message((tr("删除成功") + "!").into(), "success".into());
+            .invoke_show_message(tr("删除成功").into(), "success".into());
     });
 
     ui.global::<Logic>().on_toggle_mark_chat_item(move |uuid| {
@@ -330,7 +329,7 @@ pub fn init(ui: &AppWindow) {
             .collect();
 
         ui.global::<Store>()
-            .set_session_datas(Rc::new(VecModel::from(datas)).into());
+            .set_session_datas(ModelRc::new(VecModel::from(datas)));
     });
 
     let ui_handle = ui.as_weak();
@@ -370,7 +369,7 @@ pub fn init(ui: &AppWindow) {
 
         if config.region.is_empty() || config.api_key.is_empty() {
             ui.global::<Logic>()
-                .invoke_show_message((tr("请进行音频配置") + "!").into(), "info".into());
+                .invoke_show_message(tr("请进行音频配置").into(), "info".into());
             return;
         }
 
@@ -389,7 +388,7 @@ pub fn init(ui: &AppWindow) {
         if model.row_count() > 0 {
             model.remove(0);
             ui.global::<Store>()
-                .set_session_datas(Rc::new(model).into());
+                .set_session_datas(ModelRc::new(model));
         }
     });
 
@@ -405,7 +404,7 @@ pub fn init(ui: &AppWindow) {
         if model.row_count() > 0 {
             model.remove(model.row_count() - 1);
             ui.global::<Store>()
-                .set_session_datas(Rc::new(model).into());
+                .set_session_datas(ModelRc::new(model));
         }
     });
 
@@ -434,11 +433,11 @@ pub fn init(ui: &AppWindow) {
         model.set_row_data(to, from_item);
 
         ui.global::<Store>()
-            .set_session_datas(Rc::new(model).into());
+            .set_session_datas(ModelRc::new(model));
     });
 }
 
-pub fn parse_chat_text(data: &str) -> Rc<VecModel<MDItem>> {
+pub fn parse_chat_text(data: &str) -> ModelRc<MDItem> {
     let items = VecModel::default();
     let mut cur_item = MDItem::default();
     let mut in_code_block = false;
@@ -536,5 +535,5 @@ pub fn parse_chat_text(data: &str) -> Rc<VecModel<MDItem>> {
         items.push(cur_item.clone());
     }
 
-    Rc::new(items)
+    ModelRc::new(items)
 }

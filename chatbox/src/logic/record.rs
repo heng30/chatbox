@@ -26,9 +26,7 @@ pub fn init(ui: &AppWindow) {
                     .global::<Store>()
                     .set_is_audio_recording(true);
 
-                ui_start_box
-                    .borrow()
-                    .invoke_show_record_indicator();
+                ui_start_box.borrow().invoke_show_record_indicator();
             }) {
                 warn!("{:?}", e);
             }
@@ -43,7 +41,7 @@ pub fn init(ui: &AppWindow) {
                 Err(e) => {
                     if let Err(e) = slint::invoke_from_event_loop(move || {
                         ui_start_box.borrow().global::<Logic>().invoke_show_message(
-                            slint::format!("{}: {:?}", tr("录音失败") + "!", e),
+                            slint::format!("{}. {}: {:?}", tr("录音失败"), tr("原因"), e),
                             "warning".into(),
                         );
                     }) {
@@ -82,9 +80,7 @@ pub fn init(ui: &AppWindow) {
                     .global::<Store>()
                     .set_is_audio_recording(false);
 
-                ui_start_box
-                    .borrow()
-                    .invoke_hide_record_indicator();
+                ui_start_box.borrow().invoke_hide_record_indicator();
             }) {
                 warn!("{:?}", e);
             }
@@ -94,7 +90,7 @@ pub fn init(ui: &AppWindow) {
     ui.global::<Logic>().on_stop_audio_record(move || {
         let ui = ui_stop.unwrap();
         ui.global::<Logic>()
-            .invoke_show_message(slint::format!("{}", tr("停止录音...")), "info".into());
+            .invoke_show_message(tr("停止录音...").into(), "info".into());
         audio::record::set_recording(false);
         ui.global::<Store>().set_is_audio_recording(false);
         ui.invoke_hide_record_indicator();
@@ -106,10 +102,8 @@ pub fn init(ui: &AppWindow) {
         if util::fs::file_exist(&record_filepath) {
             audio::azure::play(ui_play_box, RECORD_FILENAME.to_string(), String::default())
         } else {
-            ui.global::<Logic>().invoke_show_message(
-                slint::format!("{}", tr("录音文件不存在") + "!"),
-                "info".into(),
-            );
+            ui.global::<Logic>()
+                .invoke_show_message(tr("录音文件不存在").into(), "info".into());
         }
     });
 
@@ -129,7 +123,7 @@ pub fn init(ui: &AppWindow) {
                     let estr = e.to_string();
                     if let Err(e) = slint::invoke_from_event_loop(move || {
                         ui_v2t_box.borrow().global::<Logic>().invoke_show_message(
-                            slint::format!("{}: {:?}", tr("录音转文字失败") + "!", estr),
+                            slint::format!("{}. {}: {:?}", tr("录音转文字失败"), tr("原因"), estr),
                             "warning".into(),
                         );
                     }) {
@@ -143,7 +137,7 @@ pub fn init(ui: &AppWindow) {
                         if item.recognition_status != "Success" {
                             if let Err(e) = slint::invoke_from_event_loop(move || {
                                 ui_v2t_box.borrow().global::<Logic>().invoke_show_message(
-                                    slint::format!("{}", tr("录音转文字失败") + "!"),
+                                    tr("录音转文字失败").into(),
                                     "warning".into(),
                                 );
                             }) {
@@ -167,7 +161,12 @@ pub fn init(ui: &AppWindow) {
                         let estr = e.to_string();
                         if let Err(e) = slint::invoke_from_event_loop(move || {
                             ui_v2t_box.borrow().global::<Logic>().invoke_show_message(
-                                slint::format!("{}: {:?}", tr("录音转文字失败") + "!", estr),
+                                slint::format!(
+                                    "{}. {}: {:?}",
+                                    tr("录音转文字失败"),
+                                    tr("原因"),
+                                    estr
+                                ),
                                 "warning".into(),
                             );
                         }) {

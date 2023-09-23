@@ -22,17 +22,15 @@ pub fn init(ui: &AppWindow) {
 
         match util::fs::remove_dir_files(&config::audio_path()) {
             Err(e) => ui.global::<Logic>().invoke_show_message(
-                slint::format!("{}{:?}", tr("清除缓存失败") + "！", e),
+                slint::format!("{}. {}: {:?}", tr("清除缓存失败"), tr("原因"), e),
                 "warning".into(),
             ),
             _ => {
                 let mut cache = ui.global::<Store>().get_cache();
                 cache.audio = "0M".into();
                 ui.global::<Store>().set_cache(cache);
-                ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}", tr("清除缓存成功") + "！"),
-                    "success".into(),
-                );
+                ui.global::<Logic>()
+                    .invoke_show_message(tr("清除缓存成功").into(), "success".into());
             }
         }
     });
@@ -47,10 +45,7 @@ pub fn init(ui: &AppWindow) {
             .to_string()
             .parse()
             .unwrap_or(18);
-        config.ui.font_family = setting_config
-            .ui
-            .font_family
-            .to_string();
+        config.ui.font_family = setting_config.ui.font_family.to_string();
         config.ui.win_width = setting_config
             .ui
             .win_width
@@ -102,7 +97,8 @@ pub fn init(ui: &AppWindow) {
         config.openai.chat.presence_penalty =
             setting_config.chat.openai.chat.presence_penalty.round() / 100.0;
 
-        config.openai.chat.context_length = setting_config.chat.openai.chat.context_length.to_string();
+        config.openai.chat.context_length =
+            setting_config.chat.openai.chat.context_length.to_string();
 
         config.azureai.api_key = setting_config.chat.azure.api_key.to_string();
         config.azureai.chat.url = setting_config.chat.azure.chat.url.to_string();
@@ -134,14 +130,14 @@ pub fn init(ui: &AppWindow) {
         match config::save(config) {
             Err(e) => {
                 ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}{:?}", tr("保存失败") + "！", e),
+                    slint::format!("{}, {}: {:?}", tr("保存失败"), tr("原因"), e),
                     "warning".into(),
                 );
             }
             _ => {
                 init_setting_dialog(ui.as_weak());
                 ui.global::<Logic>()
-                    .invoke_show_message((tr("保存成功") + "!").into(), "success".into());
+                    .invoke_show_message(tr("保存成功").into(), "success".into());
             }
         }
     });

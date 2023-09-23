@@ -12,15 +12,15 @@ pub fn init(ui: &AppWindow) {
         match ctx {
             Ok(mut ctx) => match ctx.set_contents(msg.to_string()) {
                 Err(e) => ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}{:?}", tr("复制失败") + "！", e),
+                    slint::format!("{}. {}: {:?}", tr("复制失败"), tr("原因"), e),
                     "warning".into(),
                 ),
                 _ => ui
                     .global::<Logic>()
-                    .invoke_show_message((tr("复制成功") + "!").into(), "success".into()),
+                    .invoke_show_message(tr("复制成功").into(), "success".into()),
             },
             Err(e) => ui.global::<Logic>().invoke_show_message(
-                slint::format!("{}{:?}", tr("复制失败") + "！", e),
+                slint::format!("{}. {}: {:?}", tr("复制失败"), tr("原因"), e),
                 "warning".into(),
             ),
         }

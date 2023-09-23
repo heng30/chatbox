@@ -4,8 +4,7 @@ use crate::slint_generatedAppWindow::{AppWindow, ArchiveChatItem, ChatItem, Logi
 use crate::util::translator::tr;
 use log::warn;
 use slint::Timer;
-use slint::{ComponentHandle, Model, SortModel, VecModel};
-use std::rc::Rc;
+use slint::{ComponentHandle, Model, ModelRc, SortModel, VecModel};
 use std::time::Duration;
 use uuid::Uuid;
 
@@ -34,14 +33,12 @@ pub fn init(ui: &AppWindow) {
             });
 
             ui.global::<Store>()
-                .set_session_archive_datas(Rc::new(VecModel::from(datas)).into());
+                .set_session_archive_datas(ModelRc::new(VecModel::from(datas)));
 
             let chats: Vec<ChatItem> = ui.global::<Store>().get_session_datas().iter().collect();
             if chats.is_empty() {
-                ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}", tr("没有可归档的对话") + "！"),
-                    "info".into(),
-                );
+                ui.global::<Logic>()
+                    .invoke_show_message(tr("没有可归档的对话").into(), "info".into());
             }
 
             match serde_json::to_string::<SessionChats>(&SessionChats::from(&chats)) {
@@ -64,17 +61,17 @@ pub fn init(ui: &AppWindow) {
                         },
                     } {
                         ui.global::<Logic>().invoke_show_message(
-                            slint::format!("{}: {:?}", tr("保存失败") + "！" + &tr("原因"), e),
+                            slint::format!("{}, {}: {:?}", tr("保存失败"), tr("原因"), e),
                             "warning".into(),
                         );
                     } else {
                         ui.global::<Logic>()
-                            .invoke_show_message((tr("保存成功") + "!").into(), "success".into());
+                            .invoke_show_message(tr("保存成功").into(), "success".into());
                     }
                 }
                 Err(e) => {
                     ui.global::<Logic>().invoke_show_message(
-                        slint::format!("{}: {:?}", tr("保存失败") + "！" + &tr("原因"), e),
+                        slint::format!("{}. {}: {:?}", tr("保存失败"), tr("原因"), e),
                         "warning".into(),
                     );
                 }
@@ -92,16 +89,16 @@ pub fn init(ui: &AppWindow) {
                 .collect();
 
             ui.global::<Store>()
-                .set_session_archive_datas(Rc::new(VecModel::from(datas)).into());
+                .set_session_archive_datas(ModelRc::new(VecModel::from(datas)));
 
             match db::archive::delete(suuid.as_str(), uuid.as_str()) {
                 Err(e) => ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}: {:?}", tr("删除失败") + "!" + &tr("原因"), e),
+                    slint::format!("{}. {}: {:?}", tr("删除失败"), tr("原因"), e),
                     "warning".into(),
                 ),
                 _ => ui
                     .global::<Logic>()
-                    .invoke_show_message((tr("删除成功") + "!").into(), "success".into()),
+                    .invoke_show_message(tr("删除成功").into(), "success".into()),
             }
         });
 
@@ -127,12 +124,13 @@ pub fn init(ui: &AppWindow) {
             let mut row_item = row_item.unwrap();
             row_item.name = name.clone();
 
-            ui.global::<Store>().get_session_archive_datas()
+            ui.global::<Store>()
+                .get_session_archive_datas()
                 .set_row_data(row.unwrap(), row_item);
 
             if let Err(e) = db::archive::update(suuid.as_str(), uuid.as_str(), name.as_str()) {
                 ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}: {:?}", tr("编辑失败") + "!" + &tr("原因"), e),
+                    slint::format!("{}. {}: {:?}", tr("编辑失败"), tr("原因"), e),
                     "warning".into(),
                 );
                 return;
@@ -144,16 +142,16 @@ pub fn init(ui: &AppWindow) {
             let ui = ui_delete_session_archives_handle.unwrap();
 
             ui.global::<Store>()
-                .set_session_archive_datas(Rc::new(VecModel::default()).into());
+                .set_session_archive_datas(ModelRc::new(VecModel::default()));
 
             match db::archive::drop_table(suuid.as_str()) {
                 Err(e) => ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}: {:?}", tr("删除失败") + "!" + &tr("原因"), e),
+                    slint::format!("{}. {}: {:?}", tr("删除失败"), tr("原因"), e),
                     "warning".into(),
                 ),
                 _ => ui
                     .global::<Logic>()
-                    .invoke_show_message((tr("删除成功") + "!").into(), "success".into()),
+                    .invoke_show_message(tr("删除成功").into(), "success".into()),
             }
         });
 
@@ -165,7 +163,7 @@ pub fn init(ui: &AppWindow) {
                 Ok(false) => return,
                 Err(e) => {
                     ui.global::<Logic>().invoke_show_message(
-                        slint::format!("{}: {:?}", tr("获取归档文件失败") + "!" + &tr("原因"), e),
+                        slint::format!("{}. {}: {:?}", tr("获取归档文件失败"), tr("原因"), e),
                         "warning".into(),
                     );
                     return;
@@ -192,13 +190,13 @@ pub fn init(ui: &AppWindow) {
                                     etext: "".into(),
                                     is_mark: citem.is_mark,
                                     is_hide: false,
-                                    utext_items: chat::parse_chat_text(citem.utext.as_str()).into(),
-                                    btext_items: chat::parse_chat_text(citem.btext.as_str()).into(),
+                                    utext_items: chat::parse_chat_text(citem.utext.as_str()),
+                                    btext_items: chat::parse_chat_text(citem.btext.as_str()),
                                 })
                             }
 
                             ui.global::<Store>()
-                                .set_session_datas(Rc::new(chat_items).into());
+                                .set_session_datas(ModelRc::new(chat_items));
 
                             for i in 1..=3 {
                                 let ui_handle = ui.as_weak();
@@ -212,18 +210,14 @@ pub fn init(ui: &AppWindow) {
                         }
 
                         Err(e) => ui.global::<Logic>().invoke_show_message(
-                            slint::format!(
-                                "{}: {:?}",
-                                tr("获取归档文件失败") + "!" + &tr("原因"),
-                                e
-                            ),
+                            slint::format!("{}. {}: {:?}", tr("获取归档文件失败"), tr("原因"), e),
                             "warning".into(),
                         ),
                     }
                 }
                 Ok(_) => (),
                 Err(e) => ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}: {:?}", tr("获取归档文件失败") + "!" + &tr("原因"), e),
+                    slint::format!("{}. {}: {:?}", tr("获取归档文件失败"), tr("原因"), e),
                     "warning".into(),
                 ),
             }
@@ -237,13 +231,13 @@ pub fn init(ui: &AppWindow) {
                 Ok(true) => (),
                 Err(e) => {
                     ui.global::<Store>()
-                        .set_session_archive_datas(Rc::new(VecModel::default()).into());
+                        .set_session_archive_datas(ModelRc::new(VecModel::default()));
                     warn!("{:?}", e);
                     return;
                 }
                 _ => {
                     ui.global::<Store>()
-                        .set_session_archive_datas(Rc::new(VecModel::default()).into());
+                        .set_session_archive_datas(ModelRc::new(VecModel::default()));
                     return;
                 }
             }
@@ -266,10 +260,10 @@ pub fn init(ui: &AppWindow) {
                     });
 
                     ui.global::<Store>()
-                        .set_session_archive_datas(Rc::new(aitems).into());
+                        .set_session_archive_datas(ModelRc::new(aitems));
                 }
                 Err(e) => ui.global::<Logic>().invoke_show_message(
-                    slint::format!("{}: {:?}", tr("获取归档文件失败") + "!" + &tr("原因"), e),
+                    slint::format!("{}. {}: {:?}", tr("获取归档文件失败"), tr("原因"), e),
                     "warning".into(),
                 ),
             }
