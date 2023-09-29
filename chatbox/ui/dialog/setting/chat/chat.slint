@@ -37,7 +37,6 @@ export component Chat inherits Rectangle {
             }
 
             type-combox := ComboBox {
-                height: type-txt.preferred-height;
                 model: Store.session-dialog-setting.api-model;
                 current-value: self.model[0];
                 current-index: 0;

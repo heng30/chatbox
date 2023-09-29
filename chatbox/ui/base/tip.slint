@@ -14,34 +14,15 @@ export component Tip inherits Rectangle {
 
         y: (pos == "left" || pos == "right") ? (pheight - self.height) / 2 : (pos == "bottom" ? pheight + Theme.padding : -self.height - Theme.padding);
 
-        // Why: Rust compiler will report errors
-        // x: {
-        //    if (pos == "left") {
-        //         return -self.width - Theme.padding;
-        //    } else if (pos == "right") {
-        //         return pwidth + Theme.padding;
-        //    } else {
-        //         return -(self.width - pwidth) / 2;
-        //    }
-        // }
-        // y: {
-        //     if (pos == "left" || pos == "right") {
-        //         return (pheight - self.height) / 2;
-        //     } else if (pos == "bottom"){
-        //         return pheight + Theme.padding;
-        //     } else {
-        //         return -self.height - Theme.padding;
-        //     }
-        // }
-
         width: tip-txt.preferred-width + Theme.padding * 2;
-        height: tip-txt.preferred-height;
+        height: tip-txt.preferred-height + Theme.padding;
         background: Theme.basic-white-color;
         border-color: Theme.basic-black-color;
         border-width: 1px;
 
         tip-txt := Text {
-            x: Theme.padding;
+            horizontal-alignment: center;
+            vertical-alignment: center;
             font-size: Theme.default-font-size - 2px;
             color: Theme.primary-text-color;
         }
