@@ -2,4 +2,4 @@ Cargo.lock
 error.log
 /target
 /.cargo
-
+chatbox-win-*

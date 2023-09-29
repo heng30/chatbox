@@ -24,7 +24,6 @@ export component OutputDevices inherits Rectangle {
                 }
 
                 devices-combox := ComboBox {
-                    height: label-txt.preferred-height;
                     model: Store.output-audio-devices;
                     current-value: Store.setting-dialog-config.audio.current-output-device;
                 }

@@ -25,7 +25,6 @@ export component InputDevices inherits Rectangle {
                 }
 
                 devices-combox := ComboBox {
-                    height: label-txt.preferred-height;
                     model: Store.input-audio-devices;
                     current-value: Store.setting-dialog-config.audio.current-input-device;
                 }

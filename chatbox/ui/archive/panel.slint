@@ -6,6 +6,7 @@ import { IconBtn } from "../base/icon-btn.slint";
 import { Btn } from "../base/btn.slint";
 import { Tip } from "../base/tip.slint";
 import { NoDataImg } from "../base/no-data.slint";
+import { Divider } from "../base/divider.slint";
 
 export component ArchivePanel inherits Rectangle {
     in-out property search-text <=> search-lineedit.text;
@@ -69,7 +70,7 @@ export component ArchivePanel inherits Rectangle {
                 reject
             }
 
-            HorizontalLayout {
+            search-layout := HorizontalLayout {
                 search-lineedit := LineEdit {
                     placeholder-text: Store.translator.archive-search-placeholder-text;
                     accepted => {
@@ -100,96 +101,105 @@ export component ArchivePanel inherits Rectangle {
             }
         }
 
-        flick := Flickable {
-            viewport-height: Store.session-archive-datas.length * root.item-height;
-            for data[index] in Store.session-archive-datas : rec := Rectangle {
-                y: index * item-height;
-                height: root.item-height;
-                background: touch.pressed ? root.background.darker(15%) : touch.has-hover ? root.background.darker(5%) : Colors.transparent;
 
-                property<length> popup-x: 0;
-                property<length> popup-y: 0;
-                property<bool> is-over-middle : -flick.viewport-y + root.height / 2 < rec.y;
+        HorizontalLayout {
+            Divider {
+                width: 1px;
+                height: Theme.default-height - search-layout.preferred-height;
+                background: Theme.lighter-border-color;
+            }
 
-                touch := TouchArea {
-                    mouse-cursor: self.has-hover ? pointer : default;
-                    clicked => {
-                        Logic.show-session-archive(Store.current-session-uuid, data.uuid);
-                    }
-                    pointer-event(event) => {
-                        if (event.button == PointerEventButton.right
-                                && event.kind == PointerEventKind.down) {
-                            rec.popup-x = touch.mouse-x;
-                            rec.popup-y = touch.mouse-y;
-                            popup.show();
+            flick := Flickable {
+                viewport-height: Store.session-archive-datas.length * root.item-height;
+                for data[index] in Store.session-archive-datas : rec := Rectangle {
+                    y: index * item-height;
+                    height: root.item-height;
+                    background: touch.pressed ? root.background.darker(15%) : touch.has-hover ? root.background.darker(5%) : Colors.transparent;
+
+                    property<length> popup-x: 0;
+                    property<length> popup-y: 0;
+                    property<bool> is-over-middle : -flick.viewport-y + root.height / 2 < rec.y;
+
+                    touch := TouchArea {
+                        mouse-cursor: self.has-hover ? pointer : default;
+                        clicked => {
+                            Logic.show-session-archive(Store.current-session-uuid, data.uuid);
+                        }
+                        pointer-event(event) => {
+                            if (event.button == PointerEventButton.right
+                                    && event.kind == PointerEventKind.down) {
+                                rec.popup-x = touch.mouse-x;
+                                rec.popup-y = touch.mouse-y;
+                                popup.show();
+                            }
                         }
                     }
-                }
 
-                popup := PopupWindow {
-                    x: rec.popup-x + Theme.padding * 2;
-                    y: is-over-middle ? rec.popup-y - Theme.default-font-size * 1.33 * 3 : rec.popup-y + Theme.padding * 2;
-                    width: del-btn.preferred-width + Theme.padding * 2;
-                    Rectangle {
-                        background: Theme.base-background;
+                    popup := PopupWindow {
+                        x: rec.popup-x + Theme.padding * 2;
+                        y: is-over-middle ? rec.popup-y - Theme.default-font-size * 1.33 * 3 : rec.popup-y + Theme.padding * 2;
+                        width: del-btn.preferred-width + Theme.padding * 2;
+                        Rectangle {
+                            background: Theme.base-background;
+                            VerticalLayout {
+                                padding-top: Theme.padding;
+                                padding-bottom: Theme.padding;
+                                Btn {
+                                    halignment: start;
+                                    bg-color: transparent;
+                                    bg-hover-color: Theme.hover-color;
+                                    bg-pressed-color: Theme.hover-color-dark;
+                                    text-color: Theme.primary-text-color;
+                                    text: Store.translator.edit;
+                                    icon: @image-url("../images/edit-text.svg");
+                                    clicked => {
+                                        root.edit(data.uuid, data.name);
+                                    }
+                                }
+
+                                del-btn := Btn {
+                                    halignment: start;
+                                    bg-color: transparent;
+                                    bg-hover-color: Theme.hover-color;
+                                    bg-pressed-color: Theme.hover-color-dark;
+                                    text-color: Theme.primary-text-color;
+                                    text: Store.translator.delete;
+                                    icon: @image-url("../images/delete-light.svg");
+                                    clicked => {
+                                        icon.clicked();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    HorizontalLayout {
+                        padding-left: Theme.padding * 2;
+                        padding-right: Theme.padding * 2;
+                        alignment: space-between;
+
+                        Text {
+                            width: root.width - icon.width - Theme.padding * 6;
+                            color: Theme.secondary-text-color;
+                            text: data.name;
+                            overflow: elide;
+                            vertical-alignment: center;
+                        }
+
                         VerticalLayout {
-                            padding-top: Theme.padding;
-                            padding-bottom: Theme.padding;
-                            Btn {
-                                halignment: start;
-                                bg-color: transparent;
-                                bg-hover-color: Theme.hover-color;
-                                bg-pressed-color: Theme.hover-color-dark;
-                                text-color: Theme.primary-text-color;
-                                text: Store.translator.edit;
-                                icon: @image-url("../images/edit-text.svg");
-                                clicked => {
-                                    root.edit(data.uuid, data.name);
-                                }
-                            }
-
-                            del-btn := Btn {
-                                halignment: start;
-                                bg-color: transparent;
-                                bg-hover-color: Theme.hover-color;
-                                bg-pressed-color: Theme.hover-color-dark;
-                                text-color: Theme.primary-text-color;
-                                text: Store.translator.delete;
+                            alignment: center;
+                            icon := IconBtn {
+                                tip-pos: "left";
+                                tip-text: Store.translator.tip-delete;
                                 icon: @image-url("../images/delete-light.svg");
+                                colorize: Theme.regular-text-color;
                                 clicked => {
-                                    icon.clicked();
+                                    Store.ok-cancel-dialog-setting.title-type = "warning";
+                                    Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
+                                    Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
+                                    Store.ok-cancel-dialog-setting.handle-type = "session-archive-item";
+                                    Store.ok-cancel-dialog-setting.handle-uuid = data.uuid;
                                 }
-                            }
-                        }
-                    }
-                }
-
-                HorizontalLayout {
-                    padding-left: Theme.padding * 2;
-                    padding-right: Theme.padding * 2;
-                    alignment: space-between;
-
-                    Text {
-                        width: root.width - icon.width - Theme.padding * 6;
-                        color: Theme.secondary-text-color;
-                        text: data.name;
-                        overflow: elide;
-                        vertical-alignment: center;
-                    }
-
-                    VerticalLayout {
-                        alignment: center;
-                        icon := IconBtn {
-                            tip-pos: "left";
-                            tip-text: Store.translator.tip-delete;
-                            icon: @image-url("../images/delete-light.svg");
-                            colorize: Theme.regular-text-color;
-                            clicked => {
-                                Store.ok-cancel-dialog-setting.title-type = "warning";
-                                Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
-                                Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
-                                Store.ok-cancel-dialog-setting.handle-type = "session-archive-item";
-                                Store.ok-cancel-dialog-setting.handle-uuid = data.uuid;
                             }
                         }
                     }

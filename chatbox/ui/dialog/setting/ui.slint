@@ -25,7 +25,6 @@ export component UI inherits Rectangle {
         alignment: start;
 
         HorizontalLayout {
-            height: Store.setting-dialog-config.ui.language == "cn" ? window-size-txt.preferred-height : window-size-txt.preferred-height * 1.33;
             window-size-txt := Label {
                 width: Theme.default-label-width;
                 text: Store.translator.setting-dialog-ui-win-WH;
@@ -48,7 +47,6 @@ export component UI inherits Rectangle {
         }
 
         HorizontalLayout {
-            height: Store.setting-dialog-config.ui.language == "cn" ? font-size-txt.preferred-height : font-size-txt.preferred-height * 1.33;
             font-size-txt := Label {
                 width: Theme.default-label-width;
                 text: Store.translator.setting-dialog-ui-font-size;

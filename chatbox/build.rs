@@ -2,6 +2,10 @@ use cmd_lib::run_fun;
 
 fn main() {
     slint_build::compile("ui/appwindow.slint").unwrap();
+
+    #[cfg(target_os = "windows")]
+    link_win_lib();
+
     let _ = write_app_version();
 }
 
@@ -17,4 +21,10 @@ fn write_app_version() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     Ok(())
+}
+
+#[allow(dead_code)]
+fn link_win_lib() {
+    // println!("cargo:rustc-link-lib=sqlite3");
+    println!("cargo:rustc-link-search=win/lib");
 }

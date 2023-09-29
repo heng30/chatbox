@@ -15,6 +15,8 @@ export component OkCancelDialog inherits CDialog {
     rect := Rectangle {
         background: Theme.base-background;
         Text {
+            width: 100%;
+            horizontal-alignment: center;
             color: Theme.primary-text-color;
             text: Store.ok-cancel-dialog-setting.body-text;
             wrap: word-wrap;
