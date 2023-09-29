@@ -10,6 +10,7 @@ target_path=./target/release/$target.exe
 dll_dir=./win/dll
 
 if [ -f $target_path ]; then
+    rm -rf $output_dir
 	mkdir -p $output_dir
 	cp -f $target_path $output_dir/$target_name
 	cp -f $dll_dir/* $output_dir
