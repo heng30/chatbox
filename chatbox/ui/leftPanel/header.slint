@@ -1,36 +1,45 @@
 import { Theme } from "../theme.slint";
 import { Store } from "../store.slint";
 import { Logic } from "../logic.slint";
-import { TabBtn } from "../base/tab-btn.slint";
+import { IconBtn } from "../base/icon-btn.slint";
 
-export component Header inherits HorizontalLayout {
+export component Header inherits Rectangle {
     height: Theme.header-height;
-    alignment: space-around;
 
-    TabBtn {
-        text-color: Theme.regular-text-color;
+    function anchor-pos-x(index: int) -> length {
+        return Theme.padding + index * Theme.icon-size + Theme.spacing * 2 * index;
+    }
+
+    IconBtn {
+        x: anchor-pos-x(0);
+        z: 2;
+        tip-pos: "right";
+        tip-text: Store.translator.new;
         icon: @image-url("../images/add.svg");
-        text: Store.translator.new;
         clicked => {
             Logic.reset-edit-session();
             Store.session-dialog-setting.handle-type = "session-add";
             Store.session-dialog-setting.is-show = true;
         }
     }
-    TabBtn {
-        text-color: Theme.regular-text-color;
+    IconBtn {
+        x: anchor-pos-x(1);
+        z: 1;
+        tip-pos: "right";
+        tip-text: Store.translator.edit;
         icon: @image-url("../images/edit-text.svg");
-        text: Store.translator.edit;
         clicked => {
             Logic.set-edit-session(Store.current-session-uuid);
             Store.session-dialog-setting.handle-type = "session-edit";
             Store.session-dialog-setting.is-show = true;
         }
     }
-    TabBtn {
-        text-color: Theme.regular-text-color;
+    IconBtn {
+        x: anchor-pos-x(2);
+        z: 0;
+        tip-pos: "right";
+        tip-text: Store.translator.delete;
         icon: @image-url("../images/delete-light.svg");
-        text: Store.translator.delete;
         clicked => {
             Store.ok-cancel-dialog-setting.title-type = "warning";
             Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;

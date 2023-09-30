@@ -7,7 +7,7 @@ import { Brand } from "../base/brand.slint";
 import { CenterLayout } from "../base/center-layout.slint";
 
 export component Body inherits Rectangle {
-    private property<length> item-height: 45px;
+    private property<length> item-height: Theme.default-font-size + Theme.padding * 6;
 
     VerticalLayout {
         alignment: end;

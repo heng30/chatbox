@@ -11,7 +11,7 @@ import { Divider } from "../base/divider.slint";
 export component ArchivePanel inherits Rectangle {
     in-out property search-text <=> search-lineedit.text;
 
-    private property<length> item-height: 45px;
+    private property<length> item-height: Theme.default-font-size + Theme.padding * 6;
     forward-focus: search-lineedit;
 
     width: Theme.right-panel-width;

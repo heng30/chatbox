@@ -19,7 +19,7 @@ export component TabBtn inherits Rectangle {
         VerticalLayout {
             alignment: center;
             img := Image {
-                height: txt.font-size;
+                height: Theme.icon-size;
                 width: self.height;
                 colorize: root.item-color;
 
@@ -30,16 +30,14 @@ export component TabBtn inherits Rectangle {
             }
         }
 
-        VerticalLayout {
-            alignment: center;
-            txt := Text {
-                color: root.item-color;
-                font-size: Theme.default-font-size;
+        txt := Text {
+            vertical-alignment: center;
+            color: root.item-color;
+            font-size: Theme.default-font-size;
 
-                animate color {
-                    duration: Theme.default-animate-duration;
-                    easing: ease-in-out;
-                }
+            animate color {
+                duration: Theme.default-animate-duration;
+                easing: ease-in-out;
             }
         }
     }
