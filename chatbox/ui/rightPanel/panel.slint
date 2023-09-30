@@ -66,12 +66,13 @@ export component RPanel inherits VerticalLayout {
     }
 
     VerticalLayout {
-        visible: body.viewport-y != 0;
+        // visible: body.viewport-y != 0;
         padding-left: Theme.scroll-width;
         padding-right: Theme.scroll-width;
 
         Divider {
-            background: Theme.base-border-color;
+            height: 1px;
+            background: Theme.lighter-border-color;
         }
     }
 
