@@ -41,9 +41,29 @@ export component MD inherits Rectangle {
             if item.text-type == "list-item": HorizontalLayout {
                 padding-top: Theme.padding;
                 padding-bottom: Theme.padding;
+                alignment: start;
 
-                txt-list-item := MDTextItem {
-                    text: item.text;
+                Text {
+                    text: BaseLogic.leading-spaces(item.text);
+                }
+
+                HorizontalLayout {
+                    spacing: Theme.spacing * 2;
+                    HorizontalLayout {
+                        padding-top: (txt-list-item.font-size * 1.33 - self.height) / 2 ;
+                        width: 8px;
+                        height: self.width;
+                        Rectangle {
+                            width: 100%;
+                            height: self.width;
+                            border-radius: self.width / 2;
+                            background: Colors.black;
+                        }
+                    }
+
+                    txt-list-item := MDTextItem {
+                        text: BaseLogic.list_item_trim(item.text);
+                    }
                 }
             }
 

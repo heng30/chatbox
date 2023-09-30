@@ -499,7 +499,7 @@ pub fn parse_chat_text(data: &str) -> ModelRc<MDItem> {
 
             match cur_item.text_type.as_str() {
                 "list-item" => {
-                    cur_item.text = line.replacen("-", "●", 1).trim_end().into();
+                    cur_item.text = line.trim_end().into();
                 }
                 "title-1" => {
                     cur_item.text = line.replacen("# ", "", 1).trim_end().into();

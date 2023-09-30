@@ -8,5 +8,15 @@ export global BaseLogic {
     code-line-text => {
         return "";
     }
+
+    pure callback list_item_trim(string) -> string;
+    list_item_trim(text) => {
+        return text;
+    }
+
+    pure callback leading-spaces(string) -> string;
+    leading-spaces => {
+        return "";
+    }
 }
 
