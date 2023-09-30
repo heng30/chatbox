@@ -93,7 +93,6 @@ export component UItem inherits VerticalLayout{
                     tip-pos: "left";
                     tip-text: Store.translator.tip-delete;
                     clicked => {
-                        debug(txt.preferred-width);
                         Store.ok-cancel-dialog-setting.title-type = "warning";
                         Store.ok-cancel-dialog-setting.title-text = Store.translator.warning;
                         Store.ok-cancel-dialog-setting.body-text = Store.translator.delete-or-not;
