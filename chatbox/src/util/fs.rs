@@ -29,9 +29,7 @@ pub fn remove_dir_files(path: &str) -> io::Result<()> {
 
 pub fn file_exist(path: &str) -> bool {
     match fs::metadata(path) {
-        Ok(md) => {
-            md.is_file()
-        }
+        Ok(md) => md.is_file(),
         _ => false,
     }
 }

@@ -37,3 +37,5 @@ rand = "0.8"
 slint-build = "1.2"
 cmd_lib = "1.3"
 
+[target.'cfg(target_os = "windows")'.build-dependencies]
+embed-resource = "2.3"

@@ -2,13 +2,13 @@ use crate::config;
 use anyhow::{Context, Result};
 use bytes::Bytes;
 use cpal::traits::{DeviceTrait, HostTrait};
+use log::debug;
 use rodio::{Decoder, OutputStream, Sink};
 use std::fs::File;
 use std::io::BufReader;
 use std::io::{Cursor, Read, Seek};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::Duration;
-use log::debug;
 
 static PLAYING_INDEX: AtomicU64 = AtomicU64::new(0);
 

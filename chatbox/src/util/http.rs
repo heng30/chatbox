@@ -11,12 +11,14 @@ pub enum ClientType {
 
 pub fn client(cln_type: ClientType) -> Result<Client> {
     let conf = config::socks5();
-    Ok(if (cln_type == ClientType::OpenAI && conf.openai)
+    Ok(
+        if (cln_type == ClientType::OpenAI && conf.openai)
             || (cln_type == ClientType::Azure && conf.azure)
         {
             let proxy = Proxy::all(format!("socks5://{}:{}", conf.url, conf.port))?;
             Client::builder().proxy(proxy).build()?
         } else {
             Client::new()
-        })
+        },
+    )
 }

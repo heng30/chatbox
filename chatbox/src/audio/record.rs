@@ -1,13 +1,13 @@
+use anyhow::{Context, Result};
+use chrono::Utc;
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use cpal::{FromSample, Sample};
+use log::{debug, warn};
 use std::fs::File;
 use std::io::BufWriter;
-use std::sync::{Arc, Mutex};
-use log::{debug, warn};
-use anyhow::{Context, Result};
-use std::time::Duration;
-use chrono::Utc;
 use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{Arc, Mutex};
+use std::time::Duration;
 
 static IS_RECORDING: AtomicBool = AtomicBool::new(false);
 
@@ -46,7 +46,8 @@ pub fn record(device_name: &str, path: &str, max_record_time: i64) -> Result<(),
     } else {
         host.input_devices()?
             .find(|x| x.name().map(|y| y == device_name).unwrap_or(false))
-    }.with_context(|| "failed to find input device")?;
+    }
+    .with_context(|| "failed to find input device")?;
 
     let config = device
         .default_input_config()
@@ -107,7 +108,7 @@ pub fn record(device_name: &str, path: &str, max_record_time: i64) -> Result<(),
             break;
         }
 
-        if Utc::now().timestamp() - start_time > max_record_time  {
+        if Utc::now().timestamp() - start_time > max_record_time {
             break;
         }
 

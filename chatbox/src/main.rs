@@ -14,16 +14,19 @@ use log::debug;
 use std::env;
 use std::io::Write;
 
+mod audio;
+mod azureai;
 mod config;
 mod db;
 mod logic;
 mod openai;
-mod azureai;
 mod util;
 mod version;
-mod audio;
 
-use logic::{about, chat, clipboard, message, ok_cancel_dialog, session, window, setting, archive, record, instip};
+use logic::{
+    about, archive, chat, clipboard, instip, message, ok_cancel_dialog, record, session, setting,
+    window,
+};
 
 pub type CResult = Result<(), Box<dyn std::error::Error>>;
 

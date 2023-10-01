@@ -12,15 +12,15 @@ pub struct AzureTextItem {
 
 #[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct Speech2Text {
-    #[serde(rename = "RecognitionStatus" )]
+    #[serde(rename = "RecognitionStatus")]
     pub recognition_status: String,
 
-    #[serde(rename = "Offset" )]
+    #[serde(rename = "Offset")]
     pub offset: u64,
 
-    #[serde(rename = "Duration" )]
+    #[serde(rename = "Duration")]
     pub duration: u64,
 
-    #[serde(rename = "DisplayText" )]
+    #[serde(rename = "DisplayText")]
     pub display_text: String,
 }

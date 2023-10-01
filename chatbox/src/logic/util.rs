@@ -7,7 +7,6 @@ pub fn init(ui: &AppWindow) {
         slint::format!("{:2}", (n * 100.0).round() / 100.0)
     });
 
-    ui.global::<Util>().on_float_fixed2(move |n| {
-        slint::format!("{:2}", (n * 100.0).round() / 100.0)
-    });
+    ui.global::<Util>()
+        .on_float_fixed2(move |n| slint::format!("{:2}", (n * 100.0).round() / 100.0));
 }

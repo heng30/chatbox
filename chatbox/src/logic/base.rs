@@ -21,9 +21,8 @@ pub fn init(ui: &AppWindow) {
         number_text.into()
     });
 
-    ui.global::<BaseLogic>().on_list_item_trim(move |text| {
-        text.replacen("-", " ", 1).trim().into()
-    });
+    ui.global::<BaseLogic>()
+        .on_list_item_trim(move |text| text.replacen("-", " ", 1).trim().into());
 
     ui.global::<BaseLogic>().on_leading_spaces(move |text| {
         text.chars()

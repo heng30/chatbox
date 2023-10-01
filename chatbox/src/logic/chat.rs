@@ -7,7 +7,7 @@ use crate::{audio, azureai, config, openai, session, util};
 use log::{debug, warn};
 use rand::Rng;
 use slint::Timer;
-use slint::{ComponentHandle, ModelRc, Model, VecModel};
+use slint::{ComponentHandle, Model, ModelRc, VecModel};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::sync::Mutex;
@@ -387,8 +387,7 @@ pub fn init(ui: &AppWindow) {
             .into();
         if model.row_count() > 0 {
             model.remove(0);
-            ui.global::<Store>()
-                .set_session_datas(ModelRc::new(model));
+            ui.global::<Store>().set_session_datas(ModelRc::new(model));
         }
     });
 
@@ -403,8 +402,7 @@ pub fn init(ui: &AppWindow) {
             .into();
         if model.row_count() > 0 {
             model.remove(model.row_count() - 1);
-            ui.global::<Store>()
-                .set_session_datas(ModelRc::new(model));
+            ui.global::<Store>().set_session_datas(ModelRc::new(model));
         }
     });
 
@@ -432,8 +430,7 @@ pub fn init(ui: &AppWindow) {
         model.set_row_data(from, to_item);
         model.set_row_data(to, from_item);
 
-        ui.global::<Store>()
-            .set_session_datas(ModelRc::new(model));
+        ui.global::<Store>().set_session_datas(ModelRc::new(model));
     });
 }
 
