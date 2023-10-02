@@ -52,7 +52,7 @@ export component RPanel inherits VerticalLayout {
         root.jump-to-viewport-y(-header.last-pos-text.to-float() * 1px);
     }
 
-    header := Header{
+    header := Header {
         cur-pos-text: Math.round(Math.abs(body.viewport-y / 1px));
         last-pos-text: Math.round(Math.abs(Logic.chats-viewport-y(Store.current-session-uuid) / 1px));
 
@@ -66,17 +66,18 @@ export component RPanel inherits VerticalLayout {
     }
 
     VerticalLayout {
-        // visible: body.viewport-y != 0;
         padding-left: Theme.scroll-width;
         padding-right: Theme.scroll-width;
 
-        Divider {
+        divider := Divider {
             height: 1px;
             background: Theme.base-border-color;
         }
     }
 
-    body := Body {}
+    body := Body {
+        height: Theme.default-height - header.height - footer.height - divider.height;
+    }
 
     footer := Footer {
         scroll-to-top => {
