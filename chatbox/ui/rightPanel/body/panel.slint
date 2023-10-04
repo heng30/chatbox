@@ -58,7 +58,7 @@ export component Body inherits Rectangle {
     }
 
     public function is-chats-on-bottom() -> bool {
-        lv.viewport-y <= -lv.viewport-height + lv.visible-height;
+        lv.viewport-y <= -lv.viewport-height + (lv.visible-height * 1.2);
     }
 
     CenterLayout {
