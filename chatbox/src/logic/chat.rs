@@ -182,7 +182,7 @@ fn stream_text(ui_box: QBox<AppWindow>, sitem: StreamTextItem) {
             },
         );
 
-        if ui.get_is_chats_auto_scroll_down() {
+        if ui.get_is_chats_auto_scroll_down() && ui.invoke_is_chats_on_bottom() {
             ui.invoke_chats_scroll_to_bottom();
         }
 

@@ -58,7 +58,7 @@ export component Body inherits Rectangle {
     }
 
     public function is-chats-on-bottom() -> bool {
-        lv.viewport-y <= -lv.viewport-height + lv.visible-height;
+        lv.viewport-y <= -lv.viewport-height + (lv.visible-height * 1.2);
     }
 
     CenterLayout {
@@ -70,6 +70,7 @@ export component Body inherits Rectangle {
     }
 
     lv := ListView {
+        width: root.width; height: root.height;
         for data[index] in Store.session-datas : VerticalLayout {
             padding-bottom: Theme.padding * 4;
             spacing: Theme.spacing * 2;

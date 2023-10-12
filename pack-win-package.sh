@@ -14,7 +14,7 @@ if [ -f $target_path ]; then
 	mkdir -p $output_dir
 	cp -f $target_path $output_dir/$target_name
 	cp -f $dll_dir/* $output_dir
-	tar -zcvf $output_dir.tar.gz $output_dir
+	tar -zcvf $output_dir-$version.tar.gz $output_dir
 else
 	echo "Can't find $target_path"
 fi

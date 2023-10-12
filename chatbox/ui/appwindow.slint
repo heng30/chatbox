@@ -186,6 +186,7 @@ export component AppWindow inherits Window {
             LPanel {}
 
             rpanel := RPanel {
+                win-height: root.height;
                 show-archive-dialog => {
                     root.show-archive-dialog();
                 }
