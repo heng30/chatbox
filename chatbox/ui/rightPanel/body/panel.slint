@@ -72,7 +72,8 @@ export component Body inherits Rectangle {
     lv := ListView {
         width: root.width; height: root.height;
         for data[index] in Store.session-datas : VerticalLayout {
-            padding-bottom: Theme.padding * 4;
+            padding-top: Theme.padding * 2;
+            padding-bottom: Theme.padding * 2;
             spacing: Theme.spacing * 2;
 
             uitem := UItem {
