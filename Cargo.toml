@@ -4,3 +4,9 @@ resolver = "2"
 members = [
     "chatbox"
 ]
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3

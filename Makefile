@@ -1,5 +1,8 @@
 #!/bin/bash
 
+build-evn=SLINT_STYLE=fluent
+run-evn=RUST_LOG=error,warn,info,debug,reqwest=on
+
 all:
 	SLINT_STYLE=fluent cargo build --release
 
@@ -21,6 +24,12 @@ run-local:
 
 run-local-release:
 	RUST_LOG=error,warn,info,debug,reqwest=on ./target/release/chatbox
+
+mold:
+	$(build-evn) mold -run cargo build --release
+
+mold-debug:
+	$(build-evn) mold -run cargo build
 
 clippy:
 	cargo clippy
