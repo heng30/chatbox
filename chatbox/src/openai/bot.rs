@@ -114,7 +114,10 @@ pub async fn generate_text(
                                 break;
                             }
 
-                            if choice.delta.contains_key("content") {
+                            if choice.delta.contains_key("role") {
+                                debug!("role: {}", choice.delta["role"]);
+                                continue;
+                            } else if choice.delta.contains_key("content") {
                                 cb(StreamTextItem {
                                     text: Some(choice.delta["content"].clone()),
                                     uuid: uuid.clone(),
@@ -122,18 +125,15 @@ pub async fn generate_text(
                                     ..Default::default()
                                 });
                                 print!("{}", choice.delta["content"]);
-                            } else if choice.delta.contains_key("role") {
-                                debug!("role: {}", choice.delta["role"]);
-                                continue;
                             }
                         }
                         Err(e) => {
-                            cb(StreamTextItem {
-                                etext: Some(e.to_string()),
-                                uuid: uuid.clone(),
-                                suuid: suuid.clone(),
-                                ..Default::default()
-                            });
+                            // cb(StreamTextItem {
+                            //     etext: Some(e.to_string()),
+                            //     uuid: uuid.clone(),
+                            //     suuid: suuid.clone(),
+                            //     ..Default::default()
+                            // });
                             debug!("{}", &line);
                             debug!("{}", e);
                             break;
